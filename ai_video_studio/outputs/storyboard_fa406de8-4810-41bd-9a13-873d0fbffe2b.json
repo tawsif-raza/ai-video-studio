@@ -1,0 +1,237 @@
+{
+  "scene_plans": [
+    {
+      "scene_id": 1,
+      "shots": [
+        {
+          "shot_id": 1,
+          "camera_angle": "Medium Shot",
+          "camera_movement": "Static, slight pan",
+          "description": "Bolt stands at the edge of the rooftop, observing the party. City lights twinkle in the background.",
+          "characters_in_shot": [
+            "Bolt"
+          ],
+          "duration_seconds": 3
+        },
+        {
+          "shot_id": 2,
+          "camera_angle": "Close-up",
+          "camera_movement": "Static",
+          "description": "A close-up on Bolt's optical sensors, showing curiosity mixed with apprehension.",
+          "characters_in_shot": [
+            "Bolt"
+          ],
+          "duration_seconds": 2
+        },
+        {
+          "shot_id": 3,
+          "camera_angle": "Wide Shot",
+          "camera_movement": "Dolly out",
+          "description": "Bolt appears small and isolated at the party's edge, highlighting the bustling activity he's hesitant to join.",
+          "characters_in_shot": [
+            "Bolt"
+          ],
+          "duration_seconds": 2
+        }
+      ]
+    },
+    {
+      "scene_id": 2,
+      "shots": [
+        {
+          "shot_id": 1,
+          "camera_angle": "High Angle",
+          "camera_movement": "Crane down, sweeping",
+          "description": "An overhead view of the energetic dance floor, people moving freely to the music.",
+          "characters_in_shot": [],
+          "duration_seconds": 2
+        },
+        {
+          "shot_id": 2,
+          "camera_angle": "Medium Close-up",
+          "camera_movement": "Handheld, dynamic",
+          "description": "Quick cuts of various people laughing, dancing, and enjoying themselves.",
+          "characters_in_shot": [],
+          "duration_seconds": 3
+        },
+        {
+          "shot_id": 3,
+          "camera_angle": "POV Shot",
+          "camera_movement": "Static, slight zoom",
+          "description": "Bolt's optical sensors tracking the movement of dancers, a subtle longing in its gaze.",
+          "characters_in_shot": [
+            "Bolt"
+          ],
+          "duration_seconds": 3
+        }
+      ]
+    },
+    {
+      "scene_id": 3,
+      "shots": [
+        {
+          "shot_id": 1,
+          "camera_angle": "Medium Shot",
+          "camera_movement": "Static",
+          "description": "Maya spots Bolt from the dance floor, her expression friendly and inviting.",
+          "characters_in_shot": [
+            "Maya"
+          ],
+          "duration_seconds": 2
+        },
+        {
+          "shot_id": 2,
+          "camera_angle": "Close-up",
+          "camera_movement": "Static",
+          "description": "Bolt's reaction, a slight twitch of its chassis, showing hesitation.",
+          "characters_in_shot": [
+            "Bolt"
+          ],
+          "duration_seconds": 2
+        },
+        {
+          "shot_id": 3,
+          "camera_angle": "Over-the-shoulder (from Bolt)",
+          "camera_movement": "Static",
+          "description": "Maya smiles kindly and gestures with her hand for Bolt to join her.",
+          "characters_in_shot": [
+            "Maya"
+          ],
+          "duration_seconds": 2
+        },
+        {
+          "shot_id": 4,
+          "camera_angle": "Tracking Shot",
+          "camera_movement": "Dolly in",
+          "description": "Bolt hesitates for a moment, then slowly begins to roll forward towards the dance floor.",
+          "characters_in_shot": [
+            "Bolt"
+          ],
+          "duration_seconds": 3
+        }
+      ]
+    },
+    {
+      "scene_id": 4,
+      "shots": [
+        {
+          "shot_id": 1,
+          "camera_angle": "Full Shot",
+          "camera_movement": "Static",
+          "description": "Bolt attempts a few stiff, robotic dance moves, looking self-conscious.",
+          "characters_in_shot": [
+            "Bolt"
+          ],
+          "duration_seconds": 3
+        },
+        {
+          "shot_id": 2,
+          "camera_angle": "Close-up",
+          "camera_movement": "Pan to follow Bolt's 'footwork'",
+          "description": "A tight shot on Bolt's wheels and chassis as it tries to mimic rhythmic movement.",
+          "characters_in_shot": [
+            "Bolt"
+          ],
+          "duration_seconds": 3
+        },
+        {
+          "shot_id": 3,
+          "camera_angle": "Medium Close-up",
+          "camera_movement": "Static",
+          "description": "Maya gives Bolt a warm smile and an encouraging thumbs-up.",
+          "characters_in_shot": [
+            "Maya"
+          ],
+          "duration_seconds": 2
+        },
+        {
+          "shot_id": 4,
+          "camera_angle": "Medium Shot",
+          "camera_movement": "Dolly out slightly",
+          "description": "Bolt tries again, still stiff but with a hint of determination, Maya in the background.",
+          "characters_in_shot": [
+            "Bolt",
+            "Maya"
+          ],
+          "duration_seconds": 2
+        }
+      ]
+    },
+    {
+      "scene_id": 5,
+      "shots": [
+        {
+          "shot_id": 1,
+          "camera_angle": "Full Shot",
+          "camera_movement": "Tracking Shot",
+          "description": "Bolt starts to find a simple, repetitive movement, its chassis swaying more naturally.",
+          "characters_in_shot": [
+            "Bolt",
+            "Maya"
+          ],
+          "duration_seconds": 3
+        },
+        {
+          "shot_id": 2,
+          "camera_angle": "Close-up",
+          "camera_movement": "Static",
+          "description": "A close-up on Bolt's display, showing a subtle, joyful whirring sound emanating from it.",
+          "characters_in_shot": [
+            "Bolt"
+          ],
+          "duration_seconds": 2
+        },
+        {
+          "shot_id": 3,
+          "camera_angle": "Medium Shot",
+          "camera_movement": "Steadicam, orbiting Bolt",
+          "description": "Bolt moving more fluidly, starting to enjoy the rhythm.",
+          "characters_in_shot": [
+            "Bolt"
+          ],
+          "duration_seconds": 2
+        }
+      ]
+    },
+    {
+      "scene_id": 6,
+      "shots": [
+        {
+          "shot_id": 1,
+          "camera_angle": "Full Shot",
+          "camera_movement": "Dynamic Tracking Shot",
+          "description": "Bolt is fully immersed, dancing with simple yet expressive moves under colorful party lights.",
+          "characters_in_shot": [
+            "Bolt",
+            "Maya"
+          ],
+          "duration_seconds": 3
+        },
+        {
+          "shot_id": 2,
+          "camera_angle": "Close-up",
+          "camera_movement": "Static",
+          "description": "A tight shot on Bolt's display, showing a clear, glowing smile emoticon.",
+          "characters_in_shot": [
+            "Bolt"
+          ],
+          "duration_seconds": 2
+        },
+        {
+          "shot_id": 3,
+          "camera_angle": "Wide Shot",
+          "camera_movement": "Crane up and out",
+          "description": "Bolt dancing joyfully amidst a crowd of smiling and clapping people, celebrating its liberation.",
+          "characters_in_shot": [
+            "Bolt",
+            "Maya"
+          ],
+          "duration_seconds": 3
+        }
+      ]
+    }
+  ],
+  "storyboard_id": "fa406de8-4810-41bd-9a13-873d0fbffe2b",
+  "source_plan_id": "e90acb7b-8cdd-4bd3-9556-3c2d3baa2efd",
+  "generated_at": "2026-07-14T16:03:48.613663"
+}

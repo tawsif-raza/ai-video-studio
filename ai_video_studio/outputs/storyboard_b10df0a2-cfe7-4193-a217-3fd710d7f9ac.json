@@ -1,0 +1,192 @@
+{
+  "scene_plans": [
+    {
+      "scene_id": 1,
+      "shots": [
+        {
+          "shot_id": 101,
+          "camera_angle": "Wide Shot",
+          "camera_movement": "Slow Pan",
+          "description": "A wide shot captures the energetic rooftop party, neon lights glowing. Unit stands awkwardly near the edge, a lone figure.",
+          "characters_in_shot": [
+            "Unit",
+            "Party-Goers"
+          ],
+          "duration_seconds": 3
+        },
+        {
+          "shot_id": 102,
+          "camera_angle": "Medium Close-Up",
+          "camera_movement": "Static",
+          "description": "Unit's optical sensors show longing and apprehension as they watch the dancers, a subtle flicker of desire.",
+          "characters_in_shot": [
+            "Unit"
+          ],
+          "duration_seconds": 2
+        },
+        {
+          "shot_id": 103,
+          "camera_angle": "Low Angle",
+          "camera_movement": "Handheld Sway",
+          "description": "Vibrant, energetic Party-Goers dance freely, their fluid movements a stark contrast to Unit's stillness, emphasizing Unit's feeling of being left out.",
+          "characters_in_shot": [
+            "Party-Goers"
+          ],
+          "duration_seconds": 2
+        }
+      ]
+    },
+    {
+      "scene_id": 2,
+      "shots": [
+        {
+          "shot_id": 201,
+          "camera_angle": "Medium Shot",
+          "camera_movement": "Dolly In",
+          "description": "Spark, mid-dance, pauses slightly and notices Unit standing alone at the edge of the party, a look of friendly concern on their face.",
+          "characters_in_shot": [
+            "Spark"
+          ],
+          "duration_seconds": 2
+        },
+        {
+          "shot_id": 202,
+          "camera_angle": "Tracking Shot",
+          "camera_movement": "Follow",
+          "description": "Spark gracefully walks through the bustling crowd, their friendly demeanor contrasting with the background as they approach Unit.",
+          "characters_in_shot": [
+            "Spark",
+            "Unit"
+          ],
+          "duration_seconds": 3
+        },
+        {
+          "shot_id": 203,
+          "camera_angle": "Two-Shot (Medium Close-Up)",
+          "camera_movement": "Subtle Zoom",
+          "description": "Spark extends a friendly hand or gesture towards Unit, a warm, encouraging smile. Unit looks hesitant but intrigued, a spark of hope in their optical sensors.",
+          "characters_in_shot": [
+            "Unit",
+            "Spark"
+          ],
+          "duration_seconds": 3
+        }
+      ]
+    },
+    {
+      "scene_id": 3,
+      "shots": [
+        {
+          "shot_id": 301,
+          "camera_angle": "Medium Shot (Full Body)",
+          "camera_movement": "Static",
+          "description": "Spark gently guides Unit's hands and body through a simple dance step. Unit is stiff, their movements jerky and self-conscious, trying to mimic Spark.",
+          "characters_in_shot": [
+            "Unit",
+            "Spark"
+          ],
+          "duration_seconds": 4
+        },
+        {
+          "shot_id": 302,
+          "camera_angle": "Close-Up",
+          "camera_movement": "Pan (following)",
+          "description": "A close-up on Unit's feet/legs attempting to follow Spark's rhythm, but they are out of sync, showing Unit's struggle and mechanical awkwardness.",
+          "characters_in_shot": [
+            "Unit"
+          ],
+          "duration_seconds": 3
+        },
+        {
+          "shot_id": 303,
+          "camera_angle": "Over-the-Shoulder (Unit's POV)",
+          "camera_movement": "Static",
+          "description": "Spark smiles encouragingly at Unit, patient and supportive, demonstrating a move again slowly, their presence a comforting anchor.",
+          "characters_in_shot": [
+            "Spark"
+          ],
+          "duration_seconds": 3
+        }
+      ]
+    },
+    {
+      "scene_id": 4,
+      "shots": [
+        {
+          "shot_id": 401,
+          "camera_angle": "Medium Shot",
+          "camera_movement": "Smooth Dolly Tracking",
+          "description": "Unit's initially stiff movements begin to flow, transforming into a charming, unique robotic dance style. A subtle, genuine smile appears on Unit's face.",
+          "characters_in_shot": [
+            "Unit",
+            "Spark"
+          ],
+          "duration_seconds": 5
+        },
+        {
+          "shot_id": 402,
+          "camera_angle": "Reaction Shot (Group)",
+          "camera_movement": "Static",
+          "description": "A few Party-Goers nearby stop their own dancing for a moment, noticing Unit's unique style and smiling appreciatively, some even clapping softly.",
+          "characters_in_shot": [
+            "Party-Goers"
+          ],
+          "duration_seconds": 3
+        },
+        {
+          "shot_id": 403,
+          "camera_angle": "Low Angle",
+          "camera_movement": "Arc Shot",
+          "description": "Unit dances with newfound confidence and joy, their unique style now fully expressed, bathed in the vibrant neon lights, embracing the rhythm.",
+          "characters_in_shot": [
+            "Unit",
+            "Spark"
+          ],
+          "duration_seconds": 4
+        }
+      ]
+    },
+    {
+      "scene_id": 5,
+      "shots": [
+        {
+          "shot_id": 501,
+          "camera_angle": "Wide Shot (Dynamic)",
+          "camera_movement": "Crane Shot (Lift and Reveal)",
+          "description": "Unit is now at the heart of the dance floor, dancing with pure, unbridled joy, their movements a perfect blend of robotic charm and free expression, surrounded by an appreciative crowd.",
+          "characters_in_shot": [
+            "Unit",
+            "Spark",
+            "Party-Goers"
+          ],
+          "duration_seconds": 4
+        },
+        {
+          "shot_id": 502,
+          "camera_angle": "Close-Up",
+          "camera_movement": "Static",
+          "description": "Spark claps enthusiastically, beaming with pride and pure joy at Unit's incredible transformation and newfound freedom.",
+          "characters_in_shot": [
+            "Spark"
+          ],
+          "duration_seconds": 2
+        },
+        {
+          "shot_id": 503,
+          "camera_angle": "High Angle Wide Shot",
+          "camera_movement": "Slow Pull Back and Rotate",
+          "description": "The entire rooftop party is alive with energy and light, Unit a shining beacon of joy in the center, a communal celebration of movement and connection.",
+          "characters_in_shot": [
+            "Unit",
+            "Spark",
+            "Party-Goers"
+          ],
+          "duration_seconds": 2
+        }
+      ]
+    }
+  ],
+  "storyboard_id": "b10df0a2-cfe7-4193-a217-3fd710d7f9ac",
+  "source_plan_id": "4df3911d-15b2-49c4-aa15-c475dbd12114",
+  "generated_at": "2026-07-14T15:59:42.129915"
+}

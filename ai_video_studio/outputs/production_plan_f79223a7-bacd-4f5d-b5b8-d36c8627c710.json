@@ -1,0 +1,89 @@
+{
+  "title": "Sparky's Rooftop Groove",
+  "logline": "A shy robot overcomes its inhibitions to find joy and connection through dance at a lively rooftop party.",
+  "theme": "Overcoming shyness, self-expression, finding joy in unexpected places",
+  "target_duration_seconds": 45,
+  "tone": "Heartwarming, uplifting, energetic",
+  "characters": [
+    {
+      "name": "Sparky",
+      "role": "Protagonist",
+      "one_line_description": "A small, somewhat boxy robot with expressive LED eyes, initially shy and hesitant."
+    },
+    {
+      "name": "Maya",
+      "role": "Mentor/Friend",
+      "one_line_description": "A vibrant and friendly human dancer, full of encouragement and positive energy."
+    },
+    {
+      "name": "DJ Beat",
+      "role": "Background character",
+      "one_line_description": "The cool, unseen DJ providing the upbeat music for the party."
+    }
+  ],
+  "scenes": [
+    {
+      "scene_id": 1,
+      "title": "Arrival at the Party",
+      "summary": "Sparky arrives at a vibrant rooftop party, hesitating at the edge of the dance floor, intimidated by the energetic crowd.",
+      "setting": "A bustling rooftop party at sunset, city lights in the background, upbeat music playing.",
+      "mood": "Hesitant, curious, slightly overwhelmed",
+      "characters_present": [
+        "Sparky"
+      ],
+      "estimated_duration_seconds": 7
+    },
+    {
+      "scene_id": 2,
+      "title": "Observing the Groove",
+      "summary": "Sparky watches various people dancing, mimicking some moves with its head, but too shy to join in, feeling out of place.",
+      "setting": "The edge of the dance floor, surrounded by happy dancers.",
+      "mood": "Longing, contemplative, slightly sad",
+      "characters_present": [
+        "Sparky",
+        "DJ Beat"
+      ],
+      "estimated_duration_seconds": 9
+    },
+    {
+      "scene_id": 3,
+      "title": "A Friendly Invitation",
+      "summary": "Maya notices Sparky, smiles warmly, and gestures for it to join the dance, offering a reassuring hand.",
+      "setting": "Amidst the lively party crowd, near Sparky's observation spot.",
+      "mood": "Encouraging, friendly, hopeful",
+      "characters_present": [
+        "Sparky",
+        "Maya"
+      ],
+      "estimated_duration_seconds": 10
+    },
+    {
+      "scene_id": 4,
+      "title": "First Awkward Steps",
+      "summary": "Sparky tentatively attempts a few stiff, robotic dance moves, feeling self-conscious but determined, with Maya cheering it on.",
+      "setting": "The dance floor, a small space cleared by Maya.",
+      "mood": "Awkward, determined, supportive",
+      "characters_present": [
+        "Sparky",
+        "Maya"
+      ],
+      "estimated_duration_seconds": 9
+    },
+    {
+      "scene_id": 5,
+      "title": "Finding the Rhythm",
+      "summary": "Suddenly, Sparky finds its unique groove, transforming its robotic movements into a surprisingly fluid and joyful dance, joined by Maya and other partygoers.",
+      "setting": "The center of the dance floor, everyone celebrating.",
+      "mood": "Joyful, ecstatic, triumphant",
+      "characters_present": [
+        "Sparky",
+        "Maya",
+        "DJ Beat"
+      ],
+      "estimated_duration_seconds": 10
+    }
+  ],
+  "plan_id": "f79223a7-bacd-4f5d-b5b8-d36c8627c710",
+  "source_idea": "A shy robot learns to dance at a rooftop party",
+  "generated_at": "2026-07-12T16:57:33.598871"
+}

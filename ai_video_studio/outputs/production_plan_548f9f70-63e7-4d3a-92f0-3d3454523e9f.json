@@ -1,0 +1,94 @@
+{
+  "title": "Bolt's Boogie",
+  "logline": "A shy robot named Bolt overcomes its social anxieties to find joy and connection on a vibrant rooftop dance floor.",
+  "theme": "Overcoming shyness, self-acceptance, the power of connection",
+  "target_duration_seconds": 45,
+  "tone": "Uplifting, heartwarming, playful",
+  "characters": [
+    {
+      "name": "Bolt",
+      "role": "Protagonist",
+      "one_line_description": "A small, metallic robot with expressive optical sensors, initially very shy and hesitant."
+    },
+    {
+      "name": "Skylar",
+      "role": "Mentor/Friend",
+      "one_line_description": "A vibrant and friendly human, full of energy and encouragement, with a warm smile."
+    }
+  ],
+  "scenes": [
+    {
+      "scene_id": 1,
+      "title": "Rooftop Arrival",
+      "summary": "Bolt arrives at a lively rooftop party, scanning the dancing crowd with nervous blinks, feeling overwhelmed and out of place.",
+      "setting": "A vibrant rooftop party with city lights in the background, upbeat music playing.",
+      "mood": "Nervous, slightly awe-struck, hesitant",
+      "characters_present": [
+        "Bolt"
+      ],
+      "estimated_duration_seconds": 8
+    },
+    {
+      "scene_id": 2,
+      "title": "Observing the Groove",
+      "summary": "Bolt stands by the edge, observing various people and robots dancing freely. Its internal processors show a longing to join, but its body remains rigid.",
+      "setting": "The bustling edge of the dance floor, neon lights reflecting.",
+      "mood": "Longing, hesitant, slightly wistful",
+      "characters_present": [
+        "Bolt"
+      ],
+      "estimated_duration_seconds": 8
+    },
+    {
+      "scene_id": 3,
+      "title": "An Invitation to Move",
+      "summary": "Skylar, noticing Bolt's hesitation, approaches with a warm smile and an outstretched hand, inviting Bolt to dance.",
+      "setting": "A slightly less crowded corner of the rooftop dance floor.",
+      "mood": "Encouraging, friendly, hopeful",
+      "characters_present": [
+        "Bolt",
+        "Skylar"
+      ],
+      "estimated_duration_seconds": 7
+    },
+    {
+      "scene_id": 4,
+      "title": "First Awkward Steps",
+      "summary": "Bolt takes Skylar's hand and attempts a few stiff, mechanical dance moves, looking very self-conscious but trying.",
+      "setting": "The main dance floor, surrounded by other dancers.",
+      "mood": "Awkward, determined, slightly humorous",
+      "characters_present": [
+        "Bolt",
+        "Skylar"
+      ],
+      "estimated_duration_seconds": 7
+    },
+    {
+      "scene_id": 5,
+      "title": "Finding the Rhythm",
+      "summary": "With Skylar's gentle guidance and encouragement, Bolt starts to loosen up, its movements becoming more fluid and synchronized with the music.",
+      "setting": "The heart of the dance floor, music volume increasing.",
+      "mood": "Uplifting, breakthrough, joyful",
+      "characters_present": [
+        "Bolt",
+        "Skylar"
+      ],
+      "estimated_duration_seconds": 8
+    },
+    {
+      "scene_id": 6,
+      "title": "Dancing Free",
+      "summary": "Bolt is now dancing freely, independently, and with genuine joy, its optical sensors glowing happily as it grooves with the crowd.",
+      "setting": "A vibrant, energetic dance floor, everyone celebrating.",
+      "mood": "Exuberant, liberated, triumphant",
+      "characters_present": [
+        "Bolt",
+        "Skylar"
+      ],
+      "estimated_duration_seconds": 7
+    }
+  ],
+  "plan_id": "548f9f70-63e7-4d3a-92f0-3d3454523e9f",
+  "source_idea": "A shy robot learns to dance at a rooftop party",
+  "generated_at": "2026-07-13T14:16:32.285415"
+}

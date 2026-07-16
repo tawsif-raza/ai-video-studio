@@ -1,0 +1,178 @@
+{
+  "scene_plans": [
+    {
+      "scene_id": 1,
+      "shots": [
+        {
+          "shot_id": 1,
+          "camera_angle": "High Angle",
+          "camera_movement": "Static",
+          "description": "Wide shot of the bustling, neon-lit rooftop party. Bolt stands isolated in the far corner near the entrance, looking small and overwhelmed.",
+          "characters_in_shot": [
+            "Bolt"
+          ],
+          "duration_seconds": 3
+        },
+        {
+          "shot_id": 2,
+          "camera_angle": "Close-Up",
+          "camera_movement": "Handheld",
+          "description": "Bolt's metallic hands nervously clutching a glowing blue oil drink, trembling slightly as partygoers pass by.",
+          "characters_in_shot": [
+            "Bolt"
+          ],
+          "duration_seconds": 2
+        },
+        {
+          "shot_id": 3,
+          "camera_angle": "Medium Close-Up",
+          "camera_movement": "Slow Zoom In",
+          "description": "Bolt's face, showing his LED eyes flickering in an anxious yellow hue as colorful neon lights reflect off his metallic chassis.",
+          "characters_in_shot": [
+            "Bolt"
+          ],
+          "duration_seconds": 3
+        }
+      ]
+    },
+    {
+      "scene_id": 2,
+      "shots": [
+        {
+          "shot_id": 1,
+          "camera_angle": "Medium Shot",
+          "camera_movement": "Pan",
+          "description": "Nova dancing fluidly and energetically in the center of the crowd. She suddenly stops, spotting Bolt hiding in the corner.",
+          "characters_in_shot": [
+            "Nova"
+          ],
+          "duration_seconds": 3
+        },
+        {
+          "shot_id": 2,
+          "camera_angle": "Over-the-Shoulder",
+          "camera_movement": "Static",
+          "description": "From behind Bolt, looking at Nova as she smiles warmly, waves enthusiastically, and gestures for him to join her on the dance floor.",
+          "characters_in_shot": [
+            "Bolt",
+            "Nova"
+          ],
+          "duration_seconds": 3
+        },
+        {
+          "shot_id": 3,
+          "camera_angle": "Medium Shot",
+          "camera_movement": "Dolly In",
+          "description": "Bolt pointing to himself with a hesitant, questioning gesture, his LED eyes flashing in surprise.",
+          "characters_in_shot": [
+            "Bolt"
+          ],
+          "duration_seconds": 3
+        }
+      ]
+    },
+    {
+      "scene_id": 3,
+      "shots": [
+        {
+          "shot_id": 1,
+          "camera_angle": "Low Angle",
+          "camera_movement": "Tracking Shot",
+          "description": "Bolt's heavy, metallic feet taking slow, hesitant, and clunky steps onto the vibrant, glowing dance floor tiles.",
+          "characters_in_shot": [
+            "Bolt"
+          ],
+          "duration_seconds": 3
+        },
+        {
+          "shot_id": 2,
+          "camera_angle": "Medium Shot",
+          "camera_movement": "Static",
+          "description": "Nova welcomes Bolt with an encouraging smile and demonstrates a simple, rhythmic side-to-side dance step.",
+          "characters_in_shot": [
+            "Nova",
+            "Bolt"
+          ],
+          "duration_seconds": 3
+        },
+        {
+          "shot_id": 3,
+          "camera_angle": "Two-Shot",
+          "camera_movement": "Tilt Up",
+          "description": "Bolt attempts to mimic Nova's movements, but his gears grind stiffly and his limbs move awkwardly out of sync. Nova nods supportively.",
+          "characters_in_shot": [
+            "Bolt",
+            "Nova"
+          ],
+          "duration_seconds": 4
+        }
+      ]
+    },
+    {
+      "scene_id": 4,
+      "shots": [
+        {
+          "shot_id": 1,
+          "camera_angle": "Close-Up",
+          "camera_movement": "Slow Dolly In",
+          "description": "Nova laughing gently and placing her hands softly over Bolt's hands, guiding him into a smooth, rhythmic flow.",
+          "characters_in_shot": [
+            "Bolt",
+            "Nova"
+          ],
+          "duration_seconds": 3
+        },
+        {
+          "shot_id": 2,
+          "camera_angle": "Extreme Close-Up",
+          "camera_movement": "Static",
+          "description": "Bolt's LED eyes rapidly shift from a cautious, flickering yellow to a bright, solid, excited sky-blue.",
+          "characters_in_shot": [
+            "Bolt"
+          ],
+          "duration_seconds": 3
+        },
+        {
+          "shot_id": 3,
+          "camera_angle": "Wide Shot",
+          "camera_movement": "Crane Shot",
+          "description": "Bolt visibly relaxes, his joints moving smoothly as he begins to flow in sync with Nova and the pulsing neon music.",
+          "characters_in_shot": [
+            "Bolt",
+            "Nova"
+          ],
+          "duration_seconds": 4
+        }
+      ]
+    },
+    {
+      "scene_id": 5,
+      "shots": [
+        {
+          "shot_id": 1,
+          "camera_angle": "Low Angle",
+          "camera_movement": "360-Degree Spin",
+          "description": "Bolt executes a perfect, sweeping spin, his internal neon lights casting beautiful trails of light around the circle.",
+          "characters_in_shot": [
+            "Bolt"
+          ],
+          "duration_seconds": 3
+        },
+        {
+          "shot_id": 2,
+          "camera_angle": "Medium Shot",
+          "camera_movement": "Dolly Zoom",
+          "description": "The surrounding crowd cheers enthusiastically as Bolt finishes his spin. Bolt and Nova share a triumphant, glowing high-five under the starlight.",
+          "characters_in_shot": [
+            "Bolt",
+            "Nova"
+          ],
+          "duration_seconds": 5
+        }
+      ]
+    }
+  ],
+  "storyboard_id": "bb6df725-f443-4a2e-9400-f7129f4a1739",
+  "source_plan_id": "03ca2899-d289-42d6-8ed9-95628c5be95e",
+  "generated_at": "2026-07-11T17:36:20.947029"
+}

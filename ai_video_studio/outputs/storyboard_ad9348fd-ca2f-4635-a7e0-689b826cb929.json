@@ -1,0 +1,170 @@
+{
+  "scene_plans": [
+    {
+      "scene_id": 1,
+      "shots": [
+        {
+          "shot_id": 1,
+          "camera_angle": "Wide Shot",
+          "camera_movement": "Slow Pan",
+          "description": "Establish the bustling cyberpunk rooftop party. Neon lights pulse to the beat, casting vibrant colors over dancing robots, while Bolt stands isolated in a dark corner clutching an oil-can.",
+          "characters_in_shot": [
+            "Bolt"
+          ],
+          "duration_seconds": 4
+        },
+        {
+          "shot_id": 2,
+          "camera_angle": "Close-up",
+          "camera_movement": "Static",
+          "description": "Focus on Bolt's matte-grey face. His blue optical sensors flicker nervously, and his metallic shoulders slump as he looks down at his drink.",
+          "characters_in_shot": [
+            "Bolt"
+          ],
+          "duration_seconds": 4
+        }
+      ]
+    },
+    {
+      "scene_id": 2,
+      "shots": [
+        {
+          "shot_id": 1,
+          "camera_angle": "Medium Shot",
+          "camera_movement": "Tracking",
+          "description": "Spark glides effortlessly through the dancing crowd, leaving a trail of glowing neon light in her wake as she spots Bolt hiding in the shadows.",
+          "characters_in_shot": [
+            "Spark"
+          ],
+          "duration_seconds": 3
+        },
+        {
+          "shot_id": 2,
+          "camera_angle": "Over-the-shoulder",
+          "camera_movement": "Push In",
+          "description": "From behind Bolt, we see Spark dance up to him. She waves enthusiastically, her digital face-screen lighting up with a warm, welcoming smile.",
+          "characters_in_shot": [
+            "Bolt",
+            "Spark"
+          ],
+          "duration_seconds": 3
+        },
+        {
+          "shot_id": 3,
+          "camera_angle": "Medium Close-up",
+          "camera_movement": "Static",
+          "description": "Bolt reacts with surprise, his optics widening as Spark extends a glowing hand toward him in invitation.",
+          "characters_in_shot": [
+            "Bolt",
+            "Spark"
+          ],
+          "duration_seconds": 2
+        }
+      ]
+    },
+    {
+      "scene_id": 3,
+      "shots": [
+        {
+          "shot_id": 1,
+          "camera_angle": "Medium Two-shot",
+          "camera_movement": "Static",
+          "description": "Spark demonstrates a simple, rhythmic side-to-side shuffle, her movements fluid and vibrant. Bolt watches intently, frozen in hesitation.",
+          "characters_in_shot": [
+            "Bolt",
+            "Spark"
+          ],
+          "duration_seconds": 3
+        },
+        {
+          "shot_id": 2,
+          "camera_angle": "Low Angle Close-up",
+          "camera_movement": "Static",
+          "description": "Focus on Bolt's lower joints. His gears whirr loudly and shake as he attempts to lift a heavy, matte-grey foot to match her rhythm.",
+          "characters_in_shot": [
+            "Bolt"
+          ],
+          "duration_seconds": 4
+        },
+        {
+          "shot_id": 3,
+          "camera_angle": "Medium Shot",
+          "camera_movement": "Tilt Up",
+          "description": "Spark nods encouragingly with a pulsing digital grin. Bolt completes his first clumsy side-step, his body vibrating with tension.",
+          "characters_in_shot": [
+            "Bolt",
+            "Spark"
+          ],
+          "duration_seconds": 3
+        }
+      ]
+    },
+    {
+      "scene_id": 4,
+      "shots": [
+        {
+          "shot_id": 1,
+          "camera_angle": "Close-up",
+          "camera_movement": "Static",
+          "description": "Bolt's blue optical sensors glow brightly and steadily, no longer flickering. A subtle, happy digital expression appears on his face plate.",
+          "characters_in_shot": [
+            "Bolt"
+          ],
+          "duration_seconds": 3
+        },
+        {
+          "shot_id": 2,
+          "camera_angle": "Medium Shot",
+          "camera_movement": "Dynamic Tilt",
+          "description": "Bolt begins to swing his metallic arms in perfect sync with Spark. His rigid movements start to blend beautifully with her neon flow.",
+          "characters_in_shot": [
+            "Bolt",
+            "Spark"
+          ],
+          "duration_seconds": 4
+        },
+        {
+          "shot_id": 3,
+          "camera_angle": "Wide Shot",
+          "camera_movement": "Tracking Pan",
+          "description": "The two dance side-by-side. The contrast of Bolt's industrial matte-grey frame and Spark's luminous neon body creates a striking visual harmony.",
+          "characters_in_shot": [
+            "Bolt",
+            "Spark"
+          ],
+          "duration_seconds": 3
+        }
+      ]
+    },
+    {
+      "scene_id": 5,
+      "shots": [
+        {
+          "shot_id": 1,
+          "camera_angle": "Medium Shot",
+          "camera_movement": "360-degree Rotation",
+          "description": "The camera spins around Bolt and Spark as they perform a coordinated, energetic dance routine, completely lost in the music and the moment.",
+          "characters_in_shot": [
+            "Bolt",
+            "Spark"
+          ],
+          "duration_seconds": 4
+        },
+        {
+          "shot_id": 2,
+          "camera_angle": "Extreme Wide Shot",
+          "camera_movement": "Crane Up and Pull Back",
+          "description": "The camera soars high above the rooftop, revealing other partygoers cheering them on under a massive, glowing cyberpunk city skyline filled with neon lights.",
+          "characters_in_shot": [
+            "Bolt",
+            "Spark"
+          ],
+          "duration_seconds": 5
+        }
+      ]
+    }
+  ],
+  "storyboard_id": "ad9348fd-ca2f-4635-a7e0-689b826cb929",
+  "source_plan_id": "93fc6cff-d594-4816-8ea3-dbcfa3c062a5",
+  "generated_at": "2026-07-11T17:44:02.988738"
+}

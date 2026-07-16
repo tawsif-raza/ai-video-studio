@@ -1,0 +1,167 @@
+{
+  "prompt_set_id": "6c457fc1-6e9d-4ba4-88d5-88fa75e9ab95",
+  "source_storyboard_id": "fa406de8-4810-41bd-9a13-873d0fbffe2b",
+  "shots": [
+    {
+      "image_prompt": "In a 3D animated, semi-stylized Pixar-like scene with warm realistic lighting, a compact, somewhat clunky service robot named Bolt stands at the edge of a bustling rooftop party at dusk, observing the vibrant gathering with his large, expressive optical sensors that convey shyness and curiosity. His sturdy, functional metallic grey chassis with matte white panels and subtle light blue glowing accents blends into the background of a modern city skyline, where the deep orange and purple sky transitions to dark blue, filled with countless yellow and white twinkling lights. The rooftop itself is adorned with string lights, colorful banners, and a central sound system, with diverse party-goers, including various robots and people, mingling and starting to dance, all captured in a medium shot with a slight pan, emphasizing Bolt's hesitant presence amidst the joyful chaos.",
+      "video_motion_prompt": "As the scene unfolds, the camera remains mostly static, with a slight pan to the left, capturing Bolt's subtle, hesitant movements as he observes the party, while the party-goers in the background start to sway to the music, their movements gentle and carefree.",
+      "scene_id": 1,
+      "shot_id": 1,
+      "duration_seconds": 3,
+      "generated_at": "2026-07-14T16:04:47.206465"
+    },
+    {
+      "image_prompt": "A close-up of Bolt's metallic grey and matte white robotic face, focusing on his large, expressive optical sensors that glow with subtle light blue accents, conveying a mix of curiosity and apprehension, set against the vibrant, bustling backdrop of a rooftop party at dusk with string lights, colorful banners, and a city skyline twinkling with countless yellow and white lights in the distance, under warm, soft lighting that blends natural twilight with artificial party glow, in a 3D animated, semi-stylized Pixar-like aesthetic.",
+      "video_motion_prompt": "Bolt's optical sensors flicker with increased curiosity, while the camera remains static for 2 seconds, capturing every subtle change in his expression.",
+      "scene_id": 1,
+      "shot_id": 2,
+      "duration_seconds": 2,
+      "generated_at": "2026-07-14T16:04:52.786170"
+    },
+    {
+      "image_prompt": "In a wide shot, a bustling rooftop party at dusk is set against a vibrant city skyline with a deep orange, purple, and dark blue sky, twinkling with countless yellow and white lights. The rooftop itself is adorned with string lights, colorful banners, and a central sound system, where diverse party-goers, including various robots and people, mingle and start to dance under warm, soft lighting. At the edge of this vibrant scene, a small, compact service robot named Bolt stands somewhat isolated, his sturdy, functional metallic grey chassis with matte white panels and subtle light blue glowing accents standing out amidst the crowd. His large, expressive optical sensors convey a sense of shyness and curiosity as he observes the party, his visibly articulated limbs hinting at hesitant movements. The overall scene is rendered in a 3D animated, semi-stylized Pixar-like aesthetic with warm realistic lighting, capturing the contrast between Bolt's solitude and the party's energy.",
+      "video_motion_prompt": "As the camera dolleys out over 2 seconds, the party scene expands, showing more of the rooftop and the city skyline, while Bolt remains at the edge, his figure gradually becoming smaller in the frame, emphasizing his initial hesitation to join the party.",
+      "scene_id": 1,
+      "shot_id": 3,
+      "duration_seconds": 2,
+      "generated_at": "2026-07-14T16:04:55.448586"
+    },
+    {
+      "image_prompt": "A high-angle view of a vibrant rooftop party at night, with a diverse crowd of robots and people moving freely to the music on the energetic dance floor, illuminated by colorful, moving party lights such as spotlights, strobes, and laser effects that cast shifting hues across the scene, set against the backdrop of a cityscape with twinkling lights, in a 3D animated, semi-stylized Pixar art style with warm, realistic lighting.",
+      "video_motion_prompt": "The camera cranes down in a sweeping motion over the dance floor, capturing the dynamic movement of the partygoers as they dance to the music, with the colorful lights and shadows moving in tandem.",
+      "scene_id": 2,
+      "shot_id": 1,
+      "duration_seconds": 2,
+      "generated_at": "2026-07-14T16:05:22.347649"
+    },
+    {
+      "image_prompt": "A medium close-up shot of a lively rooftop party at night, with a diverse crowd of robots and people laughing and dancing together under colorful, moving party lights that cast shifting hues across their faces, set against the vibrant backdrop of a city twinkling in the background, with a prominent sound system and palpable energy, captured in a 3D animated, semi-stylized Pixar art style with warm realistic lighting.",
+      "video_motion_prompt": "The camera rapidly cuts between different faces in the crowd, moving handheld and dynamically to the rhythm of the music, capturing the infectious energy of the partygoers as they enjoy themselves.",
+      "scene_id": 2,
+      "shot_id": 2,
+      "duration_seconds": 3,
+      "generated_at": "2026-07-14T16:05:25.912615"
+    },
+    {
+      "image_prompt": "In a vibrant rooftop party at night, with music pulsating through dynamic lighting, a medium-wide POV shot frames Bolt, a compact service robot with a sturdy metallic grey chassis, matte white panels, and subtle light blue glowing accents, his large, expressive optical sensors tracking the movement of dancers with a subtle longing in his gaze, amidst a diverse crowd of robots and people under colorful, moving party lights that cast shifting hues across the scene, with the city lights twinkling in the background, all rendered in a 3D animated, semi-stylized Pixar-like aesthetic with warm realistic lighting.",
+      "video_motion_prompt": "The camera remains static, with a slight zoom over 3 seconds, as Bolt's optical sensors follow the dynamic movements of the dancers, capturing the subtle changes in his expressive gaze.",
+      "scene_id": 2,
+      "shot_id": 3,
+      "duration_seconds": 3,
+      "generated_at": "2026-07-14T16:05:28.148373"
+    },
+    {
+      "image_prompt": "A 3D animated, semi-stylized scene in a Pixar-like aesthetic with warm realistic lighting, showing Maya, a vibrant and friendly young adult with a slender build and energetic posture, wearing a vibrant yellow sundress and simple white sneakers, her medium-length wavy brown hair styled casually, as she stands near the dance floor amidst a bustling crowd of diverse robots and people, with blurred but energetic movement in the background, illuminated by vibrant, shifting party lights, and light spills creating colorful highlights and soft shadows on the surrounding elements, her face open and approachable with a warm, encouraging smile and bright, observant brown eyes, looking directly at someone with a friendly and inviting expression, captured in a medium shot with a static camera angle.",
+      "video_motion_prompt": "Maya's eyes lock onto Bolt, her face lighting up with a bright smile, as the camera remains statically focused on her reaction for 2 seconds.",
+      "scene_id": 3,
+      "shot_id": 1,
+      "duration_seconds": 2,
+      "generated_at": "2026-07-14T16:05:32.390969"
+    },
+    {
+      "image_prompt": "A close-up of Bolt, a compact service robot with a metallic grey chassis, matte white panels, and subtle light blue glowing accents, standing near the dance floor amidst a lively crowd of robots and people, his large, expressive optical sensors conveying hesitation as he slightly twitches his chassis, set against a blurred background of energetic movement and vibrant party lights, with colorful highlights and soft shadows on the surrounding individuals conversing and observing the dance floor, in a 3D animated, semi-stylized Pixar-like aesthetic with warm realistic lighting.",
+      "video_motion_prompt": "Bolt's chassis twitches slightly as he hesitates, while the camera remains static, capturing the subtle movement over 2 seconds.",
+      "scene_id": 3,
+      "shot_id": 2,
+      "duration_seconds": 2,
+      "generated_at": "2026-07-14T16:06:10.384385"
+    },
+    {
+      "image_prompt": "In a vibrant, bustling rooftop party scene, amidst a diverse crowd of robots and people conversing, holding drinks, and observing the dancing, Maya, a young adult with a slender build and energetic posture, smiles kindly and gestures with her hand, wearing a comfortable yet stylish vibrant yellow sundress, simple white sneakers, and a light woven bracelet, her medium-length wavy brown hair styled casually, as she invites someone to join her, captured from an over-the-shoulder perspective from the viewpoint of the person she's inviting, with the camera positioned just off the main dance floor, where party lights cast colorful highlights and soft shadows, in a 3D animated, semi-stylized Pixar-like aesthetic with warm realistic lighting.",
+      "video_motion_prompt": "Maya's hand gestures invitingly as her smile broadens, with the camera remaining static, capturing the moment from Bolt's viewpoint.",
+      "scene_id": 3,
+      "shot_id": 3,
+      "duration_seconds": 2,
+      "generated_at": "2026-07-14T16:06:11.682694"
+    },
+    {
+      "image_prompt": "In a bustling, vibrant party scene, a compact, metallic grey service robot named Bolt with matte white panels and subtle light blue glowing accents hesitantly stands near the dance floor, his large, expressive optical sensors conveying shyness and curiosity as he prepares to move forward, the background a blur of energetic robot and human dancers under shifting party lights, with individuals conversing and observing in the foreground, all rendered in a 3D animated, semi-stylized Pixar-like aesthetic with warm realistic lighting, captured in a tracking shot as Bolt begins to roll forward, the camera dollying in to emphasize his cautious movement.",
+      "video_motion_prompt": "Bolt slowly rolls forward towards the dance floor as the camera dollies in, his articulated limbs and hesitant movements capturing the shyness of his first approach to the lively dance scene.",
+      "scene_id": 3,
+      "shot_id": 4,
+      "duration_seconds": 3,
+      "generated_at": "2026-07-14T16:06:12.628533"
+    },
+    {
+      "image_prompt": "In a 3D animated, semi-stylized Pixar-like aesthetic with warm realistic lighting, a compact, somewhat clunky service robot named Bolt stands in the center of a vibrant and dynamic rooftop party's main dance floor, his sturdy, functional metallic grey chassis with matte white panels and subtle light blue glowing accents contrasting with the intense, colorful party lights that illuminate the dense, energetic crowd of diverse robots and people dancing around him. Bolt's large, expressive optical sensors convey shyness and curiosity as he attempts a few stiff, robotic dance moves, his visibly articulated limbs hinting at his somewhat hesitant movements. The scene is captured in a full shot, with Bolt as the main focus, set against a background of blurred outlines of the rest of the party and distant city lights, with dramatic shifts in light and shadow painting the scene in saturated hues.",
+      "video_motion_prompt": "Bolt's limbs move stiffly as he attempts to dance, his optical sensors blinking with self-consciousness, while the camera remains static, capturing the energetic movement of the crowd around him for 3 seconds.",
+      "scene_id": 4,
+      "shot_id": 1,
+      "duration_seconds": 3,
+      "generated_at": "2026-07-14T16:06:13.928760"
+    },
+    {
+      "image_prompt": "A close-up shot of Bolt's sturdy, functional metallic grey chassis with matte white panels and subtle light blue glowing accents, focusing on his wheels as he attempts to mimic rhythmic movement amidst the vibrant, dynamic environment of the main dance floor, where a dense, energetic crowd of diverse robots and people dance under intense, colorful party lights, with dramatic shifts in light and shadow painting the scene in saturated hues, captured in a 3D animated, semi-stylized Pixar-like aesthetic with warm realistic lighting.",
+      "video_motion_prompt": "Bolt's wheels move hesitantly in a rhythmic pattern, with the camera panning to follow his 'footwork' over the 3-second duration, capturing the dynamic movement of his attempts to dance.",
+      "scene_id": 4,
+      "shot_id": 2,
+      "duration_seconds": 3,
+      "generated_at": "2026-07-14T16:06:14.895235"
+    },
+    {
+      "image_prompt": "In a vibrant 3D animated scene, reminiscent of Pixar, with warm realistic lighting, Maya, a young adult with a slender build and energetic posture, wearing a bright yellow sundress, white sneakers, and a light woven bracelet, stands out in a dense, energetic crowd of diverse robots and people on the main dance floor of a rooftop party. With her medium-length wavy brown hair casually framing her face, she gives a warm smile and an encouraging thumbs-up, her bright, observant brown eyes shining with friendliness. The scene is bathed in intense, colorful party lights, including moving spotlights, strobes, and laser patterns, creating dramatic shifts in light and shadow, and the background is a blur of partygoers and distant city lights. The camera is positioned in a medium close-up, capturing Maya's expressive face and gesture, with the dynamic party scene slightly blurred in the background.",
+      "video_motion_prompt": "Maya's thumbs-up and smile are the only movements in this static 2-second shot, as the camera remains still, focusing on her encouraging gesture amidst the blurred, energetic dance floor activity.",
+      "scene_id": 4,
+      "shot_id": 3,
+      "duration_seconds": 2,
+      "generated_at": "2026-07-14T16:06:16.113332"
+    },
+    {
+      "image_prompt": "In a vibrant, semi-stylized Pixar-like scene with warm realistic lighting, a medium shot captures Bolt, a compact service robot with a metallic grey chassis, matte white panels, and subtle light blue glowing accents, as he attempts to move with a hint of determination, his large, expressive optical sensors conveying shyness and curiosity, amidst a dynamic dance floor filled with a diverse, energetic crowd of robots and people dancing under intense, colorful party lights, with Maya, a young adult with a warm smile and bright brown eyes, wearing a vibrant yellow sundress, visible in the background, the overall atmosphere exuding exhilarating energy.",
+      "video_motion_prompt": "As Bolt stiffsly tries to move, the camera dollies out slightly, capturing the increasing movement of the surrounding dancers, with the party lights casting dynamic shadows across the scene over the 2-second duration.",
+      "scene_id": 4,
+      "shot_id": 4,
+      "duration_seconds": 2,
+      "generated_at": "2026-07-14T16:06:17.247295"
+    },
+    {
+      "image_prompt": "In a vibrant, semi-stylized Pixar-like environment, a 3D animated dance floor scene unfolds with warm, realistic lighting. Bolt, a sturdy, metallic grey service robot with matte white panels and subtle light blue glowing accents, stands out with his large, expressive optical sensors and articulated limbs. As he begins to sway more naturally, his movements become more fluid, and his chassis gently rocks back and forth. Maya, a friendly young adult with a warm smile and bright brown eyes, watches from the side, wearing a vibrant yellow sundress and simple white sneakers, her medium-length wavy brown hair styled casually. The dynamic, colorful party lights illuminate the scene, casting a slightly softer, more flattering glow on Bolt as he moves. The atmosphere is uplifting and confident, with other diverse robots and people dancing in the background, creating a sense of joyful self-expression. The camera captures this moment in a full shot, with a tracking movement, emphasizing Bolt's newfound fluidity.",
+      "video_motion_prompt": "As Bolt sways, his metallic body gently rocking back and forth, the camera smoothly tracks his movement, capturing the subtle, repetitive motion of his chassis. The party lights and surrounding dancers blur slightly, emphasizing Bolt's newfound fluidity and confidence.",
+      "scene_id": 5,
+      "shot_id": 1,
+      "duration_seconds": 3,
+      "generated_at": "2026-07-14T16:06:18.611194"
+    },
+    {
+      "image_prompt": "A close-up of Bolt's display, set against the soft blur of the vibrant dance floor, where diverse robots and people dance under dynamic, colorful party lights with a slightly softer glow, in a 3D animated, semi-stylized Pixar-like aesthetic with warm realistic lighting, showcasing Bolt's sturdy, functional metallic grey chassis with matte white panels and subtle light blue glowing accents, his large, expressive optical sensors shining with joy, as a subtle, joyful whirring sound emanates from his display, captured in a static, close-up shot that emphasizes the details of his robotic features and the whirring sound.",
+      "video_motion_prompt": "The camera remains static, focusing on Bolt's display as it whirs with joy, the blur of the dance floor in the background subtly shifting due to the gentle movements of the dancing figures.",
+      "scene_id": 5,
+      "shot_id": 2,
+      "duration_seconds": 2,
+      "generated_at": "2026-07-14T16:06:19.492519"
+    },
+    {
+      "image_prompt": "In a vibrant, dynamic dance floor scene illuminated by colorful party lights with a soft, flattering glow, a compact, metallic grey service robot named Bolt with matte white panels and subtle light blue glowing accents, moves fluidly, his large, expressive optical sensors shining with joy and curiosity, as he starts to enjoy the rhythm, captured in a medium shot with a steadicam orbiting around him, emphasizing his newfound confidence and fluid movement, set against a backdrop of diverse robots and people dancing, all rendered in a 3D animated, semi-stylized Pixar-like aesthetic with warm realistic lighting.",
+      "video_motion_prompt": "Bolt's body sways and twirls to the music as the steadicam smoothly orbits around him, capturing his fluid movements from multiple angles over the course of 2 seconds.",
+      "scene_id": 5,
+      "shot_id": 3,
+      "duration_seconds": 2,
+      "generated_at": "2026-07-14T16:06:20.504306"
+    },
+    {
+      "image_prompt": "In the heart of a vibrant dance floor, under a kaleidoscope of colorful party lights, Bolt, a sturdy service robot with a metallic grey chassis, matte white panels, and subtle light blue glowing accents, dances with simple yet expressive moves, his large, expressive optical sensors shining with excitement. He is surrounded by a diverse crowd of robots and people, all dancing in unison, bathed in the intense, spectacular light show created by brilliant spotlights, lasers, and strobes, painting the environment in highly saturated, shifting hues of reds, blues, greens, and yellows. Maya, a young adult with a warm, encouraging smile and bright, observant brown eyes, wearing a vibrant yellow sundress and simple white sneakers, dances nearby, lost in the celebratory atmosphere, captured in a full shot that embodies the energy and connection of the moment, rendered in a 3D animated, semi-stylized Pixar-like aesthetic with warm realistic lighting.",
+      "video_motion_prompt": "As the music peaks, Bolt's dancing becomes more energetic, and the camera dynamically tracks him, weaving through the crowd, capturing the fluid motion of the partygoers, while the colorful lights continue to shift and change, enhancing the celebratory ambiance.",
+      "scene_id": 6,
+      "shot_id": 1,
+      "duration_seconds": 3,
+      "generated_at": "2026-07-14T16:06:22.038162"
+    },
+    {
+      "image_prompt": "A close-up shot of Bolt's display, set against the vibrant backdrop of a dance floor bathed in colorful party lights, with a clear, glowing smile emoticon on the screen, illuminated by the warm, realistic lighting of the 3D animated scene, in a semi-stylized Pixar-like aesthetic, capturing the moment of joy amidst the ecstatic, diverse crowd of robots and people dancing in unison under brilliant spotlights, lasers, and strobes.",
+      "video_motion_prompt": "The camera remains static for 2 seconds, with only the lights of the dance floor subtly shifting and changing colors around Bolt's display.",
+      "scene_id": 6,
+      "shot_id": 2,
+      "duration_seconds": 2,
+      "generated_at": "2026-07-14T16:06:23.914179"
+    },
+    {
+      "image_prompt": "A wide shot from the heart of a vibrant dance floor, bathed in intense, spectacular colorful party lights, where a compact, somewhat clunky service robot named Bolt, with a sturdy metallic grey chassis, matte white panels, and subtle light blue glowing accents, dances joyfully amidst a crowd of smiling and clapping people, his large, expressive optical sensors conveying shyness and curiosity as he moves his visibly articulated limbs, surrounded by a diverse group of robots and humans, including a vibrant and friendly young adult named Maya, who wears a comfortable yet stylish vibrant yellow sundress and has a warm, encouraging smile and bright, observant brown eyes, all celebrating under brilliant spotlights, lasers, and strobes that paint the environment in highly saturated, shifting hues of reds, blues, greens, and yellows, in a 3D animated, semi-stylized Pixar-like aesthetic with warm realistic lighting.",
+      "video_motion_prompt": "As the music peaks, the camera cranes up and out, capturing the escalating joy of the celebration, with Bolt and the crowd moving in energetic, carefree dance, their movements becoming more vibrant and uninhibited.",
+      "scene_id": 6,
+      "shot_id": 3,
+      "duration_seconds": 3,
+      "generated_at": "2026-07-14T16:06:29.562562"
+    }
+  ],
+  "generated_at": "2026-07-14T16:06:29.563047"
+}

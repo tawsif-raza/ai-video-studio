@@ -1,0 +1,37 @@
+{
+  "environment_profiles": [
+    {
+      "setting": "Neon-lit rooftop party at night",
+      "time_of_day": "Night",
+      "weather": "Clear, starry night",
+      "key_visual_elements": [
+        "Glowing neon signs in magenta and cyan",
+        "Draped warm string lights",
+        "Polished wooden dance floor reflecting lights",
+        "Distant glittering city skyline with skyscrapers",
+        "Cozy outdoor lounge furniture and potted plants",
+        "DJ booth with soft light beams"
+      ],
+      "color_palette": [
+        "Deep indigo",
+        "Vibrant magenta",
+        "Electric cyan",
+        "Warm gold",
+        "Soft violet"
+      ],
+      "lighting": "Warm realistic lighting with vibrant neon accents, soft volumetric glows, and colorful rim lights",
+      "atmosphere": "Lively, energetic, festive, and heartwarming",
+      "art_style_keywords": [
+        "3D animated",
+        "Pixar-style",
+        "warm realistic lighting",
+        "semi-stylized",
+        "cinematic depth of field"
+      ],
+      "reference_prompt": "A beautiful 3D animated Pixar-style rooftop party at night. The scene is filled with a lively crowd dancing under drapes of warm glowing string lights and vibrant neon signs in magenta and cyan. In the background, a soft-focused city skyline twinkles with distant skyscraper windows under a clear, dark indigo night sky. The rooftop features a polished wooden dance floor reflecting the colorful lights, cozy lounge areas with modern furniture, and potted green plants. The lighting is warm and cinematic, with soft volumetric beams casting rich, colorful glows and long, gentle shadows, creating a welcoming and magical festive atmosphere."
+    }
+  ],
+  "sheet_id": "af01b451-594d-4849-811a-837a93cb967f",
+  "source_plan_id": "b83155be-c403-43d2-9451-30ab0a43aa63",
+  "generated_at": "2026-07-11T17:26:37.108751"
+}

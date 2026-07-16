@@ -1,0 +1,55 @@
+{
+  "character_profiles": [
+    {
+      "name": "Bolt",
+      "age_range": "Young adult equivalent",
+      "build": "Sleek but slightly dented, compact, and rounded metallic frame with expressive joints.",
+      "face_details": "Large, highly expressive circular LED eyes that glow with a soft, anxious blue light; a smooth matte faceplate with subtle brow ridges that tilt to show worry.",
+      "hair": "None (smooth, dome-shaped metallic head with a small brass antenna).",
+      "outfit": "Exposed copper wiring at the joints, matte grey and silver outer plating, and a small worn brass gear collar.",
+      "color_palette": [
+        "Matte Grey",
+        "Rusty Copper",
+        "Soft LED Blue",
+        "Tarnished Brass"
+      ],
+      "distinguishing_features": "Slight patches of rust on his shoulders and elbows, a slightly slumped posture, and wide, worried LED eyes that flicker when he is nervous.",
+      "art_style_keywords": [
+        "3D animated",
+        "Pixar style",
+        "warm realistic lighting",
+        "semi-stylized",
+        "subsurface scattering",
+        "soft metallic textures"
+      ],
+      "reference_prompt": "A character portrait of Bolt, a sleek but slightly rusty robot with a compact, rounded metallic body. He has large, expressive circular LED eyes glowing with a soft blue light, showing a worried expression. His body features matte grey plating, exposed copper joints, and small patches of rust on his shoulders. The style is 3D animated, semi-stylized like a Pixar movie, with warm realistic lighting, soft metallic textures, and a gentle depth of field."
+    },
+    {
+      "name": "Nova",
+      "age_range": "Young adult equivalent",
+      "build": "Tall, slender, and highly agile with fluid, ball-jointed limbs designed for dancing.",
+      "face_details": "A sleek, polished white faceplate with a glowing magenta LED visor that displays friendly, dynamic digital expressions and a warm smile.",
+      "hair": "None (aerodynamic helmet-like head with a glowing cyan neon crest along the center).",
+      "outfit": "Glossy white and polished chrome armor panels with integrated neon pink and cyan light strips running along her arms and legs.",
+      "color_palette": [
+        "Glossy White",
+        "Polished Chrome",
+        "Neon Magenta",
+        "Vibrant Cyan"
+      ],
+      "distinguishing_features": "Glowing neon lines integrated into her limbs, a dynamic and confident stance, and a high-gloss reflective finish that catches the light.",
+      "art_style_keywords": [
+        "3D animated",
+        "Pixar style",
+        "warm realistic lighting",
+        "semi-stylized",
+        "emissive glow",
+        "reflective surfaces"
+      ],
+      "reference_prompt": "A character portrait of Nova, a vibrant and slender dancer robot with a confident, energetic pose. Her body is made of glossy white and polished chrome armor with bright neon magenta and cyan light strips glowing along her limbs. She has a sleek helmet-like head with a cyan neon crest and a magenta LED visor displaying a friendly digital smile. The style is 3D animated, semi-stylized like a Pixar movie, with warm realistic lighting, rich reflections, and a colorful emissive glow."
+    }
+  ],
+  "sheet_id": "ef1bef60-9e34-4a41-9e9e-8b977ddec02f",
+  "source_plan_id": "03ca2899-d289-42d6-8ed9-95628c5be95e",
+  "generated_at": "2026-07-11T17:36:34.080793"
+}

@@ -1,0 +1,139 @@
+{
+  "scene_plans": [
+    {
+      "scene_id": 1,
+      "shots": [
+        {
+          "shot_id": 1,
+          "camera_angle": "Medium Close-up",
+          "camera_movement": "Pan",
+          "description": "Whiskers paces restlessly by a sunlit window, tail twitching with boredom.",
+          "characters_in_shot": [
+            "Whiskers"
+          ],
+          "duration_seconds": 2
+        },
+        {
+          "shot_id": 2,
+          "camera_angle": "Over-the-shoulder",
+          "camera_movement": "Static",
+          "description": "Whiskers sits on the windowsill, looking out at the mundane backyard.",
+          "characters_in_shot": [
+            "Whiskers"
+          ],
+          "duration_seconds": 1
+        },
+        {
+          "shot_id": 3,
+          "camera_angle": "Point of View (Whiskers')",
+          "camera_movement": "Static",
+          "description": "The ordinary backyard: a patch of grass, a few common bushes, a weathered fence.",
+          "characters_in_shot": [],
+          "duration_seconds": 2
+        }
+      ]
+    },
+    {
+      "scene_id": 2,
+      "shots": [
+        {
+          "shot_id": 1,
+          "camera_angle": "Medium shot",
+          "camera_movement": "Static",
+          "description": "Whiskers' ears perk up, head cocked slightly, as if sensing something.",
+          "characters_in_shot": [
+            "Whiskers"
+          ],
+          "duration_seconds": 2
+        },
+        {
+          "shot_id": 2,
+          "camera_angle": "Extreme Close-up",
+          "camera_movement": "Zoom in",
+          "description": "A faint, unusual shimmer and a soft, mysterious glow emerge from dense foliage in the corner of the yard.",
+          "characters_in_shot": [],
+          "duration_seconds": 3
+        },
+        {
+          "shot_id": 3,
+          "camera_angle": "Close-up",
+          "camera_movement": "Static",
+          "description": "Whiskers' eyes, wide with intrigue and wonder, fixate on the glowing light.",
+          "characters_in_shot": [
+            "Whiskers"
+          ],
+          "duration_seconds": 2
+        }
+      ]
+    },
+    {
+      "scene_id": 3,
+      "shots": [
+        {
+          "shot_id": 1,
+          "camera_angle": "Low Angle",
+          "camera_movement": "Tracking",
+          "description": "Whiskers pads stealthily across the grass towards the overgrown corner of the backyard.",
+          "characters_in_shot": [
+            "Whiskers"
+          ],
+          "duration_seconds": 3
+        },
+        {
+          "shot_id": 2,
+          "camera_angle": "Close-up",
+          "camera_movement": "Static",
+          "description": "Whiskers nudges her head into a small, hidden gap in the dense ivy and bushes, then wiggles her body through.",
+          "characters_in_shot": [
+            "Whiskers"
+          ],
+          "duration_seconds": 3
+        },
+        {
+          "shot_id": 3,
+          "camera_angle": "Medium Shot",
+          "camera_movement": "Push In",
+          "description": "The gap reveals a narrow, dark passage, hinting at what lies beyond.",
+          "characters_in_shot": [],
+          "duration_seconds": 1
+        }
+      ]
+    },
+    {
+      "scene_id": 4,
+      "shots": [
+        {
+          "shot_id": 1,
+          "camera_angle": "Wide Shot",
+          "camera_movement": "Dolly out",
+          "description": "Whiskers emerges from the passage into a breathtaking, secret garden, bathed in ethereal light from glowing flowers.",
+          "characters_in_shot": [
+            "Whiskers"
+          ],
+          "duration_seconds": 4
+        },
+        {
+          "shot_id": 2,
+          "camera_angle": "Establishing Shot",
+          "camera_movement": "Crane Shot",
+          "description": "A sweeping view of the luminous garden, filled with fantastical, bioluminescent flowers of vibrant colors and lush, glowing greenery.",
+          "characters_in_shot": [],
+          "duration_seconds": 4
+        },
+        {
+          "shot_id": 3,
+          "camera_angle": "Close-up",
+          "camera_movement": "Static",
+          "description": "Whiskers, mesmerized, gently sniffs a glowing, iridescent bloom, its light reflecting in her eyes.",
+          "characters_in_shot": [
+            "Whiskers"
+          ],
+          "duration_seconds": 3
+        }
+      ]
+    }
+  ],
+  "storyboard_id": "383bf720-2172-457e-8d7e-4d2f2320cda8",
+  "source_plan_id": "f6fe9fa0-4d57-419b-840c-3c9b02acd6b4",
+  "generated_at": "2026-07-16T16:18:49.994834"
+}

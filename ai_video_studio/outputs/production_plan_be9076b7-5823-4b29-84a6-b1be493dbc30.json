@@ -1,0 +1,89 @@
+{
+  "title": "Unit 734's Rooftop Rhythm",
+  "logline": "A shy service robot overcomes its inhibitions and finds joy on the dance floor at a vibrant rooftop party, thanks to a friendly face.",
+  "theme": "Overcoming shyness, self-acceptance, the joy of connection and belonging.",
+  "target_duration_seconds": 45,
+  "tone": "Uplifting, heartwarming, energetic, inspiring.",
+  "characters": [
+    {
+      "name": "Unit 734",
+      "role": "Protagonist",
+      "one_line_description": "A timid service robot, longing for connection but held back by shyness and self-doubt."
+    },
+    {
+      "name": "Nova",
+      "role": "Mentor/Friend",
+      "one_line_description": "An energetic and empathetic robot, a natural dancer who loves to encourage others and spread positivity."
+    },
+    {
+      "name": "Party Robots",
+      "role": "Background/Atmosphere",
+      "one_line_description": "Diverse background robots enjoying the party, representing a lively social scene and the welcoming atmosphere."
+    }
+  ],
+  "scenes": [
+    {
+      "scene_id": 1,
+      "title": "The Lonely Invitation",
+      "summary": "Unit 734, alone in its quiet charging station, receives a holographic invitation to a vibrant rooftop dance party. It hesitates, contemplating the unknown.",
+      "setting": "A sterile, quiet robot charging station/workspace, then a holographic invite appears.",
+      "mood": "Quiet, contemplative, a hint of longing.",
+      "characters_present": [
+        "Unit 734"
+      ],
+      "estimated_duration_seconds": 7
+    },
+    {
+      "scene_id": 2,
+      "title": "Party Paralysis",
+      "summary": "Unit 734 arrives at the bustling rooftop party, bright lights and pulsating music. It stands awkwardly by the edge, watching other robots dance effortlessly, feeling entirely out of place.",
+      "setting": "A vibrant rooftop party with city lights in the background, crowded with dancing robots.",
+      "mood": "Overwhelmed, awkward, longing.",
+      "characters_present": [
+        "Unit 734",
+        "Party Robots"
+      ],
+      "estimated_duration_seconds": 8
+    },
+    {
+      "scene_id": 3,
+      "title": "Nova's Encouragement",
+      "summary": "A friendly, expressive robot named Nova notices Unit 734's hesitation. Nova glides over with a warm smile and extends a hand, inviting Unit 734 to join the fun.",
+      "setting": "The edge of the dance floor at the rooftop party.",
+      "mood": "Encouraging, friendly, hopeful.",
+      "characters_present": [
+        "Unit 734",
+        "Nova"
+      ],
+      "estimated_duration_seconds": 10
+    },
+    {
+      "scene_id": 4,
+      "title": "First Wobbles",
+      "summary": "Unit 734 tentatively accepts Nova's invitation, trying a few stiff, clumsy dance moves. Nova laughs kindly and demonstrates simple, encouraging steps, making Unit 734 feel at ease.",
+      "setting": "The dance floor, becoming less intimidating.",
+      "mood": "Awkward, determined, supportive.",
+      "characters_present": [
+        "Unit 734",
+        "Nova"
+      ],
+      "estimated_duration_seconds": 10
+    },
+    {
+      "scene_id": 5,
+      "title": "Finding the Groove",
+      "summary": "With Nova's continued encouragement, Unit 734 slowly loosens up, finding its rhythm. Its movements become more fluid, joyful, and it starts to truly dance, even inviting other robots to join in.",
+      "setting": "The center of the vibrant dance floor, now full of energy.",
+      "mood": "Joyful, liberated, energetic, triumphant.",
+      "characters_present": [
+        "Unit 734",
+        "Nova",
+        "Party Robots"
+      ],
+      "estimated_duration_seconds": 10
+    }
+  ],
+  "plan_id": "be9076b7-5823-4b29-84a6-b1be493dbc30",
+  "source_idea": "A shy robot learns to dance at a rooftop party",
+  "generated_at": "2026-07-12T17:35:12.896596"
+}

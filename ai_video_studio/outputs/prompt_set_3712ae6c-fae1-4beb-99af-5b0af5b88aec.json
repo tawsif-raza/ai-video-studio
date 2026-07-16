@@ -1,0 +1,103 @@
+{
+  "prompt_set_id": "3712ae6c-fae1-4beb-99af-5b0af5b88aec",
+  "source_storyboard_id": "383bf720-2172-457e-8d7e-4d2f2320cda8",
+  "shots": [
+    {
+      "image_prompt": "In a cozy living room, rendered in a whimsical storybook illustration style with soft, dreamy lighting and painterly textures, a sleek and agile adult housecat named Whiskers paces restlessly by a sunlit window, his bright, curious emerald green eyes gazing outward, his long, sensitive whiskers twitching with each step, and his tail twitching with boredom as he moves, set against the backdrop of a plush, warm-toned sofa and a potted houseplant, with a mundane backyard visible through the window, featuring green grass, a simple wooden fence, and a few common garden bushes under a clear, gentle sky, captured in a medium close-up shot.",
+      "video_motion_prompt": "Whiskers' restless pacing moves from left to right across the frame as the camera pans to follow him, capturing his subtle movements and twitching tail over the 2-second duration.",
+      "scene_id": 1,
+      "shot_id": 1,
+      "duration_seconds": 2,
+      "generated_at": "2026-07-16T16:19:12.727010"
+    },
+    {
+      "image_prompt": "In a whimsical storybook illustration style, a sleek and agile adult housecat with a soft, short-haired ginger fur coat, adorned with subtle tabby stripes and creamy white paws, sits on a windowsill, looking out at a mundane backyard with green grass, a simple wooden fence, and a few common garden bushes under a clear, gentle sky. His expressive face features bright, curious emerald green eyes and long, sensitive whiskers, often framed by alert, pointed ears, and he carries a perpetually curious expression, with his head slightly tilted as if in deep thought or wonder. The scene is lit by soft, dreamy sunlight streaming through the window, illuminating a plush, warm-toned sofa and a potted houseplant in the cozy living room behind him, with the camera viewing the scene from over-the-shoulder, capturing the cat's fascinated gaze out the window.",
+      "video_motion_prompt": "The camera remains static, with only Whiskers' eyes moving slightly as he takes in the view of the backyard, his ears perked up with interest.",
+      "scene_id": 1,
+      "shot_id": 2,
+      "duration_seconds": 1,
+      "generated_at": "2026-07-16T16:19:13.764609"
+    },
+    {
+      "image_prompt": "A whimsical storybook illustration of a cozy living room, with sunlight streaming through a large window to illuminate a plush, warm-toned sofa and a potted houseplant, as seen from the point of view of Whiskers, looking out into a mundane backyard featuring green grass, a simple weathered wooden fence, and a few common garden bushes under a clear, gentle sky.",
+      "video_motion_prompt": "The camera remains static for 2 seconds, capturing the serene view of the backyard from Whiskers' point of view.",
+      "scene_id": 1,
+      "shot_id": 3,
+      "duration_seconds": 2,
+      "generated_at": "2026-07-16T16:19:41.705151"
+    },
+    {
+      "image_prompt": "In a whimsical storybook illustration style, with soft, dreamy lighting and painterly textures, a sleek and agile adult housecat named Whiskers stands amidst an overgrown patch of lush green bushes and thick ivy near a weathered wooden fence, his bright, curious emerald green eyes sparkling with a perpetually curious expression, his long, sensitive whiskers twitching as his alert, pointed ears perk up, his head cocked slightly to one side as if sensing something, his soft, short-haired ginger fur coat and creamy white paws a vibrant contrast to the dappled shadows and lush foliage, captured in a medium shot with a static camera.",
+      "video_motion_prompt": "Whiskers' ears perk up, and his head tilts slightly, as the camera remains still for 2 seconds, capturing the moment of curiosity.",
+      "scene_id": 2,
+      "shot_id": 1,
+      "duration_seconds": 2,
+      "generated_at": "2026-07-16T16:19:42.635092"
+    },
+    {
+      "image_prompt": "In a whimsical storybook illustration style, an extreme close-up of an overgrown patch of lush green bushes and thick ivy near an old, weathered wooden fence, with dappled sunlight filtering through the leaves, highlighting the texture of the foliage, and a faint, unusual shimmer along with a soft, mysterious glow emerging from the dense foliage, as if secrets are hidden within its unruly growth.",
+      "video_motion_prompt": "The camera zooms in over 3 seconds, drawing closer to the source of the faint shimmer and soft glow emanating from the dense foliage.",
+      "scene_id": 2,
+      "shot_id": 2,
+      "duration_seconds": 3,
+      "generated_at": "2026-07-16T16:19:43.289534"
+    },
+    {
+      "image_prompt": "In a whimsical storybook illustration style, with soft, dreamy lighting and painterly textures, a close-up shot captures Whiskers, a sleek and agile adult housecat, with a soft, short-haired ginger fur coat, subtle tabby stripes, and creamy white paws, his bright, curious emerald green eyes wide with intrigue and wonder, fixed on a glowing light amidst an overgrown, lush green patch of bushes and thick ivy covering an old, weathered wooden fence in a slightly wild backyard, where dappled sunlight filters through the leaves, creating soft shadows and highlighting the texture of the foliage.",
+      "video_motion_prompt": "The camera remains static for 2 seconds, capturing Whiskers' unblinking gaze as his eyes sparkle with curiosity, the only movement being the slight twitch of his whiskers and the gentle sway of the foliage in the breeze.",
+      "scene_id": 2,
+      "shot_id": 3,
+      "duration_seconds": 2,
+      "generated_at": "2026-07-16T16:19:44.237861"
+    },
+    {
+      "image_prompt": "In a whimsical storybook illustration style, Whiskers, a sleek adult housecat with a soft, short-haired ginger fur coat and subtle tabby stripes, and creamy white paws, pads stealthily across the lush green grass, his bright, curious emerald green eyes fixed intently on something ahead, his long, sensitive whiskers twitching with curiosity, as he approaches the dense wall of vibrant green bushes in the backyard, with an old, weathered wooden fence partially obscured by the foliage behind, the scene bathed in soft, dreamy lighting, with the camera positioned at a low angle, looking up at Whiskers as he moves through the frame.",
+      "video_motion_prompt": "Whiskers moves silently across the grass, his paws barely making a sound, as the camera tracks him in a smooth, low-angle motion, keeping pace with his stealthy approach towards the overgrown corner of the backyard over the course of 3 seconds.",
+      "scene_id": 3,
+      "shot_id": 1,
+      "duration_seconds": 3,
+      "generated_at": "2026-07-16T16:19:45.432710"
+    },
+    {
+      "image_prompt": "In a whimsical storybook illustration style with soft, dreamy lighting and painterly textures, a sleek and agile adult housecat named Whiskers, with a soft, short-haired ginger fur coat, subtle tabby stripes, and creamy white paws, peers into a small, hidden gap in a dense wall of vibrant green bushes, her bright, curious emerald green eyes and long, sensitive whiskers leading the way. Her expressive face tilts slightly, conveying deep thought or wonder, as she prepares to nudge her head into the gap, set against the backdrop of an old, weathered wooden fence partially obscured by the foliage, with the camera zoomed in for a close-up view.",
+      "video_motion_prompt": "Whiskers' body wiggles through the narrow gap as she squeezes into the hidden space, the camera remaining static to emphasize her movements.",
+      "scene_id": 3,
+      "shot_id": 2,
+      "duration_seconds": 3,
+      "generated_at": "2026-07-16T16:20:03.788104"
+    },
+    {
+      "image_prompt": "In a whimsical storybook illustration style, a medium shot frames a dense, vibrant green wall of bushes in a backyard, with an old, weathered wooden fence partially obscured behind it, as a gap in the foliage reveals a narrow, dark passage, hinting at what lies beyond, with soft, natural light casting a sense of quiet mystery.",
+      "video_motion_prompt": "The camera pushes in towards the gap in the bushes, slowly revealing the dark passage, over the course of one second.",
+      "scene_id": 3,
+      "shot_id": 3,
+      "duration_seconds": 1,
+      "generated_at": "2026-07-16T16:20:04.443148"
+    },
+    {
+      "image_prompt": "In a whimsical storybook illustration style, a sleek and agile adult housecat named Whiskers with a soft, short-haired ginger fur coat, adorned with subtle tabby stripes and creamy white paws, emerges from a passage into a breathtaking, magical hidden garden filled with fantastical, bioluminescent flowers and lush greenery, bathed in the soft glow of twilight. His expressive face features bright, curious emerald green eyes and long, sensitive whiskers, often framed by alert, pointed ears, and he carries a perpetually curious expression, as if in deep thought or wonder. The garden is dominated by exotic flowers that emit a gentle, ethereal bioluminescence, casting vibrant pastel hues of pinks, blues, and yellows onto the lush, overgrown greenery, with winding paths barely visible amidst the dense, otherworldly plants and soft, glowing moss, all captured in a wide shot.",
+      "video_motion_prompt": "As Whiskers steps into the garden, the camera dollies out over 4 seconds, revealing the full majesty of the magical garden, with the cat's curious expression and movements drawing the viewer's eye through the serene and otherworldly sanctuary.",
+      "scene_id": 4,
+      "shot_id": 1,
+      "duration_seconds": 4,
+      "generated_at": "2026-07-16T16:20:08.384505"
+    },
+    {
+      "image_prompt": "In a whimsical storybook illustration style, a breathtaking, magical hidden garden comes to life, bathed in the soft glow of twilight, with fantastical, exotic flowers emitting a gentle, ethereal bioluminescence, casting vibrant pastel hues of pinks, blues, and yellows onto the lush, overgrown greenery, as winding paths are barely visible amidst the dense, otherworldly plants and soft, glowing moss, in an establishing shot that showcases the serene and otherworldly sanctuary.",
+      "video_motion_prompt": "The camera cranes over the garden in a smooth, sweeping motion, capturing the vibrant colors and luminescent details of the flowers and greenery as it rises, moving gently over the 4-second duration to reveal the full majesty of the magical hidden garden.",
+      "scene_id": 4,
+      "shot_id": 2,
+      "duration_seconds": 4,
+      "generated_at": "2026-07-16T16:20:12.419487"
+    },
+    {
+      "image_prompt": "In a whimsical storybook illustration style, with soft, dreamy lighting and painterly textures, a sleek and agile adult housecat named Whiskers, with a soft, short-haired ginger fur coat, subtle tabby stripes, and creamy white paws, gently sniffs a glowing, iridescent bloom in a magical, hidden garden filled with fantastical, bioluminescent flowers and lush greenery, where winding paths are barely visible amidst the dense, otherworldly plants and soft, glowing moss. Whiskers' expressive face, featuring bright, curious emerald green eyes and long, sensitive whiskers, is tilted slightly as if in deep thought or wonder, with the bloom's light reflecting in her eyes, as the camera zooms in for a close-up, capturing the serene and enchanting atmosphere of the garden.",
+      "video_motion_prompt": "The camera remains static for 3 seconds, capturing Whiskers' mesmerized expression as she sniffs the bloom, with only her nose and whiskers twitching slightly as she takes in the bloom's gentle, ethereal glow.",
+      "scene_id": 4,
+      "shot_id": 3,
+      "duration_seconds": 3,
+      "generated_at": "2026-07-16T16:20:16.653595"
+    }
+  ],
+  "generated_at": "2026-07-16T16:20:16.653932"
+}

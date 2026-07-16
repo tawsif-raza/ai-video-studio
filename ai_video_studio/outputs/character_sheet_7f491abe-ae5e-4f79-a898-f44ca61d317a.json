@@ -1,0 +1,29 @@
+{
+  "character_profiles": [
+    {
+      "name": "Whiskers",
+      "age_range": "Adult cat",
+      "build": "Sleek and agile housecat physique",
+      "face_details": "Expressive face with bright, curious emerald green eyes and long, sensitive whiskers",
+      "hair": "Soft, short-haired ginger fur with subtle tabby stripes and white paws",
+      "outfit": "None (natural fur coat)",
+      "color_palette": [
+        "Ginger orange",
+        "Creamy white",
+        "Emerald green"
+      ],
+      "distinguishing_features": "Alert, pointed ears and a perpetually curious expression, often with a slightly tilted head, conveying a sense of wonder",
+      "art_style_keywords": [
+        "Whimsical Storybook Illustration",
+        "Soft lighting",
+        "Dreamy quality",
+        "Luminous elements",
+        "Painterly textures"
+      ],
+      "reference_prompt": "Whiskers is a sleek and agile adult housecat with a soft, short-haired ginger fur coat, adorned with subtle tabby stripes and creamy white paws. His expressive face features bright, curious emerald green eyes and long, sensitive whiskers, often framed by alert, pointed ears. He carries a perpetually curious expression, frequently tilting his head slightly as if in deep thought or wonder. The overall art style should be a whimsical storybook illustration, characterized by soft, dreamy lighting, painterly textures, and luminous elements that highlight his adventurous and wondering spirit."
+    }
+  ],
+  "sheet_id": "7f491abe-ae5e-4f79-a898-f44ca61d317a",
+  "source_plan_id": "f6fe9fa0-4d57-419b-840c-3c9b02acd6b4",
+  "generated_at": "2026-07-16T16:18:55.682455"
+}

@@ -1,0 +1,168 @@
+{
+  "scene_plans": [
+    {
+      "scene_id": 1,
+      "shots": [
+        {
+          "shot_id": 1,
+          "camera_angle": "Wide Shot",
+          "camera_movement": "Slow Pan",
+          "description": "Establish the lively, neon-lit rooftop party with robots dancing, while Bolt stands isolated in the dark corner clutching an oil drink.",
+          "characters_in_shot": [
+            "Bolt"
+          ],
+          "duration_seconds": 4
+        },
+        {
+          "shot_id": 2,
+          "camera_angle": "Close-Up",
+          "camera_movement": "Static",
+          "description": "Focus on Bolt's face as his digital eyes flicker nervously, watching the crowd with a mix of longing and anxiety.",
+          "characters_in_shot": [
+            "Bolt"
+          ],
+          "duration_seconds": 4
+        }
+      ]
+    },
+    {
+      "scene_id": 2,
+      "shots": [
+        {
+          "shot_id": 1,
+          "camera_angle": "Medium Shot",
+          "camera_movement": "Tracking Shot",
+          "description": "Spark slides smoothly across the dancefloor with rhythmic, effortless movements, heading directly towards Bolt's corner.",
+          "characters_in_shot": [
+            "Spark"
+          ],
+          "duration_seconds": 4
+        },
+        {
+          "shot_id": 2,
+          "camera_angle": "Over-the-Shoulder",
+          "camera_movement": "Static",
+          "description": "From Bolt's perspective, Spark stops and extends a sleek, metallic hand, gesturing warmly for Bolt to join the dance.",
+          "characters_in_shot": [
+            "Bolt",
+            "Spark"
+          ],
+          "duration_seconds": 3
+        },
+        {
+          "shot_id": 3,
+          "camera_angle": "Medium Close-Up",
+          "camera_movement": "Tilt Up",
+          "description": "Bolt looks down at Spark's extended hand, then up at Spark, hesitating with a mix of surprise and nervous anticipation.",
+          "characters_in_shot": [
+            "Bolt",
+            "Spark"
+          ],
+          "duration_seconds": 3
+        }
+      ]
+    },
+    {
+      "scene_id": 3,
+      "shots": [
+        {
+          "shot_id": 1,
+          "camera_angle": "Medium Full Shot",
+          "camera_movement": "Static",
+          "description": "Bolt attempts to mimic Spark's fluid wave motion, but his limbs clank awkwardly and his gears emit a grinding sound.",
+          "characters_in_shot": [
+            "Bolt",
+            "Spark"
+          ],
+          "duration_seconds": 4
+        },
+        {
+          "shot_id": 2,
+          "camera_angle": "Close-Up",
+          "camera_movement": "Push In",
+          "description": "Bolt's digital screen face blushes a bright, embarrassed neon red as he realizes his own stiffness.",
+          "characters_in_shot": [
+            "Bolt"
+          ],
+          "duration_seconds": 3
+        },
+        {
+          "shot_id": 3,
+          "camera_angle": "Medium Shot",
+          "camera_movement": "Handheld",
+          "description": "Spark laughs warmly and cheers Bolt on, demonstrating a simpler, encouraging bounce to get him back in the groove.",
+          "characters_in_shot": [
+            "Bolt",
+            "Spark"
+          ],
+          "duration_seconds": 3
+        }
+      ]
+    },
+    {
+      "scene_id": 4,
+      "shots": [
+        {
+          "shot_id": 1,
+          "camera_angle": "Low-Angle Medium Shot",
+          "camera_movement": "Push In",
+          "description": "Bolt's feet begin to tap to the heavy bassline, and his head starts to bob rhythmically as he lets go of his anxiety.",
+          "characters_in_shot": [
+            "Bolt"
+          ],
+          "duration_seconds": 3
+        },
+        {
+          "shot_id": 2,
+          "camera_angle": "Medium Shot",
+          "camera_movement": "Orbit",
+          "description": "The camera circles Bolt as his joints visibly loosen, and he executes a charming, perfectly timed robotic spin.",
+          "characters_in_shot": [
+            "Bolt"
+          ],
+          "duration_seconds": 3
+        },
+        {
+          "shot_id": 3,
+          "camera_angle": "Wide Shot",
+          "camera_movement": "Dynamic Pan",
+          "description": "Bolt dances enthusiastically in the center of the rooftop, with Spark grooving right alongside him under the glowing party lights.",
+          "characters_in_shot": [
+            "Bolt",
+            "Spark"
+          ],
+          "duration_seconds": 3
+        }
+      ]
+    },
+    {
+      "scene_id": 5,
+      "shots": [
+        {
+          "shot_id": 1,
+          "camera_angle": "High-Angle Wide Shot",
+          "camera_movement": "Crane Down",
+          "description": "Bolt and Spark strike a synchronized, triumphant final pose as the surrounding crowd of robots erupts into cheers.",
+          "characters_in_shot": [
+            "Bolt",
+            "Spark"
+          ],
+          "duration_seconds": 4
+        },
+        {
+          "shot_id": 2,
+          "camera_angle": "Extreme Close-Up",
+          "camera_movement": "Static",
+          "description": "Bolt's screen interface lights up with vibrant, pulsing heart icons, signaling his complete happiness and triumph.",
+          "characters_in_shot": [
+            "Bolt"
+          ],
+          "duration_seconds": 4
+        }
+      ]
+    }
+  ],
+  "storyboard_id": "99e97b58-578e-405d-a6ca-c18230ed3582",
+  "source_plan_id": "a4d385bc-5bf1-4b34-9ea5-50098d3b9506",
+  "generated_at": "2026-07-11T16:15:32.079712"
+}

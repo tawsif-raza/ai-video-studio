@@ -1,0 +1,230 @@
+{
+  "scene_plans": [
+    {
+      "scene_id": 1,
+      "shots": [
+        {
+          "shot_id": 101,
+          "camera_angle": "Wide Shot",
+          "camera_movement": "Pan Left",
+          "description": "A vibrant rooftop party at sunset, energetic crowd dancing. Sparky enters the frame hesitantly.",
+          "characters_in_shot": [
+            "Sparky"
+          ],
+          "duration_seconds": 3
+        },
+        {
+          "shot_id": 102,
+          "camera_angle": "Medium Shot",
+          "camera_movement": "Static",
+          "description": "Sparky stands at the edge of the dance floor, looking overwhelmed by the lively atmosphere.",
+          "characters_in_shot": [
+            "Sparky"
+          ],
+          "duration_seconds": 2
+        },
+        {
+          "shot_id": 103,
+          "camera_angle": "Close-up",
+          "camera_movement": "Static",
+          "description": "Focus on Sparky's 'face' or optical sensors, showing curiosity mixed with hesitation.",
+          "characters_in_shot": [
+            "Sparky"
+          ],
+          "duration_seconds": 2
+        }
+      ]
+    },
+    {
+      "scene_id": 2,
+      "shots": [
+        {
+          "shot_id": 201,
+          "camera_angle": "Medium Shot",
+          "camera_movement": "Dolly In",
+          "description": "Sparky at the edge of the dance floor, observing various people dancing with longing.",
+          "characters_in_shot": [
+            "Sparky"
+          ],
+          "duration_seconds": 3
+        },
+        {
+          "shot_id": 202,
+          "camera_angle": "Sparky's POV",
+          "camera_movement": "Pan Left-Right",
+          "description": "Quick cuts showing different dancers, then a shot of DJ Beat energetically mixing music.",
+          "characters_in_shot": [
+            "DJ Beat"
+          ],
+          "duration_seconds": 2
+        },
+        {
+          "shot_id": 203,
+          "camera_angle": "Close-up",
+          "camera_movement": "Static",
+          "description": "Sparky's head slightly mimicking a dance move, but its body remains still, conveying shyness.",
+          "characters_in_shot": [
+            "Sparky"
+          ],
+          "duration_seconds": 2
+        },
+        {
+          "shot_id": 204,
+          "camera_angle": "Wide Shot",
+          "camera_movement": "Crane Up",
+          "description": "Sparky looking small and out of place amidst the vibrant, moving crowd.",
+          "characters_in_shot": [
+            "Sparky",
+            "DJ Beat"
+          ],
+          "duration_seconds": 2
+        }
+      ]
+    },
+    {
+      "scene_id": 3,
+      "shots": [
+        {
+          "shot_id": 301,
+          "camera_angle": "Over-the-Shoulder (Maya)",
+          "camera_movement": "Static",
+          "description": "Maya notices Sparky standing alone at the edge of the party.",
+          "characters_in_shot": [
+            "Maya",
+            "Sparky"
+          ],
+          "duration_seconds": 2
+        },
+        {
+          "shot_id": 302,
+          "camera_angle": "Close-up",
+          "camera_movement": "Static",
+          "description": "Maya smiles warmly, extending a hand towards Sparky in invitation.",
+          "characters_in_shot": [
+            "Maya"
+          ],
+          "duration_seconds": 2
+        },
+        {
+          "shot_id": 303,
+          "camera_angle": "Sparky's POV",
+          "camera_movement": "Static",
+          "description": "Sparky sees Maya's inviting gesture, a glimmer of hope in its optical sensors.",
+          "characters_in_shot": [
+            "Maya"
+          ],
+          "duration_seconds": 2
+        },
+        {
+          "shot_id": 304,
+          "camera_angle": "Two-Shot",
+          "camera_movement": "Dolly In",
+          "description": "Maya encourages Sparky with a nod, Sparky hesitates then takes a small step forward.",
+          "characters_in_shot": [
+            "Sparky",
+            "Maya"
+          ],
+          "duration_seconds": 4
+        }
+      ]
+    },
+    {
+      "scene_id": 4,
+      "shots": [
+        {
+          "shot_id": 401,
+          "camera_angle": "Medium Shot",
+          "camera_movement": "Static",
+          "description": "Sparky attempts a few stiff, robotic dance moves, feeling self-conscious but determined.",
+          "characters_in_shot": [
+            "Sparky",
+            "Maya"
+          ],
+          "duration_seconds": 3
+        },
+        {
+          "shot_id": 402,
+          "camera_angle": "Low Angle",
+          "camera_movement": "Tracking",
+          "description": "Focus on Sparky's awkward but determined footwork and arm movements.",
+          "characters_in_shot": [
+            "Sparky"
+          ],
+          "duration_seconds": 3
+        },
+        {
+          "shot_id": 403,
+          "camera_angle": "Close-up",
+          "camera_movement": "Static",
+          "description": "Maya's face, smiling encouragingly and clapping for Sparky.",
+          "characters_in_shot": [
+            "Maya"
+          ],
+          "duration_seconds": 1
+        },
+        {
+          "shot_id": 404,
+          "camera_angle": "Full Shot",
+          "camera_movement": "Static",
+          "description": "Sparky continues its awkward dance, Maya cheering it on from nearby.",
+          "characters_in_shot": [
+            "Sparky",
+            "Maya"
+          ],
+          "duration_seconds": 2
+        }
+      ]
+    },
+    {
+      "scene_id": 5,
+      "shots": [
+        {
+          "shot_id": 501,
+          "camera_angle": "Medium Shot",
+          "camera_movement": "Zoom Out",
+          "description": "Sparky's movements suddenly become fluid and joyful, a transformation in its dance style.",
+          "characters_in_shot": [
+            "Sparky"
+          ],
+          "duration_seconds": 3
+        },
+        {
+          "shot_id": 502,
+          "camera_angle": "Wide Shot",
+          "camera_movement": "Dolly Out",
+          "description": "Maya joins Sparky, and other partygoers are drawn in, dancing with them.",
+          "characters_in_shot": [
+            "Sparky",
+            "Maya"
+          ],
+          "duration_seconds": 3
+        },
+        {
+          "shot_id": 503,
+          "camera_angle": "Close-up",
+          "camera_movement": "Static",
+          "description": "Sparky's 'face' glowing with pure joy and triumph as it grooves.",
+          "characters_in_shot": [
+            "Sparky"
+          ],
+          "duration_seconds": 2
+        },
+        {
+          "shot_id": 504,
+          "camera_angle": "Crane Shot",
+          "camera_movement": "Crane Up",
+          "description": "A sweeping shot over the dance floor, showing Sparky at the heart of an ecstatic celebration, DJ Beat smiling in the background.",
+          "characters_in_shot": [
+            "Sparky",
+            "Maya",
+            "DJ Beat"
+          ],
+          "duration_seconds": 2
+        }
+      ]
+    }
+  ],
+  "storyboard_id": "0cc7973e-d94b-433e-a876-f702cf64f889",
+  "source_plan_id": "f79223a7-bacd-4f5d-b5b8-d36c8627c710",
+  "generated_at": "2026-07-12T16:57:46.842846"
+}

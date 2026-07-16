@@ -1,0 +1,127 @@
+{
+  "environment_profiles": [
+    {
+      "setting": "A cozy living room, looking out a window into a mundane backyard.",
+      "time_of_day": "Late Afternoon",
+      "weather": "Clear and mild",
+      "key_visual_elements": [
+        "Warm, inviting sofa",
+        "Soft rug",
+        "Potted houseplant",
+        "Large window with sheer curtains",
+        "Ordinary green lawn",
+        "Simple wooden fence",
+        "Common garden bushes"
+      ],
+      "color_palette": [
+        "Warm beiges",
+        "Muted greens",
+        "Soft browns",
+        "Pale blues",
+        "Standard lawn green"
+      ],
+      "lighting": "Soft, natural sunlight streaming through the window, creating a warm indoor glow.",
+      "atmosphere": "Peaceful, domestic, slightly contemplative, with a subtle hint of the outside world.",
+      "art_style_keywords": [
+        "Whimsical storybook illustration",
+        "Digital painting",
+        "Soft focus",
+        "Enchanting fantasy",
+        "Warm and inviting",
+        "Detailed interior"
+      ],
+      "reference_prompt": "A cozy, inviting living room rendered in a whimsical storybook illustration style. Sunlight streams through a large window, illuminating a plush, warm-toned sofa and a potted houseplant. Through the window, a perfectly mundane, ordinary backyard is visible, featuring green grass, a simple wooden fence, and a few common garden bushes under a clear, gentle sky. The overall impression is one of domestic comfort with a subtle hint of the outside world beckoning."
+    },
+    {
+      "setting": "The backyard, focusing on an overgrown patch of bushes and ivy near a fence.",
+      "time_of_day": "Late Afternoon",
+      "weather": "Clear and mild",
+      "key_visual_elements": [
+        "Dense, overgrown green bushes",
+        "Thick ivy climbing and covering a section",
+        "Old, weathered wooden fence",
+        "Patches of slightly wild grass",
+        "Subtle hint of a hidden space"
+      ],
+      "color_palette": [
+        "Rich emerald greens",
+        "Deep forest greens",
+        "Earthy browns",
+        "Muted grays of weathered wood"
+      ],
+      "lighting": "Soft, dappled sunlight filtering through the dense foliage, creating gentle shadows and highlights.",
+      "atmosphere": "Slightly wild, neglected, mysterious, hinting at hidden potential or secrets.",
+      "art_style_keywords": [
+        "Whimsical storybook illustration",
+        "Digital painting",
+        "Soft focus",
+        "Enchanting fantasy",
+        "Lush foliage",
+        "Natural light",
+        "Overgrown"
+      ],
+      "reference_prompt": "An overgrown, slightly wild backyard rendered in a whimsical storybook illustration style. The focus is on a dense patch of lush green bushes and thick ivy aggressively climbing and covering an old, weathered wooden fence. Dappled sunlight filters through the leaves, creating soft shadows and highlighting the texture of the foliage. The scene suggests a neglected corner, hinting at secrets or hidden paths within its unruly growth, maintaining an enchanting and slightly mysterious atmosphere."
+    },
+    {
+      "setting": "A dense wall of bushes and an old wooden fence in the backyard.",
+      "time_of_day": "Late Afternoon",
+      "weather": "Clear and mild",
+      "key_visual_elements": [
+        "Impenetrable wall of thick green bushes",
+        "Weathered, aged wooden fence",
+        "No clear visible path or opening",
+        "Hint of depth or an unseen space beyond"
+      ],
+      "color_palette": [
+        "Deep greens",
+        "Varied shades of brown",
+        "Muted grays"
+      ],
+      "lighting": "Soft, even natural light, with subtle shading to emphasize the density of the foliage.",
+      "atmosphere": "Impenetrable, mysterious, a barrier, a threshold to something unknown.",
+      "art_style_keywords": [
+        "Whimsical storybook illustration",
+        "Digital painting",
+        "Soft focus",
+        "Enchanting fantasy",
+        "Dense foliage",
+        "Natural textures",
+        "Barrier"
+      ],
+      "reference_prompt": "A thick, dense wall of vibrant green bushes stands prominently in a backyard setting, rendered in a whimsical storybook illustration style. Behind and partially obscured by the foliage, an old, weathered wooden fence runs along the perimeter, its planks showing signs of age. The bushes are so tightly packed they appear almost impenetrable, forming a natural barrier that suggests a hidden world or an unseen space beyond, imbued with a soft, natural light and a sense of quiet mystery."
+    },
+    {
+      "setting": "A magical, hidden garden filled with fantastical, bioluminescent flowers and lush greenery.",
+      "time_of_day": "Twilight/Night",
+      "weather": "Still and clear",
+      "key_visual_elements": [
+        "Exotic, fantastical flowers glowing internally",
+        "Lush, vibrant, alien-like plants and foliage",
+        "Soft, glowing moss",
+        "Subtle winding paths",
+        "Mystical elements in the flora"
+      ],
+      "color_palette": [
+        "Rich jewel tones (deep blues, purples, emeralds)",
+        "Glowing pastels (pinks, soft yellows, light blues, ethereal whites) from bioluminescence",
+        "Dark, mystical greens and browns"
+      ],
+      "lighting": "Primarily emanating from the bioluminescent flowers and plants, creating a soft, ethereal glow with deep, magical shadows.",
+      "atmosphere": "Magical, wondrous, ethereal, peaceful, enchanting, otherworldly.",
+      "art_style_keywords": [
+        "Whimsical storybook illustration",
+        "Digital painting",
+        "Soft focus",
+        "Enchanting fantasy",
+        "Bioluminescent",
+        "Magical realism",
+        "Glowing",
+        "Mystical"
+      ],
+      "reference_prompt": "A breathtaking, magical hidden garden comes to life in a whimsical storybook illustration style, bathed in the soft glow of twilight. The scene is dominated by fantastical, exotic flowers that emit a gentle, ethereal bioluminescence, casting vibrant pastel hues of pinks, blues, and yellows onto the lush, overgrown greenery. Winding paths are barely visible amidst the dense, otherworldly plants and soft, glowing moss. The overall atmosphere is one of profound wonder and enchantment, creating a serene and otherworldly sanctuary where every element seems to hum with quiet magic."
+    }
+  ],
+  "sheet_id": "6eaac129-787e-4564-9057-c790884e0c19",
+  "source_plan_id": "f6fe9fa0-4d57-419b-840c-3c9b02acd6b4",
+  "generated_at": "2026-07-16T16:19:09.902920"
+}

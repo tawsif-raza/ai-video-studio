@@ -1,0 +1,91 @@
+{
+  "title": "Unit's First Groove",
+  "logline": "A shy robot named Unit overcomes their social anxiety to find joy and connection on a vibrant rooftop dance floor.",
+  "theme": "Overcoming shyness, the power of encouragement, finding your own rhythm.",
+  "target_duration_seconds": 45,
+  "tone": "Uplifting, heartwarming, energetic",
+  "characters": [
+    {
+      "name": "Unit",
+      "role": "Protagonist",
+      "one_line_description": "A small, somewhat boxy robot with expressive optical sensors, initially very shy and hesitant."
+    },
+    {
+      "name": "Spark",
+      "role": "Mentor/Friend",
+      "one_line_description": "A sleek, energetic robot with flashing lights, friendly and encouraging, a natural dancer."
+    },
+    {
+      "name": "Party-Goers",
+      "role": "Background",
+      "one_line_description": "A diverse group of robots of all shapes and sizes, enjoying the party and dancing."
+    }
+  ],
+  "scenes": [
+    {
+      "scene_id": 1,
+      "title": "The Edge of the Party",
+      "summary": "Unit stands awkwardly at the edge of a bustling rooftop party, watching other robots dance with longing and apprehension.",
+      "setting": "A vibrant rooftop party at dusk, neon lights, upbeat electronic music.",
+      "mood": "Awkward, longing, hesitant",
+      "characters_present": [
+        "Unit",
+        "Party-Goers"
+      ],
+      "estimated_duration_seconds": 7
+    },
+    {
+      "scene_id": 2,
+      "title": "An Invitation to Dance",
+      "summary": "Spark, noticing Unit's shyness, approaches with a friendly gesture and encourages them to join the dance floor.",
+      "setting": "Still at the edge of the rooftop party, closer to the main dance area.",
+      "mood": "Encouraging, tentative",
+      "characters_present": [
+        "Unit",
+        "Spark"
+      ],
+      "estimated_duration_seconds": 8
+    },
+    {
+      "scene_id": 3,
+      "title": "First Hesitant Steps",
+      "summary": "Spark gently guides Unit through some simple dance moves, Unit is stiff and self-conscious, but tries.",
+      "setting": "A slightly less crowded spot on the dance floor.",
+      "mood": "Supportive, clumsy, hopeful",
+      "characters_present": [
+        "Unit",
+        "Spark"
+      ],
+      "estimated_duration_seconds": 10
+    },
+    {
+      "scene_id": 4,
+      "title": "Finding the Rhythm",
+      "summary": "Unit starts to loosen up, their movements becoming more fluid and unique, finding their own charming, robotic style. Other Party-Goers notice and smile.",
+      "setting": "The center of the dance floor, more energetic.",
+      "mood": "Liberating, joyful, unique",
+      "characters_present": [
+        "Unit",
+        "Spark",
+        "Party-Goers"
+      ],
+      "estimated_duration_seconds": 12
+    },
+    {
+      "scene_id": 5,
+      "title": "Dancing Freely",
+      "summary": "Unit is now fully immersed, dancing with unbridled joy, surrounded by appreciative Party-Goers. Spark claps enthusiastically.",
+      "setting": "The peak of the rooftop party, glowing with energy.",
+      "mood": "Triumphant, ecstatic, communal",
+      "characters_present": [
+        "Unit",
+        "Spark",
+        "Party-Goers"
+      ],
+      "estimated_duration_seconds": 8
+    }
+  ],
+  "plan_id": "4df3911d-15b2-49c4-aa15-c475dbd12114",
+  "source_idea": "A shy robot learns to dance at a rooftop party",
+  "generated_at": "2026-07-14T15:59:24.788858"
+}

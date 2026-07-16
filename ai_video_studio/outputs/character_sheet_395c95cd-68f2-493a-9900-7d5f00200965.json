@@ -1,0 +1,72 @@
+{
+  "character_profiles": [
+    {
+      "name": "Unit",
+      "age_range": "N/A",
+      "build": "Small, compact, somewhat boxy with rounded edges.",
+      "face_details": "Large, expressive optical sensors that glow softly, conveying shyness and curiosity; no mouth or nose.",
+      "hair": "N/A",
+      "outfit": "Smooth, integrated metallic chassis in a muted tone, with subtle panel lines and a gentle sheen.",
+      "color_palette": [
+        "muted blue-gray",
+        "soft cream",
+        "subtle metallic sheen"
+      ],
+      "distinguishing_features": "Distinctly boxy body, large and highly expressive optical sensors, slightly hunched posture indicating shyness.",
+      "art_style_keywords": [
+        "3D animated",
+        "Pixar style",
+        "warm realistic lighting",
+        "semi-stylized"
+      ],
+      "reference_prompt": "A small, compact, and somewhat boxy robot with a smooth, integrated metallic chassis in a muted blue-gray color. The robot features large, expressive optical sensors that glow softly with a cream color, conveying a shy and hesitant personality. Its body has gently rounded edges and subtle panel lines, giving it a friendly yet unassuming appearance. The overall aesthetic is 3D animated with warm, realistic lighting, in a semi-stylized Pixar style."
+    },
+    {
+      "name": "Spark",
+      "age_range": "N/A",
+      "build": "Sleek, agile, and dynamically proportioned, slightly taller than Unit.",
+      "face_details": "A friendly, illuminated visor or integrated screen that displays simple, encouraging expressions; no mouth or nose.",
+      "hair": "N/A",
+      "outfit": "Polished, aerodynamic metallic chassis, often with integrated, vibrant flashing lights along limbs or torso.",
+      "color_palette": [
+        "polished silver",
+        "electric blue",
+        "vibrant magenta",
+        "warm yellow"
+      ],
+      "distinguishing_features": "Aerodynamic and sleek design, integrated flashing lights that change color, dynamic and open posture, conveying energy and friendliness.",
+      "art_style_keywords": [
+        "3D animated",
+        "Pixar style",
+        "warm realistic lighting",
+        "semi-stylized"
+      ],
+      "reference_prompt": "A sleek, agile, and dynamically proportioned robot with a polished silver metallic chassis. Integrated along its limbs and torso are vibrant, flashing lights that cycle through electric blue, magenta, and warm yellow, emphasizing its energetic and friendly nature. Its 'face' is an illuminated visor or screen displaying simple, encouraging expressions. The robot has an open, confident posture, captured in a 3D animated style with warm, realistic lighting, and a semi-stylized Pixar aesthetic."
+    },
+    {
+      "name": "Party-Goers",
+      "age_range": "N/A",
+      "build": "A diverse group of robots, varying widely in shapes (round, tall, multi-limbed) and sizes.",
+      "face_details": "Varied optical sensors, screens, or simple indicator lights, all conveying joy, engagement, and excitement; no mouths or noses.",
+      "hair": "N/A",
+      "outfit": "Integrated chassis designs, varying in color and form, some with subtle party-themed adornments or glowing elements.",
+      "color_palette": [
+        "wide range of metallic hues",
+        "bright primary colors",
+        "neon accents",
+        "glowing elements"
+      ],
+      "distinguishing_features": "Extreme diversity in robot forms, lively and expressive body language, integrated lights and screens displaying festive animations or colors, creating a vibrant crowd.",
+      "art_style_keywords": [
+        "3D animated",
+        "Pixar style",
+        "warm realistic lighting",
+        "semi-stylized"
+      ],
+      "reference_prompt": "A diverse group of robots of various shapes and sizes, including round, tall, multi-limbed, and unique designs, all integrated with unique chassis in a wide range of vibrant metallic hues and bright primary colors. Their optical sensors, screens, or indicator lights glow with neon accents and festive animations, clearly conveying joy and excitement as they dance. Each robot displays lively body language and expressive postures, creating an energetic crowd scene, all rendered in a 3D animated style with warm, realistic lighting, and a semi-stylized Pixar aesthetic."
+    }
+  ],
+  "sheet_id": "395c95cd-68f2-493a-9900-7d5f00200965",
+  "source_plan_id": "4df3911d-15b2-49c4-aa15-c475dbd12114",
+  "generated_at": "2026-07-14T15:59:52.808634"
+}

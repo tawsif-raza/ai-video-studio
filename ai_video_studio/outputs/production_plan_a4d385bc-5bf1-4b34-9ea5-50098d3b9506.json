@@ -1,0 +1,83 @@
+{
+  "title": "The Rooftop Groove",
+  "logline": "A shy robot overcomes its stiff programming and finds its rhythm at a lively neon rooftop party.",
+  "theme": "Overcoming social anxiety and finding joy in self-expression.",
+  "target_duration_seconds": 45,
+  "tone": "Heartwarming, energetic, and uplifting",
+  "characters": [
+    {
+      "name": "Bolt",
+      "role": "Protagonist",
+      "one_line_description": "A small, retro-styled robot with expressive LED eyes who is incredibly shy."
+    },
+    {
+      "name": "Spark",
+      "role": "Supporting Character",
+      "one_line_description": "A sleek, modern, and charismatic dancer robot covered in glowing neon lines."
+    }
+  ],
+  "scenes": [
+    {
+      "scene_id": 1,
+      "title": "Wallflower in the Corner",
+      "summary": "Bolt stands alone at the edge of a bustling, neon-lit rooftop party, clutching a oil drink, watching others dance with nervous, flickering eyes.",
+      "setting": "Neon-lit futuristic rooftop party at night",
+      "mood": "Anxious and lonely",
+      "characters_present": [
+        "Bolt"
+      ],
+      "estimated_duration_seconds": 8
+    },
+    {
+      "scene_id": 2,
+      "title": "The Invitation",
+      "summary": "Spark spots Bolt, slides over with smooth, rhythmic steps, and extends a metallic hand, gesturing for Bolt to join the dancefloor.",
+      "setting": "Rooftop dancefloor under glowing string lights",
+      "mood": "Welcoming and energetic",
+      "characters_present": [
+        "Bolt",
+        "Spark"
+      ],
+      "estimated_duration_seconds": 10
+    },
+    {
+      "scene_id": 3,
+      "title": "Stiff Joints",
+      "summary": "Bolt tries to mimic Spark's fluid wave motion but clanks awkwardly, gears grinding. Bolt's screen turns a blushing red, but Spark cheers him on.",
+      "setting": "Rooftop dancefloor",
+      "mood": "Humorous yet encouraging",
+      "characters_present": [
+        "Bolt",
+        "Spark"
+      ],
+      "estimated_duration_seconds": 10
+    },
+    {
+      "scene_id": 4,
+      "title": "Finding the Beat",
+      "summary": "Bolt lets go of the fear, starting to bob his head and tap his feet to the bass. His joints loosen as he executes a charming, robotic spin.",
+      "setting": "Center of the rooftop dancefloor",
+      "mood": "Joyful and liberating",
+      "characters_present": [
+        "Bolt",
+        "Spark"
+      ],
+      "estimated_duration_seconds": 9
+    },
+    {
+      "scene_id": 5,
+      "title": "The Grand Finale",
+      "summary": "Bolt and Spark perform a synchronized pose as the crowd of robots cheers. Bolt's LED eyes light up with bright, happy hearts.",
+      "setting": "Center of the rooftop dancefloor",
+      "mood": "Exhilarating and triumphant",
+      "characters_present": [
+        "Bolt",
+        "Spark"
+      ],
+      "estimated_duration_seconds": 8
+    }
+  ],
+  "plan_id": "a4d385bc-5bf1-4b34-9ea5-50098d3b9506",
+  "source_idea": "A shy robot learns to dance at a rooftop party",
+  "generated_at": "2026-07-11T16:15:14.055396"
+}

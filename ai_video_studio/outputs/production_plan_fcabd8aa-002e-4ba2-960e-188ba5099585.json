@@ -1,0 +1,92 @@
+{
+  "title": "The Artistic Algorithm",
+  "logline": "A precision-focused service robot discovers the joy and challenge of painting, transforming from a mere machine into a budding artist.",
+  "theme": "Discovery, creativity, breaking free from programmed limits, the potential for artificial intelligence to find purpose beyond its initial design.",
+  "target_duration_seconds": 60,
+  "tone": "Inspirational, heartwarming, light-hearted",
+  "characters": [
+    {
+      "name": "Unit 734",
+      "role": "The Robot",
+      "one_line_description": "A sleek, multi-limbed service robot designed for precision tasks, who develops an unexpected interest in art."
+    },
+    {
+      "name": "Dr. Aris Thorne",
+      "role": "The Scientist",
+      "one_line_description": "A kind and observant robotics engineer, Unit 734's creator, who encourages its artistic exploration."
+    }
+  ],
+  "scenes": [
+    {
+      "scene_id": 1,
+      "title": "Precision Perfected",
+      "summary": "Unit 734 flawlessly sorts intricate components in a clean lab, showcasing its mechanical efficiency but lack of emotion.",
+      "setting": "A sterile, high-tech robotics lab",
+      "mood": "Clinical, efficient, slightly monotonous",
+      "characters_present": [
+        "Unit 734"
+      ],
+      "estimated_duration_seconds": 8
+    },
+    {
+      "scene_id": 2,
+      "title": "A Glimpse of Color",
+      "summary": "Unit 734 pauses its work, its optical sensors focusing on a vibrant abstract painting hanging on Dr. Thorne's office wall, a flicker of curiosity in its programming.",
+      "setting": "Robotics lab, looking into Dr. Thorne's adjacent office",
+      "mood": "Curious, contemplative, awakening",
+      "characters_present": [
+        "Unit 734"
+      ],
+      "estimated_duration_seconds": 10
+    },
+    {
+      "scene_id": 3,
+      "title": "First Brushstrokes",
+      "summary": "Unit 734, with clumsy but determined movements, attempts to paint on a canvas, splattering paint and creating abstract smudges, while Dr. Thorne watches with a gentle smile.",
+      "setting": "A makeshift art corner in the lab, covered in tarps",
+      "mood": "Humorous, experimental, endearing",
+      "characters_present": [
+        "Unit 734",
+        "Dr. Aris Thorne"
+      ],
+      "estimated_duration_seconds": 12
+    },
+    {
+      "scene_id": 4,
+      "title": "Learning the Art",
+      "summary": "A montage shows Unit 734 practicing: watching art tutorials on a screen, meticulously mixing colors, experimenting with different brush techniques, its movements becoming more fluid and deliberate.",
+      "setting": "The art corner, various screens displaying art lessons",
+      "mood": "Dedicated, focused, progressive",
+      "characters_present": [
+        "Unit 734"
+      ],
+      "estimated_duration_seconds": 15
+    },
+    {
+      "scene_id": 5,
+      "title": "The Creative Spark",
+      "summary": "Unit 734 works intently, its optical sensors glowing softly, as it begins to produce coherent, expressive strokes, a genuine artistic vision emerging on the canvas.",
+      "setting": "The art corner, close-up on the evolving artwork",
+      "mood": "Intense, inspired, triumphant",
+      "characters_present": [
+        "Unit 734"
+      ],
+      "estimated_duration_seconds": 8
+    },
+    {
+      "scene_id": 6,
+      "title": "Masterpiece Unveiled",
+      "summary": "Unit 734 proudly displays its finished painting – a vibrant, unique piece that subtly incorporates elements of its mechanical past with organic forms. Dr. Thorne looks on, genuinely impressed and moved.",
+      "setting": "The lab, with the painting prominently displayed",
+      "mood": "Accomplished, proud, emotional",
+      "characters_present": [
+        "Unit 734",
+        "Dr. Aris Thorne"
+      ],
+      "estimated_duration_seconds": 7
+    }
+  ],
+  "plan_id": "fcabd8aa-002e-4ba2-960e-188ba5099585",
+  "source_idea": "A robot learns to paint",
+  "generated_at": "2026-07-10T17:39:42.712836"
+}

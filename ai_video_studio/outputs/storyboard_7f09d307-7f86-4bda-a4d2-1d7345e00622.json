@@ -1,0 +1,169 @@
+{
+  "scene_plans": [
+    {
+      "scene_id": 1,
+      "shots": [
+        {
+          "shot_id": 1,
+          "camera_angle": "Wide Shot",
+          "camera_movement": "Slow Pan",
+          "description": "Establish the glittering neon rooftop party, panning past dancing silhouettes to reveal Spark hiding behind a large potted palm.",
+          "characters_in_shot": [
+            "Spark"
+          ],
+          "duration_seconds": 4
+        },
+        {
+          "shot_id": 2,
+          "camera_angle": "Close-up",
+          "camera_movement": "Static",
+          "description": "Spark's glowing optical sensors flicker nervously behind the palm leaves, capturing its anxious yet longing expression.",
+          "characters_in_shot": [
+            "Spark"
+          ],
+          "duration_seconds": 4
+        }
+      ]
+    },
+    {
+      "scene_id": 2,
+      "shots": [
+        {
+          "shot_id": 1,
+          "camera_angle": "Medium Shot",
+          "camera_movement": "Tracking",
+          "description": "Nova notices Spark and slides smoothly across the dance floor toward the shadows with effortless grace.",
+          "characters_in_shot": [
+            "Nova"
+          ],
+          "duration_seconds": 4
+        },
+        {
+          "shot_id": 2,
+          "camera_angle": "Low Angle",
+          "camera_movement": "Push In",
+          "description": "Nova stops in front of Spark, offering a warm, charismatic grin and extending an inviting hand.",
+          "characters_in_shot": [
+            "Nova"
+          ],
+          "duration_seconds": 3
+        },
+        {
+          "shot_id": 3,
+          "camera_angle": "Over-the-shoulder",
+          "camera_movement": "Static",
+          "description": "Looking over Nova's shoulder, Spark shivers with hesitation, looking down at Nova's outstretched hand.",
+          "characters_in_shot": [
+            "Spark",
+            "Nova"
+          ],
+          "duration_seconds": 3
+        }
+      ]
+    },
+    {
+      "scene_id": 3,
+      "shots": [
+        {
+          "shot_id": 1,
+          "camera_angle": "Medium Wide Shot",
+          "camera_movement": "Static",
+          "description": "Spark takes a hesitant step forward onto the edge of the light, trying to mimic Nova's simple side-step.",
+          "characters_in_shot": [
+            "Spark",
+            "Nova"
+          ],
+          "duration_seconds": 3
+        },
+        {
+          "shot_id": 2,
+          "camera_angle": "Extreme Close-up",
+          "camera_movement": "Static",
+          "description": "Focus on Spark's leg joints as rusty gears whirr loudly, struggling to find a smooth motion.",
+          "characters_in_shot": [
+            "Spark"
+          ],
+          "duration_seconds": 3
+        },
+        {
+          "shot_id": 3,
+          "camera_angle": "Medium Close-up",
+          "camera_movement": "Tilt Up",
+          "description": "Nova nods encouragingly, keeping the rhythm easy as Spark attempts the step again with growing hope.",
+          "characters_in_shot": [
+            "Spark",
+            "Nova"
+          ],
+          "duration_seconds": 3
+        }
+      ]
+    },
+    {
+      "scene_id": 4,
+      "shots": [
+        {
+          "shot_id": 1,
+          "camera_angle": "Medium Shot",
+          "camera_movement": "Boom Up",
+          "description": "Nova cheers Spark on enthusiastically. Spark's movement begins to loosen up and align with the beat.",
+          "characters_in_shot": [
+            "Spark",
+            "Nova"
+          ],
+          "duration_seconds": 3
+        },
+        {
+          "shot_id": 2,
+          "camera_angle": "Close-up",
+          "camera_movement": "Static",
+          "description": "Spark's chest panel lights flash in brilliant, vibrant colors, perfectly synchronized with the heavy bass of the music.",
+          "characters_in_shot": [
+            "Spark"
+          ],
+          "duration_seconds": 3
+        },
+        {
+          "shot_id": 3,
+          "camera_angle": "Wide Shot",
+          "camera_movement": "Tracking",
+          "description": "Spark executes a surprisingly fluid spin, ending in a perfect, sharp robotic pop that leaves Nova amazed.",
+          "characters_in_shot": [
+            "Spark",
+            "Nova"
+          ],
+          "duration_seconds": 5
+        }
+      ]
+    },
+    {
+      "scene_id": 5,
+      "shots": [
+        {
+          "shot_id": 1,
+          "camera_angle": "High Angle",
+          "camera_movement": "Zoom Out",
+          "description": "The surrounding crowd claps and cheers in rhythm to Spark's dance as Spark and Nova dominate the center of the terrace.",
+          "characters_in_shot": [
+            "Spark",
+            "Nova"
+          ],
+          "duration_seconds": 4
+        },
+        {
+          "shot_id": 2,
+          "camera_angle": "Low Angle",
+          "camera_movement": "Static",
+          "description": "Spark and Nova strike a final, confident synchronized pose together under the flashing neon lights.",
+          "characters_in_shot": [
+            "Spark",
+            "Nova"
+          ],
+          "duration_seconds": 4
+        }
+      ]
+    }
+  ],
+  "storyboard_id": "7f09d307-7f86-4bda-a4d2-1d7345e00622",
+  "source_plan_id": "b83155be-c403-43d2-9451-30ab0a43aa63",
+  "generated_at": "2026-07-11T17:26:09.743357"
+}

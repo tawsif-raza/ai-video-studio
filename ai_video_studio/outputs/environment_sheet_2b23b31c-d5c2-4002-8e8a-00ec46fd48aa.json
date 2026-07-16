@@ -1,0 +1,63 @@
+{
+  "environment_profiles": [
+    {
+      "setting": "Neon-lit skyscraper rooftop party at night",
+      "time_of_day": "Night",
+      "weather": "Clear, starry night with a light breeze",
+      "key_visual_elements": [
+        "Towering futuristic skyscrapers in the background",
+        "Glowing neon signage in cyan and magenta",
+        "Chic outdoor lounge furniture",
+        "Warm golden string lights draped overhead",
+        "Polished concrete floor reflecting the city lights"
+      ],
+      "color_palette": [
+        "Deep navy blue",
+        "Vibrant magenta",
+        "Electric cyan",
+        "Warm gold"
+      ],
+      "lighting": "Warm realistic lighting with rich volumetric glows and soft neon reflections",
+      "atmosphere": "Lively, energetic, inviting, and magical",
+      "art_style_keywords": [
+        "3D animated",
+        "Pixar style",
+        "Semi-stylized",
+        "Tactile textures",
+        "Volumetric glow"
+      ],
+      "reference_prompt": "A bustling neon-lit skyscraper rooftop party at night, 3D animated Pixar style. In the background, a sprawling futuristic cityscape glows with thousands of soft, warm lights under a clear starry sky. The rooftop is decorated with glowing pink and cyan neon signs, warm golden string lights, and modern glass barriers. Elegant robot and human guests mingle around high-top tables. The atmosphere is vibrant and warm, with rich volumetric lighting casting soft colorful reflections on polished metallic and concrete surfaces."
+    },
+    {
+      "setting": "Rooftop dance floor",
+      "time_of_day": "Night",
+      "weather": "Clear night",
+      "key_visual_elements": [
+        "Interactive LED floor tiles",
+        "DJ booth with glowing holographic wave displays",
+        "Shimmering confetti drifting in the air",
+        "Pulsing stage speakers with integrated ring lights",
+        "Silhouetted crowd of partygoers cheering"
+      ],
+      "color_palette": [
+        "Electric blue",
+        "Hot pink",
+        "Deep violet",
+        "Warm orange"
+      ],
+      "lighting": "Dynamic pulsing spotlights, colorful rim lighting, and glowing floor emission",
+      "atmosphere": "Upbeat, heartwarming, energetic, and celebratory",
+      "art_style_keywords": [
+        "3D animated",
+        "Pixar style",
+        "Dynamic lighting",
+        "Saturated colors",
+        "Semi-stylized"
+      ],
+      "reference_prompt": "An energetic rooftop dance floor at night, 3D animated Pixar style. The floor consists of glowing, interactive LED tiles shifting between electric blue and magenta. In the background, a DJ booth pulses with colorful holographic wave patterns, and a warm-lit crowd of stylized characters cheers. Shimmering confetti drifts through the air, catching the bright pink and orange spotlights. The lighting is warm and dynamic, casting beautiful colorful rim lights on the surroundings, creating an upbeat and magical atmosphere."
+    }
+  ],
+  "sheet_id": "2b23b31c-d5c2-4002-8e8a-00ec46fd48aa",
+  "source_plan_id": "03ca2899-d289-42d6-8ed9-95628c5be95e",
+  "generated_at": "2026-07-11T17:36:47.658884"
+}

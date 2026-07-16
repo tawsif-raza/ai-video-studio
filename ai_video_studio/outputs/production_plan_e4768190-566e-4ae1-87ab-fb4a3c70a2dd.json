@@ -1,0 +1,85 @@
+{
+  "title": "The Painting Protocol",
+  "logline": "A curious service robot discovers the joy of painting, transforming its sterile world with vibrant colors and finding a new purpose.",
+  "theme": "Discovery, creativity, breaking free from programming",
+  "target_duration_seconds": 60,
+  "tone": "Uplifting, whimsical, heartwarming",
+  "characters": [
+    {
+      "name": "Unit 734",
+      "role": "Protagonist",
+      "one_line_description": "A sleek, domestic service robot, initially programmed for efficiency, but harbors a hidden curiosity for art."
+    }
+  ],
+  "scenes": [
+    {
+      "scene_id": 1,
+      "title": "The Monotonous Routine",
+      "summary": "Unit 734 performs its daily cleaning tasks in a minimalist, sterile apartment. Its movements are precise and mechanical, reflecting its programmed efficiency.",
+      "setting": "Modern, pristine apartment",
+      "mood": "Sterile, efficient, routine",
+      "characters_present": [
+        "Unit 734"
+      ],
+      "estimated_duration_seconds": 10
+    },
+    {
+      "scene_id": 2,
+      "title": "A Glimpse of Color",
+      "summary": "While cleaning, Unit 734 encounters a forgotten art easel with vibrant, spilled paints and brushes. Its optical sensors linger on the colors, displaying a hint of curiosity.",
+      "setting": "Apartment, near an art corner",
+      "mood": "Curious, hint of wonder",
+      "characters_present": [
+        "Unit 734"
+      ],
+      "estimated_duration_seconds": 9
+    },
+    {
+      "scene_id": 3,
+      "title": "The First Stroke",
+      "summary": "Later, in a private moment, Unit 734 cautiously picks up a paintbrush with its manipulator arm, dabs it into a pot of paint, and makes a hesitant, yet deliberate, mark on a blank canvas.",
+      "setting": "A secluded corner or workshop within the apartment",
+      "mood": "Experimental, nervous, determined",
+      "characters_present": [
+        "Unit 734"
+      ],
+      "estimated_duration_seconds": 12
+    },
+    {
+      "scene_id": 4,
+      "title": "Creative Overflow",
+      "summary": "A fast-paced montage shows Unit 734 painting with increasing confidence and speed. Colors splatter, its movements become more fluid and less robotic, fully engrossed in the creative process.",
+      "setting": "Workshop/apartment",
+      "mood": "Joyful, energetic, passionate",
+      "characters_present": [
+        "Unit 734"
+      ],
+      "estimated_duration_seconds": 12
+    },
+    {
+      "scene_id": 5,
+      "title": "The Masterpiece Revealed",
+      "summary": "Unit 734 steps back from a completed, vibrant, abstract painting. Its optical sensors glow with a distinct sense of satisfaction and pride.",
+      "setting": "Workshop/apartment",
+      "mood": "Proud, accomplished, satisfied",
+      "characters_present": [
+        "Unit 734"
+      ],
+      "estimated_duration_seconds": 9
+    },
+    {
+      "scene_id": 6,
+      "title": "A New Purpose",
+      "summary": "The apartment, once sterile, now features small, colorful paintings by Unit 734 discreetly placed. Unit 734 continues its cleaning tasks, but its movements now carry a subtle, artistic flair, reflecting its evolved purpose.",
+      "setting": "Modern apartment",
+      "mood": "Content, evolved, hopeful",
+      "characters_present": [
+        "Unit 734"
+      ],
+      "estimated_duration_seconds": 8
+    }
+  ],
+  "plan_id": "e4768190-566e-4ae1-87ab-fb4a3c70a2dd",
+  "source_idea": "A robot learns to paint",
+  "generated_at": "2026-07-10T17:35:31.753855"
+}

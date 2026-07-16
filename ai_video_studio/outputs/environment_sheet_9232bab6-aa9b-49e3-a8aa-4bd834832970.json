@@ -1,0 +1,151 @@
+{
+  "environment_profiles": [
+    {
+      "setting": "A bustling rooftop party at sunset, city lights in the background, upbeat music playing.",
+      "time_of_day": "Sunset",
+      "weather": "Clear, calm evening",
+      "key_visual_elements": [
+        "Rooftop party decor",
+        "String lights",
+        "Diverse robots dancing",
+        "City skyline",
+        "Upbeat music speakers",
+        "Tables with refreshments"
+      ],
+      "color_palette": [
+        "Warm oranges",
+        "Purples",
+        "Deep blues",
+        "Glowing yellows",
+        "Vibrant party colors"
+      ],
+      "lighting": "Golden hour glow transitioning to ambient string lights and city lights, warm realistic lighting.",
+      "atmosphere": "Energetic, lively, welcoming, festive, heartwarming.",
+      "art_style_keywords": [
+        "3D animated",
+        "warm realistic lighting",
+        "semi-stylized like Pixar",
+        "vibrant",
+        "detailed",
+        "futuristic city"
+      ],
+      "reference_prompt": "A wide shot of a bustling rooftop party at sunset, with a vibrant city skyline in the background, its lights just beginning to twinkle. The rooftop is adorned with festive string lights and colorful decorations. Numerous diverse robots are animatedly dancing to upbeat music, with some gathered around tables enjoying refreshments. The overall atmosphere is energetic, lively, and welcoming, bathed in the warm, golden glow of the setting sun, transitioning to the soft illumination of the party lights and distant city. The scene is rendered in a 3D animated, semi-stylized Pixar-like aesthetic with warm realistic lighting."
+    },
+    {
+      "setting": "The edge of the dance floor, surrounded by happy dancers.",
+      "time_of_day": "Early evening",
+      "weather": "Clear, calm evening",
+      "key_visual_elements": [
+        "Edge of a dance floor",
+        "Blurred background of joyous robots dancing",
+        "Party lights",
+        "Potted plants or low barriers"
+      ],
+      "color_palette": [
+        "Pinks",
+        "Purples",
+        "Blues from party lights",
+        "Warm tones on robots",
+        "Muted background colors"
+      ],
+      "lighting": "Dynamic, colorful party lighting (spotlights, string lights) with warm realistic lighting on foreground elements.",
+      "atmosphere": "Lively, joyful, slightly overwhelming but inviting.",
+      "art_style_keywords": [
+        "3D animated",
+        "warm realistic lighting",
+        "semi-stylized like Pixar",
+        "dynamic lighting",
+        "energetic",
+        "bokeh effect"
+      ],
+      "reference_prompt": "A close-up view from the edge of a vibrant rooftop dance floor in the early evening, where the party is in full swing. Happy, diverse robots are dancing energetically all around, creating a blurred, bustling background of movement and joy. Colorful party lights cast dynamic hues across the scene, highlighting the warm, realistic lighting on the robots in the foreground. The atmosphere is lively and inviting, capturing the infectious energy of the celebration. The scene is rendered in a 3D animated, semi-stylized Pixar-like aesthetic with warm realistic lighting."
+    },
+    {
+      "setting": "Amidst the lively party crowd, near Sparky's observation spot.",
+      "time_of_day": "Early evening",
+      "weather": "Clear, calm evening",
+      "key_visual_elements": [
+        "Dense crowd of dancing robots",
+        "Slightly quieter corner or elevated spot (observation spot)",
+        "String lights",
+        "City lights in the distance",
+        "Party decor"
+      ],
+      "color_palette": [
+        "Mixed warm and cool party colors",
+        "Deep blues for night sky",
+        "Glowing yellows"
+      ],
+      "lighting": "Ambient party lighting, colorful spotlights, warm realistic lighting.",
+      "atmosphere": "Immersive, bustling, energetic, slightly overwhelming but full of life.",
+      "art_style_keywords": [
+        "3D animated",
+        "warm realistic lighting",
+        "semi-stylized like Pixar",
+        "crowded",
+        "immersive",
+        "detailed background"
+      ],
+      "reference_prompt": "A perspective from within a lively rooftop party crowd in the early evening, positioned near a subtle observation spot, perhaps a slightly elevated planter or a quiet corner. The scene is packed with diverse robots dancing and mingling, creating a bustling, immersive environment. String lights and colorful party decorations are visible throughout, with distant city lights twinkling under a deep blue sky. The atmosphere is energetic and vibrant, with warm realistic lighting illuminating the crowd amidst the dynamic party glow. The scene is rendered in a 3D animated, semi-stylized Pixar-like aesthetic with warm realistic lighting."
+    },
+    {
+      "setting": "The dance floor, a small space cleared by Maya.",
+      "time_of_day": "Evening",
+      "weather": "Clear, calm evening",
+      "key_visual_elements": [
+        "Small, intimate cleared space on the dance floor",
+        "Ring of encouraging robots",
+        "Focused party lighting on this spot",
+        "Scattered decorations pushed aside"
+      ],
+      "color_palette": [
+        "Focused spotlights (warm whites, soft blues/pinks)",
+        "Surrounding party colors",
+        "Warm metallic tones of robots"
+      ],
+      "lighting": "Focused, brighter lighting on the cleared space, contrasting with the general party ambiance, warm realistic lighting.",
+      "atmosphere": "Supportive, intimate, hopeful, encouraging, uplifting.",
+      "art_style_keywords": [
+        "3D animated",
+        "warm realistic lighting",
+        "semi-stylized like Pixar",
+        "spotlight effect",
+        "intimate",
+        "focused"
+      ],
+      "reference_prompt": "A focused view of a small, intimate space cleared on a vibrant rooftop dance floor in the evening, specifically set aside for a special moment. A supportive ring of diverse robots surrounds this cleared area, their expressions encouraging and kind. Focused party lighting, perhaps a gentle spotlight, illuminates this central spot, distinguishing it from the broader party ambiance. The atmosphere is hopeful, supportive, and slightly intimate amidst the general energy of the party. The scene is rendered in a 3D animated, semi-stylized Pixar-like aesthetic with warm realistic lighting."
+    },
+    {
+      "setting": "The center of the dance floor, everyone celebrating.",
+      "time_of_day": "Evening",
+      "weather": "Clear, calm evening",
+      "key_visual_elements": [
+        "Center of a large, energetic dance floor",
+        "All robots dancing joyously",
+        "Confetti or light effects",
+        "Vibrant party decorations",
+        "City lights in background"
+      ],
+      "color_palette": [
+        "Bright, saturated party colors (neons, pastels)",
+        "Warm glows",
+        "Deep blues for night sky"
+      ],
+      "lighting": "Dynamic, full-spectrum party lighting, bright and celebratory, warm realistic lighting.",
+      "atmosphere": "Triumphant, joyous, ecstatic, high-energy, celebratory.",
+      "art_style_keywords": [
+        "3D animated",
+        "warm realistic lighting",
+        "semi-stylized like Pixar",
+        "explosive energy",
+        "celebratory",
+        "dynamic",
+        "vibrant"
+      ],
+      "reference_prompt": "A triumphant and dynamic wide shot from the very center of a lively rooftop dance floor in the evening, capturing the peak of the celebration. All diverse robots are dancing joyously and energetically, forming a cohesive, ecstatic crowd. Confetti or sparkling light effects might fill the air, adding to the festive atmosphere. Vibrant party decorations and the twinkling city lights in the background complete the celebratory scene. The lighting is bright, dynamic, and full-spectrum, reflecting the high-energy and triumphant mood, rendered with warm realistic lighting. The scene is rendered in a 3D animated, semi-stylized Pixar-like aesthetic."
+    }
+  ],
+  "sheet_id": "9232bab6-aa9b-49e3-a8aa-4bd834832970",
+  "source_plan_id": "f79223a7-bacd-4f5d-b5b8-d36c8627c710",
+  "generated_at": "2026-07-12T16:58:14.640347"
+}

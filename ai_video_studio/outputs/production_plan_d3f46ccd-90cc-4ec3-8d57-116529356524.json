@@ -1,0 +1,71 @@
+{
+  "title": "The Rhythm Algorithm",
+  "logline": "A shy, rusty robot overcomes its social anxiety on a vibrant neon rooftop party after an unexpected dance lesson from a sleek street dancer.",
+  "theme": "Overcoming self-doubt and finding your groove.",
+  "target_duration_seconds": 45,
+  "tone": "Heartwarming and Energetic",
+  "characters": [
+    {
+      "name": "Bolt",
+      "role": "Protagonist",
+      "one_line_description": "A shy, slightly outdated brass-plated robot with expressive blue LED eyes."
+    },
+    {
+      "name": "Slick",
+      "role": "Mentor",
+      "one_line_description": "A charismatic, ultra-modern chrome robot with neon pink accents who loves to dance."
+    }
+  ],
+  "scenes": [
+    {
+      "scene_id": 1,
+      "title": "Wallflower Bolt",
+      "summary": "Bolt stands nervously in the corner of a crowded, neon-lit rooftop party, clutching a oil-can drink and watching others dance.",
+      "setting": "Neon Rooftop Party - Night",
+      "mood": "Anxious and Lonely",
+      "characters_present": [
+        "Bolt"
+      ],
+      "estimated_duration_seconds": 8
+    },
+    {
+      "scene_id": 2,
+      "title": "The Invitation",
+      "summary": "Slick notices Bolt's hesitation, glides over with a smooth spin, and extends a hand, inviting Bolt onto the dancefloor.",
+      "setting": "Neon Rooftop Party - Dancefloor",
+      "mood": "Welcoming and Vibrant",
+      "characters_present": [
+        "Bolt",
+        "Slick"
+      ],
+      "estimated_duration_seconds": 10
+    },
+    {
+      "scene_id": 3,
+      "title": "System Glitch",
+      "summary": "Bolt tries to mimic Slick's wave dance move but stiffens up, emitting a squeaking sound. Slick laughs warmly and demonstrates a simpler step.",
+      "setting": "Neon Rooftop Party - Dancefloor",
+      "mood": "Humorous and Encouraging",
+      "characters_present": [
+        "Bolt",
+        "Slick"
+      ],
+      "estimated_duration_seconds": 12
+    },
+    {
+      "scene_id": 4,
+      "title": "Finding the Groove",
+      "summary": "Bolt successfully executes a classic robot dance move. His LED eyes flash green with excitement as Slick and the surrounding crowd cheer him on.",
+      "setting": "Neon Rooftop Party - Dancefloor",
+      "mood": "Triumphant and Joyful",
+      "characters_present": [
+        "Bolt",
+        "Slick"
+      ],
+      "estimated_duration_seconds": 12
+    }
+  ],
+  "plan_id": "d3f46ccd-90cc-4ec3-8d57-116529356524",
+  "source_idea": "A shy robot learns to dance at a rooftop party",
+  "generated_at": "2026-07-11T15:39:17.741143"
+}

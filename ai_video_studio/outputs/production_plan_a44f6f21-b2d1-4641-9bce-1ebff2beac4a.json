@@ -1,0 +1,89 @@
+{
+  "title": "Bolt's Beat",
+  "logline": "A shy robot named Bolt overcomes his inhibitions and finds joy on the dance floor at a lively rooftop party.",
+  "theme": "Overcoming shyness, self-expression, the joy of dance",
+  "target_duration_seconds": 45,
+  "tone": "Uplifting, heartwarming, fun",
+  "characters": [
+    {
+      "name": "Bolt",
+      "role": "Protagonist",
+      "one_line_description": "A small, shy service robot with an internal longing to dance."
+    },
+    {
+      "name": "Maya",
+      "role": "Encouraging Friend",
+      "one_line_description": "A warm and friendly human who notices Bolt's shyness and offers encouragement."
+    },
+    {
+      "name": "DJ Spark",
+      "role": "Party DJ",
+      "one_line_description": "A sleek, energetic robot DJ who keeps the party's energy high with his music."
+    }
+  ],
+  "scenes": [
+    {
+      "scene_id": 1,
+      "title": "Awkward Arrival",
+      "summary": "Bolt stands awkwardly at the edge of a vibrant rooftop party, observing the dancing but too shy to join in.",
+      "setting": "A bustling rooftop party at sunset, with colorful lights and a vibrant crowd.",
+      "mood": "Hesitant, lively (for others)",
+      "characters_present": [
+        "Bolt"
+      ],
+      "estimated_duration_seconds": 8
+    },
+    {
+      "scene_id": 2,
+      "title": "Watching the Groove",
+      "summary": "Bolt watches the partygoers and DJ Spark dancing with longing, his internal gears whirring with imagined moves.",
+      "setting": "Near the dance floor, close to DJ Spark's booth.",
+      "mood": "Longing, observant",
+      "characters_present": [
+        "Bolt",
+        "DJ Spark"
+      ],
+      "estimated_duration_seconds": 7
+    },
+    {
+      "scene_id": 3,
+      "title": "A Friendly Nudge",
+      "summary": "Maya approaches Bolt, smiling warmly, and gently encourages him to join the dancing, offering her hand.",
+      "setting": "The periphery of the dance floor.",
+      "mood": "Encouraging, friendly",
+      "characters_present": [
+        "Bolt",
+        "Maya"
+      ],
+      "estimated_duration_seconds": 10
+    },
+    {
+      "scene_id": 4,
+      "title": "First Steps",
+      "summary": "With Maya's encouragement, Bolt takes a tentative step onto the dance floor, trying a small, stiff movement that quickly loosens.",
+      "setting": "The edge of the dance floor, with other partygoers.",
+      "mood": "Triumphant, tentative",
+      "characters_present": [
+        "Bolt",
+        "Maya"
+      ],
+      "estimated_duration_seconds": 8
+    },
+    {
+      "scene_id": 5,
+      "title": "Dancing Free",
+      "summary": "Bolt fully embraces the music, moving with unexpected grace and joy, as Maya and others cheer him on, and DJ Spark drops a perfect beat.",
+      "setting": "Center of the dance floor, under the party lights.",
+      "mood": "Joyful, energetic, celebratory",
+      "characters_present": [
+        "Bolt",
+        "Maya",
+        "DJ Spark"
+      ],
+      "estimated_duration_seconds": 12
+    }
+  ],
+  "plan_id": "a44f6f21-b2d1-4641-9bce-1ebff2beac4a",
+  "source_idea": "A shy robot learns to dance at a rooftop party",
+  "generated_at": "2026-07-11T11:45:58.030609"
+}

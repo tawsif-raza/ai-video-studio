@@ -1,0 +1,56 @@
+{
+  "character_profiles": [
+    {
+      "name": "Bolt",
+      "age_range": "Child-like (robot)",
+      "build": "Small, compact, metallic, blocky yet rounded edges",
+      "face_details": "Expressive optical sensors, circular, glowing blue when active, capable of conveying curiosity and shyness through subtle changes in glow and tilt. No mouth or nose.",
+      "hair": "N/A (robot)",
+      "outfit": "Its own metallic chassis, smooth, polished, with subtle panel lines and a small, neatly integrated speaker grille on its chest.",
+      "color_palette": [
+        "Silver",
+        "Metallic Gray",
+        "Light Blue (for optical sensors)",
+        "Subtle Orange (for warm reflections)"
+      ],
+      "distinguishing_features": "Compact size, glowing blue optical sensors, a sense of hesitant curiosity in its posture.",
+      "art_style_keywords": [
+        "3D animated",
+        "Pixar style",
+        "warm realistic lighting",
+        "semi-stylized",
+        "clean",
+        "futuristic"
+      ],
+      "reference_prompt": "Bolt is a small, compact, metallic robot, designed in a 3D animated Pixar style with warm realistic lighting. Its chassis is polished silver and metallic gray, featuring blocky yet rounded edges and subtle panel lines. Bolt's most expressive feature are its large, circular optical sensors, which glow a soft light blue and can subtly tilt and change intensity to convey shyness, curiosity, and eventual joy. It has no mouth or nose, relying on its optics and body language. The robot's posture often reflects a hesitant, child-like innocence, and it may have a small, integrated speaker grille on its chest. The overall aesthetic is clean, semi-stylized, and futuristic, with a heartwarming appeal."
+    },
+    {
+      "name": "Skylar",
+      "age_range": "Young adult (20s)",
+      "build": "Slender, agile, energetic, average height",
+      "face_details": "Friendly, expressive face with a warm, encouraging smile. Bright, kind eyes that crinkle at the corners when laughing. Smooth, clear skin.",
+      "hair": "Medium-length, wavy, rich brown hair, styled casually with a few playful strands framing her face.",
+      "outfit": "Comfortable, vibrant, and stylish dance attire: a fitted, short-sleeved top in a warm yellow, dark, flexible leggings or capris, and colorful, low-profile dance sneakers.",
+      "color_palette": [
+        "Warm Yellow",
+        "Dark Grey",
+        "Brown (hair)",
+        "Light Skin Tone",
+        "Blue (eyes)"
+      ],
+      "distinguishing_features": "Infectious warm smile, energetic posture, vibrant and approachable demeanor.",
+      "art_style_keywords": [
+        "3D animated",
+        "Pixar style",
+        "warm realistic lighting",
+        "semi-stylized",
+        "expressive",
+        "friendly"
+      ],
+      "reference_prompt": "Skylar is a vibrant, energetic young adult, designed in a 3D animated Pixar style with warm realistic lighting. She has a slender, agile build and medium-length, wavy rich brown hair that falls casually around her expressive, friendly face. Her bright, kind eyes sparkle, and her most prominent feature is her warm, encouraging smile, which often crinkles the corners of her eyes. Skylar wears comfortable and stylish dance attire: a fitted, short-sleeved top in a warm yellow, dark, flexible leggings, and colorful dance sneakers. Her posture is always open and inviting, exuding confidence and encouragement. The overall look is semi-stylized, full of life, and approachable."
+    }
+  ],
+  "sheet_id": "9b72a8aa-787d-45cb-8cc5-dfd80b270a9a",
+  "source_plan_id": "548f9f70-63e7-4d3a-92f0-3d3454523e9f",
+  "generated_at": "2026-07-13T14:16:57.811504"
+}

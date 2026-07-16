@@ -1,0 +1,224 @@
+{
+  "scene_plans": [
+    {
+      "scene_id": 1,
+      "shots": [
+        {
+          "shot_id": 101,
+          "camera_angle": "Wide Shot",
+          "camera_movement": "Dolly In",
+          "description": "Establishing shot of the vibrant rooftop party with city lights in the background. Bolt slowly enters the frame, looking overwhelmed.",
+          "characters_in_shot": [
+            "Bolt"
+          ],
+          "duration_seconds": 3
+        },
+        {
+          "shot_id": 102,
+          "camera_angle": "Close-up",
+          "camera_movement": "Static",
+          "description": "Bolt's optical sensors rapidly scanning the dancing crowd, blinking nervously.",
+          "characters_in_shot": [
+            "Bolt"
+          ],
+          "duration_seconds": 2
+        },
+        {
+          "shot_id": 103,
+          "camera_angle": "Medium Shot",
+          "camera_movement": "Pan Left",
+          "description": "Bolt standing hesitantly at the edge of the dance floor, feeling small amidst the lively crowd.",
+          "characters_in_shot": [
+            "Bolt"
+          ],
+          "duration_seconds": 3
+        }
+      ]
+    },
+    {
+      "scene_id": 2,
+      "shots": [
+        {
+          "shot_id": 201,
+          "camera_angle": "Medium Shot",
+          "camera_movement": "Static",
+          "description": "Bolt hunched slightly at the edge of the dance floor, intently observing the dancers.",
+          "characters_in_shot": [
+            "Bolt"
+          ],
+          "duration_seconds": 2
+        },
+        {
+          "shot_id": 202,
+          "camera_angle": "POV Shot",
+          "camera_movement": "Quick Cuts",
+          "description": "From Bolt's perspective, quick cuts of various people and robots dancing freely and joyfully, neon lights reflecting.",
+          "characters_in_shot": [],
+          "duration_seconds": 3
+        },
+        {
+          "shot_id": 203,
+          "camera_angle": "Close-up",
+          "camera_movement": "Push In",
+          "description": "Bolt's internal processors display a 'LONGING' indicator, followed by a shot of its rigid, unmoving hand.",
+          "characters_in_shot": [
+            "Bolt"
+          ],
+          "duration_seconds": 3
+        }
+      ]
+    },
+    {
+      "scene_id": 3,
+      "shots": [
+        {
+          "shot_id": 301,
+          "camera_angle": "Medium Shot",
+          "camera_movement": "Tracking Shot",
+          "description": "Skylar approaches Bolt from behind, a warm, encouraging smile on their face.",
+          "characters_in_shot": [
+            "Skylar"
+          ],
+          "duration_seconds": 2
+        },
+        {
+          "shot_id": 302,
+          "camera_angle": "Over-the-shoulder",
+          "camera_movement": "Static",
+          "description": "Skylar's hand extends towards Bolt, inviting it to dance.",
+          "characters_in_shot": [
+            "Skylar",
+            "Bolt"
+          ],
+          "duration_seconds": 2
+        },
+        {
+          "shot_id": 303,
+          "camera_angle": "Two Shot",
+          "camera_movement": "Static",
+          "description": "Bolt looks surprised and hesitant, while Skylar maintains a friendly, hopeful smile.",
+          "characters_in_shot": [
+            "Bolt",
+            "Skylar"
+          ],
+          "duration_seconds": 3
+        }
+      ]
+    },
+    {
+      "scene_id": 4,
+      "shots": [
+        {
+          "shot_id": 401,
+          "camera_angle": "Close-up",
+          "camera_movement": "Static",
+          "description": "Bolt's hand slowly, almost mechanically, takes Skylar's outstretched hand.",
+          "characters_in_shot": [
+            "Bolt",
+            "Skylar"
+          ],
+          "duration_seconds": 2
+        },
+        {
+          "shot_id": 402,
+          "camera_angle": "Full Shot",
+          "camera_movement": "Handheld (slight wobble)",
+          "description": "Bolt attempts stiff, mechanical dance moves on the main dance floor, looking very self-conscious as Skylar gently guides.",
+          "characters_in_shot": [
+            "Bolt",
+            "Skylar"
+          ],
+          "duration_seconds": 3
+        },
+        {
+          "shot_id": 403,
+          "camera_angle": "Medium Shot",
+          "camera_movement": "Static",
+          "description": "Bolt's face, displaying awkwardness but with a noticeable flicker of determination.",
+          "characters_in_shot": [
+            "Bolt"
+          ],
+          "duration_seconds": 2
+        }
+      ]
+    },
+    {
+      "scene_id": 5,
+      "shots": [
+        {
+          "shot_id": 501,
+          "camera_angle": "Medium Shot",
+          "camera_movement": "Arc Shot",
+          "description": "Bolt and Skylar dancing, Bolt's movements are still a bit stiff but starting to show signs of loosening up.",
+          "characters_in_shot": [
+            "Bolt",
+            "Skylar"
+          ],
+          "duration_seconds": 2
+        },
+        {
+          "shot_id": 502,
+          "camera_angle": "Low Angle",
+          "camera_movement": "Tracking Shot",
+          "description": "Following Bolt's feet as its steps become more synchronized with the music, showing increasing fluidity.",
+          "characters_in_shot": [
+            "Bolt",
+            "Skylar"
+          ],
+          "duration_seconds": 3
+        },
+        {
+          "shot_id": 503,
+          "camera_angle": "Two Shot",
+          "camera_movement": "Push In",
+          "description": "Bolt's head starts to bob to the rhythm, a small, genuine smile appearing on its 'face' as Skylar beams with encouragement.",
+          "characters_in_shot": [
+            "Bolt",
+            "Skylar"
+          ],
+          "duration_seconds": 3
+        }
+      ]
+    },
+    {
+      "scene_id": 6,
+      "shots": [
+        {
+          "shot_id": 601,
+          "camera_angle": "Full Shot",
+          "camera_movement": "Steadicam",
+          "description": "Bolt is now dancing freely and exuberantly, its movements fluid and joyful, no longer needing guidance. Skylar dances happily nearby.",
+          "characters_in_shot": [
+            "Bolt",
+            "Skylar"
+          ],
+          "duration_seconds": 3
+        },
+        {
+          "shot_id": 602,
+          "camera_angle": "Close-up",
+          "camera_movement": "Static",
+          "description": "Bolt's optical sensors glow brightly, displaying pure, uninhibited joy.",
+          "characters_in_shot": [
+            "Bolt"
+          ],
+          "duration_seconds": 2
+        },
+        {
+          "shot_id": 603,
+          "camera_angle": "Crane Shot",
+          "camera_movement": "Pedestal Up",
+          "description": "Bolt is seen dancing energetically amongst the vibrant, celebrating crowd, now fully integrated and triumphant. Camera pulls up to reveal the entire jubilant dance floor.",
+          "characters_in_shot": [
+            "Bolt",
+            "Skylar"
+          ],
+          "duration_seconds": 2
+        }
+      ]
+    }
+  ],
+  "storyboard_id": "978e74cc-0012-4d57-8d2b-4b3e292f6b1b",
+  "source_plan_id": "548f9f70-63e7-4d3a-92f0-3d3454523e9f",
+  "generated_at": "2026-07-13T14:16:47.852496"
+}

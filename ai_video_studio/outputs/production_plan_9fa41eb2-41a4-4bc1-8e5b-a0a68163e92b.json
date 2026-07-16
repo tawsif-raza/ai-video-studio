@@ -1,0 +1,92 @@
+{
+  "title": "Unit 734's Rooftop Groove",
+  "logline": "A shy service robot overcomes its inhibitions to find joy on the dance floor at a lively rooftop party.",
+  "theme": "Overcoming shyness, finding joy in self-expression, embracing new experiences.",
+  "target_duration_seconds": 45,
+  "tone": "Uplifting, heartwarming, charming, lighthearted.",
+  "characters": [
+    {
+      "name": "Unit 734",
+      "role": "Protagonist",
+      "one_line_description": "A small, somewhat boxy service robot, initially very shy and awkward, who longs to join the fun."
+    },
+    {
+      "name": "Maya",
+      "role": "Supporting Character",
+      "one_line_description": "A vibrant and kind human party-goer, who notices Unit 734's hesitation and offers gentle encouragement."
+    }
+  ],
+  "scenes": [
+    {
+      "scene_id": 1,
+      "title": "The Wallflower Robot",
+      "summary": "Unit 734 observes a vibrant rooftop party from the sidelines, feeling too shy to join the dancing crowd.",
+      "setting": "A bustling, neon-lit rooftop party with city lights in the background, upbeat electronic music playing.",
+      "mood": "Observant, slightly wistful, vibrant contrast.",
+      "characters_present": [
+        "Unit 734"
+      ],
+      "estimated_duration_seconds": 7
+    },
+    {
+      "scene_id": 2,
+      "title": "First Awkward Attempt",
+      "summary": "Unit 734 attempts a small, stiff dance move, immediately retracting and feeling self-conscious when a human briefly looks its way.",
+      "setting": "Edge of the dance floor, close to potted plants or a railing.",
+      "mood": "Awkward, self-conscious, hesitant.",
+      "characters_present": [
+        "Unit 734"
+      ],
+      "estimated_duration_seconds": 8
+    },
+    {
+      "scene_id": 3,
+      "title": "A Friendly Glimpse",
+      "summary": "Maya, a human dancer, notices Unit 734's struggle. She offers a warm smile and a small, encouraging head nod.",
+      "setting": "Amidst the dancing crowd, Maya turns to look towards Unit 734.",
+      "mood": "Warm, encouraging, perceptive.",
+      "characters_present": [
+        "Unit 734",
+        "Maya"
+      ],
+      "estimated_duration_seconds": 7
+    },
+    {
+      "scene_id": 4,
+      "title": "Mimicking the Beat",
+      "summary": "Inspired by Maya's encouragement, Unit 734 tries again, mimicking a simple, repetitive move, still a bit stiff but with more conviction. Maya claps gently.",
+      "setting": "Slightly closer to the main dance area, Unit 734 experimenting with movement.",
+      "mood": "Tentative, determined, slightly more confident.",
+      "characters_present": [
+        "Unit 734",
+        "Maya"
+      ],
+      "estimated_duration_seconds": 8
+    },
+    {
+      "scene_id": 5,
+      "title": "Loosening Up",
+      "summary": "Unit 734 starts to find its rhythm, moving its arms and body with less rigidity, genuinely enjoying the music and the freedom of movement.",
+      "setting": "The edge of the dance floor, Unit 734's movements becoming more fluid.",
+      "mood": "Joyful, liberating, evolving.",
+      "characters_present": [
+        "Unit 734"
+      ],
+      "estimated_duration_seconds": 8
+    },
+    {
+      "scene_id": 6,
+      "title": "Rooftop Groove",
+      "summary": "Unit 734 is now fully immersed, grooving to the music, not perfectly, but with unadulterated joy, a happy part of the party.",
+      "setting": "Center of the dance floor, bathed in colorful lights, surrounded by other dancers.",
+      "mood": "Triumphant, ecstatic, belonging.",
+      "characters_present": [
+        "Unit 734"
+      ],
+      "estimated_duration_seconds": 7
+    }
+  ],
+  "plan_id": "9fa41eb2-41a4-4bc1-8e5b-a0a68163e92b",
+  "source_idea": "A shy robot learns to dance at a rooftop party",
+  "generated_at": "2026-07-13T14:21:35.805744"
+}

@@ -1,0 +1,83 @@
+{
+  "title": "Spark's Groove",
+  "logline": "A shy, vintage robot hiding in the shadows of a lively rooftop party finds the courage to step onto the dance floor with the help of a charismatic dancer.",
+  "theme": "Overcoming social anxiety and finding joy in self-expression.",
+  "target_duration_seconds": 45,
+  "tone": "Heartwarming and uplifting",
+  "characters": [
+    {
+      "name": "Spark",
+      "role": "Protagonist",
+      "one_line_description": "A charmingly clunky, brass-plated robot who is self-conscious about its stiff movements."
+    },
+    {
+      "name": "Nova",
+      "role": "Supporting Character",
+      "one_line_description": "An energetic, expressive human dancer with a welcoming smile and neon-streaked hair."
+    }
+  ],
+  "scenes": [
+    {
+      "scene_id": 1,
+      "title": "Hiding in the Shadows",
+      "summary": "Spark stands nervously behind a large potted palm on a glittering rooftop terrace, watching stylish partygoers dance to a vibrant beat.",
+      "setting": "Neon-lit rooftop party at night",
+      "mood": "Anxious yet longing",
+      "characters_present": [
+        "Spark"
+      ],
+      "estimated_duration_seconds": 8
+    },
+    {
+      "scene_id": 2,
+      "title": "An Invitation",
+      "summary": "Nova notices Spark shivering with hesitation, dances over with a smooth slide, and extends an inviting hand with a warm grin.",
+      "setting": "Neon-lit rooftop party at night",
+      "mood": "Welcoming and energetic",
+      "characters_present": [
+        "Spark",
+        "Nova"
+      ],
+      "estimated_duration_seconds": 10
+    },
+    {
+      "scene_id": 3,
+      "title": "First Rusty Steps",
+      "summary": "Spark hesitatingly mimics Nova's simple side-step, its gears whirring loudly as it attempts to find the rhythm.",
+      "setting": "Neon-lit rooftop party at night",
+      "mood": "Tense but hopeful",
+      "characters_present": [
+        "Spark",
+        "Nova"
+      ],
+      "estimated_duration_seconds": 9
+    },
+    {
+      "scene_id": 4,
+      "title": "Finding the Rhythm",
+      "summary": "Nova cheers Spark on. Spark's chest lights flash in sync with the music as it executes a surprisingly fluid spin and a perfect robotic pop.",
+      "setting": "Neon-lit rooftop party at night",
+      "mood": "Joyful and triumphant",
+      "characters_present": [
+        "Spark",
+        "Nova"
+      ],
+      "estimated_duration_seconds": 11
+    },
+    {
+      "scene_id": 5,
+      "title": "The Center of Attention",
+      "summary": "Other partygoers crowd around, clapping to Spark's beat as Spark and Nova strike a final, confident synchronized pose together.",
+      "setting": "Neon-lit rooftop party at night",
+      "mood": "Exhilarating and celebratory",
+      "characters_present": [
+        "Spark",
+        "Nova"
+      ],
+      "estimated_duration_seconds": 8
+    }
+  ],
+  "plan_id": "b83155be-c403-43d2-9451-30ab0a43aa63",
+  "source_idea": "A shy robot learns to dance at a rooftop party",
+  "generated_at": "2026-07-11T17:25:53.208690"
+}

@@ -1,0 +1,83 @@
+{
+  "title": "Rhythm & Rust",
+  "logline": "A shy, rusty robot overcomes its social anxiety on a neon-lit rooftop party after a vibrant dance-bot teaches it how to groove.",
+  "theme": "Overcoming self-doubt and finding joy in self-expression.",
+  "target_duration_seconds": 45,
+  "tone": "Heartwarming, energetic, uplifting",
+  "characters": [
+    {
+      "name": "Bolt",
+      "role": "Protagonist",
+      "one_line_description": "A shy, slightly rusty metallic robot with expressive blue LED eyes who feels out of place at parties."
+    },
+    {
+      "name": "Spark",
+      "role": "Supporting Character",
+      "one_line_description": "An energetic, sleek dance-bot covered in colorful neon strips who loves sharing the joy of movement."
+    }
+  ],
+  "scenes": [
+    {
+      "scene_id": 1,
+      "title": "The Wallflower",
+      "summary": "Bolt stands nervously behind a potted palm tree on a crowded, neon-lit rooftop party, watching other robots dance flawlessly.",
+      "setting": "Neon Rooftop Party - Night",
+      "mood": "Anxious, vibrant",
+      "characters_present": [
+        "Bolt"
+      ],
+      "estimated_duration_seconds": 8
+    },
+    {
+      "scene_id": 2,
+      "title": "An Invitation",
+      "summary": "Spark spots Bolt hiding, glides over with a warm smile, and extends a hand, performing a simple, inviting side-step rhythm.",
+      "setting": "Neon Rooftop Party - Night",
+      "mood": "Welcoming, encouraging",
+      "characters_present": [
+        "Bolt",
+        "Spark"
+      ],
+      "estimated_duration_seconds": 10
+    },
+    {
+      "scene_id": 3,
+      "title": "First Clunky Steps",
+      "summary": "Bolt hesitantly tries to mimic Spark's move, gears grinding loudly as it stumbles. Spark laughs gently and claps, encouraging Bolt to try again.",
+      "setting": "Neon Rooftop Party - Night",
+      "mood": "Humorous, supportive",
+      "characters_present": [
+        "Bolt",
+        "Spark"
+      ],
+      "estimated_duration_seconds": 10
+    },
+    {
+      "scene_id": 4,
+      "title": "Finding the Groove",
+      "summary": "Bolt relaxes. Its joints loosen up, and its LED eyes change from anxious blue to a warm, pulsing yellow as it starts to sync with Spark's rhythm.",
+      "setting": "Neon Rooftop Party - Night",
+      "mood": "Joyful, rhythmic",
+      "characters_present": [
+        "Bolt",
+        "Spark"
+      ],
+      "estimated_duration_seconds": 10
+    },
+    {
+      "scene_id": 5,
+      "title": "Rooftop Royalty",
+      "summary": "The surrounding crowd of robots gathers around to cheer as Bolt executes a triumphant, perfectly-timed spin-and-pose alongside Spark.",
+      "setting": "Neon Rooftop Party - Night",
+      "mood": "Triumphant, celebratory",
+      "characters_present": [
+        "Bolt",
+        "Spark"
+      ],
+      "estimated_duration_seconds": 8
+    }
+  ],
+  "plan_id": "012bcc29-b54c-45d2-bcf0-3cff4135d683",
+  "source_idea": "A shy robot learns to dance at a rooftop party",
+  "generated_at": "2026-07-11T17:50:12.547477"
+}

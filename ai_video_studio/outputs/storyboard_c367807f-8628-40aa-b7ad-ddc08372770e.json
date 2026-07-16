@@ -1,0 +1,172 @@
+{
+  "scene_plans": [
+    {
+      "scene_id": 1,
+      "shots": [
+        {
+          "shot_id": 1,
+          "camera_angle": "Wide Angle",
+          "camera_movement": "Slow Pan",
+          "description": "Spark stands nervously in the corner of a bustling rooftop party, framed against a background of dancing robots and flashing neon lights.",
+          "characters_in_shot": [
+            "Spark"
+          ],
+          "duration_seconds": 4
+        },
+        {
+          "shot_id": 2,
+          "camera_angle": "Medium Close-up",
+          "camera_movement": "Static",
+          "description": "Focus on Spark's digital eyes blinking rapidly, conveying his internal anxiety and longing to join the crowd.",
+          "characters_in_shot": [
+            "Spark"
+          ],
+          "duration_seconds": 4
+        }
+      ]
+    },
+    {
+      "scene_id": 2,
+      "shots": [
+        {
+          "shot_id": 1,
+          "camera_angle": "Medium Shot",
+          "camera_movement": "Tracking",
+          "description": "Beatrix dances fluidly through the energetic crowd, her movements smooth and inviting as she heads directly toward Spark's corner.",
+          "characters_in_shot": [
+            "Beatrix"
+          ],
+          "duration_seconds": 3
+        },
+        {
+          "shot_id": 2,
+          "camera_angle": "Close-up",
+          "camera_movement": "Tilt Down",
+          "description": "Beatrix reaches Spark and extends her hand warmly, her friendly gesture highlighted under a soft neon glow.",
+          "characters_in_shot": [
+            "Spark",
+            "Beatrix"
+          ],
+          "duration_seconds": 3
+        },
+        {
+          "shot_id": 3,
+          "camera_angle": "Medium Two-Shot",
+          "camera_movement": "Static",
+          "description": "Spark looks down at her hand in surprise, then up at Beatrix's welcoming expression as she encourages him to join her.",
+          "characters_in_shot": [
+            "Spark",
+            "Beatrix"
+          ],
+          "duration_seconds": 3
+        }
+      ]
+    },
+    {
+      "scene_id": 3,
+      "shots": [
+        {
+          "shot_id": 1,
+          "camera_angle": "Close-up",
+          "camera_movement": "Static",
+          "description": "Spark hesitantly places his metallic hand in Beatrix's, the visual contrast of their design emphasizing his clunky nature.",
+          "characters_in_shot": [
+            "Spark",
+            "Beatrix"
+          ],
+          "duration_seconds": 3
+        },
+        {
+          "shot_id": 2,
+          "camera_angle": "Wide Shot",
+          "camera_movement": "Static",
+          "description": "Spark tries to mimic Beatrix's fluid dance steps but his gears grind loudly, causing a sudden, stiff, and comical jerk that halts his movement.",
+          "characters_in_shot": [
+            "Spark",
+            "Beatrix"
+          ],
+          "duration_seconds": 4
+        },
+        {
+          "shot_id": 3,
+          "camera_angle": "Medium Close-up",
+          "camera_movement": "Dolly In",
+          "description": "Spark looks down in embarrassment, his digital interface flickering nervously, while Beatrix reacts with a gentle, reassuring smile.",
+          "characters_in_shot": [
+            "Spark",
+            "Beatrix"
+          ],
+          "duration_seconds": 3
+        }
+      ]
+    },
+    {
+      "scene_id": 4,
+      "shots": [
+        {
+          "shot_id": 1,
+          "camera_angle": "Medium Shot",
+          "camera_movement": "Pan",
+          "description": "Beatrix adjusts her dance style, breaking her movements into sharp, rhythmic, mechanical pops to mirror and validate Spark's clunky design.",
+          "characters_in_shot": [
+            "Spark",
+            "Beatrix"
+          ],
+          "duration_seconds": 3
+        },
+        {
+          "shot_id": 2,
+          "camera_angle": "Medium Wide Shot",
+          "camera_movement": "Zoom In",
+          "description": "Spark realizes what she's doing and smiles, beginning to execute a beautifully rhythmic pop-and-lock groove that makes his stiff movements look intentional.",
+          "characters_in_shot": [
+            "Spark",
+            "Beatrix"
+          ],
+          "duration_seconds": 4
+        },
+        {
+          "shot_id": 3,
+          "camera_angle": "Close-up",
+          "camera_movement": "Static",
+          "description": "Beatrix grins widely and nods in rhythm, thrilled to see Spark finding his confidence as they groove together.",
+          "characters_in_shot": [
+            "Spark",
+            "Beatrix"
+          ],
+          "duration_seconds": 3
+        }
+      ]
+    },
+    {
+      "scene_id": 5,
+      "shots": [
+        {
+          "shot_id": 1,
+          "camera_angle": "High Angle",
+          "camera_movement": "Circular Tracking",
+          "description": "The surrounding crowd of robots forms a vibrant circle around the duo, clapping and cheering as Spark and Beatrix perform a synchronized, energetic routine.",
+          "characters_in_shot": [
+            "Spark",
+            "Beatrix"
+          ],
+          "duration_seconds": 4
+        },
+        {
+          "shot_id": 2,
+          "camera_angle": "Low Angle",
+          "camera_movement": "Crane Up",
+          "description": "Spark and Beatrix strike a final, triumphant, coordinated pose under the flashing neon signs, fully embraced by the celebration.",
+          "characters_in_shot": [
+            "Spark",
+            "Beatrix"
+          ],
+          "duration_seconds": 4
+        }
+      ]
+    }
+  ],
+  "storyboard_id": "c367807f-8628-40aa-b7ad-ddc08372770e",
+  "source_plan_id": "a06394ce-54d0-4215-9cd7-04264906a47d",
+  "generated_at": "2026-07-11T16:01:56.931408"
+}

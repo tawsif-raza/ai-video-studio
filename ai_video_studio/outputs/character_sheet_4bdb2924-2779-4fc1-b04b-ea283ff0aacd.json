@@ -1,0 +1,55 @@
+{
+  "character_profiles": [
+    {
+      "name": "Spark",
+      "age_range": "Vintage / Antique",
+      "build": "Clunky, boxy yet rounded retro-futuristic robot frame",
+      "face_details": "Large, expressive circular glowing blue LED eyes on a metallic faceplate, capable of displaying simple digital emotions",
+      "hair": "None",
+      "outfit": "Exposed brass and copper plating with visible joints, gears, and a vintage wind-up key on its back",
+      "color_palette": [
+        "Polished Brass",
+        "Oxidized Copper",
+        "Glowing Electric Blue",
+        "Warm Gold"
+      ],
+      "distinguishing_features": "Scuffed metallic textures, visible spinning gears at the elbow and knee joints, warm golden rim-lighting on its brass body",
+      "art_style_keywords": [
+        "3D animated",
+        "Pixar style",
+        "warm realistic lighting",
+        "semi-stylized",
+        "detailed metallic textures"
+      ],
+      "reference_prompt": "A character concept of Spark, a charmingly clunky retro-futuristic robot made of polished brass and weathered copper plates. Spark has large, expressive glowing light-blue LED eyes on a rounded metallic head and visible gears at its joints. Its body is slightly boxy with a friendly, semi-stylized design. The lighting is warm and cinematic, highlighting the metallic textures and soft reflections. Pixar style, 3D animated, detailed textures, clean studio background."
+    },
+    {
+      "name": "Nova",
+      "age_range": "Young Adult (20-25)",
+      "build": "Athletic, slender, and highly agile dancer's physique",
+      "face_details": "Warm and expressive brown eyes, a wide welcoming smile, and friendly, soft facial features with realistic skin textures",
+      "hair": "Dark brown hair styled in an asymmetrical undercut with vibrant neon-pink and electric-blue streaks",
+      "outfit": "Modern streetwear consisting of a loose-fitting cropped holographic jacket, a dark athletic tank top, high-waisted jogger pants, and glowing neon sneakers",
+      "color_palette": [
+        "Neon Pink",
+        "Electric Blue",
+        "Holographic Silver",
+        "Charcoal Gray",
+        "Warm Amber"
+      ],
+      "distinguishing_features": "Neon-streaked hair, bright welcoming smile, and glowing accents on her sneakers that cast soft light",
+      "art_style_keywords": [
+        "3D animated",
+        "Pixar style",
+        "warm realistic lighting",
+        "semi-stylized",
+        "vibrant colors",
+        "subsurface scattering"
+      ],
+      "reference_prompt": "A character concept of Nova, an energetic young adult female dancer. She has warm brown eyes, a welcoming bright smile, and dark hair with vibrant neon-pink and electric-blue streaks in a stylish undercut. She wears a modern holographic cropped jacket, a dark tank top, stylish jogger pants, and glowing neon sneakers. She has an athletic build and an expressive pose. Warm, realistic lighting with a colorful rim light. Pixar style, 3D animated, semi-stylized, clean studio background."
+    }
+  ],
+  "sheet_id": "4bdb2924-2779-4fc1-b04b-ea283ff0aacd",
+  "source_plan_id": "b83155be-c403-43d2-9451-30ab0a43aa63",
+  "generated_at": "2026-07-11T17:26:25.339297"
+}

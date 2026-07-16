@@ -1,0 +1,82 @@
+{
+  "title": "Circuit Shuffle: A Rooftop Rhapsody",
+  "logline": "A shy robot overcomes its social anxiety to find joy and self-expression on the dance floor at a vibrant rooftop party.",
+  "theme": "Overcoming shyness, self-acceptance, finding joy in new experiences",
+  "target_duration_seconds": 45,
+  "tone": "Uplifting, heartwarming, fun",
+  "characters": [
+    {
+      "name": "Bolt",
+      "role": "Protagonist",
+      "one_line_description": "A small, metallic robot with expressive LED eyes, initially shy and hesitant."
+    },
+    {
+      "name": "Luna",
+      "role": "Mentor/Friend",
+      "one_line_description": "A vibrant and friendly human partygoer with an infectious smile, who encourages Bolt."
+    }
+  ],
+  "scenes": [
+    {
+      "scene_id": 1,
+      "title": "Rooftop Arrival",
+      "summary": "Bolt, a small, metallic robot, arrives hesitantly at a vibrant rooftop party, looking overwhelmed by the dancing crowd and loud music.",
+      "setting": "A lively rooftop party at dusk, city lights twinkling in the background. Upbeat electronic music plays.",
+      "mood": "Hesitant, slightly anxious, lively background",
+      "characters_present": [
+        "Bolt"
+      ],
+      "estimated_duration_seconds": 7
+    },
+    {
+      "scene_id": 2,
+      "title": "Observing the Rhythm",
+      "summary": "Bolt stands awkwardly near the edge of the party, observing energetic partygoers dancing freely, his LED eyes reflecting a mix of curiosity and longing.",
+      "setting": "The same rooftop party, closer view of the dance floor with various people enjoying themselves.",
+      "mood": "Observant, longing, slightly lonely",
+      "characters_present": [
+        "Bolt"
+      ],
+      "estimated_duration_seconds": 8
+    },
+    {
+      "scene_id": 3,
+      "title": "A Friendly Invitation",
+      "summary": "Luna, noticing Bolt's solitude, approaches with a warm smile and extends a hand, inviting him to join the dance. Bolt's internal circuits whir with indecision.",
+      "setting": "The edge of the dance floor, a slightly quieter spot where Bolt is standing.",
+      "mood": "Encouraging, friendly, hopeful, a touch of apprehension from Bolt",
+      "characters_present": [
+        "Bolt",
+        "Luna"
+      ],
+      "estimated_duration_seconds": 10
+    },
+    {
+      "scene_id": 4,
+      "title": "First Steps on the Floor",
+      "summary": "Bolt, encouraged by Luna, takes stiff, mechanical steps onto the dance floor. Luna gently guides him, showing him simple, repetitive moves. Bolt's movements are initially jerky.",
+      "setting": "The heart of the dance floor, surrounded by other dancers, under soft, pulsing lights.",
+      "mood": "Awkward, encouraging, playful",
+      "characters_present": [
+        "Bolt",
+        "Luna"
+      ],
+      "estimated_duration_seconds": 10
+    },
+    {
+      "scene_id": 5,
+      "title": "Finding the Groove",
+      "summary": "As the music swells, Bolt's movements become smoother, more fluid. He starts to mimic Luna's moves, then adds his own unique, joyful robot flair, his LED eyes glowing brightly with newfound confidence.",
+      "setting": "The center of the dance floor, under flashing, colorful lights, other partygoers smiling at Bolt.",
+      "mood": "Joyful, triumphant, energetic, celebratory",
+      "characters_present": [
+        "Bolt",
+        "Luna"
+      ],
+      "estimated_duration_seconds": 10
+    }
+  ],
+  "plan_id": "3d40bd58-a651-4836-afec-e5fef6e2d3c8",
+  "source_idea": "A shy robot learns to dance at a rooftop party",
+  "generated_at": "2026-07-10T17:53:18.911311"
+}

@@ -1,0 +1,83 @@
+{
+  "title": "Rhythm and Rust",
+  "logline": "A shy, matte-grey robot overcomes its social glitches when a vibrant neon dancer invites it to join the groove at a futuristic rooftop party.",
+  "theme": "Overcoming social anxiety and finding your rhythm with a little help.",
+  "target_duration_seconds": 45,
+  "tone": "Heartwarming, energetic, and whimsical",
+  "characters": [
+    {
+      "name": "Bolt",
+      "role": "Protagonist",
+      "one_line_description": "A shy, matte-grey robot with blinking blue optical sensors and slightly creaky joints."
+    },
+    {
+      "name": "Spark",
+      "role": "Supporting",
+      "one_line_description": "An outgoing, sleek chrome robot decorated with pulsing pink neon lights and fluid joints."
+    }
+  ],
+  "scenes": [
+    {
+      "scene_id": 1,
+      "title": "The Wallflower",
+      "summary": "On a futuristic rooftop bustling with dancing robots under a neon sky, Bolt stands awkwardly in the corner, clutching a oil-can drink.",
+      "setting": "Futuristic cyberpunk rooftop dance floor",
+      "mood": "Anxious and isolating",
+      "characters_present": [
+        "Bolt"
+      ],
+      "estimated_duration_seconds": 8
+    },
+    {
+      "scene_id": 2,
+      "title": "The Invitation",
+      "summary": "Spark glides through the crowd, notices Bolt hiding in the shadows, and dances over with an inviting wave and a warm, glowing digital smile.",
+      "setting": "Futuristic cyberpunk rooftop dance floor",
+      "mood": "Welcoming and upbeat",
+      "characters_present": [
+        "Bolt",
+        "Spark"
+      ],
+      "estimated_duration_seconds": 8
+    },
+    {
+      "scene_id": 3,
+      "title": "The First Step",
+      "summary": "Spark demonstrates a simple, rhythmic side-to-side shuffle. Bolt hesitates, its gears whirring loudly as it tries to mimic the movements.",
+      "setting": "Futuristic cyberpunk rooftop dance floor",
+      "mood": "Tense but encouraging",
+      "characters_present": [
+        "Bolt",
+        "Spark"
+      ],
+      "estimated_duration_seconds": 10
+    },
+    {
+      "scene_id": 4,
+      "title": "Finding the Groove",
+      "summary": "Bolt gets the hang of the movement. Its blue optical sensors light up brighter as it begins to swing its metallic arms in sync with Spark.",
+      "setting": "Futuristic cyberpunk rooftop dance floor",
+      "mood": "Joyful and liberating",
+      "characters_present": [
+        "Bolt",
+        "Spark"
+      ],
+      "estimated_duration_seconds": 10
+    },
+    {
+      "scene_id": 5,
+      "title": "Rooftop Symphony",
+      "summary": "The camera pulls back as Bolt and Spark sync their dance moves perfectly, surrounded by cheering partygoers under the neon city lights.",
+      "setting": "Futuristic cyberpunk rooftop dance floor",
+      "mood": "Triumphant and celebratory",
+      "characters_present": [
+        "Bolt",
+        "Spark"
+      ],
+      "estimated_duration_seconds": 9
+    }
+  ],
+  "plan_id": "93fc6cff-d594-4816-8ea3-dbcfa3c062a5",
+  "source_idea": "A shy robot learns to dance at a rooftop party",
+  "generated_at": "2026-07-11T17:43:46.557529"
+}

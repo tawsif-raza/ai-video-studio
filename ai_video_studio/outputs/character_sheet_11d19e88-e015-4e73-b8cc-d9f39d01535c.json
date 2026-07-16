@@ -1,0 +1,81 @@
+{
+  "character_profiles": [
+    {
+      "name": "Bolt",
+      "age_range": "Ageless robot, child-like demeanor",
+      "build": "Small, compact, slightly boxy, sturdy but not heavy, with visible metallic panels and joints",
+      "face_details": "Two large, circular optical sensors that function as expressive eyes, capable of conveying shyness or curiosity; no mouth or nose",
+      "hair": "N/A",
+      "outfit": "Integrated metallic chassis, primarily sleek silver with subtle blue accents around the optical sensors and joints",
+      "color_palette": [
+        "Metallic Silver",
+        "Deep Blue",
+        "Light Grey"
+      ],
+      "distinguishing_features": "Highly expressive optical sensors, compact and slightly clunky form factor, metallic sheen",
+      "art_style_keywords": [
+        "3D animated",
+        "warm realistic lighting",
+        "semi-stylized",
+        "Pixar style",
+        "robot character",
+        "expressive optics"
+      ],
+      "reference_prompt": "A small, compact robot named Bolt, designed in a 3D animated, semi-stylized Pixar aesthetic with warm realistic lighting. Bolt's chassis is primarily metallic silver with subtle deep blue accents around its two large, circular, highly expressive optical sensors, which serve as its eyes. Its build is slightly boxy and sturdy, suggesting a functional, somewhat clunky nature, but its overall form is clean and appealing, reflecting a modern robot design."
+    },
+    {
+      "name": "Maya",
+      "age_range": "Early 20s",
+      "build": "Slender and athletic, with a graceful posture that hints at her dancing ability",
+      "face_details": "Kind, almond-shaped eyes that crinkle when she smiles, a warm and encouraging expression, and high cheekbones",
+      "hair": "Medium-length, wavy dark brown hair that flows naturally and adds to her dynamic look, often styled to allow movement",
+      "outfit": "A vibrant, flowing top in a warm color like coral pink, paired with comfortable, stylish teal blue high-waisted pants or a skirt that allows for free movement, possibly with subtle geometric patterns",
+      "color_palette": [
+        "Coral Pink",
+        "Teal Blue",
+        "Dark Brown (hair)",
+        "Tan (skin)"
+      ],
+      "distinguishing_features": "Energetic and warm demeanor, graceful movement, expressive eyes and smile",
+      "art_style_keywords": [
+        "3D animated",
+        "warm realistic lighting",
+        "semi-stylized",
+        "Pixar style",
+        "human character",
+        "dancer"
+      ],
+      "reference_prompt": "Maya is a human character in her early 20s, rendered in a 3D animated, semi-stylized Pixar art style with warm realistic lighting. She has a slender, athletic build and graceful posture, with medium-length, wavy dark brown hair. Her kind, almond-shaped eyes and warm smile convey an encouraging and vibrant personality. Maya wears a flowing coral pink top paired with comfortable, stylish teal blue high-waisted pants, designed to allow her natural flair for dancing to shine through."
+    },
+    {
+      "name": "Party Guests",
+      "age_range": "Young adults to middle-aged",
+      "build": "Diverse range of human body types (slender, athletic, average, slightly heavier) and a few compact, friendly-looking robots",
+      "face_details": "Varied facial features reflecting different ethnicities, all with joyful, relaxed expressions, laughing or smiling. Robot faces are simple and friendly",
+      "hair": "A wide variety of human hairstyles and colors (straight, curly, short, long, blonde, black, brown, red). Robots have no hair",
+      "outfit": "Diverse, colorful, and stylish casual party wear appropriate for a rooftop gathering, including various tops, dresses, pants, and skirts, in a broad palette of colors",
+      "color_palette": [
+        "Emerald Green",
+        "Sunny Yellow",
+        "Sky Blue",
+        "Lavender Purple",
+        "Terracotta Orange",
+        "Metallic Silver"
+      ],
+      "distinguishing_features": "A diverse mix of joyful humans and friendly robots, all engaged in socializing and dancing, contributing to a vibrant party atmosphere",
+      "art_style_keywords": [
+        "3D animated",
+        "warm realistic lighting",
+        "semi-stylized",
+        "Pixar style",
+        "diverse crowd",
+        "background characters",
+        "rooftop party"
+      ],
+      "reference_prompt": "A diverse group of party guests, including humans of varied ethnicities and body types, alongside a few friendly, simple robots, all depicted in a 3D animated, semi-stylized Pixar art style with warm realistic lighting. Humans sport a wide array of colorful, casual party outfits and diverse hairstyles, while the robots have sleek, metallic designs. All characters exude joyful, relaxed expressions, engaging in dancing and conversation, contributing to a vibrant and uplifting rooftop party atmosphere."
+    }
+  ],
+  "sheet_id": "11d19e88-e015-4e73-b8cc-d9f39d01535c",
+  "source_plan_id": "1b321eb4-8e59-4a4e-9d8f-3c02a12075e9",
+  "generated_at": "2026-07-11T18:43:54.006370"
+}

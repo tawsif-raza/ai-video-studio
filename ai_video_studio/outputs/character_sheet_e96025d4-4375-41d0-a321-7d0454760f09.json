@@ -1,0 +1,54 @@
+{
+  "character_profiles": [
+    {
+      "name": "Bolt",
+      "age_range": "Young adult equivalent",
+      "build": "Compact, slightly blocky, retro-futuristic robot with visible joints",
+      "face_details": "Simple round head with large, expressive, blinking blue optical sensors that display emotion",
+      "hair": "None",
+      "outfit": "Chassis of matte-grey metal plating with slight wear and subtle rust on the joints",
+      "color_palette": [
+        "Matte Grey",
+        "Soft Blue",
+        "Faded Iron",
+        "Dull Silver"
+      ],
+      "distinguishing_features": "Blinking blue LED eyes that change shape to show worry, and slightly creaky, exposed mechanical joints",
+      "art_style_keywords": [
+        "3D animated",
+        "Pixar style",
+        "warm realistic lighting",
+        "semi-stylized",
+        "matte textures"
+      ],
+      "reference_prompt": "A Pixar-style 3D animated character portrait of Bolt, a shy matte-grey robot. Bolt has a compact, slightly blocky retro-futuristic build with visible, slightly worn joints. Its round head features large, glowing blue optical sensors that look expressive and slightly anxious. The lighting is warm and realistic, highlighting the soft, non-reflective matte metallic texture of its body in a semi-stylized aesthetic."
+    },
+    {
+      "name": "Spark",
+      "age_range": "Young adult equivalent",
+      "build": "Sleek, slender, aerodynamic, and highly flexible with fluid joints",
+      "face_details": "Smooth, polished chrome head with vibrant pink neon LED facial features",
+      "hair": "None",
+      "outfit": "Polished high-gloss chrome body integrated with pulsing pink neon light strips along the limbs",
+      "color_palette": [
+        "Polished Chrome",
+        "Hot Pink Neon",
+        "Glossy White",
+        "Electric Magenta"
+      ],
+      "distinguishing_features": "Highly reflective mirror-like body accented by glowing, pulsing hot-pink neon light strips",
+      "art_style_keywords": [
+        "3D animated",
+        "Pixar style",
+        "warm realistic lighting",
+        "semi-stylized",
+        "ray-traced reflections",
+        "neon bloom"
+      ],
+      "reference_prompt": "A Pixar-style 3D animated character portrait of Spark, an outgoing robot dancer. Spark has a sleek, aerodynamic body made of highly polished reflective chrome with fluid joints. Pulsing hot-pink neon lights accent its limbs and face, casting a vibrant bloom. The scene features warm, realistic lighting with beautiful reflections bouncing off Spark's metallic surface in a semi-stylized design."
+    }
+  ],
+  "sheet_id": "e96025d4-4375-41d0-a321-7d0454760f09",
+  "source_plan_id": "93fc6cff-d594-4816-8ea3-dbcfa3c062a5",
+  "generated_at": "2026-07-11T17:44:12.978964"
+}

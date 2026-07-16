@@ -1,0 +1,83 @@
+{
+  "title": "Spark's Groove",
+  "logline": "A shy, outdated robot overcomes his social anxiety at a glittering rooftop party when a vibrant dancer teaches him how to find his rhythm.",
+  "theme": "Self-expression and overcoming fear",
+  "target_duration_seconds": 45,
+  "tone": "Heartwarming and whimsical",
+  "characters": [
+    {
+      "name": "Spark",
+      "role": "Protagonist",
+      "one_line_description": "A shy, slightly rusty robot with expressive LED eyes who longs to fit in."
+    },
+    {
+      "name": "Beatrix",
+      "role": "Supporting",
+      "one_line_description": "A vibrant, neon-accented dancing robot who is confident and welcoming."
+    }
+  ],
+  "scenes": [
+    {
+      "scene_id": 1,
+      "title": "Wallflower Spark",
+      "summary": "Spark stands nervously in the corner of a bustling rooftop party, watching other robots dance under the neon lights.",
+      "setting": "Neon-lit rooftop party at night",
+      "mood": "Anxious but hopeful",
+      "characters_present": [
+        "Spark"
+      ],
+      "estimated_duration_seconds": 8
+    },
+    {
+      "scene_id": 2,
+      "title": "The Invitation",
+      "summary": "Beatrix notices Spark's hesitation, dances her way over to him with smooth, fluid motions, and extends a hand.",
+      "setting": "Neon-lit rooftop party at night",
+      "mood": "Welcoming and energetic",
+      "characters_present": [
+        "Spark",
+        "Beatrix"
+      ],
+      "estimated_duration_seconds": 9
+    },
+    {
+      "scene_id": 3,
+      "title": "Clunky First Steps",
+      "summary": "Spark takes her hand and tries to mimic her moves, but his gears grind and he accidentally executes a stiff, awkward jerk.",
+      "setting": "Neon-lit rooftop party at night",
+      "mood": "Comical and tense",
+      "characters_present": [
+        "Spark",
+        "Beatrix"
+      ],
+      "estimated_duration_seconds": 10
+    },
+    {
+      "scene_id": 4,
+      "title": "Finding the Rhythm",
+      "summary": "Beatrix adjusts her style to match his mechanical nature, encouraging him. Spark finds a unique, rhythmic robotic pop-and-lock groove.",
+      "setting": "Neon-lit rooftop party at night",
+      "mood": "Joyful and liberating",
+      "characters_present": [
+        "Spark",
+        "Beatrix"
+      ],
+      "estimated_duration_seconds": 10
+    },
+    {
+      "scene_id": 5,
+      "title": "Rooftop Royalty",
+      "summary": "The surrounding crowd circles around them, cheering as Spark and Beatrix perform a synchronized high-energy dance routine.",
+      "setting": "Neon-lit rooftop party at night",
+      "mood": "Triumphant and celebratory",
+      "characters_present": [
+        "Spark",
+        "Beatrix"
+      ],
+      "estimated_duration_seconds": 8
+    }
+  ],
+  "plan_id": "a06394ce-54d0-4215-9cd7-04264906a47d",
+  "source_idea": "A shy robot learns to dance at a rooftop party",
+  "generated_at": "2026-07-11T16:01:26.932959"
+}

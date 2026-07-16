@@ -1,0 +1,51 @@
+{
+  "character_profiles": [
+    {
+      "name": "Unit 734",
+      "age_range": "Ageless",
+      "build": "Small, somewhat boxy, compact and utilitarian service robot",
+      "face_details": "Simple optical sensors that act as expressive eyes, capable of conveying shyness and curiosity",
+      "hair": "N/A",
+      "outfit": "Clean, functional chassis of a service robot, suggesting slight wear but well-maintained",
+      "color_palette": [
+        "Silver",
+        "Light Grey",
+        "Subtle Blue",
+        "Small Red Indicator"
+      ],
+      "distinguishing_features": "Compact, utilitarian form with a slightly boxy silhouette. Expressive optical sensors that initially convey shyness and awkwardness, but can soften with joy. Subtle hinges and joints suggest potential for fluid movement.",
+      "art_style_keywords": [
+        "3D animated",
+        "warm realistic lighting",
+        "semi-stylized",
+        "Pixar style"
+      ],
+      "reference_prompt": "A small, somewhat boxy service robot, compact and utilitarian in form. Its chassis is clean silver and light grey, with subtle blue accents and a small red indicator light. It features simple optical sensors that act as expressive eyes, capable of conveying shyness and awkwardness. Subtle hinges and joints hint at its potential for fluid movement. The robot embodies a 3D animated, semi-stylized Pixar aesthetic, illuminated by warm realistic lighting."
+    },
+    {
+      "name": "Maya",
+      "age_range": "Early 20s",
+      "build": "Average, athletic build, graceful and approachable posture",
+      "face_details": "Warm, expressive face with a friendly smile, kind eyes, and perhaps a scattering of light freckles",
+      "hair": "Medium-length, wavy brown hair, styled casually and naturally for a party",
+      "outfit": "Comfortable yet stylish rooftop party attire, such as a vibrant, flowy summer dress or a chic top with tailored pants",
+      "color_palette": [
+        "Warm Yellow",
+        "Soft Orange",
+        "Teal",
+        "Light Denim Blue"
+      ],
+      "distinguishing_features": "An inviting and approachable demeanor, gentle posture, and a natural, empathetic expression that draws others in. Her overall presence is vibrant and kind.",
+      "art_style_keywords": [
+        "3D animated",
+        "warm realistic lighting",
+        "semi-stylized",
+        "Pixar style"
+      ],
+      "reference_prompt": "Maya is a vibrant and kind human party-goer in her early 20s, with an average, athletic build and graceful movement. She has a warm, expressive face with a friendly smile, kind eyes, and a smattering of light freckles. Her medium-length, wavy brown hair is styled casually for a party. She wears comfortable yet stylish rooftop party attire, such as a vibrant yellow summer dress with teal accents, reflecting her warm and inviting color palette. Her approachable demeanor and gentle posture are evident. She is depicted in a 3D animated, semi-stylized Pixar art style, under warm realistic lighting."
+    }
+  ],
+  "sheet_id": "bfe666fe-c4f8-4194-a79d-fc3580b1c97d",
+  "source_plan_id": "9fa41eb2-41a4-4bc1-8e5b-a0a68163e92b",
+  "generated_at": "2026-07-13T14:21:59.731385"
+}

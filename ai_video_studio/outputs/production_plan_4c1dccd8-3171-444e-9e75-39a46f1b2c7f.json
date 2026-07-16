@@ -1,0 +1,101 @@
+{
+  "title": "Bot's Rooftop Rumba",
+  "logline": "A shy service robot named Unit 734 overcomes its social anxieties by finding joy on the dance floor at a vibrant rooftop party.",
+  "theme": "Self-discovery, overcoming shyness, the joy of dance, acceptance.",
+  "target_duration_seconds": 45,
+  "tone": "Uplifting, heartwarming, fun.",
+  "characters": [
+    {
+      "name": "Unit 734",
+      "role": "Protagonist",
+      "one_line_description": "A shy, curious service robot with polished metallic plating and expressive optical sensors."
+    },
+    {
+      "name": "Maya",
+      "role": "Supporting Character",
+      "one_line_description": "A friendly and encouraging human party-goer who notices Unit 734's hesitation."
+    },
+    {
+      "name": "Party Guests",
+      "role": "Background/Ensemble",
+      "one_line_description": "The diverse, energetic crowd at the rooftop party, enjoying the music and dancing."
+    }
+  ],
+  "scenes": [
+    {
+      "scene_id": 1,
+      "title": "The Wallflower Bot",
+      "summary": "Unit 734, a small, polished service robot, stands awkwardly at the edge of a vibrant rooftop party, observing the dancing crowd with visible hesitation. City lights twinkle behind him.",
+      "setting": "A lively rooftop party with a DJ booth and city skyline views.",
+      "mood": "Hesitant, observational, slightly anxious.",
+      "characters_present": [
+        "Unit 734",
+        "Party Guests"
+      ],
+      "estimated_duration_seconds": 8
+    },
+    {
+      "scene_id": 2,
+      "title": "Observing the Rhythm",
+      "summary": "Close-ups of various party-goers dancing freely, their movements fluid and joyful. Unit 734's optical sensors track their motions, his internal processors whirring as if trying to compute their happiness. He looks down at his own static metallic feet.",
+      "setting": "The bustling dance floor at the rooftop party.",
+      "mood": "Curious, wistful, longing.",
+      "characters_present": [
+        "Unit 734",
+        "Party Guests"
+      ],
+      "estimated_duration_seconds": 7
+    },
+    {
+      "scene_id": 3,
+      "title": "A Friendly Nod",
+      "summary": "A friendly human party-goer, Maya, catches Unit 734's 'eye'. She smiles warmly and gives him an encouraging nod, then gestures lightly towards the dance floor. Unit 734's internal lights flicker slightly in response.",
+      "setting": "Edge of the dance floor, near Unit 734.",
+      "mood": "Encouraging, hopeful, supportive.",
+      "characters_present": [
+        "Unit 734",
+        "Maya"
+      ],
+      "estimated_duration_seconds": 8
+    },
+    {
+      "scene_id": 4,
+      "title": "First Steps",
+      "summary": "Unit 734 takes a deep 'breath' (a system whir), and attempts a small, jerky sway. He looks self-conscious at first, but slowly continues, finding a basic, simple rhythm. His movements are stiff but determined.",
+      "setting": "Slightly away from the main crowd on the dance floor.",
+      "mood": "Awkward, determined, beginning to loosen up.",
+      "characters_present": [
+        "Unit 734"
+      ],
+      "estimated_duration_seconds": 7
+    },
+    {
+      "scene_id": 5,
+      "title": "Finding the Groove",
+      "summary": "Unit 734's movements become noticeably smoother, more fluid, and expressive. He's no longer just mimicking but developing his own unique, robotic-yet-joyful dance style. His chassis lights glow brighter with each move.",
+      "setting": "Center of the dance floor, surrounded by other dancers.",
+      "mood": "Joyful, liberated, growing confidence.",
+      "characters_present": [
+        "Unit 734",
+        "Party Guests"
+      ],
+      "estimated_duration_seconds": 8
+    },
+    {
+      "scene_id": 6,
+      "title": "The Dance King",
+      "summary": "Unit 734 is now fully grooving, a beacon of metallic joy. Other dancers, including Maya, smile and cheer him on, some even trying to playfully imitate his robot moves. He's found his place, fully immersed in the moment.",
+      "setting": "Vibrant, energetic dance floor, everyone celebrating.",
+      "mood": "Triumphant, exhilarating, accepted.",
+      "characters_present": [
+        "Unit 734",
+        "Maya",
+        "Party Guests"
+      ],
+      "estimated_duration_seconds": 7
+    }
+  ],
+  "plan_id": "4c1dccd8-3171-444e-9e75-39a46f1b2c7f",
+  "source_idea": "A shy robot learns to dance at a rooftop party",
+  "generated_at": "2026-07-16T16:36:12.314872"
+}

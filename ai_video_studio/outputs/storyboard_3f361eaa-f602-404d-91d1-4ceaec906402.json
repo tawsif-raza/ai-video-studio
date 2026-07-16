@@ -1,0 +1,233 @@
+{
+  "scene_plans": [
+    {
+      "scene_id": 1,
+      "shots": [
+        {
+          "shot_id": 1,
+          "camera_angle": "Wide Shot",
+          "camera_movement": "Pan Left",
+          "description": "Establish the vibrant, neon-lit rooftop party, bustling with dancing humans. Upbeat music pulses.",
+          "characters_in_shot": [],
+          "duration_seconds": 2
+        },
+        {
+          "shot_id": 2,
+          "camera_angle": "Medium Shot",
+          "camera_movement": "Static",
+          "description": "Unit 734 stands slightly apart from the crowd, observing with a wistful, curious demeanor.",
+          "characters_in_shot": [
+            "Unit 734"
+          ],
+          "duration_seconds": 3
+        },
+        {
+          "shot_id": 3,
+          "camera_angle": "Close-up",
+          "camera_movement": "Dolly In",
+          "description": "Focus on Unit 734's 'eyes' or optical sensors, reflecting the flashing party lights, showing a longing to join.",
+          "characters_in_shot": [
+            "Unit 734"
+          ],
+          "duration_seconds": 2
+        }
+      ]
+    },
+    {
+      "scene_id": 2,
+      "shots": [
+        {
+          "shot_id": 1,
+          "camera_angle": "Medium Full Shot",
+          "camera_movement": "Static",
+          "description": "Unit 734 is positioned near a potted plant at the edge of the dance floor, looking around nervously.",
+          "characters_in_shot": [
+            "Unit 734"
+          ],
+          "duration_seconds": 2
+        },
+        {
+          "shot_id": 2,
+          "camera_angle": "Close-up",
+          "camera_movement": "Static",
+          "description": "Unit 734 attempts a small, stiff, robotic arm movement, quickly retracting it.",
+          "characters_in_shot": [
+            "Unit 734"
+          ],
+          "duration_seconds": 3
+        },
+        {
+          "shot_id": 3,
+          "camera_angle": "Over-the-shoulder (from Unit 734)",
+          "camera_movement": "Quick Pan",
+          "description": "A blurred human figure briefly turns its head in Unit 734's direction.",
+          "characters_in_shot": [],
+          "duration_seconds": 1
+        },
+        {
+          "shot_id": 4,
+          "camera_angle": "Medium Shot",
+          "camera_movement": "Zoom Out",
+          "description": "Unit 734 recoils, 'slumping' slightly, looking self-conscious and retreating further into the shadows.",
+          "characters_in_shot": [
+            "Unit 734"
+          ],
+          "duration_seconds": 2
+        }
+      ]
+    },
+    {
+      "scene_id": 3,
+      "shots": [
+        {
+          "shot_id": 1,
+          "camera_angle": "Medium Shot",
+          "camera_movement": "Tracking Right",
+          "description": "Maya is dancing energetically amidst the crowd, bathed in colorful lights.",
+          "characters_in_shot": [
+            "Maya"
+          ],
+          "duration_seconds": 2
+        },
+        {
+          "shot_id": 2,
+          "camera_angle": "Medium Close-up",
+          "camera_movement": "Static",
+          "description": "Maya pauses her dancing for a moment, noticing Unit 734 at the edge of the floor.",
+          "characters_in_shot": [
+            "Maya"
+          ],
+          "duration_seconds": 2
+        },
+        {
+          "shot_id": 3,
+          "camera_angle": "Close-up",
+          "camera_movement": "Static",
+          "description": "Maya offers a warm, encouraging smile and a subtle head nod towards Unit 734.",
+          "characters_in_shot": [
+            "Maya"
+          ],
+          "duration_seconds": 2
+        },
+        {
+          "shot_id": 4,
+          "camera_angle": "Close-up",
+          "camera_movement": "Static",
+          "description": "Unit 734's optical sensors flicker slightly in response to Maya's gesture, a small spark of hope.",
+          "characters_in_shot": [
+            "Unit 734"
+          ],
+          "duration_seconds": 1
+        }
+      ]
+    },
+    {
+      "scene_id": 4,
+      "shots": [
+        {
+          "shot_id": 1,
+          "camera_angle": "Medium Shot",
+          "camera_movement": "Static",
+          "description": "Unit 734, slightly closer to the dance area, tentatively tries a simple, repetitive dance move, still stiff but with more resolve.",
+          "characters_in_shot": [
+            "Unit 734"
+          ],
+          "duration_seconds": 3
+        },
+        {
+          "shot_id": 2,
+          "camera_angle": "Over-the-shoulder (from Unit 734)",
+          "camera_movement": "Static",
+          "description": "Maya is visible in the mid-ground, gently clapping her hands and smiling at Unit 734's effort.",
+          "characters_in_shot": [
+            "Maya"
+          ],
+          "duration_seconds": 2
+        },
+        {
+          "shot_id": 3,
+          "camera_angle": "Close-up",
+          "camera_movement": "Dolly In",
+          "description": "Focus on Unit 734's 'face' or core, showing a subtle but clear expression of determination and slight enjoyment.",
+          "characters_in_shot": [
+            "Unit 734"
+          ],
+          "duration_seconds": 3
+        }
+      ]
+    },
+    {
+      "scene_id": 5,
+      "shots": [
+        {
+          "shot_id": 1,
+          "camera_angle": "Low Angle",
+          "camera_movement": "Crane Up",
+          "description": "Unit 734's entire form, silhouetted against the vibrant party lights, as its movements become less rigid and more fluid.",
+          "characters_in_shot": [
+            "Unit 734"
+          ],
+          "duration_seconds": 3
+        },
+        {
+          "shot_id": 2,
+          "camera_angle": "Medium Close-up",
+          "camera_movement": "Dolly Left",
+          "description": "Focus on Unit 734's arms and torso, showing a clear reduction in stiffness, almost swaying to the music.",
+          "characters_in_shot": [
+            "Unit 734"
+          ],
+          "duration_seconds": 3
+        },
+        {
+          "shot_id": 3,
+          "camera_angle": "Tracking Shot",
+          "camera_movement": "Track Forward",
+          "description": "Unit 734 takes a small, confident step onto the main dance floor, truly finding its own unique rhythm.",
+          "characters_in_shot": [
+            "Unit 734"
+          ],
+          "duration_seconds": 2
+        }
+      ]
+    },
+    {
+      "scene_id": 6,
+      "shots": [
+        {
+          "shot_id": 1,
+          "camera_angle": "Dynamic Wide Shot",
+          "camera_movement": "360 Spin",
+          "description": "Unit 734 is now in the center of the dance floor, moving with unadulterated joy, surrounded by other dancers and bathed in shifting, colorful lights.",
+          "characters_in_shot": [
+            "Unit 734"
+          ],
+          "duration_seconds": 3
+        },
+        {
+          "shot_id": 2,
+          "camera_angle": "Close-up",
+          "camera_movement": "Push In",
+          "description": "A jubilant close-up on Unit 734's 'face' or core, reflecting pure happiness and belonging.",
+          "characters_in_shot": [
+            "Unit 734"
+          ],
+          "duration_seconds": 2
+        },
+        {
+          "shot_id": 3,
+          "camera_angle": "High-Angle Crane Shot",
+          "camera_movement": "Pull Out",
+          "description": "Pull back to reveal the entire rooftop party, with Unit 734 now a fully integrated, joyfully grooving member of the crowd, a beacon of triumph.",
+          "characters_in_shot": [
+            "Unit 734"
+          ],
+          "duration_seconds": 2
+        }
+      ]
+    }
+  ],
+  "storyboard_id": "3f361eaa-f602-404d-91d1-4ceaec906402",
+  "source_plan_id": "9fa41eb2-41a4-4bc1-8e5b-a0a68163e92b",
+  "generated_at": "2026-07-13T14:21:50.539698"
+}

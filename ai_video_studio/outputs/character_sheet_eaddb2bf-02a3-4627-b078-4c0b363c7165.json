@@ -1,0 +1,52 @@
+{
+  "character_profiles": [
+    {
+      "name": "Bolt",
+      "age_range": "Robot",
+      "build": "Compact and sturdy, with a slightly clunky, functional appearance. Approximately 3 feet tall.",
+      "face_details": "Prominent, expressive optical sensors that function as eyes, capable of conveying shyness and curiosity. A simple, minimalist 'mouth' area that suggests emotion through subtle light changes.",
+      "hair": "N/A",
+      "outfit": "Its 'body' is its primary appearance: smooth, polished metallic grey chassis with matte white panels, accented with subtle, glowing light blue seams and indicators. It has visible, articulated joints that suggest its clunky movement.",
+      "color_palette": [
+        "Metallic Grey",
+        "Matte White",
+        "Light Blue",
+        "Subtle Orange"
+      ],
+      "distinguishing_features": "Large, emotive optical sensors; slightly clunky, boxy limbs; a small, integrated utility compartment on its back.",
+      "art_style_keywords": [
+        "3D animated",
+        "warm realistic lighting",
+        "semi-stylized like Pixar",
+        "robot character design"
+      ],
+      "reference_prompt": "A compact, somewhat clunky service robot named Bolt, designed in a 3D animated, semi-stylized Pixar-like aesthetic with warm realistic lighting. Bolt has a sturdy, functional metallic grey chassis with matte white panels and subtle light blue glowing accents. His most prominent feature is his large, expressive optical sensors that serve as his eyes, capable of conveying shyness and curiosity. His limbs are visibly articulated, hinting at his somewhat hesitant movements. He has a clean, polished but not overly sleek appearance, with a simple, minimalist mouth area that subtly conveys emotion."
+    },
+    {
+      "name": "Maya",
+      "age_range": "Young Adult (20s)",
+      "build": "Slender but healthy, average height, with an energetic posture.",
+      "face_details": "Friendly, open face with a warm, encouraging smile. Bright, observant brown eyes that show curiosity and kindness. Soft, approachable features.",
+      "hair": "Medium-length wavy brown hair, styled casually, possibly in a loose ponytail or flowing over her shoulders.",
+      "outfit": "A comfortable yet stylish vibrant yellow sundress that allows for movement, suitable for a rooftop party. Paired with simple, comfortable white sneakers and a light, woven bracelet.",
+      "color_palette": [
+        "Vibrant Yellow",
+        "Brown",
+        "Warm Skin Tone",
+        "White",
+        "Light Blue"
+      ],
+      "distinguishing_features": "Overall warm and inviting presence; a natural, encouraging smile; expressive eyes.",
+      "art_style_keywords": [
+        "3D animated",
+        "warm realistic lighting",
+        "semi-stylized like Pixar",
+        "human character design"
+      ],
+      "reference_prompt": "A vibrant and friendly young adult human named Maya, designed in a 3D animated, semi-stylized Pixar-like aesthetic with warm realistic lighting. She has a slender build and an energetic posture. Her face is open and approachable, featuring a warm, encouraging smile and bright, observant brown eyes. Her medium-length wavy brown hair is styled casually, framing her face. She wears a comfortable yet stylish vibrant yellow sundress, perfect for a rooftop party, paired with simple white sneakers and a light woven bracelet, emphasizing her friendly and approachable nature."
+    }
+  ],
+  "sheet_id": "eaddb2bf-02a3-4627-b078-4c0b363c7165",
+  "source_plan_id": "e90acb7b-8cdd-4bd3-9556-3c2d3baa2efd",
+  "generated_at": "2026-07-14T16:04:04.951894"
+}

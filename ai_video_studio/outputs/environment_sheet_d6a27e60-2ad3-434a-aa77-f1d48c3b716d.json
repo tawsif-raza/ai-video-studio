@@ -1,0 +1,36 @@
+{
+  "environment_profiles": [
+    {
+      "setting": "Futuristic cyberpunk rooftop dance floor",
+      "time_of_day": "Night",
+      "weather": "Clear, starry night with a warm, gentle breeze",
+      "key_visual_elements": [
+        "Holographic dance floor pulsing with soft geometric patterns",
+        "Distant towering skyscrapers with warm, golden window lights",
+        "Whimsical warm-toned overhead string lights draping across the roof",
+        "Stylized bioluminescent potted plants",
+        "Cozy, retro-futuristic rounded lounge pods"
+      ],
+      "color_palette": [
+        "Deep indigo",
+        "Vibrant magenta",
+        "Electric cyan",
+        "Warm golden amber",
+        "Soft matte gold"
+      ],
+      "lighting": "Warm realistic lighting blended with vibrant neon accents, soft volumetric light shafts, and a cozy golden glow from overhead string lights",
+      "atmosphere": "Heartwarming, energetic, and whimsical",
+      "art_style_keywords": [
+        "3D animated",
+        "Pixar-style",
+        "semi-stylized",
+        "warm realistic lighting",
+        "soft tactile textures"
+      ],
+      "reference_prompt": "A 3D animated, Pixar-style futuristic cyberpunk rooftop dance floor at night. The scene features a glowing holographic dance floor with pulsing geometric patterns in vibrant magenta and electric cyan. In the background, soft-focused futuristic skyscrapers with warm, golden window lights stretch into a deep indigo sky. Whimsical warm string lights hang overhead, casting a cozy and inviting glow. Hovering DJ booths and plush, semi-stylized lounge pods are scattered around the edges, surrounded by gently glowing futuristic plants. The atmosphere is energetic yet heartwarming, rendered with soft textures, rich volumetric lighting, and a warm, cinematic depth of field."
+    }
+  ],
+  "sheet_id": "d6a27e60-2ad3-434a-aa77-f1d48c3b716d",
+  "source_plan_id": "93fc6cff-d594-4816-8ea3-dbcfa3c062a5",
+  "generated_at": "2026-07-11T17:44:26.988993"
+}

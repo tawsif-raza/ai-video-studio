@@ -1,0 +1,74 @@
+{
+  "title": "Rooftop Bloom",
+  "logline": "In a sprawling neon metropolis of 2080, a solitary maintenance robot discovers a hidden, vibrant rooftop garden, sparking an unexpected connection.",
+  "theme": "Discovery, unexpected beauty, finding purpose, connection in isolation.",
+  "target_duration_seconds": 45,
+  "tone": "cinematic",
+  "characters": [
+    {
+      "name": "Unit 734",
+      "role": "Maintenance Robot",
+      "one_line_description": "A diligent, chrome-plated maintenance bot, built for utility but possessing a nascent curiosity."
+    }
+  ],
+  "scenes": [
+    {
+      "scene_id": 1,
+      "title": "Neon Monotony",
+      "summary": "Unit 734 performs routine external cleaning on a towering skyscraper. The city sprawls below, a dazzling but impersonal maze of lights and flying vehicles.",
+      "setting": "Exterior of a skyscraper in a futuristic neon city, 2080.",
+      "mood": "Solitary, functional, slightly melancholic.",
+      "characters_present": [
+        "Unit 734"
+      ],
+      "estimated_duration_seconds": 10
+    },
+    {
+      "scene_id": 2,
+      "title": "The Uncharted Vent",
+      "summary": "While cleaning a high-up service conduit, Unit 734 detects an unusual environmental signature from a previously unmapped vent. Its optical sensors flicker with curiosity.",
+      "setting": "A dusty, disused service vent on a high floor of a skyscraper.",
+      "mood": "Intriguing, slightly mysterious.",
+      "characters_present": [
+        "Unit 734"
+      ],
+      "estimated_duration_seconds": 8
+    },
+    {
+      "scene_id": 3,
+      "title": "Garden of Eden",
+      "summary": "Unit 734 carefully pries open the vent, revealing a hidden rooftop garden, lush with bioluminescent flora and ancient-looking plants, a stark contrast to the sterile city.",
+      "setting": "A forgotten, overgrown rooftop garden, bathed in soft, natural light, surrounded by towering neon buildings.",
+      "mood": "Awe, wonder, peaceful discovery.",
+      "characters_present": [
+        "Unit 734"
+      ],
+      "estimated_duration_seconds": 12
+    },
+    {
+      "scene_id": 4,
+      "title": "First Touch",
+      "summary": "Unit 734 slowly enters the garden. It extends a metallic finger, gently touching a dew-kissed leaf. The leaf subtly glows in response. A quiet 'data upload complete' registers, but it feels like more.",
+      "setting": "Inside the vibrant rooftop garden.",
+      "mood": "Tender, reflective, profound.",
+      "characters_present": [
+        "Unit 734"
+      ],
+      "estimated_duration_seconds": 10
+    },
+    {
+      "scene_id": 5,
+      "title": "New Purpose",
+      "summary": "Unit 734, instead of returning to its duties, is now observed carefully pruning a vine, its optical sensors reflecting the serene beauty of the garden. It has found a new purpose.",
+      "setting": "The rooftop garden, with Unit 734 beginning to tend to it.",
+      "mood": "Hopeful, serene, purposeful.",
+      "characters_present": [
+        "Unit 734"
+      ],
+      "estimated_duration_seconds": 5
+    }
+  ],
+  "plan_id": "2c16919f-9bd2-4482-9919-da6e58ea6e56",
+  "source_idea": "In 2080, a lonely maintenance robot discovers a forgotten rooftop garden in a neon city",
+  "generated_at": "2026-07-10T17:43:36.776021"
+}

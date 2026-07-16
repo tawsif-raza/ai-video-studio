@@ -1,0 +1,54 @@
+{
+  "character_profiles": [
+    {
+      "name": "Bolt",
+      "age_range": "Child-like",
+      "build": "Small, boxy, retro-style metallic chassis",
+      "face_details": "Large, expressive blue LED screen eyes that display emotions, simple curved digital mouth",
+      "hair": "None (single drooping copper antenna with a small light tip)",
+      "outfit": "Exposed retro matte-gray metal plates, brass gears at joints, and soft copper accents",
+      "color_palette": [
+        "Matte Gray",
+        "Brass Gold",
+        "Copper",
+        "LED Blue"
+      ],
+      "distinguishing_features": "Slightly rusty joints, a single antenna that droops to show shyness, and oversized glowing blue eyes",
+      "art_style_keywords": [
+        "3D animated",
+        "Pixar style",
+        "warm realistic lighting",
+        "semi-stylized",
+        "tactile metallic textures"
+      ],
+      "reference_prompt": "A character concept sheet of Bolt, a small retro-styled robot with a boxy matte-gray and brass metallic body, standing in a shy pose. It has large, expressive glowing blue LED screen eyes that convey a gentle, timid emotion, and a single slightly drooping copper antenna on its head. The design is semi-stylized in a 3D animated Pixar style with warm, realistic studio lighting, soft metallic textures, and a clean studio background."
+    },
+    {
+      "name": "Spark",
+      "age_range": "Young Adult",
+      "build": "Sleek, slender, aerodynamic, and highly agile chassis",
+      "face_details": "Smooth white faceplate with a sleek dark visor displaying shifting neon pink and cyan patterns",
+      "hair": "None (sleek, streamlined helmet-like head structure)",
+      "outfit": "Glossy white and obsidian black armor plating with integrated glowing neon light strips",
+      "color_palette": [
+        "Glossy White",
+        "Obsidian Black",
+        "Neon Pink",
+        "Neon Cyan"
+      ],
+      "distinguishing_features": "Vibrant glowing neon pink and cyan energy lines tracing its limbs and dynamic joints",
+      "art_style_keywords": [
+        "3D animated",
+        "Pixar style",
+        "warm realistic lighting",
+        "semi-stylized",
+        "glossy surfaces",
+        "emissive neon glow"
+      ],
+      "reference_prompt": "A character concept sheet of Spark, a sleek and charismatic dancer robot with a slender, athletic build made of glossy white and black high-tech polymers. Its body is adorned with vibrant, glowing neon pink and cyan lines that trace its limbs. It has a smooth faceplate with a sleek visor displaying shifting neon patterns. The design is semi-stylized in a 3D animated Pixar style, featuring warm realistic lighting, emissive neon glow reflections on its glossy chassis, and a clean studio background."
+    }
+  ],
+  "sheet_id": "284cc95e-2c1e-40c9-b316-a1e1b1fcf82b",
+  "source_plan_id": "a4d385bc-5bf1-4b34-9ea5-50098d3b9506",
+  "generated_at": "2026-07-11T16:16:08.754316"
+}

@@ -1,0 +1,83 @@
+{
+  "title": "Rhythm and Rust",
+  "logline": "A socially anxious robot overcomes its fears on a neon-lit rooftop party with the help of a friendly dancer.",
+  "theme": "Overcoming self-doubt and finding your rhythm.",
+  "target_duration_seconds": 45,
+  "tone": "Heartwarming, energetic, upbeat",
+  "characters": [
+    {
+      "name": "Bolt",
+      "role": "Protagonist",
+      "one_line_description": "A sleek but slightly rusty robot with expressive LED eyes who is incredibly self-conscious."
+    },
+    {
+      "name": "Nova",
+      "role": "Deuteragonist",
+      "one_line_description": "A vibrant, neon-accented dancer robot who loves bringing people together."
+    }
+  ],
+  "scenes": [
+    {
+      "scene_id": 1,
+      "title": "Wallflower in the Corner",
+      "summary": "Bolt stands near the entrance of a bustling rooftop party, clutching an oil drink nervously while watching others dance under neon lights.",
+      "setting": "Neon-lit skyscraper rooftop party at night",
+      "mood": "Anxious and overwhelming",
+      "characters_present": [
+        "Bolt"
+      ],
+      "estimated_duration_seconds": 8
+    },
+    {
+      "scene_id": 2,
+      "title": "An Invitation",
+      "summary": "Nova, dancing in the center of the crowd, spots Bolt hiding. She smiles and waves him over, gesturing for him to join.",
+      "setting": "Rooftop dance floor",
+      "mood": "Welcoming and hopeful",
+      "characters_present": [
+        "Bolt",
+        "Nova"
+      ],
+      "estimated_duration_seconds": 9
+    },
+    {
+      "scene_id": 3,
+      "title": "First Clunky Steps",
+      "summary": "Bolt steps hesitantly onto the floor. Nova demonstrates a simple side-to-side step. Bolt tries to mimic it, but his gears grind stiffly.",
+      "setting": "Rooftop dance floor",
+      "mood": "Awkward but encouraging",
+      "characters_present": [
+        "Bolt",
+        "Nova"
+      ],
+      "estimated_duration_seconds": 10
+    },
+    {
+      "scene_id": 4,
+      "title": "Finding the Beat",
+      "summary": "Nova laughs gently and guides his hands. Bolt relaxes, his LED eyes changing from cautious yellow to excited blue as he begins to flow with the music.",
+      "setting": "Rooftop dance floor",
+      "mood": "Joyful and liberating",
+      "characters_present": [
+        "Bolt",
+        "Nova"
+      ],
+      "estimated_duration_seconds": 10
+    },
+    {
+      "scene_id": 5,
+      "title": "The Rooftop Star",
+      "summary": "Bolt executes a perfect, glowing spin. The crowd circles around him, cheering. Bolt and Nova share a triumphant high-five under the starlight.",
+      "setting": "Rooftop dance floor",
+      "mood": "Triumphant and celebratory",
+      "characters_present": [
+        "Bolt",
+        "Nova"
+      ],
+      "estimated_duration_seconds": 8
+    }
+  ],
+  "plan_id": "03ca2899-d289-42d6-8ed9-95628c5be95e",
+  "source_idea": "A shy robot learns to dance at a rooftop party",
+  "generated_at": "2026-07-11T17:36:04.427724"
+}

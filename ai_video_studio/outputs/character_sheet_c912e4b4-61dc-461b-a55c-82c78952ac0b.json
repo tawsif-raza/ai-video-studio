@@ -1,0 +1,80 @@
+{
+  "character_profiles": [
+    {
+      "name": "Unit 734",
+      "age_range": "Newly activated (appears ageless)",
+      "build": "Service robot, sleek and functional design, slightly taller than an average human, polished metallic plating.",
+      "face_details": "Smooth, rounded head with no mouth, prominent expressive optical sensors.",
+      "hair": "N/A",
+      "outfit": "Integrated metallic chassis, no separate clothing, subtle service-oriented markings.",
+      "color_palette": [
+        "Polished silver",
+        "Metallic grey",
+        "Soft glowing blue",
+        "Subtle black accents"
+      ],
+      "distinguishing_features": "Expressive blue optical sensors, slightly hunched posture indicating shyness, highly polished metallic sheen.",
+      "art_style_keywords": [
+        "3D animated",
+        "warm realistic lighting",
+        "semi-stylized like Pixar",
+        "clean lines",
+        "polished surfaces"
+      ],
+      "reference_prompt": "A shy, curious service robot named Unit 734, depicted in a 3D animated, semi-stylized like Pixar art style with warm realistic lighting. It has a sleek, polished metallic silver and grey chassis, slightly taller than an average human, with subtle black accents. Its head is smooth and rounded, featuring prominent expressive, glowing blue optical sensors that convey shyness, often with a slightly hunched posture. The overall look is clean, functional, and endearing."
+    },
+    {
+      "name": "Maya",
+      "age_range": "Early 20s",
+      "build": "Slender, average height, graceful and approachable.",
+      "face_details": "Friendly smile, warm brown eyes, approachable expression, light freckles.",
+      "hair": "Long, wavy dark brown hair, often tied up casually or falling over shoulders.",
+      "outfit": "Vibrant, comfortable, and stylish party attire, such as a colorful summer dress or a flowy top with jeans, in warm tones.",
+      "color_palette": [
+        "Warm yellow",
+        "Coral",
+        "Sky blue",
+        "Dark brown (hair)",
+        "Warm skin tones"
+      ],
+      "distinguishing_features": "Bright, encouraging smile, warm and inviting demeanor, often seen with a slightly tilted head showing empathy.",
+      "art_style_keywords": [
+        "3D animated",
+        "warm realistic lighting",
+        "semi-stylized like Pixar",
+        "expressive",
+        "friendly"
+      ],
+      "reference_prompt": "Maya, a friendly and encouraging human party-goer, rendered in a 3D animated, semi-stylized like Pixar art style with warm realistic lighting. She is in her early 20s, with a slender, average build and a graceful demeanor. Her face features a warm, approachable smile, kind brown eyes, and light freckles. She has long, wavy dark brown hair that might be tied up casually or fall over her shoulders. Maya wears vibrant, comfortable party attire in warm tones like coral and sky blue, reflecting her cheerful personality. Her bright, empathetic expression and slightly tilted head are distinguishing features."
+    },
+    {
+      "name": "Party Guests",
+      "age_range": "Diverse, 20s-40s",
+      "build": "Varied, reflecting a diverse crowd; energetic in their movements.",
+      "face_details": "Joyful, energetic, dancing expressions, smiling faces.",
+      "hair": "Diverse range of styles and colors (various lengths, textures, and hues).",
+      "outfit": "Vibrant, trendy, comfortable rooftop party attire; casual yet stylish, bright colors, diverse styles reflecting individuality.",
+      "color_palette": [
+        "Pinks",
+        "Purples",
+        "Greens",
+        "Blues",
+        "Oranges",
+        "Mixed skin tones"
+      ],
+      "distinguishing_features": "Energetic poses, diverse appearances, happy and engaged expressions, often in groups enjoying the music.",
+      "art_style_keywords": [
+        "3D animated",
+        "warm realistic lighting",
+        "semi-stylized like Pixar",
+        "diverse",
+        "energetic",
+        "joyful"
+      ],
+      "reference_prompt": "A diverse group of energetic party guests, ranging from 20s to 40s, depicted in a 3D animated, semi-stylized like Pixar art style with warm realistic lighting. They exhibit varied builds and appearances, all displaying joyful, dancing expressions and bright smiles. Their hair styles and colors are diverse. They wear vibrant, trendy, and comfortable rooftop party attire in a wide range of cheerful colors such as pinks, purples, greens, blues, and oranges, showcasing their individuality. They are often seen in dynamic, energetic poses, enjoying the music and creating a lively, accepting atmosphere."
+    }
+  ],
+  "sheet_id": "c912e4b4-61dc-461b-a55c-82c78952ac0b",
+  "source_plan_id": "4c1dccd8-3171-444e-9e75-39a46f1b2c7f",
+  "generated_at": "2026-07-16T16:37:11.761242"
+}

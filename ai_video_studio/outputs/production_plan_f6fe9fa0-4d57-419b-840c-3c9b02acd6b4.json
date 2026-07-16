@@ -1,0 +1,63 @@
+{
+  "title": "Whiskers' Luminous Garden",
+  "logline": "A curious housecat, Whiskers, stumbles upon a hidden backyard garden bathed in the ethereal glow of mysterious, fantastical flowers, leading to a magical and heartwarming discovery.",
+  "theme": "Discovery, wonder, curiosity, hidden beauty",
+  "target_duration_seconds": 30,
+  "tone": "Whimsical, magical, curious, heartwarming",
+  "characters": [
+    {
+      "name": "Whiskers",
+      "role": "Protagonist",
+      "one_line_description": "A curious and adventurous ginger housecat with a keen sense of wonder."
+    }
+  ],
+  "scenes": [
+    {
+      "scene_id": 1,
+      "title": "The Curious Gaze",
+      "summary": "Whiskers, a ginger housecat, is restless indoors, gazing longingly out a window at the ordinary backyard, dreaming of adventure.",
+      "setting": "A cozy living room, looking out a window into a mundane backyard.",
+      "mood": "Restless, curious, slightly bored",
+      "characters_present": [
+        "Whiskers"
+      ],
+      "estimated_duration_seconds": 5
+    },
+    {
+      "scene_id": 2,
+      "title": "A Glimmer of Light",
+      "summary": "Suddenly, Whiskers spots a faint, unusual shimmer and a soft, mysterious glow emanating from the overgrown, forgotten corner of the backyard.",
+      "setting": "The backyard, focusing on an overgrown patch of bushes and ivy near a fence.",
+      "mood": "Intrigued, mysterious, awakening wonder",
+      "characters_present": [
+        "Whiskers"
+      ],
+      "estimated_duration_seconds": 7
+    },
+    {
+      "scene_id": 3,
+      "title": "The Hidden Entrance",
+      "summary": "Driven by curiosity, Whiskers stealthily sneaks out and squeezes through a small, hidden gap in the dense foliage, revealing a narrow, dark passage.",
+      "setting": "A dense wall of bushes and an old wooden fence in the backyard.",
+      "mood": "Adventurous, determined, discovery",
+      "characters_present": [
+        "Whiskers"
+      ],
+      "estimated_duration_seconds": 7
+    },
+    {
+      "scene_id": 4,
+      "title": "The Luminous Garden",
+      "summary": "Whiskers emerges into a breathtaking, secret garden where every flower glows with a soft, ethereal light in various vibrant colors, filling the air with a gentle magic. She sniffs a glowing bloom.",
+      "setting": "A magical, hidden garden filled with fantastical, bioluminescent flowers and lush greenery.",
+      "mood": "Awe, wonder, peaceful magic, enchantment",
+      "characters_present": [
+        "Whiskers"
+      ],
+      "estimated_duration_seconds": 11
+    }
+  ],
+  "plan_id": "f6fe9fa0-4d57-419b-840c-3c9b02acd6b4",
+  "source_idea": "A curious cat discovers a mysterious garden full of glowing flowers",
+  "generated_at": "2026-07-16T16:18:37.080658"
+}

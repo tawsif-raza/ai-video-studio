@@ -1,0 +1,76 @@
+{
+  "character_profiles": [
+    {
+      "name": "Sparky",
+      "age_range": "N/A (robot, child-like demeanor)",
+      "build": "Small, boxy, compact, sturdy",
+      "face_details": "Expressive circular LED eyes, simple metallic face plate",
+      "hair": "N/A",
+      "outfit": "N/A (integrated metallic body)",
+      "color_palette": [
+        "Silver",
+        "Grey",
+        "Electric Blue",
+        "Orange"
+      ],
+      "distinguishing_features": "Expressive LED eyes, compact boxy form, small stature, subtle joint details",
+      "art_style_keywords": [
+        "3D animated",
+        "warm realistic lighting",
+        "semi-stylized like Pixar",
+        "robot",
+        "mechanical"
+      ],
+      "reference_prompt": "A small, compact, boxy robot, approximately 2 feet tall, constructed from polished silver and grey metallic alloys. Its most distinctive feature is a pair of large, circular, expressive electric blue LED eyes that can convey a wide range of emotions, from shyness to joy. Subtle orange and red accents mark its joints and internal mechanisms. The robot's frame is sturdy yet agile, designed for movement."
+    },
+    {
+      "name": "Maya",
+      "age_range": "Young adult (20s)",
+      "build": "Athletic, lean, graceful",
+      "face_details": "Friendly, expressive face, warm smile, kind eyes",
+      "hair": "Dark, long, styled in a dynamic high ponytail",
+      "outfit": "Comfortable, stylish, vibrant dance attire (crop top, leggings, sneakers)",
+      "color_palette": [
+        "Teal",
+        "Coral",
+        "Yellow",
+        "Dark Brown"
+      ],
+      "distinguishing_features": "Energetic posture, graceful dancer, warm and encouraging smile",
+      "art_style_keywords": [
+        "3D animated",
+        "warm realistic lighting",
+        "semi-stylized like Pixar",
+        "human",
+        "dancer"
+      ],
+      "reference_prompt": "A vibrant and energetic young adult woman in her mid-twenties with an athletic, lean, and graceful build. She has a friendly, warm smile and kind, expressive eyes. Her dark hair is styled in a dynamic, high ponytail that moves with her. She wears a comfortable yet stylish dance outfit consisting of a teal crop top, coral high-waisted leggings, and yellow sneakers, embodying positive energy and motion."
+    },
+    {
+      "name": "DJ Beat",
+      "age_range": "Adult (30s)",
+      "build": "Average, lean",
+      "face_details": "Cool, focused expression, often partially obscured by headphones or shadows",
+      "hair": "Short, stylish, dark hair",
+      "outfit": "Urban, stylish, functional DJ attire (hoodie, jeans)",
+      "color_palette": [
+        "Dark Grey",
+        "Black",
+        "Electric Blue",
+        "Purple"
+      ],
+      "distinguishing_features": "Large over-ear headphones, focused on mixing, surrounded by professional DJ equipment",
+      "art_style_keywords": [
+        "3D animated",
+        "warm realistic lighting",
+        "semi-stylized like Pixar",
+        "human",
+        "DJ"
+      ],
+      "reference_prompt": "A cool and focused male DJ in his early thirties, with an average build. His face is often partially obscured by large, over-ear headphones and the low lighting of his DJ booth. He has short, styled dark hair. He wears a sleek, dark grey hoodie and black jeans, with subtle electric blue glowing accents from his DJ equipment reflecting on his clothes. He is surrounded by professional turntables and a mixer, completely immersed in his craft."
+    }
+  ],
+  "sheet_id": "d6081219-7304-4191-b176-0b7d9e60eb81",
+  "source_plan_id": "f79223a7-bacd-4f5d-b5b8-d36c8627c710",
+  "generated_at": "2026-07-12T16:57:57.505220"
+}

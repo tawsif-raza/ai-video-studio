@@ -1,0 +1,143 @@
+{
+  "prompt_set_id": "873c50b4-d624-49fd-b0bf-17d6897ec21c",
+  "source_storyboard_id": "61848820-46d5-406b-91ad-e2bcc934ddc2",
+  "shots": [
+    {
+      "image_prompt": "In a wide shot, a shy and curious service robot, Unit 734, with a sleek, polished metallic silver and grey chassis, subtle black accents, and prominent expressive glowing blue optical sensors, stands small and isolated at the edge of a lively rooftop party, set against a breathtaking city skyline at night, with a modern DJ booth illuminated by warm spotlights, a diverse crowd of joyful party guests in vibrant, trendy attire, and twinkling string lights and colorful uplighting casting a vibrant glow, all in a 3D animated, semi-stylized style reminiscent of Pixar, with warm realistic lighting.",
+      "video_motion_prompt": "The camera remains static for 4 seconds, capturing the contrast between Unit 734's stillness and the energetic party atmosphere behind it, as the partygoers continue to dance and enjoy the music.",
+      "scene_id": 1,
+      "shot_id": 1,
+      "duration_seconds": 4,
+      "generated_at": "2026-07-16T16:37:56.288676"
+    },
+    {
+      "image_prompt": "A medium close-up of Unit 734's sleek, polished metallic silver and grey robotic face, with its smooth and rounded head featuring prominent expressive, glowing blue optical sensors that convey shyness and hesitation, as it observes a lively rooftop party at night, with a modern DJ booth illuminated by warm spotlights in the background, a diverse crowd of semi-stylized happy partygoers, and a breathtaking, sprawling city skyline glowing with warm and cool lights under a clear night sky, all captured in a 3D animated, semi-stylized like Pixar art style with warm realistic lighting.",
+      "video_motion_prompt": "The camera slightly pushes in on Unit 734's face over 4 seconds, emphasizing its hesitant expression as it takes in the vibrant party scene, with the camera movement smooth and subtle to convey the robot's gentle, curious nature.",
+      "scene_id": 1,
+      "shot_id": 2,
+      "duration_seconds": 4,
+      "generated_at": "2026-07-16T16:37:57.149969"
+    },
+    {
+      "image_prompt": "A close-up view of a bustling dance floor at a vibrant rooftop party at night, with a diverse group of semi-stylized partygoers in their 20s to 40s, wearing vibrant and trendy attire in cheerful colors like pinks, purples, greens, blues, and oranges, all enthusiastically dancing and moving under dynamic, colorful light projections sweeping across the floor in shades of purple, blue, and orange, highlighting their joyful, smiling faces, varied hairstyles, and energetic poses, with subtle hints of futuristic design on the dance floor and surrounding structures, captured in a 3D animated, semi-stylized art style reminiscent of Pixar, with warm realistic lighting.",
+      "video_motion_prompt": "The camera pans quickly across the dance floor, capturing a series of close-ups on the partygoers' feet, hips, and smiling faces as they dance with joyful abandon, moving in time with the energetic rhythm of the music.",
+      "scene_id": 2,
+      "shot_id": 1,
+      "duration_seconds": 3,
+      "generated_at": "2026-07-16T16:38:28.203541"
+    },
+    {
+      "image_prompt": "A medium close-up of Unit 734, a sleek, polished metallic silver and grey service robot with subtle black accents, stands amidst a bustling dance floor at a vibrant rooftop party at night, its prominent expressive, glowing blue optical sensors tracking the diverse group of semi-stylized partygoers dancing and moving under dynamic, colorful light projections in vibrant purples, blues, and oranges, with the robot's internal lights softly whirring as if computing the joy of the dancers, its smooth, rounded head slightly hunched, conveying shyness, set against the energetic and exciting visual rhythm of the dance floor with subtle hints of futuristic design.",
+      "video_motion_prompt": "The camera remains static, capturing Unit 734's subtle internal light flicker as it tracks the dancers, while the partygoers around it continue to move and dance under the dynamic light projections.",
+      "scene_id": 2,
+      "shot_id": 2,
+      "duration_seconds": 2,
+      "generated_at": "2026-07-16T16:38:29.015192"
+    },
+    {
+      "image_prompt": "A low-angle close-up view of Unit 734's sleek, polished metallic silver and grey feet, with subtle black accents, standing still amidst a vibrant, bustling dance floor at a rooftop party, where dynamic, colorful light projections in vibrant purples, blues, and oranges sweep across the floor and the diverse group of semi-stylized partygoers dancing around, the overall scene illuminated by warm, realistic lighting in a 3D animated, semi-stylized style reminiscent of Pixar.",
+      "video_motion_prompt": "The camera remains static, capturing the contrast between Unit 734's stillness and the energetic movement of the dancers around it for 2 seconds.",
+      "scene_id": 2,
+      "shot_id": 3,
+      "duration_seconds": 2,
+      "generated_at": "2026-07-16T16:38:29.642851"
+    },
+    {
+      "image_prompt": "In a 3D animated, semi-stylized scene like Pixar with warm realistic lighting, a friendly human party-goer, Maya, with a warm smile, kind brown eyes, and light freckles, wearing vibrant coral and sky blue attire, stands at the edge of a bustling rooftop dance floor at night, spotting a sleek, polished metallic silver and grey service robot, Unit 734, with glowing blue optical sensors, slightly hunched in a shy posture, near a sleek railing or potted plant, as the vibrant blur of dancing partygoers and dynamic colorful lights fill the mid-ground, with the city skyline's ambient glow in the background, in a medium shot with the camera positioned to capture both characters' reactions.",
+      "video_motion_prompt": "Maya's eyes lock onto Unit 734 with a gentle, encouraging smile, as the camera remains static for 2 seconds, capturing the initial moment of their encounter.",
+      "scene_id": 3,
+      "shot_id": 1,
+      "duration_seconds": 2,
+      "generated_at": "2026-07-16T16:38:30.903694"
+    },
+    {
+      "image_prompt": "A close-up of Maya, a young woman in her early 20s with a slender build and a warm, approachable smile, kind brown eyes, and light freckles, standing at the edge of a bustling rooftop dance floor at night, wearing vibrant party attire in warm tones like coral and sky blue, her long, wavy dark brown hair tied up casually, with a sleek railing or a potted plant in the foreground, and a vibrant blur of dancing partygoers and dynamic colorful lights in the mid-ground, as she smiles warmly, gives an encouraging nod, and gestures lightly towards the dance floor, captured in a 3D animated, semi-stylized style like Pixar with warm realistic lighting.",
+      "video_motion_prompt": "Maya's hand gestures slightly as she nods, while the camera remains static, capturing her encouraging expression for 3 seconds.",
+      "scene_id": 3,
+      "shot_id": 2,
+      "duration_seconds": 3,
+      "generated_at": "2026-07-16T16:38:46.122706"
+    },
+    {
+      "image_prompt": "A close-up of Unit 734, a sleek, polished metallic silver and grey service robot with subtle black accents, standing at the edge of a bustling rooftop dance floor at night, its prominent expressive, glowing blue optical sensors flickering slightly in response to a gesture, conveying a hint of curiosity, as the robot's internal lights also flicker, set against a warm and realistic backdrop of a vibrant blur of dancing partygoers and dynamic colorful lights in the mid-ground, with a sleek railing or a potted plant in the foreground, under the ambient glow of the city skyline and soft spill from the party lights, in a 3D animated, semi-stylized style reminiscent of Pixar.",
+      "video_motion_prompt": "The camera remains static, focused on Unit 734's face, as its internal lights and optical sensors flicker softly over the course of 3 seconds.",
+      "scene_id": 3,
+      "shot_id": 3,
+      "duration_seconds": 3,
+      "generated_at": "2026-07-16T16:38:48.078684"
+    },
+    {
+      "image_prompt": "A 3D animated, semi-stylized like Pixar, medium close-up of Unit 734, a sleek, polished metallic silver and grey service robot, with subtle black accents, standing slightly away from the main crowd on a vibrant rooftop party dance floor at night, surrounded by dynamic, colorful party lights in warm purples, blues, and oranges, with a slightly hunched posture, its smooth, rounded head featuring prominent, expressive, glowing blue optical sensors, as it takes a 'system whir' deep breath, preparing itself, with the lively party atmosphere visible in the background, illuminated by warm, realistic lighting.",
+      "video_motion_prompt": "The camera remains static, with a subtle whir effect, as Unit 734's optical sensors gleam brighter for a brief moment, then return to their normal, shy expression, over the course of 2 seconds.",
+      "scene_id": 4,
+      "shot_id": 1,
+      "duration_seconds": 2,
+      "generated_at": "2026-07-16T16:38:53.150149"
+    },
+    {
+      "image_prompt": "In a vibrant rooftop party at night, with colorful dynamic party lights in warm purples, blues, and oranges illuminating the scene, Unit 734, a shy service robot with a sleek polished metallic silver and grey chassis and subtle black accents, stands slightly away from the main crowd on the dance floor, its smooth rounded head featuring prominent expressive glowing blue optical sensors that convey shyness, as it attempts a small jerky sway, looking self-conscious and stiff, captured in a medium full shot with static camera framing, blending seamlessly into the lively atmosphere filled with semi-stylized partygoers dancing around, under warm realistic lighting reminiscent of Pixar's 3D animated style.",
+      "video_motion_prompt": "Unit 734's body jerks slightly as it attempts to sway, its glowing blue optical sensors flickering with nervousness, while the surrounding partygoers continue dancing, with the camera remaining static for the 3-second duration.",
+      "scene_id": 4,
+      "shot_id": 2,
+      "duration_seconds": 3,
+      "generated_at": "2026-07-16T16:38:57.056209"
+    },
+    {
+      "image_prompt": "A close-up, low-angle view of Unit 734's sleek, polished metallic silver and grey feet, making small, determined, rhythmic movements on the vibrant rooftop party's dance floor, illuminated by warm, dynamic party lights in purples, blues, and oranges, with glimpses of semi-stylized partygoers dancing in the background, all in a 3D animated, semi-stylized style like Pixar with warm realistic lighting.",
+      "video_motion_prompt": "Unit 734's feet move in a small, rhythmic pattern, while the camera remains static, capturing the subtle movement of the robot's metallic feet against the dynamic, shifting party lights.",
+      "scene_id": 4,
+      "shot_id": 3,
+      "duration_seconds": 2,
+      "generated_at": "2026-07-16T16:39:00.969744"
+    },
+    {
+      "image_prompt": "In the center of a vibrant rooftop party's dance floor, surrounded by a diverse group of energetic party guests dancing with joyful expressions, Unit 734, a sleek and polished metallic silver and grey service robot with subtle black accents and glowing blue optical sensors, stands out as it begins to move with smoother and more fluid motions, developing its own unique dance style amidst the crowd, captured in a full shot with warm, realistic lighting and semi-stylized Pixar-like visuals, as intense, pulsating colored spotlights in electric blues, hot pinks, and vibrant purples illuminate the scene.",
+      "video_motion_prompt": "As Unit 734's dance style becomes more fluid, the camera dollies in, tracking the robot's movements, capturing its transformation over 4 seconds, amidst the dynamic, ever-changing backdrop of dancing partygoers.",
+      "scene_id": 5,
+      "shot_id": 1,
+      "duration_seconds": 4,
+      "generated_at": "2026-07-16T16:39:05.960600"
+    },
+    {
+      "image_prompt": "A shiny, metallic silver and grey service robot, Unit 734, stands in the center of a vibrant rooftop party's dance floor, surrounded by a diverse group of semi-stylized partygoers dancing with joyful expressions, under intense pulsating colored spotlights in electric blues, hot pinks, and vibrant purples, with Unit 734's smooth, rounded head featuring prominent expressive, glowing blue optical sensors conveying shyness, and its chassis lights glowing brighter and more expressively, captured in a medium close-up shot with warm, realistic lighting, in a 3D animated, semi-stylized art style like Pixar.",
+      "video_motion_prompt": "As Unit 734 moves, its chassis lights glow brighter and more expressively, while the camera remains static, focusing on the lights for 2 seconds, with the surrounding dancers' fluid movements blurred in the background.",
+      "scene_id": 5,
+      "shot_id": 2,
+      "duration_seconds": 2,
+      "generated_at": "2026-07-16T16:39:10.084728"
+    },
+    {
+      "image_prompt": "In a 3D animated, semi-stylized Pixar-like art style with warm realistic lighting, a medium shot captures Unit 734, a sleek, polished metallic silver and grey service robot with subtle black accents, standing amidst a tightly packed circle of diverse, semi-stylized partygoers on a vibrant rooftop dance floor at night. The robot, slightly taller than an average human, has a smooth, rounded head with prominent expressive, glowing blue optical sensors that convey a sense of joyful abandon as it fully embraces its unique, robotic-yet-joyful dance style. The surrounding dancers, lost in the exhilarating atmosphere, move with fluid, energetic motions under intense, pulsating colored spotlights in electric blues, hot pinks, and vibrant purples, which cast dramatic light and shadow across the scene.",
+      "video_motion_prompt": "As Unit 734 dances, the camera pans to follow its movements, capturing the dynamic interplay of colored lights reflecting off its metallic chassis. The robot's glowing blue optical sensors shine brighter as it twirls and spins, its mechanical limbs moving in perfect sync with the pulsating music.",
+      "scene_id": 5,
+      "shot_id": 3,
+      "duration_seconds": 2,
+      "generated_at": "2026-07-16T16:39:14.298015"
+    },
+    {
+      "image_prompt": "A high-angle full shot of Unit 734, a sleek, polished metallic silver and grey service robot with subtle black accents and prominent expressive, glowing blue optical sensors, standing tall on a vibrant, energetic dance floor at a rooftop party at night, surrounded by a diverse group of joyful party guests in their 20s to 40s, wearing vibrant, trendy, and comfortable attire in cheerful colors like pinks, purples, greens, blues, and oranges, all dancing with uninhibited enthusiasm and big smiles under dynamic, sweeping party lights in a full spectrum of warm and cool vibrant colors, with colorful confetti or streamers floating through the air, as Unit 734, now the center of attention, fully grooves and emanates metallic joy, its rounded head and glowing blue eyes shining with excitement, in a 3D animated, semi-stylized scene with warm realistic lighting, reminiscent of Pixar.",
+      "video_motion_prompt": "The camera circles Unit 734 in a smooth, high-angle crane shot, capturing its dynamic dance moves as the party lights and confetti swirl around it, while the energetic party guests continue to dance and celebrate in the background, over a duration of 3 seconds.",
+      "scene_id": 6,
+      "shot_id": 1,
+      "duration_seconds": 3,
+      "generated_at": "2026-07-16T16:39:19.433169"
+    },
+    {
+      "image_prompt": "In a vibrant, energetic dance floor scene at a rooftop party at night, Maya, a friendly and encouraging human party-goer in her early 20s with a slender build, kind brown eyes, light freckles, and long, wavy dark brown hair, wears vibrant, comfortable party attire in warm tones like coral and sky blue, and smiles warmly as she playfully imitates Unit 734's moves, surrounded by a diverse group of energetic party guests, all displaying joyful, dancing expressions and bright smiles, in a 3D animated, semi-stylized like Pixar art style with warm realistic lighting, as colorful confetti or streamers float through the air and dynamic, sweeping party lights in a full spectrum of warm and cool vibrant colors illuminate the scene, captured in a medium shot with a static camera angle.",
+      "video_motion_prompt": "The party guests, including Maya, continue to cheer and dance, their movements slightly changing as they imitate Unit 734's moves, while the camera remains still for the 2-second duration.",
+      "scene_id": 6,
+      "shot_id": 2,
+      "duration_seconds": 2,
+      "generated_at": "2026-07-16T16:39:24.539741"
+    },
+    {
+      "image_prompt": "In a vibrant, energetic dance floor scene at a rooftop party at night, a triumphant Unit 734, a sleek, polished metallic silver and grey service robot with subtle black accents and expressive, glowing blue optical sensors, stands out as a beacon of joy among a diverse group of semi-stylized partygoers, all dancing with uninhibited enthusiasm under dynamic, sweeping party lights in a full spectrum of warm and cool vibrant colors, with colorful confetti or streamers floating through the air, captured in a low-angle medium shot that emphasizes the robot's slightly hunched posture as it fully immerses in the moment, its rounded head and prominent optical sensors conveying a sense of shyness and joy, in a 3D animated, semi-stylized art style like Pixar with warm realistic lighting.",
+      "video_motion_prompt": "As the camera pushes in over 2 seconds, Unit 734's glowing blue optical sensors sparkle with increased intensity, and the surrounding partygoers continue to dance and cheer, with confetti and streamers swirling around the robot.",
+      "scene_id": 6,
+      "shot_id": 3,
+      "duration_seconds": 2,
+      "generated_at": "2026-07-16T16:39:28.490174"
+    }
+  ],
+  "generated_at": "2026-07-16T16:39:28.490978"
+}

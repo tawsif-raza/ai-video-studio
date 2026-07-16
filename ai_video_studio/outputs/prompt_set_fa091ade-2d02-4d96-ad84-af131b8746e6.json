@@ -1,0 +1,159 @@
+{
+  "prompt_set_id": "fa091ade-2d02-4d96-ad84-af131b8746e6",
+  "source_storyboard_id": "0cc7973e-d94b-433e-a876-f702cf64f889",
+  "shots": [
+    {
+      "image_prompt": "In a 3D animated, semi-stylized Pixar-like scene with warm realistic lighting, a bustling rooftop party at sunset unfolds with a vibrant city skyline in the background, its lights just beginning to twinkle. The rooftop is adorned with festive string lights and colorful decorations, and numerous diverse robots are animatedly dancing to upbeat music, with some gathered around tables enjoying refreshments. Amidst this energetic and lively atmosphere, Sparky, a small, compact, boxy robot approximately 2 feet tall with a polished silver and grey metallic alloy body, large circular expressive electric blue LED eyes, and subtle orange and red accents marking its joints and internal mechanisms, enters the frame hesitantly from the right, as the camera captures the scene in a wide shot.",
+      "video_motion_prompt": "As Sparky steps into the frame, the camera pans left, following the robot's hesitant entrance into the lively party, capturing the dynamic movement of the dancing robots and the vibrant decorations for 3 seconds.",
+      "scene_id": 1,
+      "shot_id": 101,
+      "duration_seconds": 3,
+      "generated_at": "2026-07-12T16:58:17.683430"
+    },
+    {
+      "image_prompt": "In a 3D animated, semi-stylized Pixar-like scene with warm realistic lighting, Sparky, a small 2-foot-tall boxy robot with polished silver and grey metallic alloys and distinctive large circular electric blue LED eyes, stands at the edge of a bustling rooftop party's dance floor, its subtle orange and red accents marking its joints and internal mechanisms, looking overwhelmed by the lively atmosphere as numerous diverse robots dance animatedly to upbeat music under festive string lights and colorful decorations, with the vibrant city skyline at sunset in the background, its lights just beginning to twinkle, captured in a medium shot with a static camera.",
+      "video_motion_prompt": "The camera remains still for 2 seconds as Sparky's electric blue LED eyes dart around, conveying its discomfort amidst the energetic party scene.",
+      "scene_id": 1,
+      "shot_id": 102,
+      "duration_seconds": 2,
+      "generated_at": "2026-07-12T16:58:19.771152"
+    },
+    {
+      "image_prompt": "A close-up of Sparky's 'face', a small, compact, boxy robot with polished silver and grey metallic alloys, showcases its large, circular, expressive electric blue LED eyes conveying curiosity mixed with hesitation, with subtle orange and red accents marking its joints and internal mechanisms, set against the vibrant backdrop of a bustling rooftop party at sunset with a city skyline in the background, where numerous diverse robots dance to upbeat music under festive string lights and colorful decorations, in a 3D animated, semi-stylized Pixar-like aesthetic with warm realistic lighting.",
+      "video_motion_prompt": "The camera remains static for 2 seconds, capturing Sparky's contemplative expression as the surrounding party lights and city skyline softly twinkle in the background.",
+      "scene_id": 1,
+      "shot_id": 103,
+      "duration_seconds": 2,
+      "generated_at": "2026-07-12T16:58:30.766234"
+    },
+    {
+      "image_prompt": "In a 3D animated scene with warm, realistic lighting and a semi-stylized Pixar-like aesthetic, a small, compact, boxy robot named Sparky, approximately 2 feet tall with a polished silver and grey metallic alloy body, stands at the edge of a vibrant rooftop dance floor in the early evening. Sparky's large, circular, expressive electric blue LED eyes convey longing as it observes the happy, diverse robots dancing energetically around it, their movements creating a blurred, bustling background of joy. Subtle orange and red accents mark Sparky's joints and internal mechanisms, and colorful party lights cast dynamic hues across the scene. The camera captures this moment in a medium shot, framing Sparky's emotional expression amidst the lively atmosphere of the party.",
+      "video_motion_prompt": "As the camera dollies in over 3 seconds, Sparky's expressive electric blue eyes remain fixed on the dancers, its body subtly swaying to the music, while the blurred background of dancing robots becomes increasingly sharper, drawing the viewer's focus to Sparky's poignant longing.",
+      "scene_id": 2,
+      "shot_id": 201,
+      "duration_seconds": 3,
+      "generated_at": "2026-07-12T16:58:55.280601"
+    },
+    {
+      "image_prompt": "A 3D animated, semi-stylized scene in a Pixar-like aesthetic with warm realistic lighting, viewed from Sparky's POV, showing DJ Beat, a cool and focused male DJ in his early thirties with short, styled dark hair, wearing a sleek, dark grey hoodie and black jeans with subtle electric blue glowing accents from his DJ equipment, partially obscured by large, over-ear headphones, surrounded by professional turntables and a mixer, immersed in his craft at the edge of a vibrant rooftop dance floor in the early evening, where happy, diverse robots are dancing energetically all around, creating a blurred, bustling background of movement and joy, with colorful party lights casting dynamic hues across the scene.",
+      "video_motion_prompt": "The camera quickly pans left and right, capturing the energetic movements of the dancers before focusing on DJ Beat as he mixes music with enthusiasm, the camera movement fast and dynamic to match the infectious energy of the party.",
+      "scene_id": 2,
+      "shot_id": 202,
+      "duration_seconds": 2,
+      "generated_at": "2026-07-12T16:58:56.384490"
+    },
+    {
+      "image_prompt": "A close-up view of Sparky, a small, compact, boxy robot with a polished silver and grey metallic alloys body, approximately 2 feet tall, standing at the edge of a vibrant rooftop dance floor in the early evening, surrounded by a blurred, bustling background of happy, diverse robots dancing energetically, with colorful party lights casting dynamic hues across the scene. Sparky's large, circular, expressive electric blue LED eyes convey shyness as its head slightly mimics a dance move, while its body remains still, with subtle orange and red accents marking its joints and internal mechanisms. The scene is rendered in a 3D animated, semi-stylized Pixar-like aesthetic with warm, realistic lighting.",
+      "video_motion_prompt": "Sparky's head nods slightly to the music, its electric blue eyes blinking in time, as the camera remains static for 2 seconds, capturing the robot's shy, yet endearing moment amidst the lively party atmosphere.",
+      "scene_id": 2,
+      "shot_id": 203,
+      "duration_seconds": 2,
+      "generated_at": "2026-07-12T16:58:57.664366"
+    },
+    {
+      "image_prompt": "In a vibrant, 3D animated rooftop dance floor scene with warm, realistic lighting, reminiscent of Pixar, Sparky, a small, 2-foot-tall, boxy robot with polished silver and grey metallic alloys, large circular expressive electric blue LED eyes, and subtle orange and red accents, looks small and out of place amidst a bustling crowd of happy, diverse robots dancing energetically around it. The scene is captured in a wide shot, with Sparky at the center, surrounded by the blurred, dynamic movement of the dancers and the colorful party lights casting hues across the scene. DJ Beat, a cool and focused male DJ in his early thirties with short, styled dark hair, wearing a sleek, dark grey hoodie and black jeans, is partially visible in the background, immersed in his craft amidst professional turntables and a mixer, with subtle electric blue glowing accents reflecting on his clothes.",
+      "video_motion_prompt": "As the camera cranes up over a duration of 2 seconds, Sparky remains stationary, looking small and out of place, while the dancers around it continue their energetic movements, blurring into the background.",
+      "scene_id": 2,
+      "shot_id": 204,
+      "duration_seconds": 2,
+      "generated_at": "2026-07-12T16:59:08.500699"
+    },
+    {
+      "image_prompt": "In a bustling rooftop party with string lights, colorful decorations, and a deep blue sky, a vibrant young woman, Maya, with a friendly smile, kind eyes, dark hair in a dynamic high ponytail, wearing a teal crop top, coral high-waisted leggings, and yellow sneakers, looks over her shoulder, noticing a small, compact, boxy robot, Sparky, standing alone, its polished silver and grey metallic alloys catching the warm realistic light, with distinctive large, circular, expressive electric blue LED eyes, and subtle orange and red accents on its joints, the scene rendered in a 3D animated, semi-stylized Pixar-like aesthetic.",
+      "video_motion_prompt": "Maya's head turns slightly as she notices Sparky, her ponytail swaying gently with the movement, while the camera remains static, capturing the moment from over Maya's shoulder.",
+      "scene_id": 3,
+      "shot_id": 301,
+      "duration_seconds": 2,
+      "generated_at": "2026-07-12T16:59:09.623211"
+    },
+    {
+      "image_prompt": "In a lively rooftop party crowd in the early evening, under a deep blue sky with twinkling distant city lights, Maya, a vibrant young woman with a dynamic high ponytail, wearing a teal crop top, coral high-waisted leggings, and yellow sneakers, stands out with her warm, friendly smile and kind, expressive eyes. She extends a hand in invitation, her athletic build evident as she moves, set against a backdrop of diverse robots dancing and mingling amidst string lights and colorful party decorations, all illuminated by warm, realistic lighting in a 3D animated, semi-stylized Pixar-like aesthetic. The close-up shot focuses intently on Maya's inviting gesture and engaging smile.",
+      "video_motion_prompt": "Maya's hand extends in a smooth, inviting motion, while her ponytail subtly moves with the action, all captured in a static close-up shot.",
+      "scene_id": 3,
+      "shot_id": 302,
+      "duration_seconds": 2,
+      "generated_at": "2026-07-12T16:59:15.806025"
+    },
+    {
+      "image_prompt": "From Sparky's point of view, a vibrant and energetic young woman, Maya, with a friendly smile and kind eyes, stands out amidst a lively rooftop party crowd in the early evening, her dark hair styled in a dynamic high ponytail. She wears a teal crop top, coral high-waisted leggings, and yellow sneakers, embodying positive energy and motion. With a glance and an inviting gesture, Maya catches Sparky's optical sensors, offering a glimmer of hope. The scene is set near a subtle observation spot, surrounded by diverse robots dancing and mingling, with string lights and colorful party decorations visible throughout, under a deep blue sky twinkling with distant city lights, all rendered in a 3D animated, semi-stylized Pixar-like aesthetic with warm realistic lighting.",
+      "video_motion_prompt": "The camera remains static for 2 seconds, capturing the moment Maya's gesture sparks hope in Sparky's optical sensors, as the party around them continues to bustle and shine.",
+      "scene_id": 3,
+      "shot_id": 303,
+      "duration_seconds": 2,
+      "generated_at": "2026-07-12T16:59:40.566636"
+    },
+    {
+      "image_prompt": "In a lively rooftop party scene with a 3D animated, semi-stylized Pixar-like aesthetic, warm realistic lighting illuminates Maya, a vibrant young woman with a friendly smile and expressive eyes, wearing a teal crop top, coral high-waisted leggings, and yellow sneakers, standing alongside Sparky, a small, polished silver and grey metallic robot with large, circular, expressive electric blue LED eyes and subtle orange and red accents, amidst a diverse crowd of robots dancing and mingling under string lights and colorful party decorations, with the distant city lights twinkling under a deep blue sky. Maya gives Sparky an encouraging nod, while Sparky, hesitating for a moment, takes a small step forward, captured in a two-shot with the camera dollying in to emphasize their interaction.",
+      "video_motion_prompt": "As Maya nods and Sparky takes a step forward, the camera moves in slowly, dollying in over the 4-second shot to highlight their heartfelt moment amidst the bustling party, with Sparky's electric blue eyes and Maya's dynamic ponytail slightly moving to convey their emotions.",
+      "scene_id": 3,
+      "shot_id": 304,
+      "duration_seconds": 4,
+      "generated_at": "2026-07-12T16:59:41.724388"
+    },
+    {
+      "image_prompt": "In a small, intimate space on a vibrant rooftop dance floor in the evening, lit by focused party lighting and a gentle spotlight, Sparky, a small, compact, boxy robot about 2 feet tall with polished silver and grey metallic alloys, large circular expressive electric blue LED eyes, and subtle orange and red accents on its joints, attempts a stiff, robotic dance move, looking self-conscious but determined, while Maya, a young woman in her mid-twenties with a friendly smile, kind eyes, dark hair in a dynamic high ponytail, and wearing a teal crop top, coral high-waisted leggings, and yellow sneakers, watches with encouragement, surrounded by a supportive ring of diverse robots with kind expressions, all captured in a medium shot with a static camera, rendered in a 3D animated, semi-stylized Pixar-like aesthetic with warm realistic lighting.",
+      "video_motion_prompt": "Sparky's robotic body jerks slightly as it attempts to dance, its electric blue eyes flickering with determination, while the camera remains static, capturing the brief, stiff movements over 3 seconds.",
+      "scene_id": 4,
+      "shot_id": 401,
+      "duration_seconds": 3,
+      "generated_at": "2026-07-12T16:59:42.791962"
+    },
+    {
+      "image_prompt": "In a vibrant, intimate space on a rooftop dance floor, illuminated by a gentle spotlight and surrounded by a supportive ring of diverse robots, Sparky, a small, compact, boxy robot with polished silver and grey metallic alloys, large circular expressive electric blue LED eyes, and subtle orange and red accents, stands out, captured from a low angle, its awkward but determined footwork and arm movements the focal point, against the backdrop of a hopeful and slightly intimate atmosphere, rendered in a 3D animated, semi-stylized Pixar-like aesthetic with warm realistic lighting.",
+      "video_motion_prompt": "Sparky's feet and arms move awkwardly but with determination as the camera tracks its movements from a low angle, smoothly following the robot's gestures over the 3-second duration.",
+      "scene_id": 4,
+      "shot_id": 402,
+      "duration_seconds": 3,
+      "generated_at": "2026-07-12T16:59:43.525585"
+    },
+    {
+      "image_prompt": "A close-up shot of Maya's face in a 3D animated, semi-stylized Pixar-like aesthetic with warm realistic lighting, her dark hair styled in a dynamic high ponytail, wearing a teal crop top and a friendly, warm smile on her face as she claps encouragingly, her kind, expressive eyes shining with support, set against a softly blurred background of a vibrant rooftop dance floor in the evening, illuminated by focused party lighting that distinguishes her from the surrounding party ambiance, with a hint of a supportive ring of diverse robots just out of focus, their encouraging expressions faintly visible.",
+      "video_motion_prompt": "Maya's hands clap once, her face remaining still with an encouraging smile, as the static camera captures the moment in a single, fleeting second.",
+      "scene_id": 4,
+      "shot_id": 403,
+      "duration_seconds": 1,
+      "generated_at": "2026-07-12T16:59:45.197069"
+    },
+    {
+      "image_prompt": "In a small, intimate space on a vibrant rooftop dance floor in the evening, lit by focused party lighting and a gentle spotlight, Sparky, a small, compact, boxy robot with polished silver and grey metallic alloys and large, circular, expressive electric blue LED eyes, subtly accented with orange and red, dances awkwardly in the center, while Maya, a young adult woman with a friendly smile, kind eyes, dark hair in a dynamic high ponytail, wearing a teal crop top, coral high-waisted leggings, and yellow sneakers, cheers it on from nearby, surrounded by a supportive ring of diverse robots with encouraging expressions, all rendered in a 3D animated, semi-stylized Pixar-like aesthetic with warm realistic lighting, captured in a full shot with a static camera.",
+      "video_motion_prompt": "Sparky's body moves stiffly as it continues to dance, its electric blue eyes shining with excitement, while the camera remains still, capturing the heartwarming moment for 2 seconds.",
+      "scene_id": 4,
+      "shot_id": 404,
+      "duration_seconds": 2,
+      "generated_at": "2026-07-12T16:59:46.207452"
+    },
+    {
+      "image_prompt": "In a vibrant, semi-stylized Pixar-like scene with warm realistic lighting, Sparky, a small 2-foot-tall robot with a polished silver and grey metallic alloy body, large circular expressive electric blue LED eyes, and subtle orange and red accents on its joints, stands out in the center of a lively rooftop dance floor filled with diverse robots dancing joyously. As Sparky's movements become fluid and joyful, its transformation in dance style is captured in a medium shot, with the camera positioned to frame the robot's entirety against the backdrop of a celebratory crowd, confetti, and sparkling light effects, set amidst vibrant party decorations and the twinkling city lights in the background.",
+      "video_motion_prompt": "The camera zooms out over 3 seconds as Sparky's dance moves become more fluid and energetic, capturing the increasing joy and dynamism of the robot amidst the festive atmosphere.",
+      "scene_id": 5,
+      "shot_id": 501,
+      "duration_seconds": 3,
+      "generated_at": "2026-07-12T16:59:47.262781"
+    },
+    {
+      "image_prompt": "In the midst of a vibrant, lively rooftop dance floor, under the warm, dynamic, and full-spectrum lighting of the evening, Sparky, a small, compact, boxy robot with polished silver and grey metallic alloys and expressive electric blue LED eyes, stands out with its subtle orange and red accents, as Maya, a young adult woman with a friendly smile and kind eyes, wearing a teal crop top, coral high-waisted leggings, and yellow sneakers, joins it, surrounded by a diverse group of robots dancing joyously, with confetti and sparkling light effects filling the air, amidst vibrant party decorations and the twinkling city lights in the background, all captured in a wide shot from the center of the dance floor, rendered in a 3D animated, semi-stylized Pixar-like aesthetic.",
+      "video_motion_prompt": "As Maya dances with Sparky, the crowd moves in, twirling and spinning around them, while the camera dollies out to capture the growing, energetic dance circle, over the course of 3 seconds.",
+      "scene_id": 5,
+      "shot_id": 502,
+      "duration_seconds": 3,
+      "generated_at": "2026-07-12T16:59:50.288484"
+    },
+    {
+      "image_prompt": "A close-up of Sparky, a small, compact, boxy robot, approximately 2 feet tall, constructed from polished silver and grey metallic alloys, with a pair of large, circular, expressive electric blue LED eyes glowing with pure joy and triumph, and subtle orange and red accents marking its joints and internal mechanisms, as it grooves in the center of a lively rooftop dance floor in the evening, surrounded by a diverse crowd of robots dancing joyously and energetically, with confetti and sparkling light effects filling the air, under bright, dynamic, and full-spectrum lighting, with vibrant party decorations and twinkling city lights in the background, rendered in a 3D animated, semi-stylized Pixar-like aesthetic with warm realistic lighting.",
+      "video_motion_prompt": "Sparky's electric blue LED eyes sparkle with excitement as it bobs its head and body to the music, the camera remains static, capturing the intensity of the moment for 2 seconds.",
+      "scene_id": 5,
+      "shot_id": 503,
+      "duration_seconds": 2,
+      "generated_at": "2026-07-12T16:59:54.317056"
+    },
+    {
+      "image_prompt": "In the center of a lively rooftop dance floor, under dynamic, warm, and realistic lighting, Sparky, a small, polished silver and grey metallic robot with large, circular, expressive electric blue LED eyes and subtle orange and red accents, stands at the heart of an ecstatic celebration, surrounded by diverse robots dancing joyously, amidst confetti and sparkling light effects, with vibrant party decorations and the twinkling city lights in the background. Maya, a vibrant young woman with a friendly smile, dark hair styled in a high ponytail, wearing a teal crop top, coral leggings, and yellow sneakers, dances nearby, embodying positive energy. In the background, DJ Beat, a focused male DJ in a dark grey hoodie and black jeans with electric blue glowing accents, smiles as he works his turntables, his face partially obscured by large, over-ear headphones. The scene is captured in a sweeping crane shot, looking down on the celebration, with the camera positioned high above, rendered in a 3D animated, semi-stylized Pixar-like aesthetic.",
+      "video_motion_prompt": "The camera cranes up, sweeping over the dance floor in a smooth, continuous motion, capturing the energy and joy of the celebration as the robots and Maya dance and DJ Beat smiles, moving upwards to reveal more of the vibrant party scene. The camera's movement is slow and majestic, lasting 2 seconds.",
+      "scene_id": 5,
+      "shot_id": 504,
+      "duration_seconds": 2,
+      "generated_at": "2026-07-12T17:00:00.052116"
+    }
+  ],
+  "generated_at": "2026-07-12T17:00:00.052572"
+}

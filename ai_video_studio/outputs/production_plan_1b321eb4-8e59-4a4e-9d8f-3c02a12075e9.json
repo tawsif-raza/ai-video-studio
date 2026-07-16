@@ -1,0 +1,103 @@
+{
+  "title": "Bolt's Rooftop Rhythm",
+  "logline": "A shy robot named Bolt overcomes its social anxiety and mechanical inhibitions to find freedom and joy dancing at a vibrant rooftop party.",
+  "theme": "Overcoming shyness, self-expression, finding joy in connection",
+  "target_duration_seconds": 45,
+  "tone": "Uplifting, heartwarming, lighthearted",
+  "characters": [
+    {
+      "name": "Bolt",
+      "role": "Protagonist",
+      "one_line_description": "A small, somewhat clunky robot with expressive optical sensors, initially very shy and hesitant."
+    },
+    {
+      "name": "Maya",
+      "role": "Supportive Friend",
+      "one_line_description": "A vibrant, kind-hearted human who is observant and encouraging, with a natural flair for dancing."
+    },
+    {
+      "name": "Party Guests",
+      "role": "Background",
+      "one_line_description": "Diverse group of humans and perhaps a few other robots, enjoying the party atmosphere."
+    }
+  ],
+  "scenes": [
+    {
+      "scene_id": 1,
+      "title": "Arrival at the Party",
+      "summary": "Bolt arrives at a lively rooftop party, feeling overwhelmed by the music and dancing. It stands awkwardly by the edge, observing.",
+      "setting": "A vibrant rooftop party at sunset, city lights in the background, upbeat music playing.",
+      "mood": "Awkward, observational, slightly melancholic.",
+      "characters_present": [
+        "Bolt",
+        "Party Guests"
+      ],
+      "estimated_duration_seconds": 8
+    },
+    {
+      "scene_id": 2,
+      "title": "Watching the Dancers",
+      "summary": "Bolt watches the party-goers dancing freely, its optical sensors flickering with a mix of longing and apprehension. It mimics a small head bob.",
+      "setting": "The dance floor of the rooftop party, close-up on Bolt's perspective.",
+      "mood": "Curious, yearning, hesitant.",
+      "characters_present": [
+        "Bolt",
+        "Party Guests"
+      ],
+      "estimated_duration_seconds": 7
+    },
+    {
+      "scene_id": 3,
+      "title": "A Friendly Invitation",
+      "summary": "Maya notices Bolt's hesitation. She approaches with a warm smile and extends a hand, inviting Bolt to join the dance.",
+      "setting": "Near the edge of the dance floor, slightly quieter area.",
+      "mood": "Encouraging, warm, inviting.",
+      "characters_present": [
+        "Bolt",
+        "Maya"
+      ],
+      "estimated_duration_seconds": 9
+    },
+    {
+      "scene_id": 4,
+      "title": "The First Sway",
+      "summary": "Bolt, after a moment of internal processing, hesitantly takes Maya's hand. It attempts a simple, slightly stiff sway, a spark of rhythm igniting.",
+      "setting": "Center of the dance floor, surrounded by other dancers.",
+      "mood": "Tentative, hopeful, beginning to loosen up.",
+      "characters_present": [
+        "Bolt",
+        "Maya"
+      ],
+      "estimated_duration_seconds": 8
+    },
+    {
+      "scene_id": 5,
+      "title": "Finding the Beat",
+      "summary": "Encouraged by Maya's laughter and cheers, Bolt's movements become smoother and more confident. Its gears whir more fluidly as it starts to enjoy the music.",
+      "setting": "Amidst the other dancers, spotlights occasionally hitting them.",
+      "mood": "Joyful, energetic, building confidence.",
+      "characters_present": [
+        "Bolt",
+        "Maya",
+        "Party Guests"
+      ],
+      "estimated_duration_seconds": 9
+    },
+    {
+      "scene_id": 6,
+      "title": "Dancing Free",
+      "summary": "Bolt is now fully immersed, dancing with uninhibited joy and unique robot flair. Maya dances alongside, and other party guests cheer, celebrating Bolt's transformation.",
+      "setting": "The bustling dance floor, vibrant lights, and smiling faces.",
+      "mood": "Exuberant, triumphant, celebratory.",
+      "characters_present": [
+        "Bolt",
+        "Maya",
+        "Party Guests"
+      ],
+      "estimated_duration_seconds": 9
+    }
+  ],
+  "plan_id": "1b321eb4-8e59-4a4e-9d8f-3c02a12075e9",
+  "source_idea": "A shy robot learns to dance at a rooftop party",
+  "generated_at": "2026-07-11T18:42:37.502054"
+}

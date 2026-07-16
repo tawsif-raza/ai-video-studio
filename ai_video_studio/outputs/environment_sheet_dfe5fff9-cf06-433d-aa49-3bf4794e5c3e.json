@@ -1,0 +1,179 @@
+{
+  "environment_profiles": [
+    {
+      "setting": "Edge of a lively rooftop party with city lights in the background.",
+      "time_of_day": "Night",
+      "weather": "Clear",
+      "key_visual_elements": [
+        "Rooftop patio",
+        "String lights",
+        "Decorative lanterns",
+        "City skyline",
+        "Distant skyscrapers",
+        "Partygoers mingling",
+        "Railing"
+      ],
+      "color_palette": [
+        "Warm yellow",
+        "Orange",
+        "Deep blue",
+        "Purple",
+        "Teal",
+        "Amber"
+      ],
+      "lighting": "Warm, inviting glow from string lights, ambient city lights, soft shadows",
+      "atmosphere": "Lively, energetic, inviting, sense of connection to the city",
+      "art_style_keywords": [
+        "3D animated",
+        "Pixar-style",
+        "Semi-stylized",
+        "Warm realistic lighting",
+        "Vibrant",
+        "Detailed",
+        "Inviting"
+      ],
+      "reference_prompt": "A lively rooftop party at night, seen from the edge. String lights and decorative lanterns cast a warm, inviting glow over the patio, where diverse, semi-stylized partygoers mingle. In the background, a breathtaking city skyline stretches out, illuminated by countless warm and cool lights, under a clear, deep blue night sky. The overall style is 3D animated, Pixar-like, with warm realistic lighting and a vibrant, energetic atmosphere."
+    },
+    {
+      "setting": "Near the dance floor, slightly away from the main crowd.",
+      "time_of_day": "Night",
+      "weather": "Clear",
+      "key_visual_elements": [
+        "Glimpse of dance floor activity",
+        "Pulsing colored lights",
+        "Partygoers observing",
+        "Chatting groups",
+        "Ambient decorative elements",
+        "Drinks tables"
+      ],
+      "color_palette": [
+        "Vibrant blue",
+        "Purple",
+        "Pink",
+        "Warm yellow",
+        "Orange",
+        "Deep shadow"
+      ],
+      "lighting": "Dynamic light spills from dance floor, mixed with subdued warm ambient light",
+      "atmosphere": "Energetic buzz, observational, slightly less intense",
+      "art_style_keywords": [
+        "3D animated",
+        "Pixar-style",
+        "Semi-stylized",
+        "Dynamic lighting",
+        "Vibrant",
+        "Energetic",
+        "Warm realistic lighting"
+      ],
+      "reference_prompt": "A semi-stylized 3D animated scene near a lively rooftop party dance floor at night, viewed from slightly away from the main crowd. Pulsing, vibrant blue, purple, and pink lights from the dance floor spill into the surrounding area, highlighting diverse, semi-stylized partygoers who are chatting or observing. Warm ambient lighting from string lights mixes with the dynamic dance floor glow. The overall impression is energetic and inviting, rendered in a Pixar-like style with warm realistic lighting."
+    },
+    {
+      "setting": "The illuminated dance floor, surrounded by other dancers.",
+      "time_of_day": "Night",
+      "weather": "Clear",
+      "key_visual_elements": [
+        "Central dance floor",
+        "Diverse dancers in motion",
+        "Dynamic light patterns",
+        "Spotlights",
+        "Strobes",
+        "LED effects",
+        "DJ booth (background)",
+        "Surrounding partygoers"
+      ],
+      "color_palette": [
+        "High-contrast neon blue",
+        "Purple",
+        "Pink",
+        "Green",
+        "Red",
+        "Warm skin tones"
+      ],
+      "lighting": "Intense, dynamic, rapidly shifting colored lights, strong spotlights",
+      "atmosphere": "High energy, exhilarating, joyous, immersive",
+      "art_style_keywords": [
+        "3D animated",
+        "Pixar-style",
+        "Semi-stylized",
+        "Dynamic stage lighting",
+        "Vibrant",
+        "Energetic",
+        "Warm realistic lighting",
+        "Motion blur"
+      ],
+      "reference_prompt": "A vibrant, illuminated dance floor at a rooftop party, rendered in a 3D animated, Pixar-like style with warm realistic lighting. Dynamic, rapidly shifting spotlights and LED effects cast intense blue, purple, pink, and green light patterns across the floor. Diverse, semi-stylized dancers are in energetic motion, surrounded by a cheering crowd. The atmosphere is exhilarating and full of joyous energy, with clear visual detail and motion."
+    },
+    {
+      "setting": "Mid-dance floor, music pulsing.",
+      "time_of_day": "Night",
+      "weather": "Clear",
+      "key_visual_elements": [
+        "Close-up of dance floor area",
+        "Blurred background of dancers",
+        "Vibrant light washes",
+        "Sense of movement",
+        "Immersion",
+        "Pulsing music effects"
+      ],
+      "color_palette": [
+        "Intense blue",
+        "Purple",
+        "Pink",
+        "Magenta",
+        "Warm highlights",
+        "Deep shadows"
+      ],
+      "lighting": "Very dynamic and immersive, strobing effects, strong colored washes",
+      "atmosphere": "Intense energy, exhilarating, heart-pounding, fully immersed",
+      "art_style_keywords": [
+        "3D animated",
+        "Pixar-style",
+        "Semi-stylized",
+        "Intense dynamic lighting",
+        "Vibrant",
+        "Energetic",
+        "Warm realistic lighting",
+        "Motion blur"
+      ],
+      "reference_prompt": "An immersive, 3D animated, Pixar-style view from mid-dance floor at a rooftop party, with music pulsing. Intense, rapidly changing blue, purple, and pink lights wash over the scene, creating dramatic highlights and shadows on semi-stylized dancers moving energetically. The background is a vibrant blur of other partygoers and dynamic lights, emphasizing a feeling of complete immersion and exhilarating energy, rendered with warm realistic lighting."
+    },
+    {
+      "setting": "Center of the lively dance floor, surrounded by cheering crowd.",
+      "time_of_day": "Night",
+      "weather": "Clear",
+      "key_visual_elements": [
+        "Central spotlight area",
+        "Close-up of dance floor",
+        "Circle of cheering partygoers",
+        "Intense, focused lighting",
+        "Spotlight beams",
+        "Euphoric expressions"
+      ],
+      "color_palette": [
+        "Hyper-saturated blue",
+        "Magenta",
+        "Gold",
+        "Electric purple",
+        "Warm skin tones",
+        "Bright highlights"
+      ],
+      "lighting": "Dramatic spotlights directly on the center, intense strobing, high contrast",
+      "atmosphere": "Triumphant, euphoric, exhilarating, communal joy, spotlight moment",
+      "art_style_keywords": [
+        "3D animated",
+        "Pixar-style",
+        "Semi-stylized",
+        "Dramatic spotlighting",
+        "Highly vibrant",
+        "Energetic",
+        "Warm realistic lighting",
+        "Triumphant",
+        "Emotional"
+      ],
+      "reference_prompt": "The triumphant center of a lively rooftop party dance floor at night, rendered in a 3D animated, Pixar-like style with warm realistic lighting. Intense spotlights focus on the central area, casting vibrant, shifting colors like electric blue, magenta, and gold. A semi-stylized, cheering crowd forms a vibrant circle around the center, their faces illuminated with joy and excitement. The atmosphere is euphoric and exhilarating, capturing a peak moment of communal celebration."
+    }
+  ],
+  "sheet_id": "dfe5fff9-cf06-433d-aa49-3bf4794e5c3e",
+  "source_plan_id": "26b596ad-1533-4bda-b6a9-f5d308ca972e",
+  "generated_at": "2026-07-13T17:42:12.322045"
+}
