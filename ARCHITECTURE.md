@@ -1,4 +1,5 @@
-# AI Video Studio — Architecture
+# AI Video Studio 
+— Architecture
 
 **Status:** Frozen / Approved
 **Scope:** This document describes the **target architecture** — the system after migration is complete, not the current implementation. It is the single source of truth. Every future code change must align with it. Where the current codebase differs, the difference is tracked in [§15 Migration Roadmap](#15-migration-roadmap), not resolved by silently deviating from this document.
@@ -621,6 +622,18 @@ Migration proceeds incrementally. The project remains runnable after every phase
 - Phase 6 (media-generation compliance) is deliberately placed before new Director Studio agents are added, so the "no auto media" principle is locked in while the surface area is still small.
 - Phase 10 is last within Director Studio work because it has the widest import surface — cheapest once Phases 6–9 are no longer moving targets.
 - Milestone G (Phases 11–12) has no code dependency on Director Studio internals beyond "reads a completed Project" and can start in parallel with Director Studio work if resourcing allows.
+
+### Active Technical Debt Ledger
+
+Every item below was explicitly accepted at the milestone that introduced it, not discovered later. This table is the migration checklist for paying each one off — an item is only removed from this ledger once its "Planned Removal Milestone" has actually landed, not before.
+
+| # | Item | Reason | Temporary Owner | Planned Removal Milestone |
+|---|---|---|---|---|
+| 1 | `shared_core/lookups.py` imports types from `agents/*` (`CharacterSheet`, `EnvironmentSheet`, `ProductionPlan`, etc.), violating §7's "Shared Core depends on nothing else." | The cross-agent lookup functions were relocated to Shared Core (Phase 3) before their underlying types existed there — Shared Core has no types of its own yet to depend on instead. | `shared_core/lookups.py` (inline `TODO(Phase 5)` comment) | **Phase 5** — once Production Package schema types move into Shared Core, `lookups.py`'s imports reverse to depend on Shared Core's own types instead of `agents/*`. |
+| 2 | `voice_script.txt` is a placeholder stub, not real narration content. | No Voice Script agent exists yet to generate real content; the file exists so the Production Package's shape is stable ahead of that agent's introduction. | `project_manager/package_writer.py` (`manifest.json` marks its status `"pending"`) | **Phase 9** — Add Voice Script agent. |
+| 3 | `ProjectState` implements 7 states, not ARCHITECTURE.md §8's full 14 (`RESEARCHED`, `SHOTS_COMPLETE`, `CAMERA_COMPLETE` are absent). | No Research or Camera Planner agent exists yet, and Scene Planner still produces shot-level detail as part of `SCENES_COMPLETE`. | `project_manager/project.py` (`ProjectState` enum, with an inline comment noting the gap) | `CAMERA_COMPLETE` → **Phase 7**. `RESEARCHED` → **Phase 8**. `SHOTS_COMPLETE` has **no assigned phase yet** — the roadmap currently has no distinct Shot Planner phase, so this needs an explicit decision (add one, or drop the state from the target design) before it can be scheduled. |
+| 4 | The Production Package's shape is defined as builder functions in `project_manager/package_writer.py`, not as formal typed schemas in Shared Core. | The Project Manager milestone moved *where* the package is written, not *what a package is* as a first-class Shared Core type — that formalization is Phase 5's specific job. | `project_manager/package_writer.py` | **Phase 5** — Production Package schema formally extracted into `shared_core/production_package_schema.py`. |
+| 5 | `ProjectManager.get_images_dir()` returns a flat, non-project-scoped legacy path (`outputs/images/`), and `ImageGenerationAgent` still writes image bytes directly instead of the pipeline only ever producing prompts. | Automatic image generation is legacy CLI behavior predating this migration; refactoring `ImageGenerationAgent` was explicitly out of scope for the Project Manager milestone. | `project_manager/manager.py` (`get_images_dir`) + `agents/image_generator/agent.py` (unchanged) | **Phase 6** — Stop auto image generation; `ImageGenerationAgent` becomes an explicit, opt-in manual tool, no longer wired into the default pipeline. |
 
 ---
 

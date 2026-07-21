@@ -158,6 +158,68 @@ def _happy_path_responses():
     ]
 
 
+def _assert_production_package(tmp_path, plan):
+    project_dirs = list((tmp_path / "projects").iterdir())
+    assert len(project_dirs) == 1
+    project_dir = project_dirs[0]
+    project_id = project_dir.name
+
+    project_file = json.loads((project_dir / "project.json").read_text())
+    assert project_file["project_id"] == project_id
+    assert project_file["status"] == "PACKAGE_READY"
+    assert project_file["source_plan_id"] == plan["plan_id"]
+
+    package_dir = project_dir / "production-package"
+    assert package_dir.exists()
+
+    manifest = json.loads((package_dir / "manifest.json").read_text())
+    assert manifest["package_id"] == project_id
+    file_statuses = {f["name"]: f["status"] for f in manifest["files"]}
+    assert file_statuses["voice_script.txt"] == "pending"
+    assert set(file_statuses) == {
+        "metadata.json", "story.md", "scene_plan.json", "shot_plan.json", "camera_plan.json",
+        "character_bible.json", "environment_bible.json", "image_prompts.json",
+        "video_prompts.json", "voice_script.txt",
+    }
+    for name in file_statuses:
+        assert (package_dir / name).exists()
+
+    metadata = json.loads((package_dir / "metadata.json").read_text())
+    assert metadata["package_id"] == project_id
+    assert metadata["source_plan_id"] == plan["plan_id"]
+    assert metadata["target_duration_seconds"] == 30
+
+    assert (package_dir / "story.md").read_text().startswith("# Test Story")
+
+    scene_plan = json.loads((package_dir / "scene_plan.json").read_text())
+    assert len(scene_plan) == 1
+    assert scene_plan[0]["scene_id"] == 1
+    assert scene_plan[0]["characters_present"] == ["Mira"]
+
+    shot_plan = json.loads((package_dir / "shot_plan.json").read_text())
+    assert len(shot_plan[0]["shots"]) == 2
+    assert "camera_angle" not in shot_plan[0]["shots"][0]
+
+    camera_plan = json.loads((package_dir / "camera_plan.json").read_text())
+    assert camera_plan[0]["shots"][0]["camera_angle"] == "wide shot"
+    assert camera_plan[0]["shots"][0]["camera_movement"] == "static"
+
+    character_bible = json.loads((package_dir / "character_bible.json").read_text())
+    assert character_bible["character_profiles"][0]["name"] == "Mira"
+
+    environment_bible = json.loads((package_dir / "environment_bible.json").read_text())
+    assert environment_bible["environment_profiles"][0]["setting"] == "forest"
+
+    image_prompts = json.loads((package_dir / "image_prompts.json").read_text())
+    assert image_prompts[0]["image_prompt"] == SHOT_1_IMAGE_PROMPT
+
+    video_prompts = json.loads((package_dir / "video_prompts.json").read_text())
+    assert video_prompts[0]["video_motion_prompt"] == SHOT_1_MOTION_PROMPT
+
+    voice_script_text = (package_dir / "voice_script.txt").read_text()
+    assert "pending" in voice_script_text.lower()
+
+
 def _run_app(monkeypatch, tmp_path, argv, responses):
     fake_llm = FakeLLMClient(responses)
     monkeypatch.setattr(app_module, "LLMClient", lambda: fake_llm)
@@ -219,6 +281,8 @@ def test_full_pipeline_skip_images(monkeypatch, tmp_path):
     assert not list(tmp_path.glob("image_manifest.json"))
     assert not (tmp_path / "images").exists()
 
+    _assert_production_package(tmp_path, plan)
+
 
 def test_full_pipeline_with_image_generation(monkeypatch, tmp_path):
     fake_image_client = FakeImageClient()
@@ -243,6 +307,10 @@ def test_full_pipeline_with_image_generation(monkeypatch, tmp_path):
     image_path = tmp_path / "images" / "scene_1.png"
     assert image_path.exists()
     assert image_path.stat().st_size >= 5_000
+
+    plan_files = list(tmp_path.glob("production_plan_*.json"))
+    plan = json.loads(plan_files[0].read_text())
+    _assert_production_package(tmp_path, plan)
 
 
 def test_pipeline_stops_on_story_planner_failure(monkeypatch, tmp_path):
@@ -270,5 +338,14 @@ def test_pipeline_stops_on_story_planner_failure(monkeypatch, tmp_path):
         )
     assert exc_info.value.code == 1
 
-    # nothing should have been written - the run failed on the very first stage
-    assert list(tmp_path.iterdir()) == []
+    # Project Manager creates the project scaffold before Story Planner even
+    # runs, so a project.json exists - but no stage artifacts, since the run
+    # failed on the very first stage and never advanced past CREATED.
+    project_dirs = list((tmp_path / "projects").iterdir())
+    assert len(project_dirs) == 1
+    project_file = json.loads((project_dirs[0] / "project.json").read_text())
+    assert project_file["status"] == "CREATED"
+    assert project_file["source_plan_id"] is None
+
+    assert list(tmp_path.glob("production_plan_*.json")) == []
+    assert not (project_dirs[0] / "production-package").exists()
