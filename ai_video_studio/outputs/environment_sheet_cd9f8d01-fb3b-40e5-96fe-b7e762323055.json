@@ -1,0 +1,138 @@
+{
+  "environment_profiles": [
+    {
+      "setting": "A vast, opulent throne room, dimly lit, emphasizing isolation.",
+      "time_of_day": "Night",
+      "weather": "Still, heavy",
+      "key_visual_elements": [
+        "Grand ornate throne",
+        "High vaulted ceilings",
+        "Heavy tapestries",
+        "Ornate stone pillars",
+        "Minimal light sources (torches, moonlight)",
+        "Long shadows",
+        "Polished dark stone floor"
+      ],
+      "color_palette": [
+        "Deep blues",
+        "Royal purples",
+        "Dark golds",
+        "Muted crimson",
+        "Grays",
+        "Deep browns"
+      ],
+      "lighting": "Dim, chiaroscuro, directional, flickering, high contrast shadows",
+      "atmosphere": "Somber, heavy, isolating, melancholic, grand but empty",
+      "art_style_keywords": [
+        "historical fantasy",
+        "oil painting style",
+        "realistic but expressive",
+        "cinematic lighting",
+        "rich textures",
+        "dramatic mood"
+      ],
+      "reference_prompt": "A vast, opulent throne room in a medieval castle, dimly lit by a few flickering torch sconces and a sliver of moonlight filtering through high, narrow windows, emphasizing a profound sense of isolation and grandeur. High vaulted ceilings, heavy crimson and gold tapestries depicting ancient legends, and immense, ornate stone pillars flank an elevated, empty throne. Long, dramatic shadows stretch across the polished dark stone floor, hinting at the weight of a lonely crown. The overall aesthetic is that of an inspirational, reflective historical fantasy oil painting with cinematic dramatic lighting and rich textures, rendered in a realistic but expressive style."
+    },
+    {
+      "setting": "A vibrant, crowded medieval market square, full of life.",
+      "time_of_day": "Mid-morning",
+      "weather": "Sunny, clear",
+      "key_visual_elements": [
+        "Numerous market stalls",
+        "Bustling crowds",
+        "Merchants and townspeople",
+        "Colorful goods (fruits, fabrics, crafts)",
+        "Cobblestone ground",
+        "Medieval architecture in background",
+        "Banners and awnings"
+      ],
+      "color_palette": [
+        "Earth tones",
+        "Rich greens",
+        "Vibrant reds",
+        "Sunny yellows",
+        "Warm browns",
+        "Sky blues"
+      ],
+      "lighting": "Bright, natural sunlight, dappled light, high contrast, warm",
+      "atmosphere": "Lively, energetic, bustling, warm, community-focused, vibrant",
+      "art_style_keywords": [
+        "historical fantasy",
+        "oil painting style",
+        "realistic but expressive",
+        "vibrant colors",
+        "detailed street scene",
+        "dynamic composition"
+      ],
+      "reference_prompt": "A vibrant, crowded medieval market square bathed in bright mid-morning sunlight, teeming with life and activity. Numerous wooden stalls overflow with colorful fruits, fresh vegetables, woven fabrics, and handcrafted goods. Townspeople in period attire haggle and converse, while merchants call out their wares. The ground is made of worn cobblestones, and the background features charming, gabled medieval buildings. Banners flutter gently in the breeze, and the air is filled with the hustle and bustle of a thriving community. The art style is an inspirational, reflective historical fantasy oil painting with warm, natural lighting, rich textures, and vibrant colors, rendered in a realistic but expressive style."
+    },
+    {
+      "setting": "A narrow, cobblestone village street near the market.",
+      "time_of_day": "Mid-morning",
+      "weather": "Sunny, clear",
+      "key_visual_elements": [
+        "Narrow cobblestone street",
+        "Old stone and timber-framed houses",
+        "Small shops or workshops",
+        "Potted plants",
+        "Laundry lines",
+        "Fewer people than market, daily life scenes"
+      ],
+      "color_palette": [
+        "Muted earth tones",
+        "Grays",
+        "Deep browns",
+        "Moss greens",
+        "Occasional pops of color from details"
+      ],
+      "lighting": "Natural, slightly dappled, softer, warm",
+      "atmosphere": "Quaint, humble, lived-in, everyday, quiet charm",
+      "art_style_keywords": [
+        "historical fantasy",
+        "oil painting style",
+        "realistic but expressive",
+        "detailed architecture",
+        "everyday life scene",
+        "peaceful mood"
+      ],
+      "reference_prompt": "A narrow, winding cobblestone village street situated just off the main market square, bathed in soft mid-morning sunlight. Quaint, two-story timber-framed and stone houses with terracotta roofs line the street, some with small workshops or humble storefronts at ground level. Potted plants adorn windowsills, and a few laundry lines stretch between buildings. A handful of villagers go about their daily routines, adding a sense of quiet, lived-in charm to the scene. The perspective emphasizes the street's intimate scale, leading towards the distant hint of the bustling market. The style reflects an inspirational, reflective historical fantasy oil painting with warm, natural lighting and rich textures, rendered in a realistic but expressive style."
+    },
+    {
+      "setting": "The same throne room, now brighter and feeling more purposeful.",
+      "time_of_day": "Day",
+      "weather": "Bright, clear",
+      "key_visual_elements": [
+        "Grand ornate throne",
+        "High vaulted ceilings",
+        "Heavy tapestries",
+        "Ornate stone pillars",
+        "Large windows with bright natural light",
+        "Numerous chandeliers/torches",
+        "Polished light stone floor",
+        "Signs of activity or purpose"
+      ],
+      "color_palette": [
+        "Golds",
+        "Lighter blues",
+        "Rich reds",
+        "Creams",
+        "Polished stone colors",
+        "Brighter versions of the initial palette"
+      ],
+      "lighting": "Bright, natural light streaming through windows, well-lit by multiple sources, less shadows, open",
+      "atmosphere": "Purposeful, active, hopeful, grand, dignified, enlightened",
+      "art_style_keywords": [
+        "historical fantasy",
+        "oil painting style",
+        "realistic but expressive",
+        "cinematic lighting",
+        "regal aesthetic",
+        "hopeful mood"
+      ],
+      "reference_prompt": "The same vast, opulent throne room as before, but now bathed in bright, purposeful daylight streaming through immense arched windows and illuminated by numerous grand chandeliers and torch sconces. The previous sense of isolation has been replaced by an atmosphere of dignity and clear purpose. The high vaulted ceilings, rich tapestries, and ornate stone pillars are now fully revealed in the abundant light. The elevated throne, while still grand, feels less daunting and more central to a vibrant, active court. Polished floors gleam, and the air is filled with a sense of hopeful regality. The overall aesthetic is that of an inspirational, reflective historical fantasy oil painting with bright, cinematic lighting and rich textures, rendered in a realistic but expressive style."
+    }
+  ],
+  "sheet_id": "cd9f8d01-fb3b-40e5-96fe-b7e762323055",
+  "source_plan_id": "181688e0-0b2a-4fa1-83a2-cb4d12a5cf7a",
+  "generated_at": "2026-07-16T17:39:03.955865"
+}

@@ -101,9 +101,8 @@ def main():
     env_sheet_path.write_text(environment_sheet.model_dump_json(indent=2))
     logger.info(f"Environment sheet saved to {env_sheet_path}")
 
-    # ---- Node 5: Prompt Generator - runs once per shot, on Groq (free tier) ----
-    groq = GroqClient()
-    prompt_agent = PromptGeneratorAgent(groq)
+    # ---- Node 5: Prompt Generator - runs once per shot ----
+    prompt_agent = PromptGeneratorAgent(gemini)
     shot_prompts = []
 
     for scene_plan in storyboard.scene_plans:

@@ -1,0 +1,63 @@
+{
+  "title": "The Weight of the Crown",
+  "logline": "A young king grapples with the immense solitude and responsibility that comes with his new crown, finding strength in quiet reflection.",
+  "theme": "Responsibility, solitude, inner strength",
+  "target_duration_seconds": 30,
+  "tone": "Reflective, serious, inspiring",
+  "characters": [
+    {
+      "name": "King Theron",
+      "role": "Protagonist",
+      "one_line_description": "A young, earnest king burdened by the expectations and duties of his new reign."
+    }
+  ],
+  "scenes": [
+    {
+      "scene_id": 1,
+      "title": "Coronation Echoes",
+      "summary": "King Theron, newly crowned, sits alone in his grand chambers, the weight of the crown palpable as he reflects on his new responsibilities.",
+      "setting": "Royal chambers, late night after the coronation",
+      "mood": "Overwhelmed, pensive",
+      "characters_present": [
+        "King Theron"
+      ],
+      "estimated_duration_seconds": 7
+    },
+    {
+      "scene_id": 2,
+      "title": "The Burden of Decisions",
+      "summary": "Theron presides over a bustling council meeting, listening intently to his advisors, but his expression reveals the heavy toll of leadership and complex decisions.",
+      "setting": "Grand council hall, day",
+      "mood": "Serious, pressured",
+      "characters_present": [
+        "King Theron"
+      ],
+      "estimated_duration_seconds": 6
+    },
+    {
+      "scene_id": 3,
+      "title": "Solitary Walk",
+      "summary": "Seeking a moment of peace, Theron walks alone through the castle gardens, lost in thought, the vastness of his kingdom weighing on him.",
+      "setting": "Castle gardens, dusk",
+      "mood": "Melancholy, reflective",
+      "characters_present": [
+        "King Theron"
+      ],
+      "estimated_duration_seconds": 7
+    },
+    {
+      "scene_id": 4,
+      "title": "Acceptance on the Throne",
+      "summary": "Theron stands before his empty throne, takes a deep breath, and then slowly, deliberately, sits down, a quiet resolve settling on his face. He accepts his destiny.",
+      "setting": "Throne room, early morning",
+      "mood": "Determined, accepting, hopeful",
+      "characters_present": [
+        "King Theron"
+      ],
+      "estimated_duration_seconds": 7
+    }
+  ],
+  "plan_id": "609158c8-b4f1-4c41-931f-4cd967a616fb",
+  "source_idea": "A story about a king",
+  "generated_at": "2026-07-16T17:46:12.084892"
+}

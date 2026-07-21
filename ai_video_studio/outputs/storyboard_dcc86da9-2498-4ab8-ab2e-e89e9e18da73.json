@@ -1,0 +1,155 @@
+{
+  "scene_plans": [
+    {
+      "scene_id": 1,
+      "shots": [
+        {
+          "shot_id": 101,
+          "camera_angle": "Wide Shot",
+          "camera_movement": "Static",
+          "description": "King Arthur sits alone on his vast throne, a small figure in a dimly lit, opulent room, emphasizing his isolation and the grandeur of his burden.",
+          "characters_in_shot": [
+            "King Arthur"
+          ],
+          "duration_seconds": 3
+        },
+        {
+          "shot_id": 102,
+          "camera_angle": "Close-up",
+          "camera_movement": "Static",
+          "description": "A tight shot on King Arthur's face, revealing a pensive, overwhelmed expression, perhaps a slight furrow in his brow.",
+          "characters_in_shot": [
+            "King Arthur"
+          ],
+          "duration_seconds": 2
+        },
+        {
+          "shot_id": 103,
+          "camera_angle": "Medium Shot",
+          "camera_movement": "Dolly In",
+          "description": "Focus on King Arthur's hands gripping the ornate armrest of the throne, the weight of the crown palpable even in his posture.",
+          "characters_in_shot": [
+            "King Arthur"
+          ],
+          "duration_seconds": 2
+        }
+      ]
+    },
+    {
+      "scene_id": 2,
+      "shots": [
+        {
+          "shot_id": 201,
+          "camera_angle": "Medium Shot",
+          "camera_movement": "Tracking Shot",
+          "description": "King Arthur, disguised in simple clothes, walks through a bustling medieval market, blending into the crowd while keenly observing his surroundings.",
+          "characters_in_shot": [
+            "King Arthur"
+          ],
+          "duration_seconds": 3
+        },
+        {
+          "shot_id": 202,
+          "camera_angle": "Point of View (POV)",
+          "camera_movement": "Pan and Tilt",
+          "description": "Quick cuts from Arthur's perspective: a merchant haggling, a child laughing, a baker selling bread. Showcases the lively and diverse daily struggles and joys.",
+          "characters_in_shot": [
+            "King Arthur"
+          ],
+          "duration_seconds": 3
+        },
+        {
+          "shot_id": 203,
+          "camera_angle": "Close-up",
+          "camera_movement": "Static",
+          "description": "A close-up on King Arthur's eyes, reflecting curiosity, empathy, and a dawning understanding as he takes in the vibrant life of his people.",
+          "characters_in_shot": [
+            "King Arthur"
+          ],
+          "duration_seconds": 2
+        }
+      ]
+    },
+    {
+      "scene_id": 3,
+      "shots": [
+        {
+          "shot_id": 301,
+          "camera_angle": "Medium Shot",
+          "camera_movement": "Static",
+          "description": "An old woman struggles to carry a heavy basket up a narrow, cobblestone village street, her movements slow and labored.",
+          "characters_in_shot": [],
+          "duration_seconds": 2
+        },
+        {
+          "shot_id": 302,
+          "camera_angle": "Over-the-Shoulder",
+          "camera_movement": "Dolly In",
+          "description": "From behind King Arthur, he steps forward discreetly, approaching the old woman with a gentle, concerned expression.",
+          "characters_in_shot": [
+            "King Arthur"
+          ],
+          "duration_seconds": 2
+        },
+        {
+          "shot_id": 303,
+          "camera_angle": "Close-up",
+          "camera_movement": "Static",
+          "description": "King Arthur's hand reaches out to steady the old woman's basket, a silent act of assistance and connection.",
+          "characters_in_shot": [
+            "King Arthur"
+          ],
+          "duration_seconds": 2
+        },
+        {
+          "shot_id": 304,
+          "camera_angle": "Medium Shot",
+          "camera_movement": "Static",
+          "description": "Arthur and the old woman share a brief, grateful look, a genuine moment of human connection transcending their social roles.",
+          "characters_in_shot": [
+            "King Arthur"
+          ],
+          "duration_seconds": 2
+        }
+      ]
+    },
+    {
+      "scene_id": 4,
+      "shots": [
+        {
+          "shot_id": 401,
+          "camera_angle": "Wide Shot",
+          "camera_movement": "Reveal",
+          "description": "Back on his throne, King Arthur sits tall, the throne room now brighter and feeling purposeful. He exudes quiet confidence and resolve.",
+          "characters_in_shot": [
+            "King Arthur"
+          ],
+          "duration_seconds": 3
+        },
+        {
+          "shot_id": 402,
+          "camera_angle": "Close-up",
+          "camera_movement": "Static",
+          "description": "King Arthur's face, now serene and determined, a subtle, knowing smile playing on his lips, signifying his newfound purpose.",
+          "characters_in_shot": [
+            "King Arthur"
+          ],
+          "duration_seconds": 2
+        },
+        {
+          "shot_id": 403,
+          "camera_angle": "Medium Shot",
+          "camera_movement": "Dolly Out",
+          "description": "King Arthur's gaze is fixed forward, shoulders back, embodying a true leader who understands that serving his people is his greatest duty.",
+          "characters_in_shot": [
+            "King Arthur"
+          ],
+          "duration_seconds": 2
+        }
+      ]
+    }
+  ],
+  "storyboard_id": "dcc86da9-2498-4ab8-ab2e-e89e9e18da73",
+  "source_plan_id": "181688e0-0b2a-4fa1-83a2-cb4d12a5cf7a",
+  "generated_at": "2026-07-16T17:38:39.218738"
+}

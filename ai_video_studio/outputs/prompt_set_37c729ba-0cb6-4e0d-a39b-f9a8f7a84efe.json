@@ -1,0 +1,111 @@
+{
+  "prompt_set_id": "37c729ba-0cb6-4e0d-a39b-f9a8f7a84efe",
+  "source_storyboard_id": "dcc86da9-2498-4ab8-ab2e-e89e9e18da73",
+  "shots": [
+    {
+      "image_prompt": "In a vast, opulent throne room, dimly lit by flickering torch sconces and a sliver of moonlight, a young King Arthur, with a slender yet regal build and a composed, thoughtful posture, sits alone on his elevated throne, wearing a deep sapphire blue tunic with subtle gold embroidery, a cream undershirt, a flowing deep crimson cape fastened with a silver clasp, dark brown trousers, and polished leather boots, with a simple, elegant silver circlet adorning his head, and a silver signet ring on his right hand, his dark brown hair neatly kept in a classic, slightly wavy medium length, his kind, discerning eyes and strong, defined jawline reflecting a thoughtful and earnest expression, surrounded by high vaulted ceilings, heavy crimson and gold tapestries depicting ancient legends, and immense, ornate stone pillars, with long, dramatic shadows stretching across the polished dark stone floor, in a classic fantasy illustration style, with soft lighting, detailed textures, and an inspirational, hopeful mood, capturing his reflective nature and the weight of his crown, as seen from a wide shot angle.",
+      "video_motion_prompt": "The camera remains static for 3 seconds, capturing King Arthur's solitary figure in the grand, dimly lit throne room, as the flickering torches cast gentle, dancing shadows across the scene.",
+      "scene_id": 1,
+      "shot_id": 101,
+      "duration_seconds": 3,
+      "generated_at": "2026-07-16T17:39:07.053406"
+    },
+    {
+      "image_prompt": "A close-up of a young King Arthur's face, in his early 20s, with a slender yet regal build, revealing a pensive, overwhelmed expression, perhaps a slight furrow in his brow, his thoughtful and earnest eyes cast downward, his strong, defined jawline set in contemplation, his dark brown, neatly kept hair framing his face, adorned with a simple, elegant silver circlet, in the dimly lit, vast, opulent throne room of a medieval castle, with high vaulted ceilings, heavy crimson and gold tapestries, and immense, ornate stone pillars visible in the soft, flickering torchlight and sliver of moonlight, his deep sapphire blue tunic with subtle gold embroidery, cream undershirt, and glint of a silver signet ring on his right hand, subtly visible in the tight framing, rendered in a classic fantasy illustration, painterly, renaissance inspired style, with soft lighting, detailed textures, and an inspirational, hopeful mood.",
+      "video_motion_prompt": "The camera remains static, capturing every subtle nuance of King Arthur's expression for 2 seconds, as the only movement comes from the faint flicker of torchlight dancing across his face.",
+      "scene_id": 1,
+      "shot_id": 102,
+      "duration_seconds": 2,
+      "generated_at": "2026-07-16T17:39:08.016160"
+    },
+    {
+      "image_prompt": "A young King Arthur, in his early 20s, with a slender yet regal build and a composed, thoughtful posture, sits on an elevated throne in a vast, opulent throne room, dimly lit by flickering torch sconces and a sliver of moonlight, his deep sapphire blue tunic with subtle gold embroidery, cream undershirt, flowing deep crimson cape, dark brown trousers, and polished leather boots, adorned with a simple, elegant silver circlet and a silver signet ring on his right hand, as his hands grip the ornate armrest, conveying the weight of the crown, in a classic fantasy illustration style, with soft lighting, detailed textures, and an inspirational, hopeful mood, captured in a medium shot, with dramatic shadows stretching across the polished dark stone floor, emphasizing isolation and grandeur.",
+      "video_motion_prompt": "The camera slowly dollies in over 2 seconds, focusing on King Arthur's hands gripping the throne's armrest, as his fingers tighten, conveying the emotional weight of his responsibilities.",
+      "scene_id": 1,
+      "shot_id": 103,
+      "duration_seconds": 2,
+      "generated_at": "2026-07-16T17:39:40.331793"
+    },
+    {
+      "image_prompt": "In a vibrant, crowded medieval market square, bathed in bright mid-morning sunlight, a young King Arthur in his early 20s, wearing simple, nondescript clothes, walks through the throngs of people, his thoughtful and earnest expression a stark contrast to the lively atmosphere, as he keenly observes the numerous wooden stalls overflowing with colorful fruits, fresh vegetables, woven fabrics, and handcrafted goods, with townspeople in period attire haggling and conversing around him, all set against the charming backdrop of gabled medieval buildings, in the style of a classic fantasy illustration, with soft lighting, detailed textures, and an inspirational, hopeful mood, captured in a medium shot, with the king positioned centrally, blending into the crowd yet standing out with his composed, thoughtful posture, and discerning eyes.",
+      "video_motion_prompt": "The camera tracks King Arthur from a medium distance as he walks through the bustling market, weaving past stalls and people, with a smooth, continuous motion, over the course of 3 seconds, capturing the dynamic movement of the crowd and the king's observant nature.",
+      "scene_id": 2,
+      "shot_id": 201,
+      "duration_seconds": 3,
+      "generated_at": "2026-07-16T17:39:41.478541"
+    },
+    {
+      "image_prompt": "In the heart of a vibrant, crowded medieval market square, bathed in bright mid-morning sunlight, a young King Arthur, in his early 20s, with a slender yet regal build and a composed, thoughtful posture, looks out upon the scene before him with kind, discerning eyes, wearing a deep sapphire blue tunic with subtle gold embroidery, a cream undershirt, a flowing deep crimson cape fastened with a silver clasp, dark brown trousers, and polished leather boots, a simple, elegant silver circlet adorns his head, and a silver signet ring is on his right hand, as he takes in the numerous wooden stalls overflowing with colorful fruits, fresh vegetables, woven fabrics, and handcrafted goods, amidst townspeople in period attire haggling and conversing, with merchants calling out their wares, against the backdrop of charming, gabled medieval buildings, with banners fluttering gently in the breeze, in the style of a classic fantasy illustration, with soft lighting, detailed textures, and an inspirational, hopeful mood, capturing his reflective nature and the weight of his crown, from his point of view, as if the viewer is seeing through his eyes, with the camera panning and tilting to follow his gaze.",
+      "video_motion_prompt": "The camera quickly cuts between a merchant haggling, a child laughing, and a baker selling bread, panning and tilting to follow King Arthur's gaze as he takes in the lively market scene, with each cut lasting less than a second to convey the rapid pace of his observations over the course of three seconds.",
+      "scene_id": 2,
+      "shot_id": 202,
+      "duration_seconds": 3,
+      "generated_at": "2026-07-16T17:39:42.578931"
+    },
+    {
+      "image_prompt": "A classic fantasy illustration of a young King Arthur's face in close-up, set against the soft, blurred backdrop of a vibrant medieval market square, with his thoughtful and earnest expression, kind, discerning eyes, and strong, defined jawline taking center stage. His dark brown hair is neatly kept in a classic, slightly wavy medium length, and a simple, elegant silver circlet adorns his head. His eyes, filled with curiosity, empathy, and a dawning understanding, sparkle with a deep sapphire blue tinge, reflecting the deep sapphire blue tunic he wears, with subtle gold embroidery visible at the edges of the frame. The overall mood is inspirational and hopeful, capturing his reflective nature and the weight of his crown, with warm, natural lighting and rich textures reminiscent of a renaissance-inspired oil painting.",
+      "video_motion_prompt": "The camera remains static for 2 seconds, with only King Arthur's eyes moving slightly as he takes in the vibrant life of his people, his pupils dilating with curiosity and empathy.",
+      "scene_id": 2,
+      "shot_id": 203,
+      "duration_seconds": 2,
+      "generated_at": "2026-07-16T17:39:53.303889"
+    },
+    {
+      "image_prompt": "In a narrow, winding cobblestone village street bathed in soft mid-morning sunlight, an old woman, her face lined with age and effort, struggles to carry a heavy, woven basket filled to the brim with an assortment of goods, her movements slow and labored as she navigates the intimate, quaint street lined with two-story timber-framed and stone houses featuring terracotta roofs, potted plants on windowsills, and laundry lines stretching between buildings, all reflected in a realistic yet expressive, historical fantasy oil painting style with warm, natural lighting and rich textures, captured in a medium shot that emphasizes her solitary struggle amidst the quiet, lived-in charm of the village.",
+      "video_motion_prompt": "The old woman's labored steps and slight shifts in balance are the only movements in this static shot, the camera holding steady as she struggles to carry her heavy basket up the cobblestone street.",
+      "scene_id": 3,
+      "shot_id": 301,
+      "duration_seconds": 2,
+      "generated_at": "2026-07-16T17:39:54.587906"
+    },
+    {
+      "image_prompt": "In a narrow, cobblestone village street near the market, bathed in soft mid-morning sunlight, a young King Arthur in his early 20s steps forward discreetly from behind, his deep sapphire blue tunic with subtle gold embroidery, cream undershirt, flowing deep crimson cape, dark brown trousers, and polished leather boots a stark yet elegant contrast to the quaint, two-story timber-framed and stone houses with terracotta roofs lining the street. His composed, thoughtful posture and gentle, concerned expression as he approaches an old woman are accentuated by the soft, painterly light, with his dark brown hair neatly kept in a classic, slightly wavy medium length, a simple, elegant silver circlet adorning his head, and a silver signet ring on his right hand. The camera views this intimate scene from over King Arthur's shoulder, with potted plants on windowsills and a few laundry lines stretching between buildings adding to the sense of quiet, lived-in charm, all rendered in a classic fantasy illustration style inspired by renaissance oil paintings with warm, natural lighting and rich textures.",
+      "video_motion_prompt": "As King Arthur steps forward, the camera dollies in, subtly zooming in on his concerned expression, while the soft village scene behind him gently blurs, drawing focus to the king's gentle approach.",
+      "scene_id": 3,
+      "shot_id": 302,
+      "duration_seconds": 2,
+      "generated_at": "2026-07-16T17:40:02.498258"
+    },
+    {
+      "image_prompt": "A close-up of a young King Arthur, in his early 20s, with a slender yet regal build and a composed, thoughtful posture, set against the warm, intimate backdrop of a narrow, cobblestone village street near the market, with quaint, two-story timber-framed and stone houses and terracotta roofs lining the street, and a few villagers going about their daily routines. He has a thoughtful and earnest expression, kind, discerning eyes, and a strong, defined jawline, with dark brown hair neatly kept in a classic, slightly wavy medium length. He wears a deep sapphire blue tunic with subtle gold embroidery, a cream undershirt, a flowing deep crimson cape fastened with a silver clasp, dark brown trousers, and polished leather boots. A simple, elegant silver circlet adorns his head, and a silver signet ring is on his right hand. His hand reaches out to steady an old woman's basket, a silent act of assistance and connection, as the soft mid-morning sunlight casts a warm glow on the scene, rendered in a classic fantasy illustration style, with soft lighting, detailed textures, and an inspirational, hopeful mood, capturing his reflective nature and the weight of his crown.",
+      "video_motion_prompt": "The camera remains static for 2 seconds, capturing the gentle, heartfelt moment as King Arthur's hand steadies the old woman's basket, with no movement except for the subtle, natural sway of the villagers in the background.",
+      "scene_id": 3,
+      "shot_id": 303,
+      "duration_seconds": 2,
+      "generated_at": "2026-07-16T17:40:08.412278"
+    },
+    {
+      "image_prompt": "In a classic fantasy illustration style, with soft, warm lighting and detailed textures, a young King Arthur, in his early 20s, with a slender yet regal build and a composed, thoughtful posture, stands in a narrow, cobblestone village street near the market, lined with quaint, two-story timber-framed and stone houses with terracotta roofs. He wears a deep sapphire blue tunic with subtle gold embroidery, a cream undershirt, a flowing deep crimson cape fastened with a silver clasp, dark brown trousers, and polished leather boots, with a simple, elegant silver circlet adorning his head and a silver signet ring on his right hand. His thoughtful and earnest expression meets the warm, appreciative gaze of an old woman, as they share a brief, genuine moment of human connection, transcending their social roles, in a medium shot that captures the intimacy of the scene, with the soft mid-morning sunlight casting a hopeful glow on the characters and the surroundings.",
+      "video_motion_prompt": "The camera remains static for 2 seconds, capturing the fleeting yet profound moment of connection between King Arthur and the old woman, as they exchange a grateful look in the heart of the village street.",
+      "scene_id": 3,
+      "shot_id": 304,
+      "duration_seconds": 2,
+      "generated_at": "2026-07-16T17:40:13.186022"
+    },
+    {
+      "image_prompt": "In a grand, opulent throne room bathed in bright, purposeful daylight, with numerous grand chandeliers and torch sconces illuminating the space, a young King Arthur, in his early 20s, with a slender yet regal build and a composed, thoughtful posture, sits tall on his throne, exuding quiet confidence and resolve. He has a thoughtful and earnest expression, kind, discerning eyes, and a strong, defined jawline, with dark brown hair neatly kept in a classic, slightly wavy medium length. He wears a deep sapphire blue tunic with subtle gold embroidery, a cream undershirt, a flowing deep crimson cape fastened with a silver clasp, dark brown trousers, and polished leather boots, with a simple, elegant silver circlet adorning his head and a silver signet ring on his right hand. The room, with its high vaulted ceilings, rich tapestries, and ornate stone pillars, is filled with a sense of hopeful regality, and the overall scene is captured in a classic fantasy illustration style, reminiscent of renaissance inspired oil paintings, with soft lighting, detailed textures, and an inspirational, hopeful mood. The scene is viewed from a wide shot, with the camera positioned to reveal the full majesty of the throne room and its occupant.",
+      "video_motion_prompt": "The camera slowly reveals the throne room, panning out to show King Arthur seated on his throne, before coming to a gentle stop, as if unveiling the young king's newfound confidence and resolve over the course of 3 seconds.",
+      "scene_id": 4,
+      "shot_id": 401,
+      "duration_seconds": 3,
+      "generated_at": "2026-07-16T17:40:19.525220"
+    },
+    {
+      "image_prompt": "A close-up of King Arthur's serene and determined face, with a subtle, knowing smile playing on his lips, set against the backdrop of a bright and purposeful throne room, where the warm daylight streaming through immense arched windows and the glow of grand chandeliers and torch sconces illuminate the opulent space, with rich tapestries, ornate stone pillars, and polished floors, as he wears a deep sapphire blue tunic with subtle gold embroidery, a cream undershirt, a flowing deep crimson cape fastened with a silver clasp, dark brown trousers, and polished leather boots, adorned with a simple, elegant silver circlet on his head and a silver signet ring on his right hand, in the style of a classic fantasy illustration, painterly, renaissance inspired, with soft lighting, detailed textures, and an inspirational, hopeful mood.",
+      "video_motion_prompt": "The camera remains static, capturing King Arthur's subtle, knowing smile as it gently plays on his lips, with no movement or change in expression over the 2-second duration.",
+      "scene_id": 4,
+      "shot_id": 402,
+      "duration_seconds": 2,
+      "generated_at": "2026-07-16T17:40:22.929996"
+    },
+    {
+      "image_prompt": "In a bright, purposeful throne room filled with the warm glow of daylight streaming through immense arched windows and illuminated by numerous grand chandeliers and torch sconces, a young King Arthur in his early 20s stands with his shoulders back, embodying a true leader, his gaze fixed forward with a thoughtful and earnest expression, kind, discerning eyes, and a strong, defined jawline, wearing a deep sapphire blue tunic with subtle gold embroidery, a cream undershirt, a flowing deep crimson cape fastened with a silver clasp, dark brown trousers, and polished leather boots, with a simple, elegant silver circlet adorning his head and a silver signet ring on his right hand, set against the backdrop of high vaulted ceilings, rich tapestries, and ornate stone pillars, in a medium shot that frames his composed, regal build, in the style of a classic fantasy illustration, painterly, renaissance inspired, with soft lighting, detailed textures, and an inspirational, hopeful mood.",
+      "video_motion_prompt": "The camera dollies out slowly over 2 seconds, capturing King Arthur's resolute stance as the throne room's vibrant, active atmosphere comes into view, with the camera's gentle movement emphasizing the sense of hopeful regality that fills the space.",
+      "scene_id": 4,
+      "shot_id": 403,
+      "duration_seconds": 2,
+      "generated_at": "2026-07-16T17:40:27.806593"
+    }
+  ],
+  "generated_at": "2026-07-16T17:40:27.806854"
+}

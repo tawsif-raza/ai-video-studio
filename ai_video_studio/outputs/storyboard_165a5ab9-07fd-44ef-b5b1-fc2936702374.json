@@ -1,0 +1,147 @@
+{
+  "scene_plans": [
+    {
+      "scene_id": 1,
+      "shots": [
+        {
+          "shot_id": 101,
+          "camera_angle": "Wide Shot",
+          "camera_movement": "Slow Pan",
+          "description": "The camera slowly pans across the opulent, yet empty, royal chambers, settling on King Theron, small and isolated in a grand armchair by a window.",
+          "characters_in_shot": [
+            "King Theron"
+          ],
+          "duration_seconds": 2
+        },
+        {
+          "shot_id": 102,
+          "camera_angle": "Close-up",
+          "camera_movement": "Still",
+          "description": "A tight close-up on King Theron's face. His eyes are distant, heavy with thought, reflecting the immense weight of his new crown and responsibilities.",
+          "characters_in_shot": [
+            "King Theron"
+          ],
+          "duration_seconds": 3
+        },
+        {
+          "shot_id": 103,
+          "camera_angle": "Medium Shot",
+          "camera_movement": "Dolly Out",
+          "description": "The camera dollies out slightly, showing Theron still pensive, the empty room around him emphasizing his solitude and the quiet echo of the coronation.",
+          "characters_in_shot": [
+            "King Theron"
+          ],
+          "duration_seconds": 2
+        }
+      ]
+    },
+    {
+      "scene_id": 2,
+      "shots": [
+        {
+          "shot_id": 201,
+          "camera_angle": "High Angle Wide Shot",
+          "camera_movement": "Crane Shot",
+          "description": "A high-angle shot reveals the bustling grand council hall from above, with King Theron at the head of the long table, surrounded by numerous advisors.",
+          "characters_in_shot": [
+            "King Theron"
+          ],
+          "duration_seconds": 2
+        },
+        {
+          "shot_id": 202,
+          "camera_angle": "Medium Close-up",
+          "camera_movement": "Still",
+          "description": "King Theron listens intently to an unseen advisor. His expression is serious, a subtle crease in his brow betraying the pressure of complex decisions.",
+          "characters_in_shot": [
+            "King Theron"
+          ],
+          "duration_seconds": 2
+        },
+        {
+          "shot_id": 203,
+          "camera_angle": "Over-the-Shoulder",
+          "camera_movement": "Push In",
+          "description": "From behind Theron's shoulder, looking at an advisor speaking. The camera then pushes slightly past Theron, settling on his face as he processes the information, his resolve tested.",
+          "characters_in_shot": [
+            "King Theron"
+          ],
+          "duration_seconds": 2
+        }
+      ]
+    },
+    {
+      "scene_id": 3,
+      "shots": [
+        {
+          "shot_id": 301,
+          "camera_angle": "Long Shot",
+          "camera_movement": "Tracking Shot",
+          "description": "King Theron walks alone through the vast castle gardens at dusk. The camera tracks him from a distance, highlighting his isolation amidst the sprawling greenery.",
+          "characters_in_shot": [
+            "King Theron"
+          ],
+          "duration_seconds": 3
+        },
+        {
+          "shot_id": 302,
+          "camera_angle": "Medium Profile Shot",
+          "camera_movement": "Steadicam Follow",
+          "description": "Following Theron from the side, his gaze is distant, lost in thought. The fading light casts long shadows, mirroring his melancholy mood.",
+          "characters_in_shot": [
+            "King Theron"
+          ],
+          "duration_seconds": 2
+        },
+        {
+          "shot_id": 303,
+          "camera_angle": "Low Angle",
+          "camera_movement": "Tilt Up",
+          "description": "A low-angle shot looks up at Theron as he pauses, gazing out over the castle walls. The vastness of the kingdom below him emphasizes the scale of his burden.",
+          "characters_in_shot": [
+            "King Theron"
+          ],
+          "duration_seconds": 2
+        }
+      ]
+    },
+    {
+      "scene_id": 4,
+      "shots": [
+        {
+          "shot_id": 401,
+          "camera_angle": "Medium Shot",
+          "camera_movement": "Still",
+          "description": "King Theron stands before his magnificent, empty throne in the early morning light. He takes a deep, fortifying breath, preparing himself.",
+          "characters_in_shot": [
+            "King Theron"
+          ],
+          "duration_seconds": 2
+        },
+        {
+          "shot_id": 402,
+          "camera_angle": "Close-up",
+          "camera_movement": "Slow Push In",
+          "description": "A close-up on Theron's face as a quiet resolve settles in his eyes. He is no longer overwhelmed, but determined and accepting.",
+          "characters_in_shot": [
+            "King Theron"
+          ],
+          "duration_seconds": 2
+        },
+        {
+          "shot_id": 403,
+          "camera_angle": "Full Shot",
+          "camera_movement": "Dolly Left",
+          "description": "The camera dollies slightly left as Theron approaches the throne and slowly, deliberately, sits down, assuming his place with newfound strength.",
+          "characters_in_shot": [
+            "King Theron"
+          ],
+          "duration_seconds": 3
+        }
+      ]
+    }
+  ],
+  "storyboard_id": "165a5ab9-07fd-44ef-b5b1-fc2936702374",
+  "source_plan_id": "609158c8-b4f1-4c41-931f-4cd967a616fb",
+  "generated_at": "2026-07-16T17:46:24.115367"
+}

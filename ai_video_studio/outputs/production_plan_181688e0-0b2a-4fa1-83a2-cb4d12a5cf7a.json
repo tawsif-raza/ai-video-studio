@@ -1,0 +1,63 @@
+{
+  "title": "The Weight of the Crown",
+  "logline": "A young king, burdened by his royal duties, finds true wisdom and purpose by observing the simple lives of his people.",
+  "theme": "Leadership through service and empathy.",
+  "target_duration_seconds": 30,
+  "tone": "Inspirational, reflective, hopeful",
+  "characters": [
+    {
+      "name": "King Arthur",
+      "role": "Protagonist",
+      "one_line_description": "A young, thoughtful monarch grappling with the immense responsibilities of his crown."
+    }
+  ],
+  "scenes": [
+    {
+      "scene_id": 1,
+      "title": "The Burdened Throne",
+      "summary": "King Arthur sits alone on his grand throne, looking pensive and overwhelmed by the weight of his royal duties.",
+      "setting": "A vast, opulent throne room, dimly lit, emphasizing isolation.",
+      "mood": "Solemn, introspective, heavy",
+      "characters_present": [
+        "King Arthur"
+      ],
+      "estimated_duration_seconds": 7
+    },
+    {
+      "scene_id": 2,
+      "title": "A Glimpse of Daily Life",
+      "summary": "King Arthur, disguised in simple clothes, walks through a bustling village market, observing his people's daily struggles and moments of joy.",
+      "setting": "A vibrant, crowded medieval market square, full of life.",
+      "mood": "Curious, observant, lively",
+      "characters_present": [
+        "King Arthur"
+      ],
+      "estimated_duration_seconds": 8
+    },
+    {
+      "scene_id": 3,
+      "title": "An Act of Connection",
+      "summary": "King Arthur discreetly helps an old woman struggling with a heavy basket, feeling a direct connection to his people and their immediate needs.",
+      "setting": "A narrow, cobblestone village street near the market.",
+      "mood": "Empathetic, insightful, heartwarming",
+      "characters_present": [
+        "King Arthur"
+      ],
+      "estimated_duration_seconds": 8
+    },
+    {
+      "scene_id": 4,
+      "title": "The True Purpose",
+      "summary": "Back on his throne, King Arthur now wears a serene and determined expression, understanding that true leadership lies in serving his people.",
+      "setting": "The same throne room, now brighter and feeling more purposeful.",
+      "mood": "Resolved, hopeful, inspiring",
+      "characters_present": [
+        "King Arthur"
+      ],
+      "estimated_duration_seconds": 7
+    }
+  ],
+  "plan_id": "181688e0-0b2a-4fa1-83a2-cb4d12a5cf7a",
+  "source_idea": "A story about a king",
+  "generated_at": "2026-07-16T17:38:27.549466"
+}

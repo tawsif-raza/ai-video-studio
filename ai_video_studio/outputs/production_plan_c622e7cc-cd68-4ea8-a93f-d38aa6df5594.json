@@ -1,0 +1,80 @@
+{
+  "title": "The Weight of the Crown",
+  "logline": "A newly crowned young king navigates the overwhelming responsibilities of his position, finding both challenge and quiet strength.",
+  "theme": "Leadership, responsibility, solitude",
+  "target_duration_seconds": 30,
+  "tone": "Reflective, poignant",
+  "characters": [
+    {
+      "name": "King Alaric",
+      "role": "Protagonist",
+      "one_line_description": "A young, thoughtful monarch grappling with the immense duties of his throne."
+    },
+    {
+      "name": "Advisor Elara",
+      "role": "Supporting Character",
+      "one_line_description": "A wise and seasoned royal advisor, offering counsel to the young king."
+    }
+  ],
+  "scenes": [
+    {
+      "scene_id": 1,
+      "title": "The Coronation's Echo",
+      "summary": "Quick, impactful shots of King Alaric's coronation, highlighting the ceremonial weight of the crown settling upon his head.",
+      "setting": "Grand Royal Throne Room",
+      "mood": "Solemn, momentous",
+      "characters_present": [
+        "King Alaric"
+      ],
+      "estimated_duration_seconds": 5
+    },
+    {
+      "scene_id": 2,
+      "title": "Council's Demands",
+      "summary": "King Alaric sits at a long table, listening intently to Advisor Elara and other unseen council members, his face showing the strain of complex decisions.",
+      "setting": "Royal Council Chamber",
+      "mood": "Pressured, serious",
+      "characters_present": [
+        "King Alaric",
+        "Advisor Elara"
+      ],
+      "estimated_duration_seconds": 7
+    },
+    {
+      "scene_id": 3,
+      "title": "A King's Solitude",
+      "summary": "King Alaric walks alone through the quiet, torch-lit corridors of the castle, deep in thought, the sounds of his footsteps echoing.",
+      "setting": "Castle Corridors",
+      "mood": "Pensive, isolated",
+      "characters_present": [
+        "King Alaric"
+      ],
+      "estimated_duration_seconds": 8
+    },
+    {
+      "scene_id": 4,
+      "title": "Kingdom's Horizon",
+      "summary": "King Alaric stands on a high balcony, looking out over his vast kingdom at sunset, the vastness of his responsibility clearly weighing on him.",
+      "setting": "Castle Balcony overlooking the kingdom",
+      "mood": "Overwhelmed, reflective",
+      "characters_present": [
+        "King Alaric"
+      ],
+      "estimated_duration_seconds": 7
+    },
+    {
+      "scene_id": 5,
+      "title": "Quiet Resolve",
+      "summary": "King Alaric sits at his desk, a scroll and quill before him. He looks up, a newfound determination in his eyes, ready to face the challenges ahead.",
+      "setting": "King's Private Study",
+      "mood": "Determined, hopeful",
+      "characters_present": [
+        "King Alaric"
+      ],
+      "estimated_duration_seconds": 5
+    }
+  ],
+  "plan_id": "c622e7cc-cd68-4ea8-a93f-d38aa6df5594",
+  "source_idea": "A story about a king",
+  "generated_at": "2026-07-16T17:48:13.560898"
+}

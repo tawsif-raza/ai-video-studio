@@ -1,0 +1,128 @@
+{
+  "environment_profiles": [
+    {
+      "setting": "Royal chambers, late night after the coronation",
+      "time_of_day": "Late night",
+      "weather": "Calm",
+      "key_visual_elements": [
+        "Large, ornate bed",
+        "Heavy drapes",
+        "Lit fireplace",
+        "Scattered crown and robes",
+        "Large window overlooking a quiet castle courtyard",
+        "Desk with parchment and quill"
+      ],
+      "color_palette": [
+        "Deep blues",
+        "Rich golds",
+        "Dark reds",
+        "Muted greys",
+        "Warm amber"
+      ],
+      "lighting": "Low, warm, intimate, primarily from a flickering fireplace and candelabra, casting long, soft shadows.",
+      "atmosphere": "Solemn, reflective, quiet, heavy, intimate.",
+      "art_style_keywords": [
+        "realistic",
+        "painterly",
+        "historical drama",
+        "rich textures",
+        "chiaroscuro lighting"
+      ],
+      "reference_prompt": "A grand royal bedchamber, late night after a coronation. The room is dimly lit by the flickering glow of a large fireplace and a single candelabra on an ornate wooden desk. Heavy, dark red drapes are drawn over tall windows, but a sliver of moonlight peeks through. A heavy gold crown and ceremonial robes are casually discarded on a velvet chaise lounge. The atmosphere is solemn and reflective, with long, soft shadows dominating the space. The art style is realistic, painterly, and reminiscent of a historical drama, emphasizing rich textures and chiaroscuro lighting."
+    },
+    {
+      "setting": "Grand council hall, day",
+      "time_of_day": "Day",
+      "weather": "Clear",
+      "key_visual_elements": [
+        "Long, heavy oak council table",
+        "Numerous high-backed chairs",
+        "Tall arched windows",
+        "Tapestries depicting historical events",
+        "Raised dais for the king",
+        "Maps or scrolls on the table"
+      ],
+      "color_palette": [
+        "Earthy browns",
+        "Forest greens",
+        "Deep blues",
+        "Stone greys",
+        "Bright natural light"
+      ],
+      "lighting": "Bright, natural light streaming through tall windows, illuminating dust motes, with some areas in shadow creating contrast.",
+      "atmosphere": "Formal, weighty, historical, imposing.",
+      "art_style_keywords": [
+        "realistic",
+        "painterly",
+        "historical drama",
+        "grand architecture",
+        "detailed textures"
+      ],
+      "reference_prompt": "A vast and imposing grand council hall during the day. Bright natural light streams through tall, arched windows, illuminating a long, heavy oak council table surrounded by numerous high-backed, dark wooden chairs. Ancient tapestries depicting historical events adorn the stone walls. A raised dais with a more elaborate chair for the king stands at one end. Scrolls and maps are spread across the table. The atmosphere is formal and weighty, with a sense of history. The art style is realistic, painterly, and evocative of a historical drama, showcasing grand architecture and detailed textures."
+    },
+    {
+      "setting": "Castle gardens, dusk",
+      "time_of_day": "Dusk",
+      "weather": "Calm, cool",
+      "key_visual_elements": [
+        "Manicured rose bushes",
+        "Ancient stone statues",
+        "Winding gravel path",
+        "Distant view of castle walls silhouetted",
+        "Reflective pond or fountain",
+        "Stone benches"
+      ],
+      "color_palette": [
+        "Soft purples",
+        "Deep blues",
+        "Muted greens",
+        "Warm oranges",
+        "Pinks from the setting sun",
+        "Grey stone"
+      ],
+      "lighting": "Soft, fading light with long, gentle shadows. The sky is a gradient of warm and cool tones.",
+      "atmosphere": "Tranquil, melancholic, serene, contemplative.",
+      "art_style_keywords": [
+        "realistic",
+        "painterly",
+        "historical drama",
+        "atmospheric lighting",
+        "natural beauty"
+      ],
+      "reference_prompt": "Serene castle gardens at dusk. The sky transitions from soft oranges and pinks to deep purples and blues as the sun sets, casting long, gentle shadows. Manicured rose bushes, ancient stone statues, and a winding gravel path are bathed in the fading light. A tranquil pond or fountain reflects the twilight sky. The imposing castle walls are visible in the distance, silhouetted against the horizon. The atmosphere is melancholic and contemplative, highlighting natural beauty. The art style is realistic, painterly, and suitable for a historical drama, emphasizing atmospheric lighting and rich natural textures."
+    },
+    {
+      "setting": "Throne room, early morning",
+      "time_of_day": "Early morning",
+      "weather": "Clear, crisp",
+      "key_visual_elements": [
+        "Grand, ornate throne",
+        "Tall, stained-glass windows",
+        "Polished marble floors",
+        "Heavy velvet drapes (partially open)",
+        "Banners and standards",
+        "Sense of vast emptiness"
+      ],
+      "color_palette": [
+        "Golds",
+        "Deep reds",
+        "Blues from stained glass",
+        "Polished whites of marble",
+        "Muted sunlight"
+      ],
+      "lighting": "Crisp, clean, early morning light streaming through stained-glass windows, creating colorful patterns on the floor. Some areas still in deep shadow.",
+      "atmosphere": "Majestic, solitary, quiet, anticipation, cool.",
+      "art_style_keywords": [
+        "realistic",
+        "painterly",
+        "historical drama",
+        "regal architecture",
+        "dramatic lighting"
+      ],
+      "reference_prompt": "A magnificent and vast throne room in the early morning. Crisp, clean light streams through tall, ornate stained-glass windows, casting colorful patterns across the polished marble floor. The grand, gilded throne stands at the far end, looking immense and solitary. Heavy velvet drapes are partially drawn. Banners and standards adorn the high walls, which are still mostly in deep shadow. The atmosphere is majestic and quiet, conveying a sense of anticipation and solitude. The art style is realistic, painterly, and fitting for a historical drama, emphasizing regal architecture and dramatic lighting."
+    }
+  ],
+  "sheet_id": "1b53895f-d2e6-4dd9-9c25-5397aac1ef8a",
+  "source_plan_id": "609158c8-b4f1-4c41-931f-4cd967a616fb",
+  "generated_at": "2026-07-16T17:46:46.480387"
+}

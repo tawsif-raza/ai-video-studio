@@ -1,0 +1,35 @@
+{
+  "character_profiles": [
+    {
+      "name": "King Arthur",
+      "age_range": "Early 20s",
+      "build": "Slender yet regal, with a composed and thoughtful posture.",
+      "face_details": "A thoughtful and earnest expression, with kind, discerning eyes and a strong, defined jawline, reflecting the weight of his responsibilities and underlying wisdom.",
+      "hair": "Dark brown, neatly kept, styled in a classic, slightly wavy medium length that frames his face.",
+      "outfit": "Royal attire that is both elegant and practical, featuring a deep sapphire blue tunic with subtle gold embroidery at the collar and cuffs, worn over a simple cream undershirt. A flowing, deep crimson cape is draped over one shoulder, fastened with a silver clasp. He wears dark brown trousers and sturdy, polished leather boots. A simple, elegant silver circlet rests on his head, not overly ornate but clearly signifying royalty.",
+      "color_palette": [
+        "Deep Sapphire Blue",
+        "Crimson Red",
+        "Muted Gold",
+        "Cream",
+        "Dark Brown",
+        "Silver"
+      ],
+      "distinguishing_features": "A subtle yet dignified silver circlet, and a simple silver signet ring on his right hand. His thoughtful, slightly burdened expression.",
+      "art_style_keywords": [
+        "Classic fantasy illustration",
+        "Painterly",
+        "Renaissance inspired",
+        "Inspirational",
+        "Reflective",
+        "Hopeful",
+        "Soft lighting",
+        "Detailed textures"
+      ],
+      "reference_prompt": "A young King Arthur, in his early 20s, with a slender yet regal build and a composed, thoughtful posture. He has a thoughtful and earnest expression, kind, discerning eyes, and a strong, defined jawline. His dark brown hair is neatly kept in a classic, slightly wavy medium length. He wears a deep sapphire blue tunic with subtle gold embroidery, a cream undershirt, a flowing deep crimson cape fastened with a silver clasp, dark brown trousers, and polished leather boots. A simple, elegant silver circlet adorns his head, and a silver signet ring is on his right hand. The art style is classic fantasy illustration, painterly, renaissance inspired, with soft lighting, detailed textures, and an inspirational, hopeful mood, capturing his reflective nature and the weight of his crown."
+    }
+  ],
+  "sheet_id": "5f955f01-6572-4f0b-bdc1-ee1468be39f5",
+  "source_plan_id": "181688e0-0b2a-4fa1-83a2-cb4d12a5cf7a",
+  "generated_at": "2026-07-16T17:38:46.896610"
+}

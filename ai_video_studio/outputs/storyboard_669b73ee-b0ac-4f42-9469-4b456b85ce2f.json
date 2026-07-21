@@ -1,0 +1,211 @@
+{
+  "scene_plans": [
+    {
+      "scene_id": 1,
+      "shots": [
+        {
+          "shot_id": 101,
+          "camera_angle": "Extreme Close-up",
+          "camera_movement": "Push-in",
+          "description": "The ornate crown is slowly lowered, its jewels glinting, towards an unseen head.",
+          "characters_in_shot": [],
+          "duration_seconds": 1
+        },
+        {
+          "shot_id": 102,
+          "camera_angle": "Medium Shot",
+          "camera_movement": "Static",
+          "description": "King Alaric's face as the heavy crown settles upon his head, a flicker of solemn responsibility in his eyes.",
+          "characters_in_shot": [
+            "King Alaric"
+          ],
+          "duration_seconds": 2
+        },
+        {
+          "shot_id": 103,
+          "camera_angle": "Wide Shot",
+          "camera_movement": "Pedestal Up",
+          "description": "King Alaric, now crowned, seated on the grand throne, a symbol of immense power and burden.",
+          "characters_in_shot": [
+            "King Alaric"
+          ],
+          "duration_seconds": 2
+        }
+      ]
+    },
+    {
+      "scene_id": 2,
+      "shots": [
+        {
+          "shot_id": 201,
+          "camera_angle": "Medium Shot",
+          "camera_movement": "Static",
+          "description": "King Alaric at the head of a long, polished table, listening intently, his brow furrowed with the weight of decisions.",
+          "characters_in_shot": [
+            "King Alaric"
+          ],
+          "duration_seconds": 2
+        },
+        {
+          "shot_id": 202,
+          "camera_angle": "Over-the-Shoulder (King Alaric)",
+          "camera_movement": "Slight Pan",
+          "description": "Advisor Elara speaks passionately, gesturing towards maps or documents, her words pressing upon Alaric.",
+          "characters_in_shot": [
+            "Advisor Elara"
+          ],
+          "duration_seconds": 2
+        },
+        {
+          "shot_id": 203,
+          "camera_angle": "Close-up",
+          "camera_movement": "Static",
+          "description": "King Alaric's face, a subtle tightening around his eyes reflecting the complexity and strain of the council's demands.",
+          "characters_in_shot": [
+            "King Alaric"
+          ],
+          "duration_seconds": 1
+        },
+        {
+          "shot_id": 204,
+          "camera_angle": "Medium Two-Shot",
+          "camera_movement": "Static",
+          "description": "Alaric and Elara, with Alaric absorbing Elara's points, a heavy silence hanging between them.",
+          "characters_in_shot": [
+            "King Alaric",
+            "Advisor Elara"
+          ],
+          "duration_seconds": 2
+        }
+      ]
+    },
+    {
+      "scene_id": 3,
+      "shots": [
+        {
+          "shot_id": 301,
+          "camera_angle": "Wide Shot",
+          "camera_movement": "Dolly Out",
+          "description": "King Alaric walks alone down a long, torch-lit castle corridor, his figure small and isolated against the vast stone walls.",
+          "characters_in_shot": [
+            "King Alaric"
+          ],
+          "duration_seconds": 2
+        },
+        {
+          "shot_id": 302,
+          "camera_angle": "Tracking Shot (Behind)",
+          "camera_movement": "Follow",
+          "description": "Following Alaric from behind as he walks, the rhythmic echo of his footsteps highlighting his solitude and deep thought.",
+          "characters_in_shot": [
+            "King Alaric"
+          ],
+          "duration_seconds": 3
+        },
+        {
+          "shot_id": 303,
+          "camera_angle": "Close-up",
+          "camera_movement": "Static",
+          "description": "Alaric's profile, eyes distant, lost in contemplation, the flickering torchlight reflecting in his pensive gaze.",
+          "characters_in_shot": [
+            "King Alaric"
+          ],
+          "duration_seconds": 2
+        },
+        {
+          "shot_id": 304,
+          "camera_angle": "Medium Shot",
+          "camera_movement": "Static",
+          "description": "Alaric pauses, looking down the empty corridor, then continues his solitary walk.",
+          "characters_in_shot": [
+            "King Alaric"
+          ],
+          "duration_seconds": 1
+        }
+      ]
+    },
+    {
+      "scene_id": 4,
+      "shots": [
+        {
+          "shot_id": 401,
+          "camera_angle": "Wide Shot",
+          "camera_movement": "Crane Up",
+          "description": "King Alaric stands on a high castle balcony, looking out over his sprawling kingdom bathed in the warm hues of sunset, emphasizing its vastness.",
+          "characters_in_shot": [
+            "King Alaric"
+          ],
+          "duration_seconds": 2
+        },
+        {
+          "shot_id": 402,
+          "camera_angle": "Medium Shot (from behind)",
+          "camera_movement": "Static",
+          "description": "Alaric's back to the camera, hands clasped behind him, his posture conveying the immense burden of his domain.",
+          "characters_in_shot": [
+            "King Alaric"
+          ],
+          "duration_seconds": 1
+        },
+        {
+          "shot_id": 403,
+          "camera_angle": "Close-up",
+          "camera_movement": "Static",
+          "description": "Alaric's face, slightly silhouetted by the setting sun, his eyes filled with a mix of awe and overwhelm at the responsibility.",
+          "characters_in_shot": [
+            "King Alaric"
+          ],
+          "duration_seconds": 2
+        },
+        {
+          "shot_id": 404,
+          "camera_angle": "Dolly Shot",
+          "camera_movement": "Pull-back and Reveal",
+          "description": "Starting on Alaric's thoughtful face, the camera slowly pulls back to reveal him as a small figure against the magnificent, expansive kingdom.",
+          "characters_in_shot": [
+            "King Alaric"
+          ],
+          "duration_seconds": 2
+        }
+      ]
+    },
+    {
+      "scene_id": 5,
+      "shots": [
+        {
+          "shot_id": 501,
+          "camera_angle": "Medium Shot",
+          "camera_movement": "Static",
+          "description": "King Alaric seated at his large wooden desk, a quill in his hand, a half-written scroll before him, deep in thought.",
+          "characters_in_shot": [
+            "King Alaric"
+          ],
+          "duration_seconds": 2
+        },
+        {
+          "shot_id": 502,
+          "camera_angle": "Close-up",
+          "camera_movement": "Slow Tilt Up",
+          "description": "Alaric's face, slowly lifting his gaze from the scroll, his eyes sharpening with a newfound, quiet determination.",
+          "characters_in_shot": [
+            "King Alaric"
+          ],
+          "duration_seconds": 2
+        },
+        {
+          "shot_id": 503,
+          "camera_angle": "Medium Shot",
+          "camera_movement": "Static",
+          "description": "Alaric sits upright, his shoulders squared, a subtle nod of resolve, ready to face the future.",
+          "characters_in_shot": [
+            "King Alaric"
+          ],
+          "duration_seconds": 1
+        }
+      ]
+    }
+  ],
+  "storyboard_id": "669b73ee-b0ac-4f42-9469-4b456b85ce2f",
+  "source_plan_id": "c622e7cc-cd68-4ea8-a93f-d38aa6df5594",
+  "generated_at": "2026-07-16T17:48:28.282665"
+}

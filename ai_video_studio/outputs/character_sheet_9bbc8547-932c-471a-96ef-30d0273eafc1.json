@@ -1,0 +1,36 @@
+{
+  "character_profiles": [
+    {
+      "name": "King Theron",
+      "age_range": "Young adult, early 20s",
+      "build": "Lean but regal, not overly muscular, conveying thoughtfulness rather than brute strength.",
+      "face_details": "Serious and thoughtful expression, with kind, introspective eyes. A strong, defined jawline and a noble, slightly pensive countenance.",
+      "hair": "Dark brown, neatly styled but with a subtle natural wave, medium length, falling just above the collar.",
+      "outfit": "Understated royal attire focused on dignity rather than ostentation. A deep crimson tunic with subtle gold embroidery at the collar and cuffs, worn under a charcoal grey cloak lined with dark sapphire blue. A simple, elegant golden circlet rests on his head, rather than a full crown.",
+      "color_palette": [
+        "Deep Crimson",
+        "Sapphire Blue",
+        "Muted Gold",
+        "Charcoal Grey",
+        "Cream"
+      ],
+      "distinguishing_features": "A subtle, almost faded scar above his left eyebrow (from a childhood incident), and a heavy silver signet ring with a minimalist emblem on his right hand.",
+      "art_style_keywords": [
+        "Realistic",
+        "Painterly",
+        "Classical portraiture",
+        "Dramatic lighting",
+        "Rich textures",
+        "Fantasy art",
+        "Solemn",
+        "Dignified",
+        "Detailed",
+        "Expressive"
+      ],
+      "reference_prompt": "A young King Theron, in his early 20s, with a lean but regal build, conveying thoughtfulness rather than brute strength. He has a serious and thoughtful expression, with kind, introspective eyes set in a strong, defined jawline and a noble, slightly pensive countenance. His dark brown hair is neatly styled but with a subtle natural wave, medium length, falling just above the collar. He wears understated royal attire: a deep crimson tunic with subtle gold embroidery at the collar and cuffs, under a charcoal grey cloak lined with dark sapphire blue. A simple, elegant golden circlet rests on his head. His dominant colors are deep crimson, sapphire blue, muted gold, charcoal grey, and cream. Distinguishing features include a subtle, almost faded scar above his left eyebrow and a heavy silver signet ring with a minimalist emblem on his right hand. The art style is realistic and painterly, akin to classical portraiture, featuring dramatic lighting, rich textures, and a solemn, dignified, and detailed fantasy art aesthetic with expressive qualities."
+    }
+  ],
+  "sheet_id": "9bbc8547-932c-471a-96ef-30d0273eafc1",
+  "source_plan_id": "609158c8-b4f1-4c41-931f-4cd967a616fb",
+  "generated_at": "2026-07-16T17:46:31.082117"
+}
