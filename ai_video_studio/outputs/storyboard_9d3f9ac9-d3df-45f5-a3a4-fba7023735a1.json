@@ -1,0 +1,264 @@
+{
+  "scene_plans": [
+    {
+      "scene_id": 1,
+      "shots": [
+        {
+          "shot_id": 1,
+          "camera_angle": "Wide Shot",
+          "camera_movement": "Pan Left",
+          "description": "Establish shot of the vibrant rooftop party, city skyline at dusk, blurred dancing figures.",
+          "characters_in_shot": [],
+          "duration_seconds": 2
+        },
+        {
+          "shot_id": 2,
+          "camera_angle": "Medium Shot",
+          "camera_movement": "Track In",
+          "description": "Bolt enters the frame, looking small and overwhelmed, its optical sensors swiveling nervously.",
+          "characters_in_shot": [
+            "Bolt"
+          ],
+          "duration_seconds": 3
+        },
+        {
+          "shot_id": 3,
+          "camera_angle": "Close-up",
+          "camera_movement": "Static",
+          "description": "Bolt's optical sensors, reflecting the flashing lights and energetic, blurry crowd, conveying anxiety.",
+          "characters_in_shot": [
+            "Bolt"
+          ],
+          "duration_seconds": 2
+        }
+      ]
+    },
+    {
+      "scene_id": 2,
+      "shots": [
+        {
+          "shot_id": 1,
+          "camera_angle": "Medium Shot",
+          "camera_movement": "Static",
+          "description": "Bolt stands near the edge of the dance floor, slightly hunched, its optical sensors tracking the energetic dancers.",
+          "characters_in_shot": [
+            "Bolt"
+          ],
+          "duration_seconds": 3
+        },
+        {
+          "shot_id": 2,
+          "camera_angle": "Point of View (Bolt)",
+          "camera_movement": "Quick Cuts",
+          "description": "Fast-paced shots of different dancers' feet and lower bodies, energetic but slightly out of focus, as Bolt observes.",
+          "characters_in_shot": [],
+          "duration_seconds": 2
+        },
+        {
+          "shot_id": 3,
+          "camera_angle": "Medium Close-up",
+          "camera_movement": "Static",
+          "description": "DJ Beats behind the decks, grooving slightly to the infectious music, setting the mood.",
+          "characters_in_shot": [
+            "DJ Beats"
+          ],
+          "duration_seconds": 1
+        },
+        {
+          "shot_id": 4,
+          "camera_angle": "Close-up",
+          "camera_movement": "Push In",
+          "description": "Bolt's optical sensors, a subtle shift in posture suggesting a longing to join the fun.",
+          "characters_in_shot": [
+            "Bolt"
+          ],
+          "duration_seconds": 2
+        }
+      ]
+    },
+    {
+      "scene_id": 3,
+      "shots": [
+        {
+          "shot_id": 1,
+          "camera_angle": "Medium Shot",
+          "camera_movement": "Pan Right",
+          "description": "Maya dancing energetically, then she spots Bolt and pauses, a warm smile forming.",
+          "characters_in_shot": [
+            "Maya"
+          ],
+          "duration_seconds": 3
+        },
+        {
+          "shot_id": 2,
+          "camera_angle": "Medium Close-up",
+          "camera_movement": "Static",
+          "description": "Bolt, still observing the dancers, looking somewhat downcast.",
+          "characters_in_shot": [
+            "Bolt"
+          ],
+          "duration_seconds": 2
+        },
+        {
+          "shot_id": 3,
+          "camera_angle": "Over-the-Shoulder (Bolt)",
+          "camera_movement": "Static",
+          "description": "Maya, smiling warmly, gestures invitingly for Bolt to join the dance floor.",
+          "characters_in_shot": [
+            "Bolt",
+            "Maya"
+          ],
+          "duration_seconds": 2
+        },
+        {
+          "shot_id": 4,
+          "camera_angle": "Close-up",
+          "camera_movement": "Tilt Up",
+          "description": "Bolt's optical sensors, then a slight, hesitant tilt of its head towards Maya, considering the invitation.",
+          "characters_in_shot": [
+            "Bolt"
+          ],
+          "duration_seconds": 2
+        }
+      ]
+    },
+    {
+      "scene_id": 4,
+      "shots": [
+        {
+          "shot_id": 1,
+          "camera_angle": "Full Shot",
+          "camera_movement": "Track Back",
+          "description": "Bolt takes a few wobbly, stiff steps onto the dance floor, attempting jerky movements.",
+          "characters_in_shot": [
+            "Bolt"
+          ],
+          "duration_seconds": 3
+        },
+        {
+          "shot_id": 2,
+          "camera_angle": "Medium Close-up",
+          "camera_movement": "Static",
+          "description": "Maya claps playfully and offers an encouraging smile to Bolt.",
+          "characters_in_shot": [
+            "Maya"
+          ],
+          "duration_seconds": 2
+        },
+        {
+          "shot_id": 3,
+          "camera_angle": "Low Angle",
+          "camera_movement": "Static",
+          "description": "Close-up of Bolt's feet/wheels attempting a stiff, wobbly dance move on the floor.",
+          "characters_in_shot": [
+            "Bolt"
+          ],
+          "duration_seconds": 2
+        },
+        {
+          "shot_id": 4,
+          "camera_angle": "Medium Shot",
+          "camera_movement": "Static",
+          "description": "DJ Beats nods approvingly from behind the decks, a subtle smile on his face.",
+          "characters_in_shot": [
+            "DJ Beats"
+          ],
+          "duration_seconds": 1
+        }
+      ]
+    },
+    {
+      "scene_id": 5,
+      "shots": [
+        {
+          "shot_id": 1,
+          "camera_angle": "Medium Shot",
+          "camera_movement": "Track With",
+          "description": "Bolt's movements become slightly smoother, finding a basic rhythm as the music changes.",
+          "characters_in_shot": [
+            "Bolt"
+          ],
+          "duration_seconds": 3
+        },
+        {
+          "shot_id": 2,
+          "camera_angle": "Close-up",
+          "camera_movement": "Static",
+          "description": "A small light on Bolt's chest flickers green, indicating growing confidence.",
+          "characters_in_shot": [
+            "Bolt"
+          ],
+          "duration_seconds": 2
+        },
+        {
+          "shot_id": 3,
+          "camera_angle": "Full Shot",
+          "camera_movement": "Crane Up",
+          "description": "Wider shot of Bolt amidst other dancers, now moving with a nascent groove.",
+          "characters_in_shot": [
+            "Bolt"
+          ],
+          "duration_seconds": 2
+        },
+        {
+          "shot_id": 4,
+          "camera_angle": "Medium Shot",
+          "camera_movement": "Static",
+          "description": "DJ Beats adjusts his equipment, looking pleased with the developing vibe on the dance floor.",
+          "characters_in_shot": [
+            "DJ Beats"
+          ],
+          "duration_seconds": 1
+        }
+      ]
+    },
+    {
+      "scene_id": 6,
+      "shots": [
+        {
+          "shot_id": 1,
+          "camera_angle": "Dynamic Full Shot",
+          "camera_movement": "Orbit",
+          "description": "Bolt is fully engaged, performing unique, fluid robot dance moves at the center of the dance floor.",
+          "characters_in_shot": [
+            "Bolt"
+          ],
+          "duration_seconds": 3
+        },
+        {
+          "shot_id": 2,
+          "camera_angle": "Medium Shot",
+          "camera_movement": "Pan Left",
+          "description": "Maya and other party-goers are cheering and clapping enthusiastically for Bolt.",
+          "characters_in_shot": [
+            "Maya"
+          ],
+          "duration_seconds": 2
+        },
+        {
+          "shot_id": 3,
+          "camera_angle": "Low Angle",
+          "camera_movement": "Tilt Up",
+          "description": "Bolt from a low angle, looking triumphant and joyful, silhouetted against the party lights.",
+          "characters_in_shot": [
+            "Bolt"
+          ],
+          "duration_seconds": 2
+        },
+        {
+          "shot_id": 4,
+          "camera_angle": "Close-up",
+          "camera_movement": "Static",
+          "description": "DJ Beats smiles broadly, pumping a fist to the beat, thoroughly enjoying Bolt's performance.",
+          "characters_in_shot": [
+            "DJ Beats"
+          ],
+          "duration_seconds": 1
+        }
+      ]
+    }
+  ],
+  "storyboard_id": "9d3f9ac9-d3df-45f5-a3a4-fba7023735a1",
+  "source_plan_id": "f742fcdf-8d00-4d45-b24c-22a0427d1664",
+  "generated_at": "2026-07-17T16:52:13.811178"
+}

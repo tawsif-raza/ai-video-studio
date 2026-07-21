@@ -1,0 +1,183 @@
+{
+  "environment_profiles": [
+    {
+      "setting": "Vibrant rooftop party, city skyline at dusk.",
+      "time_of_day": "Dusk",
+      "weather": "Clear",
+      "key_visual_elements": [
+        "Rooftop bar and lounge area",
+        "Glowing city skyline at dusk",
+        "Festive string lights and decorations",
+        "Subtle dance floor in the background",
+        "Diverse crowd of robots mingling",
+        "High-rise buildings"
+      ],
+      "color_palette": [
+        "Warm oranges",
+        "Deep purples",
+        "Sky blues",
+        "Neon party accents",
+        "Gold",
+        "Silver"
+      ],
+      "lighting": "Warm realistic lighting, dramatic dusk lighting from the setting sun and city glow, ambient party lights (string lights, uplights).",
+      "atmosphere": "Energetic, festive, inviting, slightly magical, uplifting.",
+      "art_style_keywords": [
+        "3D animated",
+        "Pixar style",
+        "Semi-stylized",
+        "Warm realistic lighting",
+        "High detail",
+        "Vibrant colors"
+      ],
+      "reference_prompt": "A breathtaking 3D animated, semi-stylized Pixar-style wide shot of a vibrant rooftop party at dusk, overlooking a sprawling city skyline. The sky is painted with warm oranges and deep purples, transitioning to blues. Festive string lights and glowing decorations adorn the space, illuminating a diverse crowd of robots mingling. The city lights below twinkle like a vast jewel-toned carpet. The scene is bathed in warm realistic lighting, creating an inviting and energetic atmosphere."
+    },
+    {
+      "setting": "Dance floor at a rooftop party.",
+      "time_of_day": "Night",
+      "weather": "Clear",
+      "key_visual_elements": [
+        "Illuminated dance floor surface",
+        "Dynamic, colorful party lights (spotlights, moving patterns)",
+        "Energetic robots dancing",
+        "DJ booth visible in the background",
+        "Subtle reflections on the floor"
+      ],
+      "color_palette": [
+        "Neon blues",
+        "Bright pinks",
+        "Vibrant purples",
+        "Electric greens",
+        "Warm yellows (from spotlights)"
+      ],
+      "lighting": "Dynamic, colorful party lights (spotlights, strobes), warm ambient glow from the overall party, realistic reflections off the floor and dancers, warm realistic lighting on characters.",
+      "atmosphere": "Energetic, lively, fun, immersive, central to the party's action.",
+      "art_style_keywords": [
+        "3D animated",
+        "Pixar style",
+        "Semi-stylized",
+        "Warm realistic lighting",
+        "Dynamic lighting",
+        "Vibrant colors"
+      ],
+      "reference_prompt": "A 3D animated, semi-stylized Pixar-style close-up of a bustling dance floor at a rooftop party, illuminated by dynamic, colorful party lights. Spotlights cast vibrant neon blues, pinks, and purples across the smooth surface, reflecting off the dancing robots. The background shows the silhouettes of other energetic partygoers and subtle hints of city lights beyond the rooftop edges. Warm realistic lighting creates a lively and engaging atmosphere, full of movement and joy."
+    },
+    {
+      "setting": "Edge of the dance floor, rooftop party.",
+      "time_of_day": "Night",
+      "weather": "Clear",
+      "key_visual_elements": [
+        "Transition zone between dance floor and lounge/bar area",
+        "A few dancers near the edge",
+        "Lounge seating or railing nearby",
+        "City skyline visible in the background (less prominent than wide shot)",
+        "Party decorations, slightly dimmer than dance floor",
+        "Robots observing or conversing"
+      ],
+      "color_palette": [
+        "Muted neon accents",
+        "Warm ambient gold/orange",
+        "Deeper blues and purples from city lights"
+      ],
+      "lighting": "Softer, more ambient lighting than the dance floor, warm glow from string lights, subtle reflections from the dance floor's dynamic lighting, realistic falloff, warm realistic lighting on characters.",
+      "atmosphere": "Slightly less intense, observational, still festive and inviting, a place for contemplation or hesitant interaction.",
+      "art_style_keywords": [
+        "3D animated",
+        "Pixar style",
+        "Semi-stylized",
+        "Warm realistic lighting",
+        "Ambient lighting",
+        "Vibrant details"
+      ],
+      "reference_prompt": "A 3D animated, semi-stylized Pixar-style shot depicting the edge of a vibrant rooftop party's dance floor. The main dance floor with its dynamic, colorful lights is visible in the foreground, with a few energetic robots dancing. Adjacent to it, a slightly quieter area features comfortable lounge seating or a decorative railing, offering a view of the city skyline twinkling in the background. The lighting is warm and ambient, with softer party lights and subtle spills of color from the main dance floor, creating a welcoming yet slightly observational atmosphere."
+    },
+    {
+      "setting": "Middle of the dance floor.",
+      "time_of_day": "Night",
+      "weather": "Clear",
+      "key_visual_elements": [
+        "Densely packed group of dancing robots",
+        "Bright, dynamic light patterns on the floor and walls",
+        "High energy and movement",
+        "Blurred background of more partygoers"
+      ],
+      "color_palette": [
+        "Intense neon blues",
+        "Bright pinks",
+        "Electric greens",
+        "Vibrant purples",
+        "Saturated yellows"
+      ],
+      "lighting": "Very bright, dynamic, multi-directional spotlights and laser effects, strong reflections, warm realistic lighting on the robots, dramatic highlights and shadows.",
+      "atmosphere": "Exhilarating, high energy, immersive, joyful chaos, vibrant.",
+      "art_style_keywords": [
+        "3D animated",
+        "Pixar style",
+        "Semi-stylized",
+        "Warm realistic lighting",
+        "Intense dynamic lighting",
+        "Vibrant",
+        "High energy"
+      ],
+      "reference_prompt": "A 3D animated, semi-stylized Pixar-style shot from the perspective of being right in the middle of a bustling dance floor. The scene is dominated by a dense group of robots energetically dancing, their forms illuminated by intense, dynamic, multi-directional party lights in vibrant neon blues, pinks, and greens. The light patterns are bright and saturated, reflecting off the polished floor and creating an exhilarating, immersive experience. The warm realistic lighting emphasizes the joyful movement and high energy of the crowd."
+    },
+    {
+      "setting": "Dance floor, surrounded by other dancers.",
+      "time_of_day": "Night",
+      "weather": "Clear",
+      "key_visual_elements": [
+        "Close proximity to other dancing robots",
+        "Sense of being enveloped by the crowd",
+        "Dynamic lighting reflecting off surrounding bodies",
+        "Intimate view of the dance floor action"
+      ],
+      "color_palette": [
+        "Predominantly neon party lights (blues, pinks, purples)",
+        "Warm glow on characters from ambient light"
+      ],
+      "lighting": "Dynamic, colorful, casting shifting shadows and highlights from surrounding movement, warm realistic lighting on the central characters and nearby dancers.",
+      "atmosphere": "Immersive, energetic, initially overwhelming but ultimately embracing, lively.",
+      "art_style_keywords": [
+        "3D animated",
+        "Pixar style",
+        "Semi-stylized",
+        "Warm realistic lighting",
+        "Dynamic lighting",
+        "Vibrant",
+        "Immersive"
+      ],
+      "reference_prompt": "A 3D animated, semi-stylized Pixar-style medium shot on a vibrant dance floor, focusing on a character (robot) who is completely surrounded by other energetic dancers. The other robots are close, their movements creating a sense of being enveloped by the crowd. Dynamic, colorful party lights in neon hues illuminate the scene, casting shifting patterns and reflections across the dancers. Warm realistic lighting highlights the individual robots, creating an immersive and high-energy atmosphere that is both overwhelming and exciting."
+    },
+    {
+      "setting": "Center of the dance floor, high energy.",
+      "time_of_day": "Night",
+      "weather": "Clear",
+      "key_visual_elements": [
+        "Most energetic dancers concentrated here",
+        "Highest intensity of light effects and spotlights",
+        "Sense of peak excitement and uninhibited joy",
+        "Open space for powerful movements"
+      ],
+      "color_palette": [
+        "Brightest, most saturated neon colors",
+        "Intense warm highlights from spotlights",
+        "Deep, rich shadows for contrast"
+      ],
+      "lighting": "Very bright, focused spotlights, intensely dynamic and colorful light show, strong warm realistic lighting, dramatic highlights and shadows accentuating movement.",
+      "atmosphere": "Euphoric, peak excitement, uninhibited joy, electric, celebratory.",
+      "art_style_keywords": [
+        "3D animated",
+        "Pixar style",
+        "Semi-stylized",
+        "Warm realistic lighting",
+        "Intense spotlights",
+        "Vibrant",
+        "Euphoric"
+      ],
+      "reference_prompt": "A 3D animated, semi-stylized Pixar-style close-up shot of the absolute center of a high-energy dance floor. The area is ablaze with the most intense and dynamic colorful party lights, including focused spotlights that brilliantly illuminate the central area. Robots are dancing with uninhibited joy and peak energy, their movements fluid and expressive. The warm realistic lighting is dramatic, emphasizing highlights and shadows, creating an electric and euphoric atmosphere of pure, vibrant celebration."
+    }
+  ],
+  "sheet_id": "63c17b0f-9694-4d74-a41c-7a517d5d372f",
+  "source_plan_id": "f742fcdf-8d00-4d45-b24c-22a0427d1664",
+  "generated_at": "2026-07-17T16:52:56.532773"
+}

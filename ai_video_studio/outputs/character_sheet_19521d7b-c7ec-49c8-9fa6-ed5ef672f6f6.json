@@ -1,0 +1,87 @@
+{
+  "character_profiles": [
+    {
+      "name": "Bolt",
+      "age_range": "Young adult equivalent",
+      "build": "Small, compact, sleek, metallic body with rounded edges.",
+      "face_details": "Large, expressive optical sensors that glow with a soft blue light, conveying shyness and longing; a simple, polished faceplate.",
+      "hair": "N/A",
+      "outfit": "Integrated polished silver and charcoal grey metallic chassis with subtle, glowing cyan accents on joints and panels, giving it a modern, clean look.",
+      "color_palette": [
+        "Silver",
+        "Charcoal Grey",
+        "Cyan",
+        "Soft Blue"
+      ],
+      "distinguishing_features": "Prominent, emotive optical sensors; small, agile frame; sleek, reflective metallic shell.",
+      "art_style_keywords": [
+        "3D animated",
+        "warm realistic lighting",
+        "semi-stylized like Pixar",
+        "robot",
+        "futuristic",
+        "expressive",
+        "cute",
+        "metallic sheen"
+      ],
+      "reference_prompt": "Bolt is a small, compact, and sleek robot character, appearing in a 3D animated, semi-stylized Pixar-like aesthetic with warm realistic lighting. Its body is primarily polished silver and charcoal grey metallic, featuring rounded edges and subtle, glowing cyan accents on its joints and panels. Bolt's most distinguishing feature is its large, expressive optical sensors, which glow with a soft blue light, effectively conveying its shy demeanor and longing to join in the fun."
+    },
+    {
+      "name": "Maya",
+      "age_range": "Early 20s",
+      "build": "Average, athletic, and lively, with an approachable and friendly posture.",
+      "face_details": "Warm, inviting smile with dimples, bright and expressive brown eyes, and a sprinkle of freckles across her nose.",
+      "hair": "Bouncy, shoulder-length wavy brown hair, often tied in a high ponytail or half-up style, allowing for dynamic movement.",
+      "outfit": "A vibrant, flowy, off-shoulder crop top in a warm coral hue, paired with high-waisted denim shorts and comfortable, stylish sneakers. She wears a few simple, colorful friendship bracelets.",
+      "color_palette": [
+        "Coral",
+        "Denim Blue",
+        "Warm Brown",
+        "White",
+        "Gold (for skin tone accents)"
+      ],
+      "distinguishing_features": "Energetic and encouraging demeanor; bright, open facial expressions; lively hairstyle; vibrant, comfortable party attire.",
+      "art_style_keywords": [
+        "3D animated",
+        "warm realistic lighting",
+        "semi-stylized like Pixar",
+        "human",
+        "friendly",
+        "energetic",
+        "approachable",
+        "vibrant"
+      ],
+      "reference_prompt": "Maya is an energetic and friendly human character in her early 20s, rendered in a 3D animated, semi-stylized Pixar-like art style with warm realistic lighting. She has an average, athletic build and a very approachable presence, characterized by a warm, inviting smile, bright brown eyes, and a sprinkling of freckles. Her bouncy, shoulder-length wavy brown hair is often styled in a lively ponytail. Maya wears a vibrant coral off-shoulder crop top, high-waisted denim shorts, and stylish sneakers, accessorized with a few colorful friendship bracelets, reflecting her outgoing personality."
+    },
+    {
+      "name": "DJ Beats",
+      "age_range": "Late 20s to early 30s",
+      "build": "Lean and confident, with a relaxed yet focused posture while working.",
+      "face_details": "Calm, cool, and collected expression, often with a slight, knowing smile; intense, focused eyes that convey passion for music.",
+      "hair": "Short, modern haircut with a slight fade on the sides, perfectly styled to maintain a sleek, professional look.",
+      "outfit": "A dark, fitted, long-sleeve t-shirt or hoodie made of breathable, tech-fabric, possibly with subtle glowing neon lines or a minimalist logo; dark, comfortable trousers; and sleek, modern sneakers. Wears high-quality, over-ear headphones.",
+      "color_palette": [
+        "Deep Black",
+        "Charcoal Grey",
+        "Neon Blue",
+        "Electric Purple",
+        "White (for accents)"
+      ],
+      "distinguishing_features": "Iconic over-ear headphones; a sophisticated mixing console (if visible); an aura of cool professionalism and musical mastery.",
+      "art_style_keywords": [
+        "3D animated",
+        "warm realistic lighting",
+        "semi-stylized like Pixar",
+        "human",
+        "cool",
+        "professional",
+        "modern",
+        "energetic (implied by music)"
+      ],
+      "reference_prompt": "DJ Beats is an influential and cool character, presented in a 3D animated, semi-stylized Pixar-like art style with warm realistic lighting, embodying the energetic mood of the party. He possesses a lean, confident build, with a calm, focused expression and intense eyes that reflect his passion for music. His short, modern haircut is always sleek, and he typically wears a dark, fitted long-sleeve top made of tech-fabric, comfortable dark trousers, and modern sneakers. His signature high-quality, over-ear headphones are a constant feature, symbolizing his mastery of the music that sets the vibrant party atmosphere."
+    }
+  ],
+  "sheet_id": "19521d7b-c7ec-49c8-9fa6-ed5ef672f6f6",
+  "source_plan_id": "f742fcdf-8d00-4d45-b24c-22a0427d1664",
+  "generated_at": "2026-07-17T16:52:33.914650"
+}

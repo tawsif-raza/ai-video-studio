@@ -1,0 +1,74 @@
+{
+  "title": "World War II: A Global Conflict",
+  "logline": "Exploring the causes, battles, and impact of World War II",
+  "theme": "Historical Documentary",
+  "target_duration_seconds": 60,
+  "tone": "Informative",
+  "characters": [
+    {
+      "name": "Narrator",
+      "role": "Storyteller",
+      "one_line_description": "Guides the audience through the documentary"
+    }
+  ],
+  "scenes": [
+    {
+      "scene_id": 1,
+      "title": "Introduction to World War II",
+      "summary": "Brief overview of the war",
+      "setting": "Map of Europe",
+      "mood": "Serious",
+      "characters_present": [
+        "Narrator"
+      ],
+      "estimated_duration_seconds": 5
+    },
+    {
+      "scene_id": 2,
+      "title": "Causes of the War",
+      "summary": "Rise of Nazi Germany and fascist Italy",
+      "setting": "Newsreel footage of 1930s Europe",
+      "mood": "Tense",
+      "characters_present": [
+        "Narrator"
+      ],
+      "estimated_duration_seconds": 8
+    },
+    {
+      "scene_id": 3,
+      "title": "Key Battles",
+      "summary": "Invasion of Poland, Battle of Britain, and D-Day",
+      "setting": "Historical battle footage",
+      "mood": "Intense",
+      "characters_present": [
+        "Narrator"
+      ],
+      "estimated_duration_seconds": 15
+    },
+    {
+      "scene_id": 4,
+      "title": "Turning Points",
+      "summary": "Battle of Stalingrad and Soviet counterattack",
+      "setting": "Map of Eastern Front",
+      "mood": "Dramatic",
+      "characters_present": [
+        "Narrator"
+      ],
+      "estimated_duration_seconds": 10
+    },
+    {
+      "scene_id": 5,
+      "title": "Aftermath and Impact",
+      "summary": "War crimes, rebuilding, and the Cold War",
+      "setting": "Post-war newsreel footage",
+      "mood": "Reflective",
+      "characters_present": [
+        "Narrator"
+      ],
+      "estimated_duration_seconds": 12
+    }
+  ],
+  "plan_id": "38006d22-25a2-4394-994f-6df919ef3c42",
+  "source_idea": "A short educational documentary about World War II, covering the causes, key battles, major turning points, and the impact on the world",
+  "generated_at": "2026-07-17T18:24:26.605480"
+}

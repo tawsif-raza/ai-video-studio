@@ -1,0 +1,27 @@
+{
+  "character_profiles": [
+    {
+      "name": "Narrator",
+      "age_range": "40-60",
+      "build": "Average",
+      "face_details": "Serious expression, slight wrinkles around the eyes",
+      "hair": "Short, gray or brown hair, neatly combed",
+      "outfit": "Formal, classic attire such as a suit and tie",
+      "color_palette": [
+        "#454545",
+        "#808080",
+        "#FFFFFF"
+      ],
+      "distinguishing_features": "Wisdom lines on the face, a gentle smile",
+      "art_style_keywords": [
+        "Realistic",
+        "Detailed",
+        "Historical"
+      ],
+      "reference_prompt": "A middle-aged man with a serious expression, wearing a classic suit and tie, standing in front of a World War II-era map or a historical photograph, with a gentle smile and wisdom lines on his face, in a realistic and detailed art style."
+    }
+  ],
+  "sheet_id": "1f130d69-f21e-40e6-9ffe-670d656f3e1b",
+  "source_plan_id": "38006d22-25a2-4394-994f-6df919ef3c42",
+  "generated_at": "2026-07-17T18:24:32.291011"
+}

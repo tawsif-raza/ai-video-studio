@@ -1,0 +1,33 @@
+{
+  "character_profiles": [
+    {
+      "name": "Dr. Anya Sharma",
+      "age_range": "30s-40s",
+      "build": "Average, athletic, professional",
+      "face_details": "Intelligent, friendly, approachable, expressive, warm smile, sharp, engaging eyes",
+      "hair": "Dark, sleek, medium-length hair, styled in a modern, professional way",
+      "outfit": "Sleek, professional tech-wear: a tailored deep navy blazer made of a futuristic fabric over a clean, white minimalist top, paired with charcoal grey smart trousers. Subtle electric blue accents are incorporated into her outfit.",
+      "color_palette": [
+        "Deep navy",
+        "Charcoal grey",
+        "Electric blue",
+        "Silver",
+        "White"
+      ],
+      "distinguishing_features": "Confident posture, engaging demeanor, a subtle futuristic smart watch",
+      "art_style_keywords": [
+        "Sleek digital art",
+        "futuristic",
+        "clean lines",
+        "professional",
+        "high-tech",
+        "vibrant",
+        "concept art"
+      ],
+      "reference_prompt": "Full body shot of Dr. Anya Sharma, an AI Futurist and Host. She is a woman in her late 30s to early 40s, with an average, athletic, and professional build. Her face is intelligent, friendly, approachable, and expressive, featuring a warm smile and sharp, engaging eyes. She has dark, sleek, medium-length hair styled in a modern, professional way. She wears sleek, professional tech-wear: a tailored deep navy blazer made of a futuristic fabric over a clean, white minimalist top, paired with charcoal grey smart trousers. Subtle electric blue accents are incorporated into her outfit, and she wears a futuristic smart watch. Her posture is confident and engaging. The overall art style is sleek digital art, futuristic, clean lines, professional, high-tech, vibrant, and concept art."
+    }
+  ],
+  "sheet_id": "00d669d6-010f-4d90-aae1-2156cf8a6260",
+  "source_plan_id": "5749a706-81ce-474d-9df8-a5e68dec4ac9",
+  "generated_at": "2026-07-17T18:00:28.780317"
+}

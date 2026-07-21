@@ -19,9 +19,8 @@ from agents.scene_planner.contract import ScenePlannerInput
 from agents.story_planner.agent import StoryPlannerAgent
 from agents.story_planner.contract import StoryPlannerInput
 from config import settings
-from llm.gemini_client import GeminiClient
+from llm.groq_client import GroqClient as LLMClient
 from llm.gemini_image_client import GeminiImageClient
-from llm.groq_client import GroqClient
 from utils.logger import get_logger
 
 logger = get_logger("app")
@@ -37,10 +36,10 @@ def main():
     parser.add_argument("--skip-images", action="store_true", help="Stop after Prompt Generator, don't call image generation")
     args = parser.parse_args()
 
-    gemini = GeminiClient()
+    llm = LLMClient()
 
     # ---- Node 1: Story Planner ----
-    story_agent = StoryPlannerAgent(gemini)
+    story_agent = StoryPlannerAgent(llm)
     story_input = StoryPlannerInput(
         story_idea=args.idea,
         target_duration_seconds=args.duration,
@@ -59,7 +58,7 @@ def main():
     logger.info(f"Production plan saved to {plan_path}")
 
     # ---- Node 2: Scene Planner ----
-    scene_agent = ScenePlannerAgent(gemini)
+    scene_agent = ScenePlannerAgent(llm)
     scene_result = scene_agent.run(ScenePlannerInput(production_plan=plan))
 
     if not scene_result.success:
@@ -72,7 +71,7 @@ def main():
     logger.info(f"Storyboard saved to {storyboard_path}")
 
     # ---- Node 3: Character Planner ----
-    character_agent = CharacterPlannerAgent(gemini)
+    character_agent = CharacterPlannerAgent(llm)
     character_result = character_agent.run(
         CharacterPlannerInput(production_plan=plan, art_style=args.art_style)
     )
@@ -87,7 +86,7 @@ def main():
     logger.info(f"Character sheet saved to {char_sheet_path}")
 
     # ---- Node 4: Environment Planner ----
-    environment_agent = EnvironmentPlannerAgent(gemini)
+    environment_agent = EnvironmentPlannerAgent(llm)
     environment_result = environment_agent.run(
         EnvironmentPlannerInput(production_plan=plan, art_style=args.art_style)
     )
@@ -102,7 +101,7 @@ def main():
     logger.info(f"Environment sheet saved to {env_sheet_path}")
 
     # ---- Node 5: Prompt Generator - runs once per shot ----
-    prompt_agent = PromptGeneratorAgent(gemini)
+    prompt_agent = PromptGeneratorAgent(llm)
     shot_prompts = []
 
     for scene_plan in storyboard.scene_plans:

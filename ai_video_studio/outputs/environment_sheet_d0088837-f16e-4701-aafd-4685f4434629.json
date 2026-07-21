@@ -1,0 +1,121 @@
+{
+  "environment_profiles": [
+    {
+      "setting": "Map of Europe",
+      "time_of_day": "day",
+      "weather": "clear",
+      "key_visual_elements": [
+        "map boundaries",
+        "country borders",
+        "mountain ranges"
+      ],
+      "color_palette": [
+        "earth tones",
+        "blues",
+        "greens"
+      ],
+      "lighting": "soft natural light",
+      "atmosphere": "informative",
+      "art_style_keywords": [
+        "realistic",
+        "documentary-style",
+        "historical"
+      ],
+      "reference_prompt": "A detailed, realistic map of Europe during World War II, with country borders and geographical features prominently displayed, set against a neutral background with soft natural light illuminating the map."
+    },
+    {
+      "setting": "Newsreel footage of 1930s Europe",
+      "time_of_day": "various",
+      "weather": "various",
+      "key_visual_elements": [
+        "black and white footage",
+        "grainy texture",
+        "old-fashioned cars"
+      ],
+      "color_palette": [
+        "grayscale",
+        "sepia tones"
+      ],
+      "lighting": "harsh",
+      "atmosphere": "nostalgic",
+      "art_style_keywords": [
+        "vintage",
+        "historical",
+        "monochromatic"
+      ],
+      "reference_prompt": "A grainy, black and white newsreel footage of 1930s Europe, with old-fashioned cars and people walking in the streets, set against a backdrop of historical buildings and landmarks, with a nostalgic atmosphere and harsh lighting."
+    },
+    {
+      "setting": "Historical battle footage",
+      "time_of_day": "day",
+      "weather": "cloudy",
+      "key_visual_elements": [
+        "soldiers in uniform",
+        "tanks",
+        "explosions"
+      ],
+      "color_palette": [
+        "muted colors",
+        "earthy tones",
+        "smoke"
+      ],
+      "lighting": "dramatic",
+      "atmosphere": "intense",
+      "art_style_keywords": [
+        "realistic",
+        "dramatic",
+        "action-packed"
+      ],
+      "reference_prompt": "A dramatic and intense historical battle scene, with soldiers in uniform, tanks, and explosions, set against a cloudy and smoky backdrop, with muted colors and earthy tones, and a sense of chaos and destruction."
+    },
+    {
+      "setting": "Map of Eastern Front",
+      "time_of_day": "day",
+      "weather": "clear",
+      "key_visual_elements": [
+        "map boundaries",
+        "front lines",
+        "geographical features"
+      ],
+      "color_palette": [
+        "reds",
+        "blues",
+        "grays"
+      ],
+      "lighting": "soft natural light",
+      "atmosphere": "strategic",
+      "art_style_keywords": [
+        "realistic",
+        "documentary-style",
+        "historical"
+      ],
+      "reference_prompt": "A detailed, realistic map of the Eastern Front during World War II, with front lines and geographical features prominently displayed, set against a neutral background with soft natural light illuminating the map, and a sense of strategic planning and military maneuvering."
+    },
+    {
+      "setting": "Post-war newsreel footage",
+      "time_of_day": "day",
+      "weather": "sunny",
+      "key_visual_elements": [
+        "ruins",
+        "refugees",
+        "rebuilding efforts"
+      ],
+      "color_palette": [
+        "colorful",
+        "vibrant",
+        "hopeful"
+      ],
+      "lighting": "warm",
+      "atmosphere": "optimistic",
+      "art_style_keywords": [
+        "realistic",
+        "documentary-style",
+        "hopeful"
+      ],
+      "reference_prompt": "A colorful and vibrant post-war newsreel footage, with scenes of ruins, refugees, and rebuilding efforts, set against a sunny backdrop with warm lighting, and a sense of hope and optimism for the future, with people working together to rebuild and restore their communities."
+    }
+  ],
+  "sheet_id": "d0088837-f16e-4701-aafd-4685f4434629",
+  "source_plan_id": "38006d22-25a2-4394-994f-6df919ef3c42",
+  "generated_at": "2026-07-17T18:24:38.534663"
+}

@@ -1,0 +1,95 @@
+{
+  "prompt_set_id": "36469b67-8ef0-41cb-a1ae-001f7a2c5465",
+  "source_storyboard_id": "d151fd34-141a-4e5d-bb49-a22705acdd73",
+  "shots": [
+    {
+      "image_prompt": "A middle-aged man with a serious expression, wearing a classic suit and tie, stands in front of a detailed, realistic map of Europe during World War II, with country borders and geographical features prominently displayed, set against a neutral background with soft natural light illuminating the map, a gentle smile and wisdom lines on his face, in a realistic and detailed art style, as seen from an establishing shot angle.",
+      "video_motion_prompt": "The camera remains static for 5 seconds, capturing the narrator and the map of Europe without any movement.",
+      "scene_id": 1,
+      "shot_id": 1,
+      "duration_seconds": 5,
+      "generated_at": "2026-07-17T18:25:06.440338"
+    },
+    {
+      "image_prompt": "A middle-aged man with a serious expression, wearing a classic suit and tie, stands in front of a grainy, black and white newsreel footage of 1930s Nazi Germany, projected on a screen behind him, with old-fashioned cars and people walking in the streets, set against a backdrop of historical buildings and landmarks, his gentle smile and wisdom lines on his face a stark contrast to the harsh lighting and nostalgic atmosphere of the footage, in a realistic and detailed art style, captured in a medium shot.",
+      "video_motion_prompt": "The camera dollies in on the narrator's face over 4 seconds, as the newsreel footage of 1930s Europe continues to play behind him, drawing attention to his serious expression and the historical context.",
+      "scene_id": 2,
+      "shot_id": 2,
+      "duration_seconds": 4,
+      "generated_at": "2026-07-17T18:25:09.143869"
+    },
+    {
+      "image_prompt": "A middle-aged man with a serious expression, wearing a classic suit and tie, stands in front of a grainy, black and white newsreel footage of 1930s fascist Italy, with old-fashioned cars and people walking in the streets, set against a backdrop of historical buildings and landmarks, his gentle smile and wisdom lines on his face a stark contrast to the harsh lighting and nostalgic atmosphere of the scene, as the camera zooms in for a close-up shot, capturing every detail of his face and the historical image behind him in a realistic and detailed art style.",
+      "video_motion_prompt": "The camera zooms in over 4 seconds, drawing attention to the narrator's face and the grainy newsreel footage of 1930s fascist Italy behind him, as the scene remains otherwise still.",
+      "scene_id": 2,
+      "shot_id": 3,
+      "duration_seconds": 4,
+      "generated_at": "2026-07-17T18:25:11.901277"
+    },
+    {
+      "image_prompt": "A realistic and detailed depiction of a middle-aged man with a serious expression, wearing a classic suit and tie, standing in front of a large, worn World War II-era map of Poland, with a gentle smile and wisdom lines on his face, as he gazes out at the viewer, set against a blurred backdrop of a dramatic and intense historical battle scene, with soldiers in uniform, tanks, and explosions, under a cloudy and smoky sky with muted colors and earthy tones, captured from a high aerial angle, as if the camera is flying over the scene.",
+      "video_motion_prompt": "The camera flies over the battle scene in a smooth, continuous motion, panning across the map and the narrator's face, before zooming out further to reveal the chaos and destruction of the invasion, all within a 3-second timeframe.",
+      "scene_id": 3,
+      "shot_id": 4,
+      "duration_seconds": 3,
+      "generated_at": "2026-07-17T18:25:19.939021"
+    },
+    {
+      "image_prompt": "A middle-aged man with a serious expression, wearing a classic suit and tie, stands in front of a large, dramatic historical photograph of the Battle of Britain, with soldiers in uniform, tanks, and explosions set against a cloudy and smoky backdrop, viewed from a bird's eye perspective, with muted colors and earthy tones, and a sense of chaos and destruction, the man's gentle smile and wisdom lines on his face a stark contrast to the intensity of the battle scene behind him, in a realistic and detailed art style.",
+      "video_motion_prompt": "The camera remains static, capturing the intense battle scene from a bird's eye view for 4 seconds, as explosions and smoke fill the air.",
+      "scene_id": 3,
+      "shot_id": 5,
+      "duration_seconds": 4,
+      "generated_at": "2026-07-17T18:25:20.837453"
+    },
+    {
+      "image_prompt": "A middle-aged man with a serious expression, wearing a classic suit and tie, stands in front of a large World War II-era map, with a gentle smile and wisdom lines on his face, as a dramatic and intense historical battle scene of D-Day unfolds behind him, with soldiers in uniform, tanks, and explosions, set against a cloudy and smoky backdrop with muted colors and earthy tones, and a sense of chaos and destruction, captured in a low-angle shot that emphasizes his authoritative presence.",
+      "video_motion_prompt": "The camera tilts up over 8 seconds, as the narrator's eyes follow the movement of the Allied forces on the map, while the battle scene behind him continues to erupt in chaos.",
+      "scene_id": 3,
+      "shot_id": 6,
+      "duration_seconds": 8,
+      "generated_at": "2026-07-17T18:25:24.046208"
+    },
+    {
+      "image_prompt": "A middle-aged man with a serious expression, wearing a classic suit and tie, stands in front of a detailed, realistic map of the Eastern Front during World War II, with front lines and geographical features prominently displayed, set against a neutral background with soft natural light illuminating the map, a gentle smile and wisdom lines on his face as he gestures towards the map, specifically the area marking the Battle of Stalingrad, viewed from an over-the-shoulder angle, capturing his authoritative presence amidst the strategic planning and military maneuvering, in a realistic and detailed art style.",
+      "video_motion_prompt": "The camera pans left, following the narrator's gesturing hand, as he explains the significance of the Battle of Stalingrad, moving smoothly across the map to reveal the intricate details of the battle lines and geographical features.",
+      "scene_id": 4,
+      "shot_id": 7,
+      "duration_seconds": 5,
+      "generated_at": "2026-07-17T18:25:29.159809"
+    },
+    {
+      "image_prompt": "A middle-aged man with a serious expression, wearing a classic suit and tie, stands in front of a detailed, realistic map of the Eastern Front during World War II, with front lines and geographical features prominently displayed, set against a neutral background with soft natural light illuminating the map, and a gentle smile and wisdom lines on his face, as he begins to explain the Soviet counterattack, with the camera positioned in a point-of-view shot, capturing his authoritative presence and the strategic layout of the map.",
+      "video_motion_prompt": "The camera slowly dollies out over 5 seconds, widening the view to encompass more of the map and the narrator's gesturing hands, as he elaborates on the Soviet counterattack, with the camera movement smooth and deliberate.",
+      "scene_id": 4,
+      "shot_id": 8,
+      "duration_seconds": 5,
+      "generated_at": "2026-07-17T18:25:31.965326"
+    },
+    {
+      "image_prompt": "A middle-aged man with a serious expression, wearing a classic suit and tie, stands in front of a large, historic World War II-era map, with a gentle smile and wisdom lines on his face, set against a vibrant post-war newsreel footage backdrop of ruins, refugees, and rebuilding efforts under a sunny sky with warm lighting, conveying a sense of hope and optimism, captured in a realistic and detailed art style, in a medium long shot.",
+      "video_motion_prompt": "The camera tracking shot moves slowly from left to right, following the narrator as he gestures towards the historic map, while the post-war newsreel footage subtly shifts in the background, over the course of 4 seconds.",
+      "scene_id": 5,
+      "shot_id": 9,
+      "duration_seconds": 4,
+      "generated_at": "2026-07-17T18:25:34.662824"
+    },
+    {
+      "image_prompt": "A middle-aged man with a serious expression, wearing a classic suit and tie, stands in front of a large, historic World War II-era map, with a gentle smile and wisdom lines on his face, set against a vibrant post-war newsreel footage backdrop of ruins, refugees, and rebuilding efforts, under warm, sunny lighting, with a sense of hope and optimism, all captured from a high-angle shot, emphasizing the gravity of the war crimes being discussed.",
+      "video_motion_prompt": "The camera remains static for 4 seconds, as the narrator's serious expression subtly shifts, conveying the weight of the war crimes.",
+      "scene_id": 5,
+      "shot_id": 10,
+      "duration_seconds": 4,
+      "generated_at": "2026-07-17T18:25:38.312950"
+    },
+    {
+      "image_prompt": "A middle-aged man with a serious expression, wearing a classic suit and tie, stands in front of a large, vintage World War II-era map, with a gentle smile and wisdom lines on his face, as he gestures towards the map, set against a backdrop of vibrant, colorful post-war newsreel footage playing on a screen behind him, depicting scenes of ruins, refugees, and rebuilding efforts, with people working together to rebuild and restore their communities under warm, sunny lighting, filling the scene with a sense of hope and optimism, captured in a realistic and detailed art style, from a two-shot camera angle.",
+      "video_motion_prompt": "As the narrator begins to speak, the camera slowly zooms out over 4 seconds, broadening the view to encompass more of the map and the newsreel footage, emphasizing the scope of the rebuilding efforts and the emergence of the Cold War.",
+      "scene_id": 5,
+      "shot_id": 11,
+      "duration_seconds": 4,
+      "generated_at": "2026-07-17T18:25:39.152656"
+    }
+  ],
+  "generated_at": "2026-07-17T18:25:39.153585"
+}

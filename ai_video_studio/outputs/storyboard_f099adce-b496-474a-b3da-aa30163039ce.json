@@ -1,0 +1,247 @@
+{
+  "scene_plans": [
+    {
+      "scene_id": 1,
+      "shots": [
+        {
+          "shot_id": 1,
+          "camera_angle": "Wide Shot",
+          "camera_movement": "Dolly In",
+          "description": "Opening shot, establishing Dr. Anya Sharma in a modern, sleek studio with initial futuristic graphics appearing behind her.",
+          "characters_in_shot": [
+            "Dr. Anya Sharma"
+          ],
+          "duration_seconds": 3
+        },
+        {
+          "shot_id": 2,
+          "camera_angle": "Medium Close-up",
+          "camera_movement": "Static",
+          "description": "Dr. Sharma speaks directly to the camera, welcoming viewers and introducing the topic of AI trends in 2026.",
+          "characters_in_shot": [
+            "Dr. Anya Sharma"
+          ],
+          "duration_seconds": 4
+        },
+        {
+          "shot_id": 3,
+          "camera_angle": "Medium Shot",
+          "camera_movement": "Pan Left",
+          "description": "Dr. Sharma gestures towards dynamic, evolving graphics, hinting at the vastness of AI's advancements.",
+          "characters_in_shot": [
+            "Dr. Anya Sharma"
+          ],
+          "duration_seconds": 3
+        }
+      ]
+    },
+    {
+      "scene_id": 2,
+      "shots": [
+        {
+          "shot_id": 1,
+          "camera_angle": "Medium Shot",
+          "camera_movement": "Static",
+          "description": "Dr. Sharma introduces the concept of Generative AI, with vibrant AI-generated art subtly appearing as overlays.",
+          "characters_in_shot": [
+            "Dr. Anya Sharma"
+          ],
+          "duration_seconds": 3
+        },
+        {
+          "shot_id": 2,
+          "camera_angle": "Close-up",
+          "camera_movement": "Push In",
+          "description": "Focus on Dr. Sharma's enthusiastic expression as she explains the creative power and impact of generative models.",
+          "characters_in_shot": [
+            "Dr. Anya Sharma"
+          ],
+          "duration_seconds": 3
+        },
+        {
+          "shot_id": 3,
+          "camera_angle": "Medium Full Shot",
+          "camera_movement": "Arc Shot",
+          "description": "Dr. Sharma stands amidst a dynamic display of AI-created text, images, and video snippets, showcasing diverse applications.",
+          "characters_in_shot": [
+            "Dr. Anya Sharma"
+          ],
+          "duration_seconds": 4
+        },
+        {
+          "shot_id": 4,
+          "camera_angle": "Over-the-shoulder",
+          "camera_movement": "Track Right",
+          "description": "From behind Dr. Sharma, looking at the screen displaying a rapid montage of compelling AI-generated content.",
+          "characters_in_shot": [
+            "Dr. Anya Sharma"
+          ],
+          "duration_seconds": 2
+        }
+      ]
+    },
+    {
+      "scene_id": 3,
+      "shots": [
+        {
+          "shot_id": 1,
+          "camera_angle": "Medium Shot",
+          "camera_movement": "Static",
+          "description": "Dr. Sharma introduces agentic AI workflows, with subtle animated diagrams starting to form around her.",
+          "characters_in_shot": [
+            "Dr. Anya Sharma"
+          ],
+          "duration_seconds": 3
+        },
+        {
+          "shot_id": 2,
+          "camera_angle": "Close-up",
+          "camera_movement": "Slow Zoom In",
+          "description": "Dr. Sharma explains the autonomous, multi-step capabilities of agentic AI, emphasizing efficiency and problem-solving.",
+          "characters_in_shot": [
+            "Dr. Anya Sharma"
+          ],
+          "duration_seconds": 4
+        },
+        {
+          "shot_id": 3,
+          "camera_angle": "Wide Shot",
+          "camera_movement": "Crane Up",
+          "description": "Dr. Sharma stands in front of a complex, flowing animated diagram illustrating sequential AI task execution and automation.",
+          "characters_in_shot": [
+            "Dr. Anya Sharma"
+          ],
+          "duration_seconds": 3
+        },
+        {
+          "shot_id": 4,
+          "camera_angle": "Medium Full Shot",
+          "camera_movement": "Dolly Out",
+          "description": "Dr. Sharma gestures towards the diagrams, conceptually guiding the viewer through the intricate workflows.",
+          "characters_in_shot": [
+            "Dr. Anya Sharma"
+          ],
+          "duration_seconds": 2
+        }
+      ]
+    },
+    {
+      "scene_id": 4,
+      "shots": [
+        {
+          "shot_id": 1,
+          "camera_angle": "Medium Shot",
+          "camera_movement": "Static",
+          "description": "Dr. Sharma begins to explain multimodal models, with interconnected data icons (text, image, audio) appearing.",
+          "characters_in_shot": [
+            "Dr. Anya Sharma"
+          ],
+          "duration_seconds": 3
+        },
+        {
+          "shot_id": 2,
+          "camera_angle": "Close-up",
+          "camera_movement": "Track Right",
+          "description": "Dr. Sharma details how AI bridges different senses and data types, highlighting the seamless integration.",
+          "characters_in_shot": [
+            "Dr. Anya Sharma"
+          ],
+          "duration_seconds": 4
+        },
+        {
+          "shot_id": 3,
+          "camera_angle": "Medium Wide Shot",
+          "camera_movement": "Pan Left",
+          "description": "Dr. Sharma is surrounded by visual examples of multimodal AI interactions, showing text generating images, audio controlling video, etc.",
+          "characters_in_shot": [
+            "Dr. Anya Sharma"
+          ],
+          "duration_seconds": 3
+        },
+        {
+          "shot_id": 4,
+          "camera_angle": "Wide Shot",
+          "camera_movement": "Zoom Out",
+          "description": "Dr. Sharma with a complex, interconnected web of data types and outputs, showcasing the holistic nature of multimodal AI.",
+          "characters_in_shot": [
+            "Dr. Anya Sharma"
+          ],
+          "duration_seconds": 2
+        }
+      ]
+    },
+    {
+      "scene_id": 5,
+      "shots": [
+        {
+          "shot_id": 1,
+          "camera_angle": "Medium Shot",
+          "camera_movement": "Static",
+          "description": "Dr. Sharma introduces the topic of AI's transformative role in healthcare, with subtle medical-themed graphics appearing.",
+          "characters_in_shot": [
+            "Dr. Anya Sharma"
+          ],
+          "duration_seconds": 3
+        },
+        {
+          "shot_id": 2,
+          "camera_angle": "Close-up",
+          "camera_movement": "Slow Zoom In",
+          "description": "Dr. Sharma speaks with a hopeful and impactful tone, discussing breakthroughs in drug discovery and personalized medicine.",
+          "characters_in_shot": [
+            "Dr. Anya Sharma"
+          ],
+          "duration_seconds": 4
+        },
+        {
+          "shot_id": 3,
+          "camera_angle": "Wide Shot",
+          "camera_movement": "Dolly Out",
+          "description": "Dr. Sharma stands in a conceptual hospital setting with data visualizations showing AI's role in diagnostics and patient care.",
+          "characters_in_shot": [
+            "Dr. Anya Sharma"
+          ],
+          "duration_seconds": 3
+        }
+      ]
+    },
+    {
+      "scene_id": 6,
+      "shots": [
+        {
+          "shot_id": 1,
+          "camera_angle": "Medium Shot",
+          "camera_movement": "Static",
+          "description": "Dr. Sharma provides a concise recap of the discussed AI trends, maintaining an optimistic and inspiring demeanor.",
+          "characters_in_shot": [
+            "Dr. Anya Sharma"
+          ],
+          "duration_seconds": 3
+        },
+        {
+          "shot_id": 2,
+          "camera_angle": "Wide Shot",
+          "camera_movement": "Crane Down",
+          "description": "Dr. Sharma delivers her concluding thoughts on the transformative power of AI, returning to the initial futuristic studio setting.",
+          "characters_in_shot": [
+            "Dr. Anya Sharma"
+          ],
+          "duration_seconds": 3
+        },
+        {
+          "shot_id": 3,
+          "camera_angle": "Medium Close-up",
+          "camera_movement": "Push In",
+          "description": "A final inspiring shot of Dr. Sharma, looking confidently into the camera, emphasizing 'The Future is Now'.",
+          "characters_in_shot": [
+            "Dr. Anya Sharma"
+          ],
+          "duration_seconds": 2
+        }
+      ]
+    }
+  ],
+  "storyboard_id": "f099adce-b496-474a-b3da-aa30163039ce",
+  "source_plan_id": "5749a706-81ce-474d-9df8-a5e68dec4ac9",
+  "generated_at": "2026-07-17T18:00:18.440231"
+}

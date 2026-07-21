@@ -1,0 +1,85 @@
+{
+  "title": "AI & ML Trends 2026: The Future is Now",
+  "logline": "Explore the cutting-edge AI and Machine Learning trends shaping 2026, from generative models to healthcare innovations.",
+  "theme": "Technological advancement, future, innovation, education",
+  "target_duration_seconds": 60,
+  "tone": "Informative, exciting, futuristic, educational",
+  "characters": [
+    {
+      "name": "Dr. Anya Sharma",
+      "role": "AI Futurist & Host",
+      "one_line_description": "A charismatic and knowledgeable expert guiding viewers through the latest AI trends."
+    }
+  ],
+  "scenes": [
+    {
+      "scene_id": 1,
+      "title": "Welcome to 2026: AI's Leap Forward",
+      "summary": "Dr. Anya Sharma introduces the video, setting the stage for the major AI and Machine Learning trends impacting 2026.",
+      "setting": "Modern, sleek studio with dynamic, futuristic graphics.",
+      "mood": "Engaging, energetic, forward-looking",
+      "characters_present": [
+        "Dr. Anya Sharma"
+      ],
+      "estimated_duration_seconds": 10
+    },
+    {
+      "scene_id": 2,
+      "title": "Generative AI: Creativity Unleashed",
+      "summary": "Dr. Sharma explains the rapid advancements and impact of generative AI across various domains, showcasing examples of AI-created content.",
+      "setting": "Studio with vibrant overlays displaying AI-generated art, text, and video snippets.",
+      "mood": "Inspiring, creative, awe-striking",
+      "characters_present": [
+        "Dr. Anya Sharma"
+      ],
+      "estimated_duration_seconds": 12
+    },
+    {
+      "scene_id": 3,
+      "title": "Agentic Workflows: AI That Thinks",
+      "summary": "Focuses on agentic AI workflows, where AI systems autonomously perform complex, multi-step tasks, improving efficiency and problem-solving.",
+      "setting": "Studio with animated diagrams illustrating sequential AI task execution and automation.",
+      "mood": "Thought-provoking, efficient, innovative",
+      "characters_present": [
+        "Dr. Anya Sharma"
+      ],
+      "estimated_duration_seconds": 12
+    },
+    {
+      "scene_id": 4,
+      "title": "Multimodal Models: Bridging Senses",
+      "summary": "Discusses multimodal AI models that understand and generate content across different data types simultaneously (text, image, audio, video).",
+      "setting": "Studio with visual examples of seamless multimodal AI interactions and outputs.",
+      "mood": "Innovative, interconnected, intelligent",
+      "characters_present": [
+        "Dr. Anya Sharma"
+      ],
+      "estimated_duration_seconds": 12
+    },
+    {
+      "scene_id": 5,
+      "title": "AI in Healthcare: A New Era",
+      "summary": "Highlights the transformative role of AI in healthcare, covering breakthroughs in drug discovery, personalized medicine, and advanced diagnostics.",
+      "setting": "Studio with medical-themed graphics, data visualizations, and conceptual hospital settings.",
+      "mood": "Hopeful, impactful, life-changing",
+      "characters_present": [
+        "Dr. Anya Sharma"
+      ],
+      "estimated_duration_seconds": 10
+    },
+    {
+      "scene_id": 6,
+      "title": "The Future is Now: Embracing AI",
+      "summary": "Dr. Sharma provides a concise recap of the discussed trends and offers a concluding thought on the transformative power of AI in 2026 and beyond.",
+      "setting": "Studio, returning to the initial futuristic and optimistic setting.",
+      "mood": "Optimistic, forward-looking, inspiring",
+      "characters_present": [
+        "Dr. Anya Sharma"
+      ],
+      "estimated_duration_seconds": 8
+    }
+  ],
+  "plan_id": "5749a706-81ce-474d-9df8-a5e68dec4ac9",
+  "source_idea": "A short educational video about the top AI and Machine Learning trends in 2026, covering generative AI, agentic workflows, multimodal models, and AI in healthcare",
+  "generated_at": "2026-07-17T18:00:03.451619"
+}

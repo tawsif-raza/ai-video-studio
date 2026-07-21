@@ -15,7 +15,7 @@ class Settings:
     OPENAI_API_KEY: str = os.getenv("OPENAI_API_KEY", "")
     GPT_MODEL: str = os.getenv("GPT_MODEL", "gpt-4o-mini")
 
-    GROQ_API_KEY: str = os.getenv("GROQ_API_KEY", "")
+    GROQ_API_KEYS: list = [k.strip() for k in os.getenv("GROQ_API_KEYS", "").split(",") if k.strip()]
     GROQ_MODEL: str = os.getenv("GROQ_MODEL", "llama-3.3-70b-versatile")
 
     LOG_LEVEL: str = os.getenv("LOG_LEVEL", "INFO")
@@ -38,4 +38,9 @@ if not settings.GEMINI_API_KEY:
 if not settings.OPENAI_API_KEY:
     warnings.warn(
         "OPENAI_API_KEY not set - GPT-backed agents (e.g. Prompt Generator) will fail until you set it in .env"
+    )
+
+if not settings.GROQ_API_KEYS:
+    warnings.warn(
+        "GROQ_API_KEYS not set - Groq-backed agents will fail until you set it in .env"
     )

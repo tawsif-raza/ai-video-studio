@@ -1,0 +1,142 @@
+{
+  "scene_plans": [
+    {
+      "scene_id": 1,
+      "shots": [
+        {
+          "shot_id": 1,
+          "camera_angle": "Establishing Shot",
+          "camera_movement": "Static",
+          "description": "Map of Europe",
+          "characters_in_shot": [
+            "Narrator"
+          ],
+          "duration_seconds": 5
+        }
+      ]
+    },
+    {
+      "scene_id": 2,
+      "shots": [
+        {
+          "shot_id": 2,
+          "camera_angle": "Medium Shot",
+          "camera_movement": "Dolly In",
+          "description": "Newsreel footage of Nazi Germany",
+          "characters_in_shot": [
+            "Narrator"
+          ],
+          "duration_seconds": 4
+        },
+        {
+          "shot_id": 3,
+          "camera_angle": "Close-up Shot",
+          "camera_movement": "Zoom In",
+          "description": "Newsreel footage of fascist Italy",
+          "characters_in_shot": [
+            "Narrator"
+          ],
+          "duration_seconds": 4
+        }
+      ]
+    },
+    {
+      "scene_id": 3,
+      "shots": [
+        {
+          "shot_id": 4,
+          "camera_angle": "Aerial Shot",
+          "camera_movement": "Flyover",
+          "description": "Invasion of Poland",
+          "characters_in_shot": [
+            "Narrator"
+          ],
+          "duration_seconds": 3
+        },
+        {
+          "shot_id": 5,
+          "camera_angle": "Bird's Eye View",
+          "camera_movement": "Static",
+          "description": "Battle of Britain",
+          "characters_in_shot": [
+            "Narrator"
+          ],
+          "duration_seconds": 4
+        },
+        {
+          "shot_id": 6,
+          "camera_angle": "Low-angle Shot",
+          "camera_movement": "Tilt Up",
+          "description": "D-Day",
+          "characters_in_shot": [
+            "Narrator"
+          ],
+          "duration_seconds": 8
+        }
+      ]
+    },
+    {
+      "scene_id": 4,
+      "shots": [
+        {
+          "shot_id": 7,
+          "camera_angle": "Over-the-Shoulder Shot",
+          "camera_movement": "Pan Left",
+          "description": "Battle of Stalingrad",
+          "characters_in_shot": [
+            "Narrator"
+          ],
+          "duration_seconds": 5
+        },
+        {
+          "shot_id": 8,
+          "camera_angle": "Point-of-View Shot",
+          "camera_movement": "Dolly Out",
+          "description": "Soviet counterattack",
+          "characters_in_shot": [
+            "Narrator"
+          ],
+          "duration_seconds": 5
+        }
+      ]
+    },
+    {
+      "scene_id": 5,
+      "shots": [
+        {
+          "shot_id": 9,
+          "camera_angle": "Medium Long Shot",
+          "camera_movement": "Tracking Shot",
+          "description": "Post-war newsreel footage",
+          "characters_in_shot": [
+            "Narrator"
+          ],
+          "duration_seconds": 4
+        },
+        {
+          "shot_id": 10,
+          "camera_angle": "High-angle Shot",
+          "camera_movement": "Static",
+          "description": "War crimes",
+          "characters_in_shot": [
+            "Narrator"
+          ],
+          "duration_seconds": 4
+        },
+        {
+          "shot_id": 11,
+          "camera_angle": "Two-shot",
+          "camera_movement": "Zoom Out",
+          "description": "Rebuilding and the Cold War",
+          "characters_in_shot": [
+            "Narrator"
+          ],
+          "duration_seconds": 4
+        }
+      ]
+    }
+  ],
+  "storyboard_id": "d151fd34-141a-4e5d-bb49-a22705acdd73",
+  "source_plan_id": "38006d22-25a2-4394-994f-6df919ef3c42",
+  "generated_at": "2026-07-17T18:24:28.366781"
+}

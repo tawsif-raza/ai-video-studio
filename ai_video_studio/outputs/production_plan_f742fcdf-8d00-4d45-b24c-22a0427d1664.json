@@ -1,0 +1,102 @@
+{
+  "title": "Bolt's Boogie",
+  "logline": "A shy robot overcomes its social anxiety to find joy on the dance floor at a vibrant rooftop party.",
+  "theme": "Overcoming shyness, embracing joy, finding belonging.",
+  "target_duration_seconds": 45,
+  "tone": "Uplifting, heartwarming, energetic",
+  "characters": [
+    {
+      "name": "Bolt",
+      "role": "Protagonist",
+      "one_line_description": "A small, shy robot with optical sensors that betray its longing to join in."
+    },
+    {
+      "name": "Maya",
+      "role": "Supporting Character",
+      "one_line_description": "A friendly and outgoing human party-goer who encourages Bolt."
+    },
+    {
+      "name": "DJ Beats",
+      "role": "Supporting Character",
+      "one_line_description": "The unseen but influential DJ whose music sets the mood for the party."
+    }
+  ],
+  "scenes": [
+    {
+      "scene_id": 1,
+      "title": "The Awkward Arrival",
+      "summary": "Bolt, a small, shy robot, arrives at a bustling rooftop party, looking overwhelmed by the loud music and dancing crowd.",
+      "setting": "Vibrant rooftop party, city skyline at dusk.",
+      "mood": "Overwhelmed, slightly anxious.",
+      "characters_present": [
+        "Bolt"
+      ],
+      "estimated_duration_seconds": 7
+    },
+    {
+      "scene_id": 2,
+      "title": "Observing the Moves",
+      "summary": "Bolt stands near the edge, its optical sensors tracking the energetic dancers, a subtle longing in its posture. The music is infectious.",
+      "setting": "Dance floor at a rooftop party.",
+      "mood": "Curious, longing, hesitant.",
+      "characters_present": [
+        "Bolt",
+        "DJ Beats"
+      ],
+      "estimated_duration_seconds": 8
+    },
+    {
+      "scene_id": 3,
+      "title": "A Friendly Invitation",
+      "summary": "Maya, a lively human party-goer, notices Bolt's hesitation. She smiles warmly and gestures for Bolt to join the dance floor.",
+      "setting": "Edge of the dance floor, rooftop party.",
+      "mood": "Encouraging, warm.",
+      "characters_present": [
+        "Bolt",
+        "Maya"
+      ],
+      "estimated_duration_seconds": 9
+    },
+    {
+      "scene_id": 4,
+      "title": "The First Wobble",
+      "summary": "With Maya's encouragement, Bolt takes a few wobbly steps onto the dance floor, attempting some stiff, jerky movements. Maya claps playfully.",
+      "setting": "Middle of the dance floor.",
+      "mood": "Awkward, determined, slightly humorous.",
+      "characters_present": [
+        "Bolt",
+        "Maya",
+        "DJ Beats"
+      ],
+      "estimated_duration_seconds": 8
+    },
+    {
+      "scene_id": 5,
+      "title": "Finding the Groove",
+      "summary": "As the music changes, Bolt's movements become a little smoother, finding a basic rhythm. A small light on its chest flickers green, indicating growing confidence.",
+      "setting": "Dance floor, surrounded by other dancers.",
+      "mood": "Growing confidence, rhythmic.",
+      "characters_present": [
+        "Bolt",
+        "DJ Beats"
+      ],
+      "estimated_duration_seconds": 8
+    },
+    {
+      "scene_id": 6,
+      "title": "Bolt's Dance Party",
+      "summary": "Bolt is now fully engaged, performing unique, fluid robot dance moves, much to the delight of Maya and other cheering party-goers. It's having the time of its life.",
+      "setting": "Center of the dance floor, high energy.",
+      "mood": "Joyful, triumphant, energetic.",
+      "characters_present": [
+        "Bolt",
+        "Maya",
+        "DJ Beats"
+      ],
+      "estimated_duration_seconds": 8
+    }
+  ],
+  "plan_id": "f742fcdf-8d00-4d45-b24c-22a0427d1664",
+  "source_idea": "A shy robot learns to dance at a rooftop party",
+  "generated_at": "2026-07-17T16:51:56.865636"
+}
