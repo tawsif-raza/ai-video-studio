@@ -1,0 +1,47 @@
+{
+  "character_profiles": [
+    {
+      "name": "Alex Chen",
+      "age_range": "20-25",
+      "build": "slim, athletic",
+      "face_details": "determined expression, sharp jawline, focused eyes",
+      "hair": "short, dark, messy",
+      "outfit": "white chef coat, black pants, black non-slip shoes",
+      "color_palette": [
+        "white",
+        "black",
+        "silver"
+      ],
+      "distinguishing_features": "scar above left eyebrow, silver watch on left wrist",
+      "art_style_keywords": [
+        "realistic",
+        "detailed",
+        "high-contrast"
+      ],
+      "reference_prompt": "A young, determined chef with a sharp jawline and focused eyes, wearing a white chef coat with a black apron, standing confidently in front of a commercial kitchen stove, with a fiery passion in their eyes and a hint of chaos in the background, as they plate a dish with precision and finesse."
+    },
+    {
+      "name": "Chef Thompson",
+      "age_range": "45-50",
+      "build": "stocky, commanding presence",
+      "face_details": "stern expression, thick eyebrows, piercing eyes",
+      "hair": "short, gray, neatly combed",
+      "outfit": "white chef coat, black pants, gold watch on left wrist",
+      "color_palette": [
+        "white",
+        "black",
+        "gold"
+      ],
+      "distinguishing_features": "thick, gray mustache, gold-rimmed glasses",
+      "art_style_keywords": [
+        "realistic",
+        "detailed",
+        "high-contrast"
+      ],
+      "reference_prompt": "A seasoned chef with a stern expression and piercing eyes, wearing a crisp white chef coat with a gold watch on their wrist, standing with their arms crossed, exuding confidence and authority, as they oversee the kitchen with a keen eye for detail and a high standard of excellence."
+    }
+  ],
+  "sheet_id": "2434b668-1cba-4b32-ba4b-29a8b5c82472",
+  "source_plan_id": "dc5101ee-3822-4c39-8edd-8cf9f164474a",
+  "generated_at": "2026-07-24T10:25:19.673313"
+}

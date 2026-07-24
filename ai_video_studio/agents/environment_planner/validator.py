@@ -1,7 +1,7 @@
 ﻿from agents.base.exceptions import ContractViolationError
 from agents.environment_planner.contract import get_unique_settings
 from agents.environment_planner.schema import EnvironmentPlannerSchema
-from agents.story_planner.contract import ProductionPlan
+from shared_core.contracts.production_plan import ProductionPlan
 
 
 def validate_environment_sheet(

@@ -1,0 +1,27 @@
+{
+  "character_profiles": [
+    {
+      "name": "John Doe",
+      "age_range": "25-40",
+      "build": "average",
+      "face_details": "oval face, brown eyes, slight stubble",
+      "hair": "short, dark brown",
+      "outfit": "casual office attire, possibly with a company logo",
+      "color_palette": [
+        "navy blue",
+        "white",
+        "grey"
+      ],
+      "distinguishing_features": "thick-framed glasses, silver watch on left wrist",
+      "art_style_keywords": [
+        "digital illustration",
+        "clean lines",
+        "minimal shading"
+      ],
+      "reference_prompt": "John Doe, a developer in his 30s with short dark brown hair and brown eyes, wearing a navy blue shirt with a company logo, standing in front of a coding screen with a confident and focused expression, in a modern office setting with a minimalist background."
+    }
+  ],
+  "sheet_id": "a406ec73-6773-424f-b4cd-f3e5f9d87249",
+  "source_plan_id": "f160f0fb-15c7-4931-b312-0f17d7a1c0dc",
+  "generated_at": "2026-07-24T10:58:34.076923"
+}

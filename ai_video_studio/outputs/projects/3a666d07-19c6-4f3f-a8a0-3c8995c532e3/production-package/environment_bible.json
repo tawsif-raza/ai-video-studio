@@ -1,0 +1,53 @@
+{
+  "environment_profiles": [
+    {
+      "setting": "Roadside",
+      "time_of_day": "Afternoon",
+      "weather": "Partly Cloudy",
+      "key_visual_elements": [
+        "trees",
+        "street signs",
+        "road markings"
+      ],
+      "color_palette": [
+        "#6495ED",
+        "#8B9467",
+        "#FFC080"
+      ],
+      "lighting": "Soft Natural",
+      "atmosphere": "Calm",
+      "art_style_keywords": [
+        "whimsical",
+        "educational",
+        "illustrative"
+      ],
+      "reference_prompt": "A sunny afternoon roadside with a young fox standing near a street sign, looking out at the road with a concerned expression, while a wise old owl perches on a nearby tree branch, with a few puffy white clouds in the sky and a gentle breeze rustling the leaves."
+    },
+    {
+      "setting": "Other side of the road",
+      "time_of_day": "Afternoon",
+      "weather": "Partly Cloudy",
+      "key_visual_elements": [
+        "opposite sidewalk",
+        "parked cars",
+        "buildings in the background"
+      ],
+      "color_palette": [
+        "#6495ED",
+        "#8B9467",
+        "#FFC080"
+      ],
+      "lighting": "Soft Natural",
+      "atmosphere": "Calm",
+      "art_style_keywords": [
+        "whimsical",
+        "educational",
+        "illustrative"
+      ],
+      "reference_prompt": "A sunny afternoon view of the other side of the road, with a sidewalk, parked cars, and buildings in the background, while the young fox and the wise old owl are seen crossing the road in the distance, with a few puffy white clouds in the sky and a gentle breeze rustling the leaves of the trees."
+    }
+  ],
+  "sheet_id": "0e1b52e5-abc3-4e94-884d-d2656199e6e9",
+  "source_plan_id": "e20d0219-102a-4f74-ab8c-5ea55f521cf3",
+  "generated_at": "2026-07-24T10:46:02.294258"
+}

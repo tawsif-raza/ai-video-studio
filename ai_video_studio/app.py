@@ -13,7 +13,17 @@ def main():
     parser.add_argument("--tone", default=None)
     parser.add_argument("--audience", default=None)
     parser.add_argument("--art-style", default=None, help="e.g. '3D animated, Pixar-style, warm cinematic lighting'")
-    parser.add_argument("--skip-images", action="store_true", help="Stop after Prompt Generator, don't call image generation")
+    parser.add_argument(
+        "--generate-images",
+        action="store_true",
+        help="Opt in to calling the image_generator agent (manual/preview tool, off by default - ARCHITECTURE.md SS2/SS15 Phase 6).",
+    )
+    parser.add_argument(
+        "--skip-images",
+        action="store_true",
+        help="[Deprecated, no-op] Image generation is now opt-in by default; use --generate-images instead.",
+    )
+    parser.add_argument("--skip-research", action="store_true", help="Skip the Research stage and go straight to Story Planner")
     args = parser.parse_args()
 
     llm = LLMClient()
@@ -26,6 +36,8 @@ def main():
         audience=args.audience,
         art_style=args.art_style,
         skip_images=args.skip_images,
+        generate_images=args.generate_images,
+        skip_research=args.skip_research,
         image_client_factory=GeminiImageClient,
     )
 

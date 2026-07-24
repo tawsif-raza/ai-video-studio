@@ -1,0 +1,47 @@
+{
+  "prompt_set_id": "50526144-8084-4c1c-917f-0a44402fb30e",
+  "source_storyboard_id": "c27ffba5-7ecc-4583-8966-1cedfec8cfaf",
+  "shots": [
+    {
+      "image_prompt": "A high-angle view of John Doe, a developer in his 30s with short dark brown hair and brown eyes, wearing a navy blue shirt with a company logo, standing confidently and focused in front of a coding screen in a modern office space with large windows, sleek wooden desks, and several computer screens displaying lines of code, as he begins to introduce the test run, with a few employees collaborating and discussing their work in the background under bright and airy lighting that emphasizes innovation and progress.",
+      "video_motion_prompt": "The camera dollies in over 5 seconds, zooming in on John Doe's determined expression as he starts the introduction of the test run, drawing attention to his confident stance.",
+      "scene_id": 1,
+      "shot_id": 1,
+      "duration_seconds": 5,
+      "generated_at": "2026-07-24T10:58:37.437285"
+    },
+    {
+      "image_prompt": "In a modern office with large windows, sleek wooden desks, and several computer screens displaying lines of code, John Doe, a developer in his 30s with short dark brown hair and brown eyes, wearing a navy blue shirt with a company logo, stands confidently in front of a coding screen, preparing the environment for a test with a focused expression, as the camera captures him from an eye-level angle, with a few employees collaborating and discussing their work in the background, under bright and airy lighting that emphasizes innovation and progress.",
+      "video_motion_prompt": "As John Doe moves his hands to adjust the screens, the camera pans to the left, following his movements, over the course of 8 seconds, smoothly revealing more of the modern office setting.",
+      "scene_id": 2,
+      "shot_id": 1,
+      "duration_seconds": 8,
+      "generated_at": "2026-07-24T10:58:38.161103"
+    },
+    {
+      "image_prompt": "In a modern office with large windows, sleek wooden desks, and computer screens displaying lines of code, John Doe, a developer in his 30s with short dark brown hair and brown eyes, stands confidently in front of a coding screen wearing a navy blue shirt with a company logo, his focused expression illuminated by the bright and airy lighting, as seen from a low-angle perspective that looks up at him, capturing his determined posture and the innovative atmosphere of the office.",
+      "video_motion_prompt": "The camera tilts up over 6 seconds as John Doe's hand reaches out to initiate the test, his confident expression unwavering.",
+      "scene_id": 3,
+      "shot_id": 1,
+      "duration_seconds": 6,
+      "generated_at": "2026-07-24T10:58:38.726871"
+    },
+    {
+      "image_prompt": "A modern office space with large windows and sleek wooden desks, where John Doe, a developer in his 30s with short dark brown hair and brown eyes, wears a navy blue shirt with a company logo, standing confidently in front of a coding screen displaying lines of code, with a focused expression, as several employees collaborate in the background, all under bright and airy lighting, captured from an over-the-shoulder angle, with John's face and the screen in sharp focus.",
+      "video_motion_prompt": "The camera zooms out over 6 seconds, as John Doe's hands move across the keyboard and mouse, reviewing test results and checking commits on the screen in front of him.",
+      "scene_id": 3,
+      "shot_id": 2,
+      "duration_seconds": 6,
+      "generated_at": "2026-07-24T10:58:39.432207"
+    },
+    {
+      "image_prompt": "A worms-eye view of John Doe, a developer in his 30s with short dark brown hair and brown eyes, wearing a navy blue shirt with a company logo, standing confidently in front of a coding screen with a focused expression, in a modern office space with large windows, sleek wooden desks, and several computer screens displaying lines of code, set against a minimalist background with a few employees collaborating in the distance, all under bright and airy lighting that emphasizes innovation and progress.",
+      "video_motion_prompt": "As John Doe finalizes the test run and concludes, the camera crane-ups, rising from a worms-eye angle to a higher vantage point, capturing his triumphant expression and the bustling office environment in a smooth 5-second motion.",
+      "scene_id": 4,
+      "shot_id": 1,
+      "duration_seconds": 5,
+      "generated_at": "2026-07-24T10:58:40.122917"
+    }
+  ],
+  "generated_at": "2026-07-24T10:58:40.123355"
+}

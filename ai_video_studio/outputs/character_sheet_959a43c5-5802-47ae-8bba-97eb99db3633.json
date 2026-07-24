@@ -1,0 +1,47 @@
+{
+  "character_profiles": [
+    {
+      "name": "Finnley the Fox",
+      "age_range": "Young",
+      "build": "Slender",
+      "face_details": "Curious expression, pointed ears, and a small nose",
+      "hair": "Orange-red fur",
+      "outfit": "None",
+      "color_palette": [
+        "Orange",
+        "Red",
+        "White"
+      ],
+      "distinguishing_features": "Bushy tail and white tips on his ears",
+      "art_style_keywords": [
+        "Whimsical",
+        "Realistic",
+        "Educational"
+      ],
+      "reference_prompt": "A young, slender fox with orange-red fur, a curious expression, and a bushy tail, standing in front of a road with a busy background, in a style that is both whimsical and realistic, conveying a sense of education and awareness."
+    },
+    {
+      "name": "Olwen the Owl",
+      "age_range": "Old",
+      "build": "Sturdy",
+      "face_details": "Wise expression, large round eyes, and a hooked beak",
+      "hair": "Feathers in various shades of brown",
+      "outfit": "None",
+      "color_palette": [
+        "Brown",
+        "Beige",
+        "White"
+      ],
+      "distinguishing_features": "Large, round glasses perched on the end of her beak",
+      "art_style_keywords": [
+        "Whimsical",
+        "Realistic",
+        "Educational"
+      ],
+      "reference_prompt": "A wise old owl with feathers in various shades of brown, large round eyes, and a hooked beak, wearing large, round glasses, perched on a tree branch overlooking a busy road, in a style that is both whimsical and realistic, conveying a sense of wisdom and education."
+    }
+  ],
+  "sheet_id": "959a43c5-5802-47ae-8bba-97eb99db3633",
+  "source_plan_id": "e20d0219-102a-4f74-ab8c-5ea55f521cf3",
+  "generated_at": "2026-07-24T10:46:01.124033"
+}

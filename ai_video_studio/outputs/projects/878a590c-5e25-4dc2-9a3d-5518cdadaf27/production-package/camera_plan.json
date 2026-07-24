@@ -1,0 +1,47 @@
+[
+  {
+    "scene_id": 1,
+    "shots": [
+      {
+        "shot_id": 1,
+        "camera_angle": "high-angle",
+        "camera_movement": "dolly-in"
+      }
+    ]
+  },
+  {
+    "scene_id": 2,
+    "shots": [
+      {
+        "shot_id": 1,
+        "camera_angle": "eye-level",
+        "camera_movement": "pan-left"
+      }
+    ]
+  },
+  {
+    "scene_id": 3,
+    "shots": [
+      {
+        "shot_id": 1,
+        "camera_angle": "low-angle",
+        "camera_movement": "tilt-up"
+      },
+      {
+        "shot_id": 2,
+        "camera_angle": "over-the-shoulder",
+        "camera_movement": "zoom-out"
+      }
+    ]
+  },
+  {
+    "scene_id": 4,
+    "shots": [
+      {
+        "shot_id": 1,
+        "camera_angle": "worms-eye",
+        "camera_movement": "crane-up"
+      }
+    ]
+  }
+]

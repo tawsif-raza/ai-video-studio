@@ -1,18 +1,9 @@
-# TODO(Phase 5): CharacterSheet/EnvironmentSheet/ProductionPlan and their nested
-# schema types currently live inside agents/*/contract.py and agents/*/schema.py.
-# Shared Core importing from agents/ here is a temporary compatibility layer,
-# approved for Milestone B - Phase 3 (see ARCHITECTURE.md SS15, Phase 3 vs
-# Phase 5). Once the Production Package schema types are relocated into
-# shared_core (Phase 5), these imports must be reversed - agents should import
-# from shared_core, never the other way around.
-
 from typing import List
 
-from agents.character_planner.contract import CharacterSheet
-from agents.character_planner.schema import CharacterVisualProfile
-from agents.environment_planner.contract import EnvironmentSheet
-from agents.environment_planner.schema import EnvironmentProfile
-from agents.story_planner.contract import ProductionPlan
+from shared_core.contracts.camera_plan import CameraPlan, CameraShot
+from shared_core.contracts.character_sheet import CharacterSheet, CharacterVisualProfile
+from shared_core.contracts.environment_sheet import EnvironmentProfile, EnvironmentSheet
+from shared_core.contracts.production_plan import ProductionPlan
 
 
 def find_environment_for_scene(
@@ -45,3 +36,17 @@ def find_characters_for_shot(
     if missing:
         raise ValueError(f"No character profile found for: {sorted(missing)}")
     return profiles
+
+
+def find_camera_for_shot(scene_id: int, shot_id: int, camera_plan: CameraPlan) -> CameraShot:
+    """Looks up a single shot's camera treatment from Camera Planner's output,
+    keyed by (scene_id, shot_id) - the same identifiers Scene/Shot Planner assigned."""
+    scene = next((sp for sp in camera_plan.scene_plans if sp.scene_id == scene_id), None)
+    if scene is None:
+        raise ValueError(f"scene_id {scene_id} not found in camera_plan")
+
+    shot = next((s for s in scene.shots if s.shot_id == shot_id), None)
+    if shot is None:
+        raise ValueError(f"shot_id {shot_id} not found in camera_plan scene {scene_id}")
+
+    return shot

@@ -1,0 +1,62 @@
+[
+  {
+    "scene_id": 1,
+    "shots": [
+      {
+        "shot_id": 1,
+        "description": "John Doe starts the introduction of the test run",
+        "characters_in_shot": [
+          "John Doe"
+        ],
+        "duration_seconds": 5
+      }
+    ]
+  },
+  {
+    "scene_id": 2,
+    "shots": [
+      {
+        "shot_id": 1,
+        "description": "John Doe prepares the environment for the test",
+        "characters_in_shot": [
+          "John Doe"
+        ],
+        "duration_seconds": 8
+      }
+    ]
+  },
+  {
+    "scene_id": 3,
+    "shots": [
+      {
+        "shot_id": 1,
+        "description": "John Doe initiates the test",
+        "characters_in_shot": [
+          "John Doe"
+        ],
+        "duration_seconds": 6
+      },
+      {
+        "shot_id": 2,
+        "description": "John Doe reviews the test results and checks the commits",
+        "characters_in_shot": [
+          "John Doe"
+        ],
+        "duration_seconds": 6
+      }
+    ]
+  },
+  {
+    "scene_id": 4,
+    "shots": [
+      {
+        "shot_id": 1,
+        "description": "John Doe finalizes the test run and provides a conclusion",
+        "characters_in_shot": [
+          "John Doe"
+        ],
+        "duration_seconds": 5
+      }
+    ]
+  }
+]

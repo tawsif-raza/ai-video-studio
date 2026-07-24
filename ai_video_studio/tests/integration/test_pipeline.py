@@ -40,6 +40,15 @@ SHOT_2_IMAGE_PROMPT = "Close-up of Mira's determined face, green eyes catching t
 SHOT_2_MOTION_PROMPT = "Slow zoom in on Mira's face as her expression firms with resolve"
 
 
+def _research_response():
+    return json.dumps(
+        {
+            "key_facts": ["Explorers often travel at dawn to avoid midday heat"],
+            "considerations": ["Keep the tone hopeful, not grim"],
+        }
+    )
+
+
 def _story_response():
     return json.dumps(
         {
@@ -75,20 +84,58 @@ def _scene_response():
                     "shots": [
                         {
                             "shot_id": 1,
-                            "camera_angle": "wide shot",
-                            "camera_movement": "static",
                             "description": "Mira stands at the edge of the forest",
                             "characters_in_shot": ["Mira"],
                             "duration_seconds": 15,
                         },
                         {
                             "shot_id": 2,
-                            "camera_angle": "close-up",
-                            "camera_movement": "slow zoom in",
                             "description": "Mira looks determined",
                             "characters_in_shot": ["Mira"],
                             "duration_seconds": 15,
                         },
+                    ],
+                }
+            ]
+        }
+    )
+
+
+def _shot_planner_response():
+    return json.dumps(
+        {
+            "scene_plans": [
+                {
+                    "scene_id": 1,
+                    "shots": [
+                        {
+                            "shot_id": 1,
+                            "description": "Mira stands at the edge of the forest",
+                            "characters_in_shot": ["Mira"],
+                            "duration_seconds": 15,
+                        },
+                        {
+                            "shot_id": 2,
+                            "description": "Mira looks determined",
+                            "characters_in_shot": ["Mira"],
+                            "duration_seconds": 15,
+                        },
+                    ],
+                }
+            ]
+        }
+    )
+
+
+def _camera_planner_response():
+    return json.dumps(
+        {
+            "scene_plans": [
+                {
+                    "scene_id": 1,
+                    "shots": [
+                        {"shot_id": 1, "camera_angle": "wide shot", "camera_movement": "static"},
+                        {"shot_id": 2, "camera_angle": "close-up", "camera_movement": "slow zoom in"},
                     ],
                 }
             ]
@@ -147,18 +194,29 @@ def _shot_response(image_prompt, video_motion_prompt):
     return json.dumps({"image_prompt": image_prompt, "video_motion_prompt": video_motion_prompt})
 
 
+VOICE_SCRIPT_NARRATION = "Mira steps into the misty forest, ready for what lies ahead."
+
+
+def _voice_script_response():
+    return json.dumps({"lines": [{"scene_id": 1, "narration_text": VOICE_SCRIPT_NARRATION}]})
+
+
 def _happy_path_responses():
     return [
+        _research_response(),
         _story_response(),
         _scene_response(),
+        _shot_planner_response(),
+        _camera_planner_response(),
         _character_response(),
         _environment_response(),
         _shot_response(SHOT_1_IMAGE_PROMPT, SHOT_1_MOTION_PROMPT),
         _shot_response(SHOT_2_IMAGE_PROMPT, SHOT_2_MOTION_PROMPT),
+        _voice_script_response(),
     ]
 
 
-def _assert_production_package(tmp_path, plan):
+def _assert_production_package(tmp_path, plan, research_status="generated"):
     project_dirs = list((tmp_path / "projects").iterdir())
     assert len(project_dirs) == 1
     project_dir = project_dirs[0]
@@ -168,6 +226,10 @@ def _assert_production_package(tmp_path, plan):
     assert project_file["project_id"] == project_id
     assert project_file["status"] == "PACKAGE_READY"
     assert project_file["source_plan_id"] == plan["plan_id"]
+    if research_status == "generated":
+        assert project_file["source_research_brief_id"] is not None
+    else:
+        assert project_file["source_research_brief_id"] is None
 
     package_dir = project_dir / "production-package"
     assert package_dir.exists()
@@ -175,14 +237,26 @@ def _assert_production_package(tmp_path, plan):
     manifest = json.loads((package_dir / "manifest.json").read_text())
     assert manifest["package_id"] == project_id
     file_statuses = {f["name"]: f["status"] for f in manifest["files"]}
-    assert file_statuses["voice_script.txt"] == "pending"
+    assert file_statuses["voice_script.txt"] == "generated"
+    assert file_statuses["research_brief.json"] == research_status
     assert set(file_statuses) == {
-        "metadata.json", "story.md", "scene_plan.json", "shot_plan.json", "camera_plan.json",
-        "character_bible.json", "environment_bible.json", "image_prompts.json",
+        "metadata.json", "research_brief.json", "story.md", "scene_plan.json", "shot_plan.json",
+        "camera_plan.json", "character_bible.json", "environment_bible.json", "image_prompts.json",
         "video_prompts.json", "voice_script.txt",
     }
     for name in file_statuses:
         assert (package_dir / name).exists()
+
+    research_brief = json.loads((package_dir / "research_brief.json").read_text())
+    if research_status == "generated":
+        assert research_brief["key_facts"] == ["Explorers often travel at dawn to avoid midday heat"]
+        assert research_brief["considerations"] == ["Keep the tone hopeful, not grim"]
+    else:
+        assert research_brief["status"] == "skipped"
+
+    # research_brief.json must never leak into a flat legacy output location -
+    # it only ever exists inside the Production Package.
+    assert list(tmp_path.glob("research_brief_*.json")) == []
 
     metadata = json.loads((package_dir / "metadata.json").read_text())
     assert metadata["package_id"] == project_id
@@ -217,7 +291,7 @@ def _assert_production_package(tmp_path, plan):
     assert video_prompts[0]["video_motion_prompt"] == SHOT_1_MOTION_PROMPT
 
     voice_script_text = (package_dir / "voice_script.txt").read_text()
-    assert "pending" in voice_script_text.lower()
+    assert voice_script_text == VOICE_SCRIPT_NARRATION
 
 
 def _run_app(monkeypatch, tmp_path, argv, responses):
@@ -228,11 +302,13 @@ def _run_app(monkeypatch, tmp_path, argv, responses):
     app_module.main()
 
 
-def test_full_pipeline_skip_images(monkeypatch, tmp_path):
+def test_full_pipeline_default_skips_images(monkeypatch, tmp_path):
+    """Image generation is opt-in (ARCHITECTURE.md SS2/SS15 Phase 6) - a default
+    run with zero image-related flags must never construct the image pipeline."""
     _run_app(
         monkeypatch,
         tmp_path,
-        ["app.py", "--idea", "A brave explorer", "--duration", "30", "--skip-images"],
+        ["app.py", "--idea", "A brave explorer", "--duration", "30"],
         _happy_path_responses(),
     )
 
@@ -277,21 +353,69 @@ def test_full_pipeline_skip_images(monkeypatch, tmp_path):
     assert shots[1]["image_prompt"] == SHOT_2_IMAGE_PROMPT
     assert shots[1]["video_motion_prompt"] == SHOT_2_MOTION_PROMPT
 
-    # --skip-images must not construct or touch the image pipeline at all.
+    # Default run (no --generate-images) must not construct or touch the image
+    # pipeline at all.
     assert not list(tmp_path.glob("image_manifest.json"))
     assert not (tmp_path / "images").exists()
 
     _assert_production_package(tmp_path, plan)
 
 
+def test_skip_images_flag_is_a_deprecated_no_op(monkeypatch, tmp_path, caplog):
+    """--skip-images predates the opt-in default (Phase 6) and is kept only so
+    existing scripts don't break - it must still result in no image generation,
+    with a deprecation warning logged, and must not require --generate-images
+    to also be absent."""
+    with caplog.at_level("WARNING"):
+        _run_app(
+            monkeypatch,
+            tmp_path,
+            ["app.py", "--idea", "A brave explorer", "--duration", "30", "--skip-images"],
+            _happy_path_responses(),
+        )
+
+    assert not list(tmp_path.glob("image_manifest.json"))
+    assert not (tmp_path / "images").exists()
+    assert any("--skip-images is deprecated" in record.message for record in caplog.records)
+
+
+def test_full_pipeline_skip_research(monkeypatch, tmp_path):
+    """--skip-research must bypass the Research stage entirely: no research
+    canned response consumed, and the exported package still contains
+    research_brief.json but marked 'skipped' rather than 'generated' -
+    the manifest always lists it as part of the Production Package."""
+    _run_app(
+        monkeypatch,
+        tmp_path,
+        ["app.py", "--idea", "A brave explorer", "--duration", "30", "--skip-research"],
+        [_story_response(), _scene_response(), _shot_planner_response(), _camera_planner_response(),
+         _character_response(), _environment_response(),
+         _shot_response(SHOT_1_IMAGE_PROMPT, SHOT_1_MOTION_PROMPT),
+         _shot_response(SHOT_2_IMAGE_PROMPT, SHOT_2_MOTION_PROMPT),
+         _voice_script_response()],
+    )
+
+    plan_files = list(tmp_path.glob("production_plan_*.json"))
+    plan = json.loads(plan_files[0].read_text())
+
+    project_dirs = list((tmp_path / "projects").iterdir())
+    project_file = json.loads((project_dirs[0] / "project.json").read_text())
+    assert project_file["source_research_brief_id"] is None
+    assert project_file["status"] == "PACKAGE_READY"
+
+    _assert_production_package(tmp_path, plan, research_status="skipped")
+
+
 def test_full_pipeline_with_image_generation(monkeypatch, tmp_path):
+    """Image generation only runs when explicitly opted into via --generate-images
+    (ARCHITECTURE.md SS2/SS15 Phase 6) - it is a manual tool, not a default stage."""
     fake_image_client = FakeImageClient()
     monkeypatch.setattr(app_module, "GeminiImageClient", lambda: fake_image_client)
 
     _run_app(
         monkeypatch,
         tmp_path,
-        ["app.py", "--idea", "A brave explorer", "--duration", "30"],
+        ["app.py", "--idea", "A brave explorer", "--duration", "30", "--generate-images"],
         _happy_path_responses(),
     )
 
@@ -333,19 +457,75 @@ def test_pipeline_stops_on_story_planner_failure(monkeypatch, tmp_path):
         _run_app(
             monkeypatch,
             tmp_path,
-            ["app.py", "--idea", "A story that fails", "--duration", "30", "--skip-images"],
+            ["app.py", "--idea", "A story that fails", "--duration", "30", "--skip-images", "--skip-research"],
             [bad_story_response],
         )
     assert exc_info.value.code == 1
 
-    # Project Manager creates the project scaffold before Story Planner even
-    # runs, so a project.json exists - but no stage artifacts, since the run
-    # failed on the very first stage and never advanced past CREATED.
+    # --skip-research isolates this test to Story Planner: Project Manager
+    # creates the project scaffold before Story Planner even runs, so a
+    # project.json exists - but no stage artifacts, since the run failed on
+    # the very first stage and never advanced past CREATED.
     project_dirs = list((tmp_path / "projects").iterdir())
     assert len(project_dirs) == 1
     project_file = json.loads((project_dirs[0] / "project.json").read_text())
     assert project_file["status"] == "CREATED"
+    assert project_file["source_research_brief_id"] is None
     assert project_file["source_plan_id"] is None
 
     assert list(tmp_path.glob("production_plan_*.json")) == []
+    assert not (project_dirs[0] / "production-package").exists()
+
+
+def test_pipeline_stops_on_research_failure(monkeypatch, tmp_path):
+    """Research runs by default (Node 0) - a validator failure there must
+    fail fast exactly like every other stage (ARCHITECTURE.md §13), before
+    Story Planner ever runs."""
+    bad_research_response = json.dumps({"key_facts": [], "considerations": []})
+
+    with pytest.raises(SystemExit) as exc_info:
+        _run_app(
+            monkeypatch,
+            tmp_path,
+            ["app.py", "--idea", "A story that fails", "--duration", "30", "--skip-images"],
+            [bad_research_response],
+        )
+    assert exc_info.value.code == 1
+
+    project_dirs = list((tmp_path / "projects").iterdir())
+    assert len(project_dirs) == 1
+    project_file = json.loads((project_dirs[0] / "project.json").read_text())
+    assert project_file["status"] == "CREATED"
+    assert project_file["source_research_brief_id"] is None
+
+    assert list(tmp_path.glob("production_plan_*.json")) == []
+    assert not (project_dirs[0] / "production-package").exists()
+
+
+def test_pipeline_stops_on_voice_script_failure(monkeypatch, tmp_path):
+    """Voice Script runs last, after Prompt Intelligence - a validator failure
+    there must still fail fast (ARCHITECTURE.md §13) rather than exporting a
+    Production Package with a missing/invalid voice_script.txt."""
+    bad_voice_script_response = json.dumps({"lines": []})
+
+    with pytest.raises(SystemExit) as exc_info:
+        _run_app(
+            monkeypatch,
+            tmp_path,
+            ["app.py", "--idea", "A brave explorer", "--duration", "30", "--skip-images", "--skip-research"],
+            [_story_response(), _scene_response(), _shot_planner_response(), _camera_planner_response(),
+             _character_response(), _environment_response(),
+             _shot_response(SHOT_1_IMAGE_PROMPT, SHOT_1_MOTION_PROMPT),
+             _shot_response(SHOT_2_IMAGE_PROMPT, SHOT_2_MOTION_PROMPT),
+             bad_voice_script_response],
+        )
+    assert exc_info.value.code == 1
+
+    project_dirs = list((tmp_path / "projects").iterdir())
+    assert len(project_dirs) == 1
+    project_file = json.loads((project_dirs[0] / "project.json").read_text())
+    assert project_file["status"] == "ENVIRONMENTS_COMPLETE"
+    assert project_file["source_prompt_set_id"] is not None
+    assert project_file["source_voice_script_id"] is None
+
     assert not (project_dirs[0] / "production-package").exists()

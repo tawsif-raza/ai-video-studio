@@ -1,0 +1,16 @@
+{
+  "project_id": "3a666d07-19c6-4f3f-a8a0-3c8995c532e3",
+  "status": "PACKAGE_READY",
+  "created_at": "2026-07-24T10:44:54.912373Z",
+  "source_research_brief_id": null,
+  "source_plan_id": "e20d0219-102a-4f74-ab8c-5ea55f521cf3",
+  "source_storyboard_id": "d537e7b6-3a85-4c24-ab6c-6ee8dc6aee6c",
+  "source_shot_plan_id": "5ff4aa76-b4de-45a7-bba1-ca3d2e172213",
+  "source_camera_plan_id": "7b852a4b-0811-4e86-a438-643a33a71acd",
+  "source_character_sheet_id": "959a43c5-5802-47ae-8bba-97eb99db3633",
+  "source_environment_sheet_id": "0e1b52e5-abc3-4e94-884d-d2656199e6e9",
+  "source_prompt_set_id": "d1e08ac9-f491-449f-96f7-27f66cdb3061",
+  "source_voice_script_id": "24eae2e9-7d83-4d68-9b56-6b5207090fbc",
+  "production_package_dir": "D:\\ai_video_studio\\ai_video_studio\\outputs\\projects\\3a666d07-19c6-4f3f-a8a0-3c8995c532e3\\production-package",
+  "image_manifest_path": null
+}

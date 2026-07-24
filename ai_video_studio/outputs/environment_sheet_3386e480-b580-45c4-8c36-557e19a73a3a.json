@@ -1,0 +1,30 @@
+{
+  "environment_profiles": [
+    {
+      "setting": "Office",
+      "time_of_day": "daytime",
+      "weather": "sunny",
+      "key_visual_elements": [
+        "wooden desks",
+        "computer screens",
+        "whiteboards"
+      ],
+      "color_palette": [
+        "#4567b7",
+        "#6495ed",
+        "#87ceeb"
+      ],
+      "lighting": "bright and airy",
+      "atmosphere": "modern and innovative",
+      "art_style_keywords": [
+        "clean lines",
+        "minimalist",
+        "digital"
+      ],
+      "reference_prompt": "A modern office space with large windows, sleek wooden desks, and several computer screens displaying lines of code, with a few employees in the background collaborating and discussing their work, all under a bright and airy lighting that emphasizes the feeling of innovation and progress."
+    }
+  ],
+  "sheet_id": "3386e480-b580-45c4-8c36-557e19a73a3a",
+  "source_plan_id": "f160f0fb-15c7-4931-b312-0f17d7a1c0dc",
+  "generated_at": "2026-07-24T10:58:36.888832"
+}

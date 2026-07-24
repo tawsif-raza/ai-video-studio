@@ -1,0 +1,47 @@
+[
+  {
+    "scene_id": 1,
+    "shot_id": 1,
+    "video_motion_prompt": "Finnley slowly moves forward, his paws making gentle steps towards the road, as the camera dollies in over 2 seconds, drawing the viewer's attention closer to Finnley's cautious approach."
+  },
+  {
+    "scene_id": 1,
+    "shot_id": 2,
+    "video_motion_prompt": "The camera pans left as Finnley takes a step back, his bushy tail flicking slightly with the movement, over the course of 2 seconds."
+  },
+  {
+    "scene_id": 2,
+    "shot_id": 3,
+    "video_motion_prompt": "Olwen glides smoothly towards Finnley, her wings spread slightly for balance, as the camera tracks her gentle movement over 2 seconds, maintaining an eye-level perspective."
+  },
+  {
+    "scene_id": 2,
+    "shot_id": 4,
+    "video_motion_prompt": "As Olwen offers words of wisdom, the camera zooms out over 3 seconds, capturing the exchange between Finnley and Olwen against the bustling roadside backdrop."
+  },
+  {
+    "scene_id": 3,
+    "shot_id": 5,
+    "video_motion_prompt": "Olwen's head turns slightly as she speaks, while Finnley's ears perk up to listen, and the camera remains static for the 2-second duration of the shot."
+  },
+  {
+    "scene_id": 3,
+    "shot_id": 6,
+    "video_motion_prompt": "Finnley's head tilts up slightly as he looks up at Olwen, while the camera follows this movement with a smooth tilt up, over the course of 2 seconds."
+  },
+  {
+    "scene_id": 3,
+    "shot_id": 7,
+    "video_motion_prompt": "The camera cranes up over the course of 2 seconds, as Finnley's expression changes to one of pride and Olwen's nod of approval becomes more pronounced, emphasizing their interaction and the significance of the moment."
+  },
+  {
+    "scene_id": 4,
+    "shot_id": 8,
+    "video_motion_prompt": "As Finnley and Olwen walk towards the road, the camera dollies out to reveal more of their surroundings, capturing the dynamic movement of the duo against the static backdrop of the road and its surroundings over the course of 2 seconds."
+  },
+  {
+    "scene_id": 4,
+    "shot_id": 9,
+    "video_motion_prompt": "Finnley and Olwen move steadily across the road, while the camera pans right, following their journey for 3 seconds."
+  }
+]

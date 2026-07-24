@@ -1,0 +1,67 @@
+[
+  {
+    "scene_id": 1,
+    "shots": [
+      {
+        "shot_id": 1,
+        "camera_angle": "low",
+        "camera_movement": "dolly in"
+      },
+      {
+        "shot_id": 2,
+        "camera_angle": "high",
+        "camera_movement": "pan left"
+      }
+    ]
+  },
+  {
+    "scene_id": 2,
+    "shots": [
+      {
+        "shot_id": 3,
+        "camera_angle": "eye level",
+        "camera_movement": "track"
+      },
+      {
+        "shot_id": 4,
+        "camera_angle": "medium shot",
+        "camera_movement": "zoom out"
+      }
+    ]
+  },
+  {
+    "scene_id": 3,
+    "shots": [
+      {
+        "shot_id": 5,
+        "camera_angle": "over the shoulder",
+        "camera_movement": "static"
+      },
+      {
+        "shot_id": 6,
+        "camera_angle": "point of view",
+        "camera_movement": "tilt up"
+      },
+      {
+        "shot_id": 7,
+        "camera_angle": "wide shot",
+        "camera_movement": "crane up"
+      }
+    ]
+  },
+  {
+    "scene_id": 4,
+    "shots": [
+      {
+        "shot_id": 8,
+        "camera_angle": "bird's eye view",
+        "camera_movement": "dolly out"
+      },
+      {
+        "shot_id": 9,
+        "camera_angle": "follow shot",
+        "camera_movement": "pan right"
+      }
+    ]
+  }
+]

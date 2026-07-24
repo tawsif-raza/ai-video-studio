@@ -1,0 +1,14 @@
+{
+  "project_id": "cabc2ff8-2d75-412b-823e-cda77e5188ce",
+  "status": "PACKAGE_READY",
+  "created_at": "2026-07-24T10:24:48.163122Z",
+  "source_research_brief_id": null,
+  "source_plan_id": "dc5101ee-3822-4c39-8edd-8cf9f164474a",
+  "source_storyboard_id": "a5b52ebd-2ec8-4383-9da1-d5cd230e638e",
+  "source_character_sheet_id": "2434b668-1cba-4b32-ba4b-29a8b5c82472",
+  "source_environment_sheet_id": "c2e85bf4-3c71-4903-9d5a-1c77609229bc",
+  "source_prompt_set_id": "7a585b00-0584-4468-b3fd-eeb3549960a6",
+  "source_voice_script_id": "c25cac4a-e437-4631-85f6-948172cf3b84",
+  "production_package_dir": "D:\\ai_video_studio\\ai_video_studio\\outputs\\projects\\cabc2ff8-2d75-412b-823e-cda77e5188ce\\production-package",
+  "image_manifest_path": null
+}

@@ -1,0 +1,52 @@
+[
+  {
+    "scene_id": 1,
+    "shot_id": 1,
+    "video_motion_prompt": "The camera remains static for the duration of the shot, capturing the dynamic movement of the chefs as they hurry around the kitchen, with pots clanging and utensils flying through the air."
+  },
+  {
+    "scene_id": 2,
+    "shot_id": 1,
+    "video_motion_prompt": "The camera dollies in over 4 seconds, focusing on the interaction between Chef Thompson and Alex Chen as the task is assigned, with the chaotic kitchen blurring slightly in the background."
+  },
+  {
+    "scene_id": 2,
+    "shot_id": 2,
+    "video_motion_prompt": "The camera remains static for 2 seconds, capturing Alex's intense reaction to the task at hand, as their hands move with precision to plate the dish."
+  },
+  {
+    "scene_id": 2,
+    "shot_id": 3,
+    "video_motion_prompt": "The camera pans across the kitchen, capturing the chaos and urgency of the environment, as Chef Thompson's expression remains stern and unchanging, with the camera moving from one side of the kitchen to the other in a smooth, 2-second pan."
+  },
+  {
+    "scene_id": 3,
+    "shot_id": 1,
+    "video_motion_prompt": "The camera cranes down over the kitchen, moving swiftly to frame Alex and Chef Thompson, as Alex presents the dish with precision and finesse, the camera continuing its smooth descent to emphasize the moment of presentation."
+  },
+  {
+    "scene_id": 3,
+    "shot_id": 2,
+    "video_motion_prompt": "The camera remains static for 3 seconds, capturing the dish from Chef Thompson's viewpoint without any movement, as the hustle and bustle of the commercial kitchen continues in the background."
+  },
+  {
+    "scene_id": 3,
+    "shot_id": 3,
+    "video_motion_prompt": "The camera slowly dollies out over 5 seconds, widening the frame to reveal more of the tense, chaotic kitchen environment around Alex and Chef Thompson, as they stand frozen, awaiting judgment."
+  },
+  {
+    "scene_id": 4,
+    "shot_id": 1,
+    "video_motion_prompt": "Chef Thompson's lips move slightly as they pronounce their verdict, the camera remains static, capturing the intensity of the moment."
+  },
+  {
+    "scene_id": 4,
+    "shot_id": 2,
+    "video_motion_prompt": "The camera pans across Alex's face, capturing their reaction to the verdict, as their expression changes from focus to a mix of emotions, while the chaotic kitchen environment blurs slightly in the background."
+  },
+  {
+    "scene_id": 4,
+    "shot_id": 3,
+    "video_motion_prompt": "The camera remains still, capturing the moment of tension between the two chefs, as the kitchen activity around them pauses for a brief instant."
+  }
+]

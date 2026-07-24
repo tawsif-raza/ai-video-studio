@@ -1,0 +1,79 @@
+{
+  "prompt_set_id": "d1e08ac9-f491-449f-96f7-27f66cdb3061",
+  "source_storyboard_id": "d537e7b6-3a85-4c24-ab6c-6ee8dc6aee6c",
+  "shots": [
+    {
+      "image_prompt": "In a whimsical yet realistic style, a young, slender fox named Finnley with orange-red fur and a curious expression stands cautiously at the edge of a sunny afternoon roadside, his bushy tail twitching as he looks around, set against a backdrop of a busy road with a few puffy white clouds in the sky and a gentle breeze rustling the leaves of the trees, where a wise old owl perches on a nearby branch, with Finnley positioned in front of a street sign, captured from a low camera angle as if the viewer is looking up at the scene.",
+      "video_motion_prompt": "Finnley slowly moves forward, his paws making gentle steps towards the road, as the camera dollies in over 2 seconds, drawing the viewer's attention closer to Finnley's cautious approach.",
+      "scene_id": 1,
+      "shot_id": 1,
+      "duration_seconds": 2,
+      "generated_at": "2026-07-24T10:46:03.062190"
+    },
+    {
+      "image_prompt": "A young, slender fox with orange-red fur and a curious expression, standing in front of a sunny afternoon roadside with a street sign, looks out at the road with a concerned expression, while a wise old owl perches on a nearby tree branch, amidst a few puffy white clouds in the sky and a gentle breeze rustling the leaves, captured from a high angle as the fox takes a step back in uncertainty, with a bushy tail and a whimsical yet realistic art style conveying education and awareness.",
+      "video_motion_prompt": "The camera pans left as Finnley takes a step back, his bushy tail flicking slightly with the movement, over the course of 2 seconds.",
+      "scene_id": 1,
+      "shot_id": 2,
+      "duration_seconds": 2,
+      "generated_at": "2026-07-24T10:46:03.691722"
+    },
+    {
+      "image_prompt": "In a whimsical yet realistic style, a young, slender fox named Finnley with orange-red fur, a curious expression, and a bushy tail stands in front of a street sign on a sunny afternoon roadside, looking out at the road with a concerned expression. Nearby, a wise old owl named Olwen with feathers in various shades of brown, large round eyes, and a hooked beak, wearing large, round glasses, perches on a tree branch overlooking the road. The scene is set against a backdrop of a busy road with a few puffy white clouds in the sky and a gentle breeze rustling the leaves. The camera is at eye level, capturing the moment as Olwen begins to approach Finnley with a gentle demeanor.",
+      "video_motion_prompt": "Olwen glides smoothly towards Finnley, her wings spread slightly for balance, as the camera tracks her gentle movement over 2 seconds, maintaining an eye-level perspective.",
+      "scene_id": 2,
+      "shot_id": 3,
+      "duration_seconds": 2,
+      "generated_at": "2026-07-24T10:46:04.495034"
+    },
+    {
+      "image_prompt": "In a whimsical and realistic style, a young, slender fox named Finnley with orange-red fur and a bushy tail stands in front of a street sign on a sunny afternoon roadside, looking concerned as he gazes out at the busy road, while a wise old owl named Olwen perches on a nearby tree branch, wearing large, round glasses and possessing large round eyes and a hooked beak, amidst a few puffy white clouds and gently rustling leaves, with Finnley positioned in a medium shot, receiving guidance and reassurance from Olwen.",
+      "video_motion_prompt": "As Olwen offers words of wisdom, the camera zooms out over 3 seconds, capturing the exchange between Finnley and Olwen against the bustling roadside backdrop.",
+      "scene_id": 2,
+      "shot_id": 4,
+      "duration_seconds": 3,
+      "generated_at": "2026-07-24T10:46:05.162496"
+    },
+    {
+      "image_prompt": "In a whimsical and realistic style, a young, slender fox with orange-red fur and a curious expression, Finnley, stands in front of a street sign on a sunny afternoon roadside, looking out at the road with a concerned expression. Nearby, a wise old owl, Olwen, with feathers in various shades of brown, large round eyes, and a hooked beak, wearing large, round glasses, perches on a tree branch, overlooking the scene. The sky above has a few puffy white clouds, and a gentle breeze rustles the leaves. The camera is positioned over Finnley's shoulder, capturing Olwen as she teaches Finnley the importance of looking both ways, with the busy road and its background activities visible in the distance.",
+      "video_motion_prompt": "Olwen's head turns slightly as she speaks, while Finnley's ears perk up to listen, and the camera remains static for the 2-second duration of the shot.",
+      "scene_id": 3,
+      "shot_id": 5,
+      "duration_seconds": 2,
+      "generated_at": "2026-07-24T10:46:06.039298"
+    },
+    {
+      "image_prompt": "In a whimsical yet realistic style, a young, slender fox with orange-red fur and a curious expression, Finnley, stands near a street sign on a sunny afternoon roadside, looking out at the road with a concerned expression, while a wise old owl, Olwen, with feathers in various shades of brown, large round eyes, and a hooked beak, wearing large, round glasses, perches on a nearby tree branch, overseeing Finnley as he practices looking both ways, with a few puffy white clouds in the sky and a gentle breeze rustling the leaves, all captured from Finnley's point of view.",
+      "video_motion_prompt": "Finnley's head tilts up slightly as he looks up at Olwen, while the camera follows this movement with a smooth tilt up, over the course of 2 seconds.",
+      "scene_id": 3,
+      "shot_id": 6,
+      "duration_seconds": 2,
+      "generated_at": "2026-07-24T10:46:27.808237"
+    },
+    {
+      "image_prompt": "In a whimsical yet realistic style, a sunny afternoon roadside scene unfolds with a young, slender fox named Finnley, boasting orange-red fur and a curious expression, standing near a street sign, looking out at the busy road with a mix of concern and accomplishment, as a wise old owl named Olwen, with feathers in various shades of brown, large round eyes, and a hooked beak, wearing large, round glasses, perches on a nearby tree branch, nodding her head in approval, set against a sky with a few puffy white clouds, with a gentle breeze rustling the leaves, all captured in a wide shot.",
+      "video_motion_prompt": "The camera cranes up over the course of 2 seconds, as Finnley's expression changes to one of pride and Olwen's nod of approval becomes more pronounced, emphasizing their interaction and the significance of the moment.",
+      "scene_id": 3,
+      "shot_id": 7,
+      "duration_seconds": 2,
+      "generated_at": "2026-07-24T10:46:31.565731"
+    },
+    {
+      "image_prompt": "In a whimsical and realistic style, a bird's eye view captures Finnley the Fox, a young, slender fox with vibrant orange-red fur and a curious expression, standing alongside Olwen the Owl, a wise old owl with feathers in various shades of brown, large round eyes, and a hooked beak, who is wearing large, round glasses. Together, they approach the road, a bustling thoroughfare with a sidewalk, parked cars, and buildings in the background, under a sunny afternoon sky with a few puffy white clouds and trees whose leaves are gently rustled by the breeze.",
+      "video_motion_prompt": "As Finnley and Olwen walk towards the road, the camera dollies out to reveal more of their surroundings, capturing the dynamic movement of the duo against the static backdrop of the road and its surroundings over the course of 2 seconds.",
+      "scene_id": 4,
+      "shot_id": 8,
+      "duration_seconds": 2,
+      "generated_at": "2026-07-24T10:46:35.341747"
+    },
+    {
+      "image_prompt": "A young, slender fox with orange-red fur and a curious expression, standing next to a wise old owl with feathers in various shades of brown, large round eyes, and a hooked beak, wearing large, round glasses, as they cross a busy road together, set against a sunny afternoon backdrop with a sidewalk, parked cars, buildings, puffy white clouds, and trees with rustling leaves, captured in a whimsical yet realistic style conveying education and awareness, with the camera positioned in a follow shot, panning right to emphasize their movement and safety awareness, as the fox looks up at the owl for guidance while they both make their way to the other side.",
+      "video_motion_prompt": "Finnley and Olwen move steadily across the road, while the camera pans right, following their journey for 3 seconds.",
+      "scene_id": 4,
+      "shot_id": 9,
+      "duration_seconds": 3,
+      "generated_at": "2026-07-24T10:46:42.237688"
+    }
+  ],
+  "generated_at": "2026-07-24T10:46:42.238110"
+}

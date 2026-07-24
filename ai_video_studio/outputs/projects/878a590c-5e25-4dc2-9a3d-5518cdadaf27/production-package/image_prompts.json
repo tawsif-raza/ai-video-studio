@@ -1,0 +1,27 @@
+[
+  {
+    "scene_id": 1,
+    "shot_id": 1,
+    "image_prompt": "A high-angle view of John Doe, a developer in his 30s with short dark brown hair and brown eyes, wearing a navy blue shirt with a company logo, standing confidently and focused in front of a coding screen in a modern office space with large windows, sleek wooden desks, and several computer screens displaying lines of code, as he begins to introduce the test run, with a few employees collaborating and discussing their work in the background under bright and airy lighting that emphasizes innovation and progress."
+  },
+  {
+    "scene_id": 2,
+    "shot_id": 1,
+    "image_prompt": "In a modern office with large windows, sleek wooden desks, and several computer screens displaying lines of code, John Doe, a developer in his 30s with short dark brown hair and brown eyes, wearing a navy blue shirt with a company logo, stands confidently in front of a coding screen, preparing the environment for a test with a focused expression, as the camera captures him from an eye-level angle, with a few employees collaborating and discussing their work in the background, under bright and airy lighting that emphasizes innovation and progress."
+  },
+  {
+    "scene_id": 3,
+    "shot_id": 1,
+    "image_prompt": "In a modern office with large windows, sleek wooden desks, and computer screens displaying lines of code, John Doe, a developer in his 30s with short dark brown hair and brown eyes, stands confidently in front of a coding screen wearing a navy blue shirt with a company logo, his focused expression illuminated by the bright and airy lighting, as seen from a low-angle perspective that looks up at him, capturing his determined posture and the innovative atmosphere of the office."
+  },
+  {
+    "scene_id": 3,
+    "shot_id": 2,
+    "image_prompt": "A modern office space with large windows and sleek wooden desks, where John Doe, a developer in his 30s with short dark brown hair and brown eyes, wears a navy blue shirt with a company logo, standing confidently in front of a coding screen displaying lines of code, with a focused expression, as several employees collaborate in the background, all under bright and airy lighting, captured from an over-the-shoulder angle, with John's face and the screen in sharp focus."
+  },
+  {
+    "scene_id": 4,
+    "shot_id": 1,
+    "image_prompt": "A worms-eye view of John Doe, a developer in his 30s with short dark brown hair and brown eyes, wearing a navy blue shirt with a company logo, standing confidently in front of a coding screen with a focused expression, in a modern office space with large windows, sleek wooden desks, and several computer screens displaying lines of code, set against a minimalist background with a few employees collaborating in the distance, all under bright and airy lighting that emphasizes innovation and progress."
+  }
+]

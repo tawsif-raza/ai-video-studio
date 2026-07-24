@@ -1,0 +1,67 @@
+{
+  "scene_plans": [
+    {
+      "scene_id": 1,
+      "shots": [
+        {
+          "shot_id": 1,
+          "description": "John Doe stands in the office and begins to introduce the test run",
+          "characters_in_shot": [
+            "John Doe"
+          ],
+          "duration_seconds": 5
+        }
+      ]
+    },
+    {
+      "scene_id": 2,
+      "shots": [
+        {
+          "shot_id": 1,
+          "description": "John Doe sets up the test environment",
+          "characters_in_shot": [
+            "John Doe"
+          ],
+          "duration_seconds": 8
+        }
+      ]
+    },
+    {
+      "scene_id": 3,
+      "shots": [
+        {
+          "shot_id": 1,
+          "description": "John Doe runs the test",
+          "characters_in_shot": [
+            "John Doe"
+          ],
+          "duration_seconds": 6
+        },
+        {
+          "shot_id": 2,
+          "description": "John Doe verifies the commits",
+          "characters_in_shot": [
+            "John Doe"
+          ],
+          "duration_seconds": 6
+        }
+      ]
+    },
+    {
+      "scene_id": 4,
+      "shots": [
+        {
+          "shot_id": 1,
+          "description": "John Doe concludes the test run",
+          "characters_in_shot": [
+            "John Doe"
+          ],
+          "duration_seconds": 5
+        }
+      ]
+    }
+  ],
+  "storyboard_id": "c27ffba5-7ecc-4583-8966-1cedfec8cfaf",
+  "source_plan_id": "f160f0fb-15c7-4931-b312-0f17d7a1c0dc",
+  "generated_at": "2026-07-24T10:58:00.637625"
+}

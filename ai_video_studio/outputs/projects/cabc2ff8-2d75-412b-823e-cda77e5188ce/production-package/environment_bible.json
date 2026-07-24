@@ -1,0 +1,30 @@
+{
+  "environment_profiles": [
+    {
+      "setting": "Commercial Kitchen",
+      "time_of_day": "Late Afternoon",
+      "weather": "N/A (Indoor)",
+      "key_visual_elements": [
+        "stainless steel countertops",
+        "industrial cooking equipment",
+        "flames from stovetops"
+      ],
+      "color_palette": [
+        "deep greys",
+        "blazing oranges",
+        "smoke-stained whites"
+      ],
+      "lighting": "high-contrast with intense spotlighting",
+      "atmosphere": "intense and chaotic",
+      "art_style_keywords": [
+        "detailed textures",
+        "dynamic brushstrokes",
+        "vivid colouring"
+      ],
+      "reference_prompt": "A commercial kitchen in the late afternoon, with chefs rushing to prepare dishes amidst flames and steam, the air thick with the smells of cooking food, the walls and counters worn from years of use, and the overall atmosphere electric with tension and urgency."
+    }
+  ],
+  "sheet_id": "c2e85bf4-3c71-4903-9d5a-1c77609229bc",
+  "source_plan_id": "dc5101ee-3822-4c39-8edd-8cf9f164474a",
+  "generated_at": "2026-07-24T10:25:25.727250"
+}

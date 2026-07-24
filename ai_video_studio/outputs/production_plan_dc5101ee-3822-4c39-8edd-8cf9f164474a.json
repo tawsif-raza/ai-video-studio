@@ -1,0 +1,72 @@
+{
+  "title": "Trial by Fire",
+  "logline": "A young chef must navigate a chaotic kitchen to prove their skills.",
+  "theme": "Perseverance",
+  "target_duration_seconds": 30,
+  "tone": "Intense",
+  "characters": [
+    {
+      "name": "Alex Chen",
+      "role": "Protagonist",
+      "one_line_description": "A determined and talented young chef"
+    },
+    {
+      "name": "Chef Thompson",
+      "role": "Mentor",
+      "one_line_description": "A seasoned chef with high standards"
+    }
+  ],
+  "scenes": [
+    {
+      "scene_id": 1,
+      "title": "Introduction to Chaos",
+      "summary": "Alex enters a chaotic kitchen on their first day.",
+      "setting": "Commercial Kitchen",
+      "mood": "Overwhelming",
+      "characters_present": [
+        "Alex Chen",
+        "Chef Thompson"
+      ],
+      "estimated_duration_seconds": 5
+    },
+    {
+      "scene_id": 2,
+      "title": "The Challenge",
+      "summary": "Chef Thompson assigns Alex a difficult dish to prepare.",
+      "setting": "Commercial Kitchen",
+      "mood": "Intense",
+      "characters_present": [
+        "Alex Chen",
+        "Chef Thompson"
+      ],
+      "estimated_duration_seconds": 8
+    },
+    {
+      "scene_id": 3,
+      "title": "The Moment of Truth",
+      "summary": "Alex presents their dish to Chef Thompson for judgment.",
+      "setting": "Commercial Kitchen",
+      "mood": "Anxious",
+      "characters_present": [
+        "Alex Chen",
+        "Chef Thompson"
+      ],
+      "estimated_duration_seconds": 12
+    },
+    {
+      "scene_id": 4,
+      "title": "The Verdict",
+      "summary": "Chef Thompson provides feedback on Alex's dish.",
+      "setting": "Commercial Kitchen",
+      "mood": "Relieved",
+      "characters_present": [
+        "Alex Chen",
+        "Chef Thompson"
+      ],
+      "estimated_duration_seconds": 5
+    }
+  ],
+  "plan_id": "dc5101ee-3822-4c39-8edd-8cf9f164474a",
+  "source_idea": "test",
+  "generated_at": "2026-07-24T10:24:50.757678"
+}

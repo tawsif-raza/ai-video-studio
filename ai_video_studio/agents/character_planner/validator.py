@@ -1,6 +1,6 @@
 from agents.base.exceptions import ContractViolationError
 from agents.character_planner.schema import CharacterPlannerSchema
-from agents.story_planner.contract import ProductionPlan
+from shared_core.contracts.production_plan import ProductionPlan
 
 
 def validate_character_sheet(

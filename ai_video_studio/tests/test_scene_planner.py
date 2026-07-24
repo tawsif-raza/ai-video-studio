@@ -30,7 +30,7 @@ def _make_storyboard(shot_duration=15, char_name="Mira", scene_id=1):
                 scene_id=scene_id,
                 shots=[
                     ShotBrief(
-                        shot_id=1, camera_angle="wide shot", camera_movement="static",
+                        shot_id=1,
                         description="Mira stands in the forest",
                         characters_in_shot=[char_name], duration_seconds=shot_duration,
                     )

@@ -6,7 +6,8 @@ from agents.environment_planner.contract import EnvironmentSheet
 from agents.environment_planner.schema import EnvironmentProfile
 from agents.story_planner.contract import ProductionPlan
 from agents.story_planner.schema import CharacterBrief, SceneBrief
-from shared_core.lookups import find_characters_for_shot, find_environment_for_scene
+from shared_core.contracts.camera_plan import CameraPlan, CameraScenePlan, CameraShot
+from shared_core.lookups import find_camera_for_shot, find_characters_for_shot, find_environment_for_scene
 
 
 def _make_plan():
@@ -71,3 +72,30 @@ def test_find_characters_for_shot_success():
 def test_find_characters_for_shot_missing_raises():
     with pytest.raises(ValueError):
         find_characters_for_shot(["Ghost"], _make_character_sheet())
+
+
+def _make_camera_plan():
+    return CameraPlan(
+        scene_plans=[
+            CameraScenePlan(
+                scene_id=1,
+                shots=[CameraShot(shot_id=1, camera_angle="wide shot", camera_movement="static")],
+            )
+        ]
+    )
+
+
+def test_find_camera_for_shot_success():
+    shot = find_camera_for_shot(1, 1, _make_camera_plan())
+    assert shot.camera_angle == "wide shot"
+    assert shot.camera_movement == "static"
+
+
+def test_find_camera_for_shot_missing_scene_raises():
+    with pytest.raises(ValueError):
+        find_camera_for_shot(2, 1, _make_camera_plan())
+
+
+def test_find_camera_for_shot_missing_shot_raises():
+    with pytest.raises(ValueError):
+        find_camera_for_shot(1, 2, _make_camera_plan())

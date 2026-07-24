@@ -1,0 +1,61 @@
+{
+  "package_id": "cabc2ff8-2d75-412b-823e-cda77e5188ce",
+  "generated_at": "2026-07-24T10:26:21.252153+00:00",
+  "files": [
+    {
+      "name": "metadata.json",
+      "description": "Package-level metadata: project id, generation timestamps, target duration, art style.",
+      "status": "generated"
+    },
+    {
+      "name": "research_brief.json",
+      "description": "Supporting context and considerations gathered before story planning.",
+      "status": "skipped"
+    },
+    {
+      "name": "story.md",
+      "description": "Human-readable story: title, logline, theme, tone, character list, scene list.",
+      "status": "generated"
+    },
+    {
+      "name": "scene_plan.json",
+      "description": "Scene-level breakdown: setting, mood, characters present, estimated duration.",
+      "status": "generated"
+    },
+    {
+      "name": "shot_plan.json",
+      "description": "Per-scene shot list: what happens in each shot, characters in shot, duration.",
+      "status": "generated"
+    },
+    {
+      "name": "camera_plan.json",
+      "description": "Per-shot camera angle and movement.",
+      "status": "generated"
+    },
+    {
+      "name": "character_bible.json",
+      "description": "One visual profile per character.",
+      "status": "generated"
+    },
+    {
+      "name": "environment_bible.json",
+      "description": "One visual profile per unique setting.",
+      "status": "generated"
+    },
+    {
+      "name": "image_prompts.json",
+      "description": "Final, polished image-generation prompt per shot.",
+      "status": "generated"
+    },
+    {
+      "name": "video_prompts.json",
+      "description": "Final motion/camera prompt per shot.",
+      "status": "generated"
+    },
+    {
+      "name": "voice_script.txt",
+      "description": "Full narration/dialogue script in reading order.",
+      "status": "generated"
+    }
+  ]
+}

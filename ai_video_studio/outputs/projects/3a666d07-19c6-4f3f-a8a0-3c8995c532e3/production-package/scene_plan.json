@@ -1,0 +1,49 @@
+[
+  {
+    "scene_id": 1,
+    "title": "Introduction to Danger",
+    "summary": "Finnley approaches a busy road and hesitates.",
+    "setting": "Roadside",
+    "mood": "Caution",
+    "characters_present": [
+      "Finnley the Fox"
+    ],
+    "estimated_duration_seconds": 4
+  },
+  {
+    "scene_id": 2,
+    "title": "Meeting the Mentor",
+    "summary": "Olwen the Owl appears and offers to teach Finnley about road safety.",
+    "setting": "Roadside",
+    "mood": "Hopeful",
+    "characters_present": [
+      "Finnley the Fox",
+      "Olwen the Owl"
+    ],
+    "estimated_duration_seconds": 5
+  },
+  {
+    "scene_id": 3,
+    "title": "Safe Crossing",
+    "summary": "Olwen teaches Finnley how to safely cross the road.",
+    "setting": "Roadside",
+    "mood": "Empowering",
+    "characters_present": [
+      "Finnley the Fox",
+      "Olwen the Owl"
+    ],
+    "estimated_duration_seconds": 6
+  },
+  {
+    "scene_id": 4,
+    "title": "Successful Crossing",
+    "summary": "Finnley successfully crosses the road with Olwen's guidance.",
+    "setting": "Other side of the road",
+    "mood": "Triumphant",
+    "characters_present": [
+      "Finnley the Fox",
+      "Olwen the Owl"
+    ],
+    "estimated_duration_seconds": 5
+  }
+]

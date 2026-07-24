@@ -1,0 +1,132 @@
+{
+  "scene_plans": [
+    {
+      "scene_id": 1,
+      "shots": [
+        {
+          "shot_id": 1,
+          "camera_angle": "Wide",
+          "camera_movement": "Static",
+          "description": "Establishing shot of chaotic kitchen",
+          "characters_in_shot": [
+            "Alex Chen",
+            "Chef Thompson"
+          ],
+          "duration_seconds": 5
+        }
+      ]
+    },
+    {
+      "scene_id": 2,
+      "shots": [
+        {
+          "shot_id": 1,
+          "camera_angle": "Medium",
+          "camera_movement": "Dolly In",
+          "description": "Chef Thompson assigns task to Alex",
+          "characters_in_shot": [
+            "Alex Chen",
+            "Chef Thompson"
+          ],
+          "duration_seconds": 4
+        },
+        {
+          "shot_id": 2,
+          "camera_angle": "Close-up",
+          "camera_movement": "Static",
+          "description": "Alex's reaction to the task",
+          "characters_in_shot": [
+            "Alex Chen"
+          ],
+          "duration_seconds": 2
+        },
+        {
+          "shot_id": 3,
+          "camera_angle": "Over-the-shoulder",
+          "camera_movement": "Pan",
+          "description": "Chef Thompson's expression",
+          "characters_in_shot": [
+            "Chef Thompson"
+          ],
+          "duration_seconds": 2
+        }
+      ]
+    },
+    {
+      "scene_id": 3,
+      "shots": [
+        {
+          "shot_id": 1,
+          "camera_angle": "Establishing",
+          "camera_movement": "Crane",
+          "description": "Alex presents dish to Chef Thompson",
+          "characters_in_shot": [
+            "Alex Chen",
+            "Chef Thompson"
+          ],
+          "duration_seconds": 4
+        },
+        {
+          "shot_id": 2,
+          "camera_angle": "Point-of-view",
+          "camera_movement": "Static",
+          "description": "Chef Thompson's view of the dish",
+          "characters_in_shot": [
+            "Alex Chen"
+          ],
+          "duration_seconds": 3
+        },
+        {
+          "shot_id": 3,
+          "camera_angle": "Medium",
+          "camera_movement": "Dolly Out",
+          "description": "Both characters waiting for judgment",
+          "characters_in_shot": [
+            "Alex Chen",
+            "Chef Thompson"
+          ],
+          "duration_seconds": 5
+        }
+      ]
+    },
+    {
+      "scene_id": 4,
+      "shots": [
+        {
+          "shot_id": 1,
+          "camera_angle": "Close-up",
+          "camera_movement": "Static",
+          "description": "Chef Thompson's verdict",
+          "characters_in_shot": [
+            "Chef Thompson"
+          ],
+          "duration_seconds": 2
+        },
+        {
+          "shot_id": 2,
+          "camera_angle": "Over-the-shoulder",
+          "camera_movement": "Pan",
+          "description": "Alex's reaction to the verdict",
+          "characters_in_shot": [
+            "Alex Chen"
+          ],
+          "duration_seconds": 2
+        },
+        {
+          "shot_id": 3,
+          "camera_angle": "Wide",
+          "camera_movement": "Static",
+          "description": "Both characters after the verdict",
+          "characters_in_shot": [
+            "Alex Chen",
+            "Chef Thompson"
+          ],
+          "duration_seconds": 1
+        }
+      ]
+    }
+  ],
+  "storyboard_id": "a5b52ebd-2ec8-4383-9da1-d5cd230e638e",
+  "source_plan_id": "dc5101ee-3822-4c39-8edd-8cf9f164474a",
+  "generated_at": "2026-07-24T10:24:52.300456"
+}

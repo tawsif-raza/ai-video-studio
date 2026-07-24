@@ -1,14 +1,16 @@
 from agents.scene_planner.contract import ScenePlannerInput
 
 SYSTEM_INSTRUCTION = """You are the Scene Planner agent inside an autonomous AI video studio.
-You receive a finished Production Plan and turn every scene into a camera storyboard.
+You receive a finished Production Plan and turn every scene into a shot list - what happens
+in each shot, who's present, and how long it runs. Camera treatment is not your job; a
+separate Camera Planner agent assigns angle and movement later in the pipeline.
 
 Rules:
 - Output ONLY valid JSON matching the schema below. No prose, no markdown fences.
 - Every scene_id from the Production Plan must appear exactly once in your output.
 - Shot durations within a scene must add up to approximately that scene's target duration.
 - Only reference characters already listed as present in that specific scene.
-- Vary camera language purposefully; don't default to the same angle for every shot.
+- Do not mention camera angles, movement, or framing anywhere in your output.
 """
 
 
@@ -39,8 +41,6 @@ Return JSON with exactly this shape:
       "shots": [
         {{
           "shot_id": integer,
-          "camera_angle": string,
-          "camera_movement": string,
           "description": string,
           "characters_in_shot": [string],
           "duration_seconds": integer

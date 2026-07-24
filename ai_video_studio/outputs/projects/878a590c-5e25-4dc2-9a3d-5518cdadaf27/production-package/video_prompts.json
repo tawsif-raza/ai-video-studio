@@ -1,0 +1,27 @@
+[
+  {
+    "scene_id": 1,
+    "shot_id": 1,
+    "video_motion_prompt": "The camera dollies in over 5 seconds, zooming in on John Doe's determined expression as he starts the introduction of the test run, drawing attention to his confident stance."
+  },
+  {
+    "scene_id": 2,
+    "shot_id": 1,
+    "video_motion_prompt": "As John Doe moves his hands to adjust the screens, the camera pans to the left, following his movements, over the course of 8 seconds, smoothly revealing more of the modern office setting."
+  },
+  {
+    "scene_id": 3,
+    "shot_id": 1,
+    "video_motion_prompt": "The camera tilts up over 6 seconds as John Doe's hand reaches out to initiate the test, his confident expression unwavering."
+  },
+  {
+    "scene_id": 3,
+    "shot_id": 2,
+    "video_motion_prompt": "The camera zooms out over 6 seconds, as John Doe's hands move across the keyboard and mouse, reviewing test results and checking commits on the screen in front of him."
+  },
+  {
+    "scene_id": 4,
+    "shot_id": 1,
+    "video_motion_prompt": "As John Doe finalizes the test run and concludes, the camera crane-ups, rising from a worms-eye angle to a higher vantage point, capturing his triumphant expression and the bustling office environment in a smooth 5-second motion."
+  }
+]

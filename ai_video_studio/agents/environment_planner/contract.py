@@ -1,11 +1,11 @@
-﻿import uuid
-from datetime import datetime
-from typing import List, Optional
+﻿from typing import List, Optional
 
 from pydantic import BaseModel, Field
 
-from agents.environment_planner.schema import EnvironmentPlannerSchema
-from agents.story_planner.contract import ProductionPlan
+from shared_core.contracts.environment_sheet import EnvironmentSheet
+from shared_core.contracts.production_plan import ProductionPlan
+
+__all__ = ["EnvironmentPlannerInput", "EnvironmentSheet", "ProductionPlan", "get_unique_settings"]
 
 
 def get_unique_settings(production_plan: ProductionPlan) -> List[str]:
@@ -26,11 +26,3 @@ class EnvironmentPlannerInput(BaseModel):
     art_style: Optional[str] = Field(
         None, description="Should match the art_style passed to Character Planner for visual consistency"
     )
-
-
-class EnvironmentSheet(EnvironmentPlannerSchema):
-    """Public output contract - what Image/Video Generation consume next."""
-
-    sheet_id: str = Field(default_factory=lambda: str(uuid.uuid4()))
-    source_plan_id: str = ""
-    generated_at: datetime = Field(default_factory=datetime.utcnow)

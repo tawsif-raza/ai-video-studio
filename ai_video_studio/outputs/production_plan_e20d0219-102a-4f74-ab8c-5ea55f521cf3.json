@@ -1,0 +1,71 @@
+{
+  "title": "Road Safety Lesson",
+  "logline": "A young fox learns to navigate a busy road safely with the help of a wise old owl.",
+  "theme": "Safety and Awareness",
+  "target_duration_seconds": 20,
+  "tone": "Educational",
+  "characters": [
+    {
+      "name": "Finnley the Fox",
+      "role": "Protagonist",
+      "one_line_description": "A curious and adventurous young fox"
+    },
+    {
+      "name": "Olwen the Owl",
+      "role": "Mentor",
+      "one_line_description": "A wise and experienced owl who teaches road safety"
+    }
+  ],
+  "scenes": [
+    {
+      "scene_id": 1,
+      "title": "Introduction to Danger",
+      "summary": "Finnley approaches a busy road and hesitates.",
+      "setting": "Roadside",
+      "mood": "Caution",
+      "characters_present": [
+        "Finnley the Fox"
+      ],
+      "estimated_duration_seconds": 4
+    },
+    {
+      "scene_id": 2,
+      "title": "Meeting the Mentor",
+      "summary": "Olwen the Owl appears and offers to teach Finnley about road safety.",
+      "setting": "Roadside",
+      "mood": "Hopeful",
+      "characters_present": [
+        "Finnley the Fox",
+        "Olwen the Owl"
+      ],
+      "estimated_duration_seconds": 5
+    },
+    {
+      "scene_id": 3,
+      "title": "Safe Crossing",
+      "summary": "Olwen teaches Finnley how to safely cross the road.",
+      "setting": "Roadside",
+      "mood": "Empowering",
+      "characters_present": [
+        "Finnley the Fox",
+        "Olwen the Owl"
+      ],
+      "estimated_duration_seconds": 6
+    },
+    {
+      "scene_id": 4,
+      "title": "Successful Crossing",
+      "summary": "Finnley successfully crosses the road with Olwen's guidance.",
+      "setting": "Other side of the road",
+      "mood": "Triumphant",
+      "characters_present": [
+        "Finnley the Fox",
+        "Olwen the Owl"
+      ],
+      "estimated_duration_seconds": 5
+    }
+  ],
+  "plan_id": "e20d0219-102a-4f74-ab8c-5ea55f521cf3",
+  "source_idea": "A young fox learns to cross a busy road safely",
+  "generated_at": "2026-07-24T10:44:58.963211"
+}

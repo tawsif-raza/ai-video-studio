@@ -1,0 +1,106 @@
+{
+  "scene_plans": [
+    {
+      "scene_id": 1,
+      "shots": [
+        {
+          "shot_id": 1,
+          "description": "Finnley approaches the road and looks around cautiously",
+          "characters_in_shot": [
+            "Finnley the Fox"
+          ],
+          "duration_seconds": 2
+        },
+        {
+          "shot_id": 2,
+          "description": "Finnley hesitates and takes a step back",
+          "characters_in_shot": [
+            "Finnley the Fox"
+          ],
+          "duration_seconds": 2
+        }
+      ]
+    },
+    {
+      "scene_id": 2,
+      "shots": [
+        {
+          "shot_id": 3,
+          "description": "Olwen appears and approaches Finnley",
+          "characters_in_shot": [
+            "Finnley the Fox",
+            "Olwen the Owl"
+          ],
+          "duration_seconds": 2
+        },
+        {
+          "shot_id": 4,
+          "description": "Olwen speaks to Finnley and offers guidance",
+          "characters_in_shot": [
+            "Finnley the Fox",
+            "Olwen the Owl"
+          ],
+          "duration_seconds": 3
+        }
+      ]
+    },
+    {
+      "scene_id": 3,
+      "shots": [
+        {
+          "shot_id": 5,
+          "description": "Olwen teaches Finnley to look both ways",
+          "characters_in_shot": [
+            "Finnley the Fox",
+            "Olwen the Owl"
+          ],
+          "duration_seconds": 2
+        },
+        {
+          "shot_id": 6,
+          "description": "Finnley practices looking both ways with Olwen's guidance",
+          "characters_in_shot": [
+            "Finnley the Fox",
+            "Olwen the Owl"
+          ],
+          "duration_seconds": 2
+        },
+        {
+          "shot_id": 7,
+          "description": "Olwen nods in approval as Finnley masters the skill",
+          "characters_in_shot": [
+            "Finnley the Fox",
+            "Olwen the Owl"
+          ],
+          "duration_seconds": 2
+        }
+      ]
+    },
+    {
+      "scene_id": 4,
+      "shots": [
+        {
+          "shot_id": 8,
+          "description": "Finnley and Olwen approach the road together",
+          "characters_in_shot": [
+            "Finnley the Fox",
+            "Olwen the Owl"
+          ],
+          "duration_seconds": 2
+        },
+        {
+          "shot_id": 9,
+          "description": "Finnley successfully crosses the road with Olwen's guidance",
+          "characters_in_shot": [
+            "Finnley the Fox",
+            "Olwen the Owl"
+          ],
+          "duration_seconds": 3
+        }
+      ]
+    }
+  ],
+  "storyboard_id": "d537e7b6-3a85-4c24-ab6c-6ee8dc6aee6c",
+  "source_plan_id": "e20d0219-102a-4f74-ab8c-5ea55f521cf3",
+  "generated_at": "2026-07-24T10:45:00.239926"
+}

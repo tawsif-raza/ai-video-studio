@@ -1,0 +1,107 @@
+[
+  {
+    "scene_id": 1,
+    "shots": [
+      {
+        "shot_id": 1,
+        "description": "Establishing shot of chaotic kitchen",
+        "characters_in_shot": [
+          "Alex Chen",
+          "Chef Thompson"
+        ],
+        "duration_seconds": 5
+      }
+    ]
+  },
+  {
+    "scene_id": 2,
+    "shots": [
+      {
+        "shot_id": 1,
+        "description": "Chef Thompson assigns task to Alex",
+        "characters_in_shot": [
+          "Alex Chen",
+          "Chef Thompson"
+        ],
+        "duration_seconds": 4
+      },
+      {
+        "shot_id": 2,
+        "description": "Alex's reaction to the task",
+        "characters_in_shot": [
+          "Alex Chen"
+        ],
+        "duration_seconds": 2
+      },
+      {
+        "shot_id": 3,
+        "description": "Chef Thompson's expression",
+        "characters_in_shot": [
+          "Chef Thompson"
+        ],
+        "duration_seconds": 2
+      }
+    ]
+  },
+  {
+    "scene_id": 3,
+    "shots": [
+      {
+        "shot_id": 1,
+        "description": "Alex presents dish to Chef Thompson",
+        "characters_in_shot": [
+          "Alex Chen",
+          "Chef Thompson"
+        ],
+        "duration_seconds": 4
+      },
+      {
+        "shot_id": 2,
+        "description": "Chef Thompson's view of the dish",
+        "characters_in_shot": [
+          "Alex Chen"
+        ],
+        "duration_seconds": 3
+      },
+      {
+        "shot_id": 3,
+        "description": "Both characters waiting for judgment",
+        "characters_in_shot": [
+          "Alex Chen",
+          "Chef Thompson"
+        ],
+        "duration_seconds": 5
+      }
+    ]
+  },
+  {
+    "scene_id": 4,
+    "shots": [
+      {
+        "shot_id": 1,
+        "description": "Chef Thompson's verdict",
+        "characters_in_shot": [
+          "Chef Thompson"
+        ],
+        "duration_seconds": 2
+      },
+      {
+        "shot_id": 2,
+        "description": "Alex's reaction to the verdict",
+        "characters_in_shot": [
+          "Alex Chen"
+        ],
+        "duration_seconds": 2
+      },
+      {
+        "shot_id": 3,
+        "description": "Both characters after the verdict",
+        "characters_in_shot": [
+          "Alex Chen",
+          "Chef Thompson"
+        ],
+        "duration_seconds": 1
+      }
+    ]
+  }
+]
