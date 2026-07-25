@@ -12,7 +12,14 @@ class ProjectState(str, Enum):
     CAMERA_COMPLETE were added once the Shot Planner and Camera Planner agents
     landed (roadmap Phase 7), closing the gap tracked in the Active Technical
     Debt Ledger. RESEARCHED was added once the Research agent (roadmap Phase 8)
-    landed.
+    landed. MEDIA_IMPORTED was added once Asset Validation landed (roadmap
+    Phase 11, Milestone 1). EDIT_PLAN_READY was added once the last of the six
+    planning sub-stages landed (Publishing Metadata, roadmap Phase 11,
+    Milestone 7): it means Timeline, Subtitle, Music, Editing, Thumbnail, AND
+    Publishing Metadata are ALL done, exactly as PROMPTS_COMPLETE requires both
+    Prompt Intelligence and Voice Script. VIDEO_RENDERED and PUBLISHED are
+    still not implemented, since FFmpeg Export and the publishing executor
+    don't exist yet.
     """
 
     CREATED = "CREATED"
@@ -25,6 +32,8 @@ class ProjectState(str, Enum):
     ENVIRONMENTS_COMPLETE = "ENVIRONMENTS_COMPLETE"
     PROMPTS_COMPLETE = "PROMPTS_COMPLETE"
     PACKAGE_READY = "PACKAGE_READY"
+    MEDIA_IMPORTED = "MEDIA_IMPORTED"
+    EDIT_PLAN_READY = "EDIT_PLAN_READY"
 
 
 class Project(BaseModel):
@@ -51,3 +60,11 @@ class Project(BaseModel):
     source_voice_script_id: Optional[str] = None
     production_package_dir: Optional[str] = None
     image_manifest_path: Optional[str] = None
+    source_asset_manifest_id: Optional[str] = None
+    source_timeline_id: Optional[str] = None
+    source_subtitle_plan_id: Optional[str] = None
+    source_music_plan_id: Optional[str] = None
+    source_editing_plan_id: Optional[str] = None
+    source_thumbnail_plan_id: Optional[str] = None
+    source_publishing_metadata_id: Optional[str] = None
+    producer_package_dir: Optional[str] = None
