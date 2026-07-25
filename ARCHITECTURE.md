@@ -1,8 +1,8 @@
-# AI Video Studio 
+# AI Video Studio
 — Architecture
 
 **Status:** Frozen / Approved
-**Scope:** This document describes the **target architecture** — the system after migration is complete, not the current implementation. It is the single source of truth. Every future code change must align with it. Where the current codebase differs, the difference is tracked in [§15 Migration Roadmap](#15-migration-roadmap), not resolved by silently deviating from this document.
+**Scope:** This document describes the **implemented v1 system** — Director Studio, Producer Studio, and the FFmpeg Execution Engine, as they actually exist in the repository today. It is the single source of truth. Every future code change must align with it. Where a future change needs to differ, the difference is proposed as an amendment to this document first (§20), not made silently. This revision (v2.0.0, §22) resynchronizes the document with the implementation after Producer Studio (7 milestones) and the FFmpeg Execution Engine (4 milestones) shipped without corresponding doc updates — see §22 for what changed and why.
 
 ---
 
@@ -10,115 +10,136 @@
 
 AI Video Studio is an **AI Production Planning Platform**, not an AI media generator.
 
-Think of it as a movie production company split into two studios:
+Think of it as a movie production company with three parts:
 
 - **Director Studio** acts like the film director. It researches, writes the story, breaks it into scenes and shots, designs characters and environments, plans camera movement, and writes prompts. Its output is a complete **Production Package**.
-- **Producer Studio** acts like the film producer. It takes a Production Package plus media the human has generated with their own preferred tools, validates it, builds a timeline, plans subtitles and music, creates an editing plan, and assembles the final video with FFmpeg.
+- **Producer Studio** acts like the film producer. It takes a Production Package plus media the human has generated with their own preferred tools, validates it, builds a timeline, plans subtitles and music, produces an editing plan, a thumbnail strategy, and publishing metadata. Its output is a complete **Producer Package** — a deterministic, machine-readable *plan* for the final video, not the video itself.
+- **The FFmpeg Execution Engine** is the film's actual post-production/render step. It is a separate, fourth top-level component (`execution_engine/`) that consumes a completed Producer Package and compiles + executes it into a real rendered video file, verifying the output before the project is considered done.
 
-Between the two studios sits a deliberate, permanent human step: **the human generates the actual images, video, and voice** using whatever tools they prefer — Gemini, Veo, Flux, Midjourney, ElevenLabs, or anything else — and selects the best results. The AI's job in that step is finished the moment the Production Package is exported.
+Between Director Studio and Producer Studio sits a deliberate, permanent human step: **the human generates the actual images, video, and voice** using whatever tools they prefer — Gemini, Veo, Flux, Midjourney, ElevenLabs, or anything else — and selects the best results. The AI's job in that step is finished the moment the Production Package is exported.
 
-The platform's value is the *planning intelligence* — story structure, shot coverage, character/environment consistency, prompt quality, editing structure — not the pixels or audio themselves.
+The platform's value is the *planning and assembly intelligence* — story structure, shot coverage, character/environment consistency, prompt quality, editing structure, and finally correct, verified rendering — not the pixels or audio themselves. No component in this system ever generates creative media content; the Execution Engine's own output (a rendered `.mp4`) is a mechanical compilation of already-made planning decisions, not a new creative act.
 
 ---
 
 ## 2. Design Philosophy
 
-- **Planning, not generation.** No component in this system calls an image, video, or voice generation API as part of its core responsibility. The one exception (a manual, explicitly-invoked preview tool) is opt-in and never part of the default pipeline.
+- **Planning, not generation.** No component in this system calls an image, video, or voice generation API as part of its core responsibility. The one exception (a manual, explicitly-invoked preview tool, `agents/image_generator/`) is opt-in via `--generate-images` and never part of the default pipeline.
 - **Tool-agnostic by construction.** Prompts and specs in the Production Package are written to work with any external generative tool, not tuned to one vendor.
-- **Single responsibility per agent.** Every planner does exactly one job, consumes one typed input contract, and produces one typed output contract. An agent that starts doing two things is a signal to split it. Voice Script and Prompt Intelligence, for example, both write text into the package, but narration and shot-prompt composition are different skills with different inputs and different validation rules — they stay separate agents rather than merging into one.
+- **Single responsibility per agent.** Every planner does exactly one job, consumes one typed input contract, and produces one typed output contract. An agent that starts doing two things is a signal to split it.
 - **Contracts over conversation.** Agents never pass ad hoc dicts to each other. All inter-agent data exchange happens through typed Pydantic contracts, validated at the boundary.
-- **Two-layer validation.** Every LLM output passes through *shape* validation (does the JSON match the schema?) and *business* validation (is the content actually correct — right scene coverage, right duration, no orphaned references?). Shape validation alone is not enough for an unsupervised LLM pipeline.
-- **Projects, not files.** All work is organized around a persistent **Project**, not disconnected UUID-stamped JSON files in a flat folder. A Project is the unit of storage, versioning, and resumability — and **Project Manager** (§4) is its sole gatekeeper: neither studio ever touches a filesystem, database, or object store directly.
-- **What a thing is, and how it's written, are different concerns.** Shared Core defines the typed shape of the Production Package and Producer Package. Project Manager owns turning those typed objects into files. An agent producing a `CharacterBible` doesn't know or care whether it ends up as JSON on a laptop or a row in Postgres.
-- **Incremental evolution.** The architecture evolves by refactoring and extending working code, not by rewriting. Existing agents, contracts, and validators are the foundation being built on, not scaffolding to discard.
-- **The human checkpoint is a feature, not a gap.** The hard boundary between Director Studio's output and Producer Studio's input is intentional — creative media selection is a human decision that no agent should make on the user's behalf.
+- **Two-layer validation for LLM-backed agents.** Every LLM output passes through *shape* validation (does the JSON match the schema?) and *business* validation (is the content actually correct?). Deterministic agents (Producer Studio's planning stages, the Execution Engine's pure modules) apply the same "structural validation, then business-rule validation" discipline without an LLM in the loop — see §7's deterministic-agent convention.
+- **Projects, not files.** All work is organized around a persistent **Project**, not disconnected UUID-stamped JSON files in a flat folder. **Project Manager** (§4) is its sole gatekeeper: no agent, controller, or the Execution Engine's planning-adjacent modules ever touch a filesystem directly.
+- **What a thing is, and how it's written, are different concerns.** Shared Core defines the typed shape of every package and report. Project Manager owns turning those typed objects into files.
+- **Incremental evolution.** The architecture evolves by refactoring and extending working code, not by rewriting.
+- **The human checkpoint is a feature, not a gap.** The hard boundary between Director Studio's output and Producer Studio's input is intentional.
+- **Content verification gates state, not process success alone.** A stage "running without error" is not the same as its output being *correct*. This is explicit in two places: Asset Validation only advances state when `is_valid=True` (not merely when it ran), and the Execution Engine only reaches `VIDEO_RENDERED` when both the ffmpeg process succeeded *and* independent postflight verification of the actual rendered file passed (§7, §9).
 
 ---
 
 ## 3. High-Level Architecture
 
 ```
-User / CLI / Future UI
+User / CLI (app.py · producer_app.py · render_app.py)
         │
         ▼
-┌─────────────────────────────────────────────────────────┐
-│                       Project Manager                      │
-│  creation · loading · saving · manifests · metadata ·      │
-│  package export · lifecycle & state management              │
-└───────────┬───────────────────────────────┬───────────────┘
-            │ invokes, receives              │ invokes, receives
-            │ typed results only             │ typed results only
-            ▼                                ▼
-  ┌───────────────────┐            ┌───────────────────┐
-  │  Director Studio    │            │  Producer Studio    │
-  │  (planning only,    │            │  (assembly only,    │
-  │   zero file I/O)    │            │   zero file I/O*)   │
-  └──────────┬─────────┘            └──────────▲──────────┘
-             │                                  │
-             ▼                                  │
-   ┌───────────────────┐              ┌───────────────────┐
-   │ Production Package  │───HUMAN────▶│ Human-imported      │
-   │ (serialized by      │  generates  │ media (validated     │
-   │  Project Manager)   │  media      │  by Project Manager) │
-   └───────────────────┘              └───────────────────┘
-```
-*_FFmpeg Export is the one sanctioned exception — see §6._
-
-Dependency layering:
-
-```
-┌───────────────────────────────────────────────────┐
-│                    Shared Core                      │
-│  BaseAgent · Package Schemas · LLM Clients · Models  │
-│  · Utils · Config · Exceptions                        │
-└───────────────────────┬───────────────────────────┘
-                         │
-                         ▼
-              ┌───────────────────────┐
-              │     Project Manager     │
-              │ (persistence, lifecycle,│
-              │  package serialization) │
-              └──────────┬─────┬───────┘
-                    invokes│    │invokes
-                         ▼      ▼
-              ┌──────────────┐ ┌──────────────┐
-              │ Director      │ │ Producer      │
-              │ Studio        │ │ Studio        │
-              └──────────────┘ └──────────────┘
+┌─────────────────────────────────────────────────────────────┐
+│                        Project Manager                         │
+│  creation · loading · saving · manifests · metadata ·          │
+│  package export · render report/validation export ·            │
+│  lifecycle & state management                                  │
+└───────┬───────────────────┬───────────────────┬───────────────┘
+        │ invokes            │ invokes            │ invokes
+        │ typed results only │ typed results only  │ typed results only
+        ▼                    ▼                    ▼
+┌───────────────┐   ┌───────────────┐   ┌─────────────────────┐
+│ Director        │   │ Producer        │   │ FFmpeg Execution      │
+│ Studio          │   │ Studio          │   │ Engine                │
+│ (planning only, │   │ (planning only, │   │ (compiles + runs      │
+│  zero file I/O) │   │  zero file I/O) │   │  ffmpeg; writes the   │
+└────────┬────────┘   └────────▲────────┘   │  rendered video and   │
+         │                     │             │  its own reports —    │
+         ▼                     │             │  the one sanctioned    │
+┌───────────────────┐  ┌───────────────────┐ │  media-I/O exception) │
+│ Production Package  │─▶│ Human-imported     │ └──────────▲────────────┘
+│ (serialized by      │HUMAN│ media (validated│            │ invokes
+│  Project Manager)   │generates│ by Project   │            │ typed results only
+└───────────────────┘  │ Manager)           │              │
+                        └───────────────────┘              │
+                                  │                          │
+                                  ▼                          │
+                        ┌───────────────────┐                │
+                        │ Producer Package    │───────────────┘
+                        │ (serialized by      │
+                        │  Project Manager)    │
+                        └───────────────────┘
 ```
 
-**Note on direction:** the vision-level chain (Shared Core → Project Manager → Director Studio → Production Package → Producer Studio) describes control and data flow, not Python import direction. Import direction runs the other way for invocation: `project_manager` imports and calls into `director_studio` and `producer_studio` to run stages; neither studio imports `project_manager`, imports the other studio, or touches storage — they only accept typed arguments and return typed results. This is what makes "studios never perform filesystem operations directly" a structural guarantee enforced by module boundaries, not just a convention (see §14).
+Dependency layering (verified against the actual import graph — see §17):
+
+```
+┌───────────────────────────────────────────────────────────┐
+│                        Shared Core                           │
+│  shared_core/contracts/* (18 typed contract modules)         │
+│  shared_core/lookups.py                                      │
+└───────────────────────────┬───────────────────────────────┘
+                             │
+                             ▼
+                  ┌───────────────────────┐
+                  │     Project Manager      │
+                  │ (persistence, lifecycle,  │
+                  │  package/report writers)  │
+                  └────┬──────┬──────┬────────┘
+                  invokes│invokes│invokes
+                       ▼       ▼       ▼
+          ┌──────────────┐ ┌──────────────┐ ┌────────────────────┐
+          │ Director      │ │ Producer      │ │ Execution Engine      │
+          │ Studio        │ │ Studio        │ │ (controller +          │
+          │ (controller + │ │ (controller + │ │  boundary/pure         │
+          │  agents/*)    │ │  agents/*)    │ │  modules)              │
+          └──────────────┘ └──────────────┘ └────────────────────┘
+```
+
+**Note on direction:** the vision-level chain (Shared Core → Project Manager → studios/engine → Package) describes control and data flow, not raw Python import direction. `project_manager` imports and calls into `director_studio`, `producer_studio`, and `execution_engine` to run stages; none of the three ever imports `project_manager`, imports each other, or touches storage directly — they only accept typed arguments and return typed results (or, for the Execution Engine's boundary modules, perform the one sanctioned category of real I/O: reading/writing media and the ffmpeg/ffprobe subprocess — see §7).
 
 ---
 
 ## 4. Project Manager Architecture
 
-**Responsibility:** Project Manager is the sole owner of persistence and lifecycle state. It sits between the user-facing entry point (CLI today, a future Web/Desktop UI later) and both studios. Neither studio ever touches the filesystem, a database, or object storage directly — they receive typed inputs from Project Manager and return typed outputs to it.
+**Responsibility:** Project Manager is the sole owner of persistence and lifecycle state. It sits between the user-facing entry points (three CLIs today: `app.py`, `producer_app.py`, `render_app.py`) and all three of Director Studio, Producer Studio, and the Execution Engine. None of the three ever touches the filesystem, a database, or object storage directly — they receive typed inputs from Project Manager and return typed outputs to it.
+
+Implemented as a single module, `project_manager/manager.py` (`ProjectManager` class), plus:
+- `project_manager/project.py` — the `Project` model and the `ProjectState` enum (§9).
+- `project_manager/package_writer.py` — serializes the Production Package.
+- `project_manager/producer_package_writer.py` — serializes the Producer Package.
+- `project_manager/render_writer.py` — serializes the Execution Engine's two reports (§12).
+
+There is no separate `store.py`/`lifecycle.py` split; `ProjectManager` owns creation, loading, saving, manifests, metadata, package export, render-report export, and state transitions as methods on one class, backed by the writer modules above for serialization.
 
 Project Manager owns:
 
-- **Project creation** — allocate a new project id, initialize `project.json`, set state to `CREATED`.
-- **Loading** — reconstruct a Project, and whichever typed stage results already exist, from storage.
-- **Saving** — persist a stage's typed output against the project.
-- **Manifests** — maintain `manifest.json` inside the Production Package, and the equivalent index for the Producer Package, as the record of what exists and its status.
-- **Metadata** — maintain `project.json` and the package-level `metadata.json` — target duration, art style, aspect ratio, language, model(s) used, timestamps.
-- **Package exporting** — serialize a project's typed stage outputs into the on-disk Production Package / Producer Package layout, using the schema Shared Core defines (§7). Project Manager owns *how* a package is written; Shared Core owns *what* it is.
-- **Project lifecycle / state management** — own the state machine (§8) and its transition rules; decide, given a project's current state, which stage and which studio runs next.
+- **Project creation** — allocate a new project id, initialize `project.json`, set state to `CREATED` (`create_project`).
+- **Loading** — reconstruct a `Project`, and whichever typed stage results already exist, from storage (`load_project`, and per-artifact `load_*` methods described in §11/§12).
+- **Saving** — persist a stage's typed output against the project (`save_*` methods; several also perform the corresponding state transition — see §9's "Set by" column for exactly which).
+- **Manifests** — maintain `manifest.json` inside both the Production Package and the Producer Package.
+- **Metadata** — maintain `project.json` and the package-level `metadata.json`.
+- **Package exporting** — serialize typed stage outputs into the on-disk package layouts (§10, §11), plus the Execution Engine's `renders/` output (§12).
+- **Project lifecycle / state management** — own the state machine (§9) and its transition rules.
 
-Project Manager invokes Director Studio or Producer Studio for a given stage, receives a typed `AgentResult` back, and is the only component that then writes anything to disk. Director Studio and Producer Studio contain no file I/O of any kind — not even reads — with the single named exception in §6.
+Project Manager invokes Director Studio, Producer Studio, or the Execution Engine controller for a given stage, receives typed results back, and is the only component that then writes anything to disk (with the Execution Engine's one named exception — see §7).
 
-Project Manager is deliberately **not** part of Shared Core (§7): it depends on Shared Core, but it owns stateful, application-specific lifecycle logic — not a stateless, reusable primitive.
+Project Manager is deliberately **not** part of Shared Core (§8): it depends on Shared Core, but it owns stateful, application-specific lifecycle logic.
 
 ---
 
 ## 5. Director Studio Architecture
 
-**Responsibility:** planning only. Director Studio never generates media and never calls a media-generation API as part of its default flow. It also performs no filesystem I/O of its own — Project Manager supplies its inputs and persists its outputs.
+**Responsibility:** planning only. Director Studio never generates media and never calls a media-generation API as part of its default flow. It performs no filesystem I/O of its own — Project Manager supplies its inputs and persists its outputs.
 
 ### Workflow
 
 ```
-Research
+Research (optional, --skip-research to bypass)
    ↓
 Story Planning
    ↓
@@ -132,23 +153,25 @@ Character Bible
    ↓
 Environment Bible
    ↓
-Prompt Intelligence
+Prompt Intelligence (per shot)
    ↓
 Voice Script
    ↓
 Production Package Export
+   ↓
+[Image Generation — opt-in manual tool only, --generate-images; never part of the default flow]
 ```
 
-- Each stage is one agent following the standard agent pattern (§14).
-- The **DirectorStudioController** receives the project's current typed state from Project Manager, runs the next stage whose inputs are ready, and returns the typed result to Project Manager — it never loads, persists, or touches project state itself.
-- Any stage can be re-run in isolation against an existing project (e.g. regenerate Character Bible without re-running Story Planning); Project Manager decides when a re-run is needed, based on the state machine (§8) and which upstream inputs have changed.
-- Director Studio's terminal contribution is returning every planning stage's typed output to Project Manager. Project Manager then exports/finalizes the **Production Package** (§9) and marks the project `PACKAGE_READY`. Director Studio itself never writes the package.
+- Each stage is one agent following the standard agent pattern (§17).
+- `director_studio/controller.py` (`DirectorStudioController`) runs every stage in sequence for a project, fails fast on the first `AgentResult(success=False)`, and returns to `app.py`. It performs no filesystem I/O.
+- `director_studio/pipeline_helpers.py` holds one small orchestration helper (`select_representative_prompt`, used only by the opt-in image-generation branch) that doesn't belong on any single agent.
+- Director Studio's terminal contribution is Project Manager exporting the **Production Package** (§10) and marking the project `PACKAGE_READY`.
 
 ---
 
 ## 6. Producer Studio Architecture
 
-**Responsibility:** assembly and publishing planning, plus final video export. Producer Studio never plans story content and never edits creative decisions made by Director Studio — it only works with what the Production Package and the human-supplied media give it. Like Director Studio, it performs no filesystem I/O of its own, with one named exception below.
+**Responsibility:** assembly *planning* — timeline, subtitles, music strategy, editing blueprint, thumbnail strategy, and publishing metadata. Producer Studio does **not** render video; that is the Execution Engine's job (§7), a separate component invoked separately, after `EDIT_PLAN_READY`. Producer Studio never plans story content and never edits creative decisions made by Director Studio. Like Director Studio, it performs no filesystem I/O of its own — every stage is fully deterministic (no LLM call).
 
 ### Workflow
 
@@ -161,114 +184,94 @@ Subtitle Planning
    ↓
 Music Planning
    ↓
-Editing Plan
+Editing Planning
    ↓
-Thumbnail Prompt
+Thumbnail Planning
    ↓
-Publishing Metadata
-   ↓
-FFmpeg Export
+Publishing Metadata  ──▶ project state becomes EDIT_PLAN_READY
 ```
 
-- **Input:** typed data Project Manager assembles for it — the Production Package's contents, plus a manifest of human-imported media (images, video clips, voice audio) that Project Manager has already confirmed exists in the project's `media/` directory.
-- The **ProducerStudioController** sequences these agents the same way DirectorStudioController does — it receives typed inputs from Project Manager, runs the next stage, and returns a typed result. It never reads or writes a file itself.
-- Asset Validation is the entry gate: it checks that imported media actually covers what the Production Package expects (one image/video per shot or scene, audio present, correct formats) before any planning proceeds — analogous to how Director Studio's validators catch structurally-valid-but-wrong LLM output.
-- **FFmpeg Export is the one sanctioned exception to "no filesystem I/O."** It reads source media and writes the rendered video file, using paths Project Manager supplies — it never decides its own paths, and it never touches `manifest.json`, `metadata.json`, or `project.json`. Those remain exclusively Project Manager's. It is intentionally the last step and isolated in its own module so its failure modes (missing binary, codec issues) don't contaminate the planning agents above it.
-- **Output:** typed results (Timeline, Subtitles, MusicPlan, EditingPlan, thumbnail prompt, publishing metadata) returned to Project Manager, which serializes them into the project's `producer-package/` and, after FFmpeg Export, the rendered video into `exports/`.
+- **Input:** typed data Project Manager assembles — the Production Package's contents (read via `load_prompt_set`/`load_production_plan`/`load_character_sheet`/`load_shot_durations`/`load_scene_moods`/`load_package_metadata`, each reconstructing exactly the fields a given stage needs, either from a legacy flat output file or directly from the on-disk Production Package — both strategies coexist, see §21), plus a manifest of human-imported media Project Manager has confirmed exists in the project's `media/` directory (`scan_media`).
+- `producer_studio/controller.py` (`ProducerStudioController`) sequences all seven stages, the same way `DirectorStudioController` does. It never reads or writes a file itself.
+- **Asset Validation is the entry gate**: it checks that imported media actually covers what the Production Package expects (per-shot `scene_<id>_shot_<id>.<ext>` naming, plus one `voice_script.<ext>` narration file) before any planning proceeds. A run whose manifest is `is_valid=False` does **not** advance project state — it stops at `PACKAGE_READY` (or stays at `MEDIA_IMPORTED` from a prior partial pass) and reports the specific missing/duplicate/naming issues.
+- All seven Producer Studio agents (`asset_validator`, `timeline_planner`, `subtitle_planner`, `music_planner`, `editing_planner`, `thumbnail_planner`, `publishing_planner`) are **deterministic** — they run no LLM and deliberately do not extend `BaseAgent`, since that class is built around the LLM generate/retry/validate cycle. Each still exposes the same `run(input) -> AgentResult` interface as an LLM-backed agent, so the controller sequences them identically. See §17's deterministic-agent convention.
+- **Publishing Metadata is the stage that advances state to `EDIT_PLAN_READY`** — it is the sixth and last of the six planning sub-stages (Timeline, Subtitle, Music, Editing, Thumbnail, Publishing Metadata all folded under the `MEDIA_IMPORTED → EDIT_PLAN_READY` window per §9), the same pattern `PROMPTS_COMPLETE` uses for Prompt Intelligence + Voice Script.
+- **Output:** typed results (`ValidatedAssetManifest`, `Timeline`, `SubtitlePlan`, `MusicPlan`, `EditingPlan`, `ThumbnailPlan`, `PublishingPlan`) returned to Project Manager, which serializes them into the project's `producer-package/` (§11).
 
 ---
 
-## 7. Shared Core Responsibilities
+## 7. FFmpeg Execution Engine Architecture
 
-Shared Core contains everything that is genuinely provider-agnostic and studio-agnostic, stateless, and reusable. Nothing in Shared Core may import from `director_studio/`, `producer_studio/`, or `project_manager/`.
+**Responsibility:** compile the Producer Package's `EditingPlan` (plus the other five Producer Package artifacts it references) into an ffmpeg invocation, run it, and verify the result — the one component in the system sanctioned to perform real media I/O. It is a **compiler + executor, not a studio**: it invents no content. Every transition, duration, subtitle, and ordering decision was already made by Producer Studio; the Execution Engine only translates an already-frozen plan into ffmpeg arguments and runs them.
 
-| Component | Responsibility |
-|---|---|
-| `BaseAgent` + exceptions | The universal agent contract: `build_prompt → call LLM with retry → validate schema → validate business rules → produce public contract`. Every planner in both studios inherits this. |
-| `AgentResult` / `AgentMetadata` | Generic success/failure envelope returned by every agent run. |
-| **Package Schemas** | Typed Pydantic models defining the shape of every file in the Production Package and the Producer Package — **what a package is.** Every agent's public output contract is (or maps directly onto) one of these types. Project Manager owns serializing instances of these types to disk (§4, §9) — **how a package is written** — Shared Core only defines their shape. |
-| LLM Clients (Gemini / GPT / Groq) | Interchangeable text-generation clients sharing one `.generate()` interface. Studio code never talks to a provider SDK directly. |
-| `utils` (`json_utils`, `logger`) | JSON extraction from raw LLM text; consistent structured logging. |
-| Shared lookups | Cross-referencing helpers (e.g. resolving which environment profile belongs to which scene) used by controllers in either studio. |
-| Base config primitives | API keys, retry defaults, temperature defaults, log level — settings with no opinion about which studio is running. |
+Architectural rules (enforced structurally, verified by import inspection):
+- Consumes Producer Studio's outputs only — never calls a Director Studio or Producer Studio agent (`execution_engine/` imports only `shared_core.contracts` and `project_manager`).
+- Never performs planning — no ordering, duration, or transition decision originates here.
+- Never modifies the Producer Package — every Producer Package file is opened read-only.
+- Requires project state `EDIT_PLAN_READY` to run at all (also re-admits `VIDEO_RENDERED`, for idempotent re-renders).
+
+### Module layout (`execution_engine/`)
+
+| Module | Role | Layer |
+|---|---|---|
+| `controller.py` (`ExecutionEngineController`) | Orchestrates the sequence below; the only place that decides whether to execute at all (`--dry-run` skips execution and postflight entirely, here — not in the executor). | orchestration |
+| `ffmpeg_detector.py` (`detect_ffmpeg`) | Resolves the `ffmpeg` binary on PATH and confirms `-version` runs cleanly. Reports availability as data (`FFmpegInfo`); never raises itself. | boundary (read-only) |
+| `preflight.py` (`verify_media_exists`) | Re-confirms every planned asset/narration file still exists on disk before building a command — Asset Validation approved these paths, but media I/O is real and files can move. | boundary (read-only) |
+| `command_builder.py` (`build_command`, `validate_render_request`) | Pure: validates the full provenance chain across all five Producer Package inputs (Timeline/SubtitlePlan/MusicPlan/EditingPlan must all descend from the same Timeline and asset manifest), then builds the ordered `-i` inputs (one per editing segment + one narration audio input) and output config. | pure |
+| `filter_graph_builder.py` (`build_visual_filter_graph`) | Pure: compiles the visual timeline's `filter_complex` graph — resolution/fps normalization per input, video-duration trimming, hard cuts via `concat`, scene-boundary crossfades via `xfade`, and edge fade-from/to-black — driven solely by `EditingPlan` (whose segments already carry Timeline-computed timing) and `RenderOptions`. | pure |
+| `ffmpeg_executor.py` (`execute`) | The only module that spawns a process or writes the rendered file. Runs the immutable `FFmpegCommandSpec`, writes to a temp file (`<name>.part.<ext>`, preserving the real extension so ffmpeg can infer the container), and atomically renames to the final path only after a verified non-zero-size write. Never raises — always returns a `RenderResult`. | boundary (real media I/O) |
+| `ffprobe_client.py` (`probe`) | Read-only: probes the rendered file's actual duration/resolution/fps/stream presence via `ffprobe`, returning `ProbedMedia` (or `None` if unprobeable). | boundary (read-only) |
+| `postflight.py` (`validate_render`) | Pure: compares `ProbedMedia` against the render's expected profile (`EditingPlan.total_duration_seconds`, `RenderOptions.resolution`/`.fps`) and produces a `RenderValidationReport`. A `None` probe is an unconditional failure. | pure |
+| `errors.py` | `RenderError` hierarchy: `ExecutionEnvironmentError`, `MediaAccessError`, `RenderInputError` — raised only for problems discovered *before* execution can be attempted. Everything that happens once ffmpeg actually runs (non-zero exit, timeout, spawn failure) is reported via `RenderResult`, never raised. | — |
+| `ffmpeg_format.py` (`format_seconds`) | Tiny shared helper for embedding durations in argv/filter-graph strings consistently. | pure |
+
+### Execution sequence (`ExecutionEngineController.run`)
+
+1. Load the project; require `status == EDIT_PLAN_READY` (or `VIDEO_RENDERED`, for re-render).
+2. Detect ffmpeg (`ExecutionEnvironmentError` if unavailable — the one hard environment gate; ffprobe's absence is *not* gated here, it surfaces later as a postflight check failure).
+3. Load all five Producer Package inputs Project Manager reconstructs: `EditingPlan`, `ValidatedAssetManifest`, `Timeline`, `SubtitlePlan`, `MusicPlan`.
+4. Validate the request (`validate_render_request`) and confirm every media file still exists (`verify_media_exists`).
+5. Build the `FFmpegCommandSpec` (`build_command`, which internally calls `build_visual_filter_graph`).
+6. **`--dry-run` stops here** — returns the built command plus `RenderResult(success=True, dry_run=True)`, no execution, no persistence.
+7. Execute (`ffmpeg_executor.execute`).
+8. If execution succeeded, probe the output (`ffprobe_client.probe`) and validate it (`postflight.validate_render`); if execution failed, there is nothing to probe.
+9. Persist via `ProjectManager.save_render_result` (§12) — this is the **only** place `VIDEO_RENDERED` is set, and only when `RenderResult.success` **and** `RenderValidationReport.is_valid` are both `True`.
+
+### What is explicitly NOT yet implemented
+
+- Audio mixing (narration is mapped straight through unfiltered; `MusicPlan`'s fades/ducking are planned data with no corresponding music asset to mix yet — see §21).
+- Subtitle burn-in or soft-mux (`RenderOptions.subtitle_mode` is carried but not yet consumed).
+- A segmented-concat fallback for very long/complex edits (single `filter_complex` only).
+- A publishing executor (`VIDEO_RENDERED → PUBLISHED` has no implementation).
+
+---
+
+## 8. Shared Core Responsibilities
+
+Shared Core contains everything that is genuinely provider-agnostic, studio-agnostic, stateless, and reusable. Nothing in Shared Core may import from `director_studio/`, `producer_studio/`, `execution_engine/`, or `project_manager/`.
+
+| Component | Location | Responsibility |
+|---|---|---|
+| Package/report Schemas | `shared_core/contracts/` (18 modules — see §11/§12 for the full list) | Typed Pydantic models defining the shape of every file in the Production Package, the Producer Package, and the Execution Engine's reports — **what a package is.** Every agent's public output contract is (or maps directly onto) one of these types. Project Manager owns serializing instances to disk — Shared Core only defines their shape. |
+| Shared lookups | `shared_core/lookups.py` | Cross-referencing helpers (e.g. resolving which environment profile belongs to which scene, which camera shot belongs to which prompt) used by Director Studio's controller. |
+| `AgentResult` / `AgentMetadata` | `models.py` (package root) | Generic success/failure envelope returned by every agent run. **Not currently under `shared_core/`** — a known folder-layout deviation, see §21. |
+| `BaseAgent` + exception hierarchy | `agents/base/base_agent.py`, `agents/base/exceptions.py` | The universal agent contract for **LLM-backed** agents: `build_prompt → call LLM with retry → validate schema → validate business rules → produce public contract`. Every Director Studio agent, plus none of Producer Studio's (see below), inherits this. **Not currently under `shared_core/`** — a known folder-layout deviation, see §21. |
+| LLM Clients (Gemini / GPT / Groq / Gemini Image) | `llm/gemini_client.py`, `llm/gpt_client.py`, `llm/groq_client.py`, `llm/gemini_image_client.py` | Interchangeable text/image-generation clients. Studio code never talks to a provider SDK directly. **Not currently under `shared_core/`** — a known folder-layout deviation, see §21. |
+| `utils` (`json_utils`, `logger`) | `utils/json_utils.py`, `utils/logger.py` | JSON extraction from raw LLM text; consistent structured logging. **Not currently under `shared_core/`** — a known folder-layout deviation, see §21. |
+| Config | `config.py` (package root, single flat file) | API keys, retry defaults, output directory, and every other setting for every component. The originally-planned per-layer config split (Director/Producer/Project-Manager-specific overlays) was never implemented — see §21. |
+
+**The deterministic-agent convention (Producer Studio + parts of the Execution Engine):** `BaseAgent` assumes an LLM call. Every Producer Studio agent, and conceptually the Execution Engine's pure modules, are deterministic and have no LLM in the loop, so they don't extend it. The established, repeated pattern instead: `agent.py` still exposes `run(input) -> AgentResult` (so controllers sequence them identically to LLM-backed agents), `contract.py` re-exports shared types, `validator.py` (or an equivalently-named pure module) carries the actual logic — but there is no `prompt.py` or `schema.py`, since there is no LLM output to prompt for or shape-validate. This is a **deliberate, now-stable convention**, not a one-off exception — it applies uniformly across all seven Producer Studio agents and the Execution Engine's `command_builder`/`filter_graph_builder`/`postflight`.
 
 Explicitly **not** in Shared Core:
-
-- **Project Manager** (§4) — it depends on Shared Core but owns stateful, application-specific lifecycle logic, not a reusable primitive.
-- Studio-specific config overlays (feature flags, per-studio behavior).
+- **Project Manager** (§4).
 - Any individual agent.
-- The serialization/writing logic for either package — that's Project Manager's job. Shared Core only defines the shape being written.
+- The serialization/writing logic for any package or report — that's Project Manager's job.
 
 ---
 
-## 8. Project Lifecycle
+## 9. Project Lifecycle
 
-A **Project** is the single persistent unit of work, owned end-to-end by **Project Manager** (§4). Everything else — Production Package, imported media, Producer Package, final export — nests inside a Project.
-
-### End-to-End Flow
-
-```
-User
-    │
-    ▼
-Create Project
-    │
-    ▼
-Research
-    │
-    ▼
-Story Planning
-    │
-    ▼
-Scene Planning
-    │
-    ▼
-Shot Planning
-    │
-    ▼
-Camera Planning
-    │
-    ▼
-Character Bible
-    │
-    ▼
-Environment Bible
-    │
-    ▼
-Prompt Intelligence
-    │
-    ▼
-Voice Script
-    │
-    ▼
-Production Package
-    │
-    ▼
-Human generates media
-    │
-    ▼
-Producer Studio
-    │
-    ▼
-Asset Validation
-    │
-    ▼
-Timeline
-    │
-    ▼
-Subtitles
-    │
-    ▼
-Editing Plan
-    │
-    ▼
-FFmpeg Export
-    │
-    ▼
-Final Video
-```
-
-This is the simplified headline view. The full Producer Studio stage list (§6) also includes Music Planning, Thumbnail Prompt, and Publishing Metadata between Subtitles and FFmpeg Export — omitted here for readability, not dropped from the architecture.
+A **Project** is the single persistent unit of work, owned end-to-end by **Project Manager** (§4).
 
 ### Project State Machine
 
@@ -299,358 +302,430 @@ EDIT_PLAN_READY
    ↓
 VIDEO_RENDERED
    ↓
-PUBLISHED
+PUBLISHED   ← not yet implemented (§21)
 ```
 
-| State | Set by | Meaning |
-|---|---|---|
-| `CREATED` | Project Manager | Project scaffold allocated; no stages run yet. |
-| `RESEARCHED` | Director Studio | Research stage returned a validated ResearchBrief. |
-| `STORY_COMPLETE` | Director Studio | Story Planner returned a validated ProductionPlan. |
-| `SCENES_COMPLETE` | Director Studio | Scene Planner returned a validated Storyboard. |
-| `SHOTS_COMPLETE` | Director Studio | Shot Planner returned a validated ShotPlan. |
-| `CAMERA_COMPLETE` | Director Studio | Camera Planner returned a validated CameraPlan. |
-| `CHARACTERS_COMPLETE` | Director Studio | Character Planner returned a validated CharacterBible. |
-| `ENVIRONMENTS_COMPLETE` | Director Studio | Environment Planner returned a validated EnvironmentBible. |
-| `PROMPTS_COMPLETE` | Director Studio | Prompt Intelligence **and** Voice Script have both returned validated output. |
-| `PACKAGE_READY` | Project Manager | Production Package fully serialized and manifest written. Director Studio's job is done. |
-| `MEDIA_IMPORTED` | Project Manager | Human has placed generated media into the project; Asset Validation has passed. |
-| `EDIT_PLAN_READY` | Producer Studio | Timeline, Subtitles, Music Planning, Editing Plan, Thumbnail Prompt, and Publishing Metadata have all completed — everything needed to render is ready. |
-| `VIDEO_RENDERED` | Producer Studio | FFmpeg Export has produced the final video file. |
-| `PUBLISHED` | Project Manager | The human has published the rendered video externally (e.g. uploaded to YouTube) and confirmed it in the project. |
+All 13 implemented states exist in `project_manager/project.py`'s `ProjectState` enum. `PUBLISHED` is defined nowhere in code yet — no publishing executor exists.
 
-Voice Script keeps its own agent and its own typed output (§2, §12) — it simply doesn't get a dedicated top-level state of its own; its completion is folded into `PROMPTS_COMPLETE` alongside Prompt Intelligence, the same way Asset Validation/Timeline/Subtitles/Music Planning/Thumbnail Prompt/Publishing Metadata are folded into the `MEDIA_IMPORTED → EDIT_PLAN_READY` window. Finer-grained per-agent progress within a state, if ever needed, is tracked as a sub-field on the project record — not as additional top-level states — so the state machine always matches the ladder above exactly.
+| State | Set by (method) | Meaning |
+|---|---|---|
+| `CREATED` | `ProjectManager.create_project` | Project scaffold allocated; no stages run yet. |
+| `RESEARCHED` | `ProjectManager.save_research_brief` (Director Studio's Research stage) | Research returned a validated `ResearchBrief`. Skipped entirely when `--skip-research` is passed — the project simply proceeds to `STORY_COMPLETE` without passing through this state. |
+| `STORY_COMPLETE` | `ProjectManager.save_story_plan` | Story Planner returned a validated `ProductionPlan`. |
+| `SCENES_COMPLETE` | `ProjectManager.save_storyboard` | Scene Planner returned a validated `Storyboard`. |
+| `SHOTS_COMPLETE` | `ProjectManager.save_shot_plan` | Shot Planner returned a validated `ShotPlan`. |
+| `CAMERA_COMPLETE` | `ProjectManager.save_camera_plan` | Camera Planner returned a validated `CameraPlan`. |
+| `CHARACTERS_COMPLETE` | `ProjectManager.save_character_sheet` | Character Planner returned a validated `CharacterSheet`. |
+| `ENVIRONMENTS_COMPLETE` | `ProjectManager.save_environment_sheet` | Environment Planner returned a validated `EnvironmentSheet`. |
+| `PROMPTS_COMPLETE` | `ProjectManager.save_voice_script` | Prompt Intelligence (`save_prompt_set`, no state change on its own) **and** Voice Script have both completed — Voice Script's save is the one that advances state, since it always runs second. |
+| `PACKAGE_READY` | `ProjectManager.export_production_package` | Production Package fully serialized and manifest written. |
+| `MEDIA_IMPORTED` | `ProjectManager.save_asset_manifest` | Human has placed media into `media/`; Asset Validation ran **and** `manifest.is_valid` is `True`. An invalid manifest is still persisted (for its diagnostic issues) but does **not** advance state. |
+| `EDIT_PLAN_READY` | `ProjectManager.save_publishing_metadata` | Timeline, Subtitle, Music, Editing, Thumbnail, and Publishing Metadata planning have **all** completed — Publishing Metadata's save is the one that advances state, since it always runs last. |
+| `VIDEO_RENDERED` | `ProjectManager.save_render_result` | The FFmpeg Execution Engine produced a rendered file **and** postflight validation confirmed it matches the expected duration/resolution/fps/streams. A successful ffmpeg exit alone is insufficient — see §7. |
+| `PUBLISHED` | *(not implemented)* | Reserved for a future publishing executor. |
+
+Finer-grained per-agent progress within a state is tracked as a sub-field on the project record (e.g. `source_timeline_id`, `source_subtitle_plan_id`, `rendered_video_path`) rather than as additional top-level states, so the state machine always matches the ladder above exactly.
 
 ### Rules
 
-- A Project is created once, with a stable id, and evolves in place. Re-running a stage updates that stage's output within the same project rather than creating a new disconnected artifact.
-- Each stage's output records which inputs it was generated from (e.g. Character Bible records the plan version it was built against), so Project Manager can detect when a re-run is needed versus when cached output is still valid.
-- **Project Manager is the only writer of project state and the only component with filesystem access.** Agents and studio controllers only ever hand typed data back to Project Manager — they never open a file themselves.
-- Projects are self-contained: everything needed to resume work on a project — at any lifecycle stage, on any machine — lives inside that project's directory.
+- A Project is created once, with a stable id, and evolves in place.
+- **Project Manager is the only writer of project state and the only component with filesystem access**, except the Execution Engine's one sanctioned exception (§7).
+- Projects are self-contained: everything needed to resume work — at any lifecycle stage — lives inside `projects/<project_id>/`.
 
 ---
 
-## 9. Production Package Specification
+## 10. Production Package Specification
 
-The Production Package's shape is defined once, in Shared Core, as a typed schema (§7). Project Manager serializes it to disk into `projects/<project_id>/production-package/`, following that schema — it is the complete, tool-agnostic handoff to the human. Director Studio's agents produce instances of these types; they never write the files themselves.
+Written by `project_manager/package_writer.py` into `projects/<project_id>/production-package/`:
 
 | File | Produced by | Contents |
 |---|---|---|
-| `research_brief.json` | Research | Supporting context and considerations gathered before story planning; `{"status": "skipped", ...}` when the Research stage was bypassed for a run. |
-| `story.md` | Story Planner | Human-readable story: title, logline, theme, tone, character list, scene list. |
-| `scene_plan.json` | Scene Planner | Scene-level breakdown: setting, mood, characters present, estimated duration. |
-| `shot_plan.json` | Shot Planner | Per-scene shot list: what happens in each shot, characters in shot, duration. |
-| `camera_plan.json` | Camera Planner | Per-shot camera angle, movement, and coverage detail. |
-| `character_bible.json` | Character Planner | One visual profile per character — build, face, hair, outfit, color palette, art-style keywords, reference prompt. |
-| `environment_bible.json` | Environment Planner | One visual profile per unique setting — time of day, weather, key visual elements, color palette, lighting, reference prompt. |
-| `image_prompts.json` | Prompt Intelligence | Final, polished image-generation prompt per shot, ready to paste into any tool. |
-| `video_prompts.json` | Prompt Intelligence | Final motion/camera prompt per shot, for video generation tools. |
-| `voice_script.txt` | Voice Script | Full narration/dialogue script in reading order. |
-| `metadata.json` | Project Manager | Package-level metadata: project id, generation timestamps, target duration, art style, model(s) used. |
-| `manifest.json` | Project Manager | Index of every file in the package with a short description and generation status — the entry point for anything (human or Producer Studio) consuming the package. |
-
-Producer Studio's analogous deliverable — the **Producer Package**, written into `projects/<project_id>/producer-package/` — follows the identical pattern: its shape is defined in Shared Core alongside the Production Package schema, and Project Manager serializes it. It is specified alongside its workflow in §6 and §10; it is not part of the Production Package above since it's a different studio's output, generated after the human's media step.
+| `research_brief.json` | Research | Supporting context; `{"status": "skipped", ...}` when bypassed. |
+| `story.md` | Story Planner | Human-readable story: title, logline, theme, tone, characters, scenes. |
+| `scene_plan.json` | Scene Planner | Scene-level breakdown: setting, mood, characters present, duration. |
+| `shot_plan.json` | Shot Planner | Per-scene shot list. |
+| `camera_plan.json` | Camera Planner | Per-shot camera angle and movement. |
+| `character_bible.json` | Character Planner | One visual profile per character. |
+| `environment_bible.json` | Environment Planner | One visual profile per unique setting. |
+| `image_prompts.json` | Prompt Intelligence | Final image-generation prompt per shot. |
+| `video_prompts.json` | Prompt Intelligence | Final motion/camera prompt per shot. |
+| `voice_script.txt` | Voice Script | Full narration script, one paragraph per scene in ascending `scene_id` order (paragraphs are joined with a blank line, and carry no explicit scene markers — Producer Studio's Subtitle Planning relies on that fixed ordering to re-pair text with scenes, see §21). |
+| `metadata.json` | Project Manager | Package-level metadata: project id, generation timestamps, target duration, tone, audience, art style. |
+| `manifest.json` | Project Manager | Index of every file with description and status. |
 
 ---
 
-## 10. Folder Structure
+## 11. Producer Package Specification
+
+Written by `project_manager/producer_package_writer.py` into `projects/<project_id>/producer-package/`, only after Asset Validation has passed:
+
+| File | Produced by | Contents |
+|---|---|---|
+| `asset_manifest.json` | Asset Validation | Per-shot media coverage report: missing, duplicate, and naming issues; `is_valid`. |
+| `timeline_plan.json` | Timeline Planning | Clip ordering, start/end times, per-scene voice segments. |
+| `subtitle_plan.json` | Subtitle Planning | Time-aligned subtitle cues. |
+| `music_plan.json` | Music Planning | Per-scene mood, tempo, intensity, fades, narration ducking windows. |
+| `editing_plan.json` | Editing Planning | Merged, deterministic editing blueprint: per-shot segments referencing resolved assets, subtitle cue indices, music cues, transitions (`cut`/`crossfade`/`fade_from_black`/`fade_to_black`), and effects placeholders. |
+| `thumbnail_plan.json` | Thumbnail Planning | Composition, focal subject, emotion, text-safe areas, and a generation prompt per variant. |
+| `publishing_metadata.json` | Publishing Metadata | Canonical + YouTube-specific metadata: title, description, keywords, hashtags, category, language, playlist, visibility. |
+| `manifest.json` | Project Manager | Index of every file present with description and status. |
+
+Each type above is defined once in `shared_core/contracts/` and re-exported (never redefined) by its producing agent's `contract.py`: `asset_manifest.py`, `timeline.py`, `subtitle.py`, `music_plan.py`, `editing_plan.py`, `thumbnail_plan.py`, `publishing_metadata.py`.
+
+---
+
+## 12. Render Output Specification
+
+Written by `execution_engine/ffmpeg_executor.py` (the video file) and `project_manager/render_writer.py` (the two reports) into `projects/<project_id>/renders/`, only on a non-dry-run render attempt:
+
+| File | Written by | When | Contents |
+|---|---|---|---|
+| `video.mp4` | `ffmpeg_executor.execute` | Only on a verified successful ffmpeg exit (non-zero-size output, atomically renamed from a temp file). | The rendered video. |
+| `render_report.json` | `render_writer.write_render_reports` | Every attempted (non-dry-run) render — success or failure. | `RenderResult`: execution-process diagnostics — exit code, timing, stderr tail on failure. Kept deliberately separate from quality verification. |
+| `render_validation.json` | `render_writer.write_render_reports` | Only when a render produced a file to probe (`RenderResult.success == True`). | `RenderValidationReport`: output-quality verdict — per-check pass/fail (video/audio stream presence, resolution, fps, duration) plus the raw `ProbedMedia` facts. **This is the only thing that gates `VIDEO_RENDERED`** (§9). |
+
+Unlike the Production and Producer Packages, `renders/` has no overall `manifest.json` index — a known, minor asymmetry (§21).
+
+Project Manager reconstructs the Execution Engine's typed inputs from the Producer Package via: `load_asset_manifest`, `load_editing_plan`, `load_producer_timeline`, `load_subtitle_plan`, `load_music_plan` (all read the corresponding file above directly, as full typed dumps), plus `get_render_dir` (hands out `renders/`'s location without creating it) and `save_render_result` (writes both reports and performs the `VIDEO_RENDERED` transition).
+
+---
+
+## 13. Folder Structure
+
+This is the actual repository layout, verified against the filesystem — not an aspirational target.
 
 ```
-ai_video_studio/
-├── app.py                          # thin CLI entrypoint — talks only to project_manager
+ai_video_studio/                        # package root (also the repo's inner directory)
+├── app.py                              # Director Studio CLI
+├── producer_app.py                     # Producer Studio CLI
+├── render_app.py                       # FFmpeg Execution Engine CLI
+├── config.py                           # single flat settings module (§8, §21)
+├── models.py                           # AgentResult, AgentMetadata (§8, §21)
 │
 ├── shared_core/
-│   ├── base_agent.py
-│   ├── exceptions.py
-│   ├── models.py                        # AgentResult, AgentMetadata
-│   ├── config.py                        # provider-agnostic settings
-│   ├── lookups.py                       # cross-agent reference helpers
-│   ├── production_package_schema.py     # typed shape of the Production Package (§7, §9)
-│   ├── producer_package_schema.py       # typed shape of the Producer Package (§7, §9)
-│   ├── llm/
-│   │   ├── gemini_client.py
-│   │   ├── gpt_client.py
-│   │   └── groq_client.py
-│   └── utils/
-│       ├── json_utils.py
-│       └── logger.py
+│   ├── lookups.py
+│   └── contracts/                      # one module per typed contract, re-exported via __init__.py
+│       ├── asset_manifest.py           production_plan.py       storyboard.py
+│       ├── camera_plan.py              prompt_set.py             subtitle.py
+│       ├── character_sheet.py          publishing_metadata.py    thumbnail_plan.py
+│       ├── editing_plan.py             render.py                 timeline.py
+│       ├── environment_sheet.py        research.py               voice_script.py
+│       └── music_plan.py               shot_plan.py
 │
-├── project_manager/
-│   ├── config.py                   # storage location/layout — studios never read this
-│   ├── project.py                  # Project model (id, name, state, timestamps)
-│   ├── store.py                    # create / load / update / list a Project
-│   ├── lifecycle.py                # state machine + transition rules (§8)
-│   ├── package_writer.py           # serializes the Production Package to disk
-│   └── producer_package_writer.py  # serializes the Producer Package to disk
+├── agents/                             # FLAT — shared by both studios; not nested per-studio (§21)
+│   ├── base/                           # base_agent.py, exceptions.py — BaseAgent lives here, not shared_core (§21)
+│   ├── research/  story_planner/  scene_planner/  shot_planner/  camera_planner/
+│   ├── character_planner/  environment_planner/  prompt_generator/  voice_script/
+│   │        ↑ Director Studio agents (LLM-backed, five-file pattern)
+│   ├── image_generator/                # opt-in manual tool only, never in the default pipeline
+│   ├── asset_validator/  timeline_planner/  subtitle_planner/  music_planner/
+│   ├── editing_planner/  thumbnail_planner/  publishing_planner/
+│   │        ↑ Producer Studio agents (deterministic, reduced pattern — §8)
+│
+├── llm/                                # NOT under shared_core (§21)
+│   ├── gemini_client.py  gpt_client.py  groq_client.py  gemini_image_client.py
+│
+├── utils/                              # NOT under shared_core (§21)
+│   ├── json_utils.py  logger.py
 │
 ├── director_studio/
-│   ├── config.py                   # Director-specific overlay
-│   ├── controller.py               # DirectorStudioController — pure stage execution, zero I/O
-│   └── agents/
-│       ├── research/
-│       ├── story_planner/
-│       ├── scene_planner/
-│       ├── shot_planner/
-│       ├── camera_planner/
-│       ├── character_planner/
-│       ├── environment_planner/
-│       ├── prompt_generator/       # "Prompt Intelligence"
-│       └── voice_script/
-│           ├── agent.py
-│           ├── contract.py
-│           ├── schema.py
-│           ├── prompt.py
-│           └── validator.py
+│   ├── controller.py                   # DirectorStudioController
+│   └── pipeline_helpers.py             # select_representative_prompt
 │
 ├── producer_studio/
-│   ├── config.py                   # Producer-specific overlay
-│   ├── controller.py               # ProducerStudioController — pure stage execution, zero I/O
-│   ├── export/
-│   │   └── ffmpeg_export.py        # sole sanctioned real-media I/O step (§6, §14)
-│   └── agents/
-│       ├── asset_validator/
-│       ├── timeline_planner/
-│       ├── subtitle_planner/
-│       ├── music_planner/
-│       ├── editing_plan/
-│       ├── thumbnail_prompt/
-│       └── publishing_metadata/
+│   └── controller.py                   # ProducerStudioController
 │
-├── projects/
-│   └── <project_id>/
-│       ├── project.json            # project state, status, stage history — owned by Project Manager
-│       ├── production-package/     # see §9
-│       ├── media/                  # human-imported generated assets
-│       │   ├── images/
-│       │   ├── video/
-│       │   └── audio/
-│       ├── producer-package/       # timeline, subtitles, editing plan, publishing metadata
-│       └── exports/
-│           └── final_video.mp4
+├── execution_engine/                   # NOT documented before this revision (§22)
+│   ├── controller.py       ffmpeg_detector.py    preflight.py
+│   ├── command_builder.py  filter_graph_builder.py
+│   ├── ffmpeg_executor.py  ffprobe_client.py      postflight.py
+│   ├── errors.py            ffmpeg_format.py
+│
+├── project_manager/
+│   ├── manager.py                      # ProjectManager — no separate store.py/lifecycle.py (§21)
+│   ├── project.py                      # Project, ProjectState
+│   ├── package_writer.py               # Production Package
+│   ├── producer_package_writer.py      # Producer Package
+│   └── render_writer.py                # render_report.json / render_validation.json
+│
+├── outputs/                            # OUTPUT_DIR root
+│   ├── *.json                          # legacy flat per-stage files (still read back — §21)
+│   └── projects/<project_id>/
+│       ├── project.json
+│       ├── production-package/         # §10
+│       ├── media/{images,video,audio}/ # human-imported assets
+│       ├── producer-package/           # §11
+│       └── renders/                    # §12
 │
 └── tests/
-    ├── shared_core/
-    ├── project_manager/
-    ├── director_studio/
-    ├── producer_studio/
-    └── integration/
+    ├── shared_core/  project_manager/  integration/
+    └── test_*.py                       # one file per agent/pure module, flat under tests/
 ```
 
-Every agent — in either studio — keeps the existing, proven five-file shape: `agent.py`, `contract.py`, `schema.py`, `prompt.py`, `validator.py`. This structure is not being replaced; it is being reused for every new planner in both studios.
+`.gitignore` marks `__pycache__/`, but a number of `.pyc` files committed before that rule remain tracked (harmless bytecode-cache churn, not source — §21).
 
 ---
 
-## 11. Data Flow
+## 14. Data Flow
 
 ### Director Studio (per project)
 
 ```
-Project Manager loads project (or creates new)
+Project Manager creates project
       │
       ▼
-Research ──► ResearchBrief
-      │       (also carried forward, unmodified, to Production Package
-      │        export below as research_brief.json)
+Research (optional) ──► ResearchBrief
       ▼
 Story Planner ──► ProductionPlan
-      │
       ▼
 Scene Planner ──► Storyboard
-      │
       ▼
 Shot Planner ──► ShotPlan
-      │
       ▼
 Camera Planner ──► CameraPlan  (consumes ShotPlan)
-      │
       ▼
-Character Planner ──► CharacterBible
-      │
+Character Planner ──► CharacterSheet
       ▼
-Environment Planner ──► EnvironmentBible
-      │
+Environment Planner ──► EnvironmentSheet
       ▼
-Prompt Intelligence ──► ImagePrompts + VideoPrompts
-      (consumes ProductionPlan + Storyboard + ShotPlan + CameraPlan
-       + CharacterBible + EnvironmentBible, resolved via shared_core/lookups.py —
-       Prompt Intelligence is the one stage that reads nearly everything
-       upstream, since a good prompt needs story context, shot action,
-       camera treatment, and visual consistency all at once)
-      │
+Prompt Intelligence ──► PromptSet  (one ShotPrompt per shot; consumes everything upstream)
       ▼
-Voice Script ──► voice_script.txt  (consumes ProductionPlan + Storyboard)
-      │
+Voice Script ──► VoiceScript  (consumes ProductionPlan + Storyboard)
       ▼
 Project Manager serializes production-package/ + manifest.json
-      │
       ▼
 Project Manager sets project state = PACKAGE_READY
 ```
 
+### Human step
+
+The human places generated images/video into `media/images/` and `media/video/` (named `scene_<id>_shot_<id>.<ext>`) and narration audio into `media/audio/voice_script.<ext>`.
+
 ### Producer Studio (per project)
 
 ```
-Project Manager loads project (requires state >= PACKAGE_READY)
+Project Manager loads project (requires status >= PACKAGE_READY)
       │
       ▼
-Asset Validation ──► ValidatedAssetManifest (consumes media/ + production-package/manifest.json)
+Asset Validation ──► ValidatedAssetManifest (consumes media/ + PromptSet)
       │
-      ▼
+      ▼ (only if is_valid)
 Project Manager sets project state = MEDIA_IMPORTED
       │
       ▼
-Timeline Planning ──► Timeline
-      │
+Timeline Planning ──► Timeline (consumes ValidatedAssetManifest + shot durations from shot_plan.json)
       ▼
-Subtitle Planning ──► Subtitles  (consumes voice_script.txt + Timeline)
-      │
+Subtitle Planning ──► SubtitlePlan (consumes Timeline + voice_script.txt)
       ▼
-Music Planning ──► MusicPlan
-      │
+Music Planning ──► MusicPlan (consumes Timeline + SubtitlePlan + scene moods from scene_plan.json)
       ▼
-Editing Plan ──► EditingPlan  (consumes Timeline + Subtitles + MusicPlan)
-      │
+Editing Planning ──► EditingPlan (consumes ValidatedAssetManifest + Timeline + SubtitlePlan + MusicPlan)
       ▼
-Thumbnail Prompt ──► thumbnail_prompt.json
-      │
+Thumbnail Planning ──► ThumbnailPlan (consumes EditingPlan + ProductionPlan + CharacterSheet)
       ▼
-Publishing Metadata ──► youtube_metadata.json
+Publishing Metadata ──► PublishingPlan (consumes EditingPlan + ThumbnailPlan + ProductionPlan + package metadata.json)
       │
       ▼
 Project Manager sets project state = EDIT_PLAN_READY
-      │
-      ▼
-FFmpeg Export ──► exports/final_video.mp4
-      (consumes EditingPlan + media/; paths supplied by Project Manager —
-       the one Producer Studio step that performs real media I/O)
-      │
-      ▼
-Project Manager sets project state = VIDEO_RENDERED
-      │
-      ▼
-Human publishes the rendered video externally
-      │
-      ▼
-Project Manager sets project state = PUBLISHED
 ```
 
-At every arrow, the object crossing it is a typed Pydantic contract, never a raw dict — matching the existing `contract.py` convention.
+### FFmpeg Execution Engine (per project, separate CLI invocation — `render_app.py`)
+
+```
+Project Manager loads project (requires status == EDIT_PLAN_READY, or VIDEO_RENDERED for re-render)
+      │
+      ▼
+Detect ffmpeg (ExecutionEnvironmentError if unavailable)
+      ▼
+Load EditingPlan + ValidatedAssetManifest + Timeline + SubtitlePlan + MusicPlan from producer-package/
+      ▼
+Validate provenance chain + confirm media still exists on disk
+      ▼
+Build FFmpegCommandSpec (filter_complex compiled from EditingPlan + RenderOptions)
+      │
+      ├── --dry-run: print the command, stop here (nothing executed, nothing written)
+      │
+      ▼
+Execute ffmpeg ──► video.mp4 (atomic write) + RenderResult
+      │
+      ▼ (only if RenderResult.success)
+Probe the output (ffprobe) ──► ProbedMedia
+      ▼
+Validate against expected profile ──► RenderValidationReport
+      │
+      ▼
+Project Manager writes render_report.json + render_validation.json
+      │
+      ▼ (only if RenderResult.success AND RenderValidationReport.is_valid)
+Project Manager sets project state = VIDEO_RENDERED
+```
+
+At every arrow, the object crossing it is a typed Pydantic contract, never a raw dict.
 
 ---
 
-## 12. Agent Responsibilities
+## 15. Agent Responsibilities
 
 ### Director Studio
 
 | Agent | Input | Output | Single Responsibility |
 |---|---|---|---|
-| Research | raw idea / topic | ResearchBrief | Gather supporting context/facts for the idea before story writing begins. |
-| Story Planner | ResearchBrief (optional) + raw idea | ProductionPlan | Turn an idea into a structured story: title, logline, characters, scenes. |
-| Scene Planner | ProductionPlan | Storyboard | Break each scene into a shot list (what happens, who's present, duration) — no camera detail. |
-| Shot Planner | Storyboard | ShotPlan | Confirm/refine per-shot narrative beats independent of camera treatment. |
-| Camera Planner | ShotPlan | CameraPlan | Assign camera angle, movement, and coverage per shot. |
-| Character Planner | ProductionPlan | CharacterBible | Produce one consistent visual profile per character. |
-| Environment Planner | ProductionPlan | EnvironmentBible | Produce one consistent visual profile per unique setting. |
-| Prompt Intelligence | ProductionPlan + Storyboard + ShotPlan + CameraPlan + CharacterBible + EnvironmentBible | ImagePrompts, VideoPrompts | Compose final, tool-ready prompts per shot from the full upstream context — story, shot action, camera treatment, and visual consistency, all at once. |
-| Voice Script | ProductionPlan + Storyboard | voice_script.txt | Write the full narration/dialogue script. |
+| Research | raw idea / topic | `ResearchBrief` | Gather supporting context before story writing. |
+| Story Planner | `ResearchBrief` (optional) + raw idea | `ProductionPlan` | Turn an idea into structured story: title, logline, characters, scenes. |
+| Scene Planner | `ProductionPlan` | `Storyboard` | Break each scene into a shot list — no camera detail. |
+| Shot Planner | `Storyboard` | `ShotPlan` | Confirm/refine per-shot narrative beats. |
+| Camera Planner | `ShotPlan` | `CameraPlan` | Assign camera angle/movement per shot. |
+| Character Planner | `ProductionPlan` | `CharacterSheet` | One consistent visual profile per character. |
+| Environment Planner | `ProductionPlan` | `EnvironmentSheet` | One consistent visual profile per unique setting. |
+| Prompt Intelligence | everything upstream | `PromptSet` | Compose final, tool-ready image/video prompts per shot. |
+| Voice Script | `ProductionPlan` + `Storyboard` | `VoiceScript` | Write the full narration script. |
 
-Voice Script remains a separate, single-responsibility agent rather than being folded into Prompt Intelligence (§2) — narration writing and shot-prompt writing take different inputs and are governed by different validation rules, even though both end up as text files in the same package.
-
-### Producer Studio
+### Producer Studio (all deterministic — §8)
 
 | Agent | Input | Output | Single Responsibility |
 |---|---|---|---|
-| Asset Validation | media/ + manifest.json | ValidatedAssetManifest | Confirm imported media actually covers what the package expects, in valid formats. |
-| Timeline Planning | ValidatedAssetManifest + ShotPlan | Timeline | Sequence validated assets against shot/scene durations. |
-| Subtitle Planning | voice_script.txt + Timeline | Subtitles | Time-align narration text to the timeline. |
-| Music Planning | Timeline + story mood/tone | MusicPlan | Recommend music cues/sections matching scene mood and pacing. |
-| Editing Plan | Timeline + Subtitles + MusicPlan | EditingPlan | Produce the final cut instructions: transitions, layering, timing. |
-| Thumbnail Prompt | CharacterBible/EnvironmentBible + story | thumbnail_prompt.json | Write a tool-ready prompt for a thumbnail image. |
-| Publishing Metadata | ProductionPlan + EditingPlan | youtube_metadata.json | Write title, description, and tags for publishing. |
+| Asset Validation | media/ + `PromptSet` | `ValidatedAssetManifest` | Confirm imported media covers what the package expects. |
+| Timeline Planning | `ValidatedAssetManifest` + shot durations | `Timeline` | Sequence validated assets against planned durations. |
+| Subtitle Planning | `Timeline` + `voice_script.txt` | `SubtitlePlan` | Segment and time-align narration text to the timeline. |
+| Music Planning | `Timeline` + `SubtitlePlan` + scene moods | `MusicPlan` | Plan per-scene mood, tempo, fades, and narration ducking. |
+| Editing Planning | `ValidatedAssetManifest` + `Timeline` + `SubtitlePlan` + `MusicPlan` | `EditingPlan` | Merge everything into one deterministic editing blueprint. |
+| Thumbnail Planning | `EditingPlan` + `ProductionPlan` + `CharacterSheet` | `ThumbnailPlan` | Compose a thumbnail strategy and generation prompt. |
+| Publishing Metadata | `EditingPlan` + `ThumbnailPlan` + `ProductionPlan` + package metadata | `PublishingPlan` | Compose canonical + YouTube publishing metadata. |
 
-Every row in both tables is a single agent, following the standard five-file pattern, with one input contract and one output contract. No agent calls another agent — sequencing is the controller's job (§13), and persistence is Project Manager's job (§4).
-
----
-
-## 13. Orchestration Flow
-
-- **One controller per studio.** `DirectorStudioController` and `ProducerStudioController` are the only components that know the stage order within their studio. Agents don't know what runs before or after them.
-- **Project Manager mediates everything.** Controllers receive typed inputs as arguments from Project Manager and return typed `AgentResult`s to it. They never call `open()`/`write_text()`, never query a store, and never decide file paths.
-- **Fail-fast per stage.** If a stage returns `AgentResult(success=False)`, Project Manager stops the run and surfaces the error — it does not attempt to continue with partial/invalid downstream data. This matches the current pipeline's existing fail-fast behavior and is preserved deliberately, not accidentally.
-- **Resumable, not idempotent-by-accident.** Project Manager decides which stage is next, based on project state (§8), and invokes only that stage — it does not blindly ask a studio to regenerate everything on every call.
-- **Retry policy lives in `BaseAgent`,** inherited by every agent in both studios; controllers do not implement their own retry logic.
-- **No cross-studio calls, and no studio ever imports Project Manager.** `DirectorStudioController` never invokes a Producer Studio agent and vice versa. The only thing that crosses the Director → Producer boundary is the Production Package's typed data, mediated entirely by Project Manager.
+No agent calls another agent — sequencing is the controller's job (§16), persistence is Project Manager's job (§4).
 
 ---
 
-## 14. Coding Standards
+## 16. Orchestration Flow
 
-- **Five-file agent pattern is mandatory** for every new planner: `agent.py` (orchestration class extending `BaseAgent`), `contract.py` (typed input + public output), `schema.py` (strict LLM output shape), `prompt.py` (prompt string builder), `validator.py` (business-rule checks raising `ContractViolationError`).
-- **Two-layer validation is mandatory**: Pydantic schema validation for shape, an explicit `validator.py` function for business rules. An agent with no meaningful business rule still gets a `validator.py` that documents "no additional rules" rather than being skipped.
-- **All inter-module data is a typed Pydantic model.** No dicts crossing a function boundary between agent/controller/Project Manager. Any type that ends up in the Production Package or Producer Package is defined once, in `shared_core`'s package schemas (§7) — not redefined ad hoc per agent.
-- **No agent imports another agent.** Agents only import from `shared_core`. Sequencing lives in the controller; cross-agent lookups live in `shared_core/lookups.py`.
-- **No media-generation API calls inside `director_studio/` or `producer_studio/agents/`,** except FFmpeg export, which is the one explicitly-sanctioned exception and lives in its own isolated `export/` module — never inside an `agents/` package.
-- **Director Studio and Producer Studio perform no filesystem I/O.** All persistence — reading project state, writing stage results, writing the Production/Producer Package, updating project state — goes through Project Manager. The sole exception is FFmpeg Export's actual media read/write, which uses paths supplied by Project Manager rather than deciding its own, and which still never touches `project.json`, `manifest.json`, or any other bookkeeping file.
-- **Module boundaries are one-directional and I/O is centralized.** `shared_core` depends on nothing else in the project. `project_manager` depends only on `shared_core`, and it imports and invokes `director_studio` and `producer_studio` to run stages. `director_studio` and `producer_studio` depend only on `shared_core` — neither imports `project_manager`, the other studio, or performs any file/database access itself. This makes "no direct filesystem I/O in the studios" a structural guarantee, not just a convention.
-- **LLM provider is always injected**, never hardcoded inside an agent — matching the existing `agent = SomeAgent(llm_client)` convention.
-- **Errors use the existing exception hierarchy**: `LLMCallError` (the call itself failed), `SchemaValidationError` (shape mismatch), `ContractViolationError` (valid shape, wrong content). New exception types extend this hierarchy rather than introducing parallel ones.
-- **Logging** goes through `shared_core/utils/logger.py`'s `get_logger(name)` — no ad hoc `print()` in agent/controller/Project Manager code.
-- **Testing**: every `validator.py` has a corresponding unit test file; every controller has at least one integration test exercising the full stage chain with mocked LLM clients; Project Manager has tests covering create/load/save/resume/state-transition behavior, plus package serialization round-trips.
-- **Config**: provider-agnostic settings live in `shared_core/config.py`; studio-specific settings live in that studio's own `config.py`; Project Manager has its own `config.py` for storage location and layout, which studios never read directly.
+- **One controller per studio, plus the Execution Engine's own controller.** `DirectorStudioController`, `ProducerStudioController`, and `ExecutionEngineController` are each the only component that knows the stage order within its own component. Agents don't know what runs before or after them.
+- **Project Manager mediates everything.** Controllers receive typed inputs as arguments and return typed results. They never call `open()`, never query storage, never decide file paths.
+- **Fail-fast per stage.** A stage returning `AgentResult(success=False)` (or, in the Execution Engine, a pre-execution `RenderError`) stops the run immediately.
+- **No cross-studio calls, and no studio (or the Execution Engine) ever imports Project Manager.** Verified by import inspection (§3) — zero violations found as of this revision.
 
 ---
 
-## 15. Migration Roadmap
+## 17. Coding Standards
 
-Migration proceeds incrementally. The project remains runnable after every phase; nothing is rewritten from scratch. This roadmap supersedes two earlier framings from the design discussion: a flat, per-run "Production Package writer" (Project Manager now owns package export centrally, not each studio independently), and folding project persistence into Shared Core (Project Manager is now its own layer, per §4).
+- **Five-file agent pattern for LLM-backed agents**: `agent.py` (extends `BaseAgent`), `contract.py`, `schema.py`, `prompt.py`, `validator.py`.
+- **Reduced three-file pattern for deterministic agents** (§8): `agent.py` (does not extend `BaseAgent`), `contract.py`, `validator.py` (or an equivalently pure module) — no `prompt.py`/`schema.py`, since there is no LLM output. Applies to all seven Producer Studio agents.
+- **Two-layer validation** for LLM-backed agents: schema validation for shape, `validator.py` for business rules. Deterministic agents apply business-rule validation only (there is no LLM shape to validate).
+- **All inter-module data is a typed Pydantic model.** Any type used across a package boundary is defined once in `shared_core/contracts/`; every agent's own `contract.py` re-exports rather than redefines it. Verified: zero duplicate contract definitions found (§21).
+- **No agent imports another agent.** Verified by import inspection — holds with zero exceptions.
+- **No media-generation API calls inside any agent**, except the opt-in `agents/image_generator/` (manual tool, never in the default pipeline) and the Execution Engine's `ffmpeg_executor.py`/`ffprobe_client.py` (the one sanctioned real-media-I/O exception, §7).
+- **Director Studio, Producer Studio, and the Execution Engine's orchestration/pure modules perform no filesystem I/O.** All persistence goes through Project Manager. The Execution Engine's boundary modules (`ffmpeg_detector`, `preflight`, `ffmpeg_executor`, `ffprobe_client`) are the sole exception, and only for media/subprocess access — never for `project.json`, any manifest, or any package file.
+- **LLM provider is always injected**, never hardcoded inside an agent.
+- **Errors use the existing exception hierarchies**: `LLMCallError`/`SchemaValidationError`/`ContractViolationError` (`agents/base/exceptions.py`) for agents; `ExecutionEnvironmentError`/`MediaAccessError`/`RenderInputError` (`execution_engine/errors.py`) for pre-execution Execution Engine failures. Execution-phase outcomes (a failed ffmpeg run) are never exceptions — they're a `RenderResult(success=False, ...)`, the same "reportable, not exceptional" convention `ValidatedAssetManifest.is_valid=False` established.
+- **Logging** goes through `utils/logger.py`'s `get_logger(name)` — no ad hoc `print()`, except each CLI's final structured JSON report to stdout.
+- **Config**: currently one flat `config.py` for everything (§8, §21) — the originally-planned per-layer split was never implemented.
 
-| # | Phase | Goal | Files affected | Risk |
+---
+
+## 18. Testing Strategy
+
+268 tests, all passing as of this revision (`python -m pytest -q`).
+
+- **Pure modules get direct, deterministic unit tests** — the majority of the suite. Every `validator.py` (or equivalently pure module: `command_builder.py`, `filter_graph_builder.py`, `postflight.py`) has its own test file exercising business-rule/logic branches with no mocking needed, since these modules make no external calls.
+- **Boundary modules are tested with mocks, never real external calls, in the automated suite.** LLM-backed agents are tested via a fake/mocked LLM client. `ffmpeg_detector`/`ffmpeg_executor`/`ffprobe_client` are tested by monkeypatching `subprocess.run` — no real ffmpeg process runs in `pytest`.
+- **Controllers are tested via integration tests**, not isolated unit tests — `tests/integration/test_pipeline.py` (Director Studio, mocked LLM), `test_producer_pipeline.py` (Producer Studio, real deterministic logic end-to-end), `test_render_pipeline.py` (Execution Engine, real Director+Producer pipeline feeding a real `EditingPlan`, with the ffmpeg executor and ffprobe prober both injectable/fake by default).
+- **Project Manager has its own test file** (`tests/project_manager/test_manager.py`) covering create/load/save/state-transition behavior and package/report serialization round-trips for all three package types.
+- **Real-binary verification is a deliberate, manual, non-automated step**, not part of `pytest`: each Execution Engine milestone's completion included a real invocation of `render_app.py` against real ffmpeg/ffprobe (with synthetically generated but genuinely decodable media) as a one-time sanity check, then cleaned up — this keeps the automated suite hermetic and fast while still validating against the real binary before considering a milestone done.
+- **CLI verification is likewise manual**: each studio/engine's CLI is exercised by hand against the same recurring demo project at the end of every milestone, not scripted into `pytest`.
+
+---
+
+## 19. Dependency Boundaries
+
+Verified by direct import-graph inspection (not just declared as a rule):
+
+- `shared_core/` depends on nothing else in the repository.
+- `project_manager/` depends only on `shared_core/`.
+- `agents/*` depend only on `shared_core/` and their own package (`agents/base/`, or their own `agents/<name>/`) — zero agent-to-agent imports found.
+- `director_studio/`, `producer_studio/` depend on `shared_core/` and `agents/*` (via their controllers) — neither imports `project_manager`, the other studio, or `execution_engine`.
+- `execution_engine/` depends only on `shared_core/contracts` and `project_manager` — zero imports of any `agents/*` module, verified.
+- `project_manager/` is the only package that imports `director_studio`, `producer_studio`, and `execution_engine` — and only their controllers.
+
+This makes "no direct filesystem I/O outside Project Manager (and the Execution Engine's one named exception)" a structural guarantee, enforced by which modules are even importable from where — not just a convention.
+
+---
+
+## 20. Migration Roadmap
+
+Phases 1–12 (Director Studio → Producer Studio scaffolding) were completed prior to this revision; see the entries below for what each delivered. Phases 13+ cover Producer Studio's full seven-stage build-out and the FFmpeg Execution Engine, previously undocumented (§22).
+
+| # | Phase | Status | Goal | Key files |
 |---|---|---|---|---|
-| 1 | Safety net + cleanup | Add an end-to-end pipeline test (mocked LLMs) before any refactor; remove `test.py` and stub `package-lock.json`. | new `tests/integration/test_pipeline.py`; delete `test.py`, `package-lock.json` | Low |
-| 2 | Extract controller | Move `app.py`'s inlined orchestration into a `DirectorStudioController`; `app.py` becomes a thin CLI wrapper. | new `director_studio/controller.py`; `app.py` | Low-Med |
-| 3 | Relocate shared lookups | Move `find_environment_for_scene`/`find_characters_for_shot`/`get_unique_settings` into `shared_core/lookups.py`. | new `shared_core/lookups.py`; `agents/*/contract.py` | Low |
-| 4 | Introduce Project Manager | Add the Project model, store, and lifecycle state machine as their own module — not inside Shared Core. Controller starts receiving/returning typed data through Project Manager, additively alongside current output; `app.py` updated to call Project Manager instead of the controller directly. | new `project_manager/{project,store,lifecycle}.py`; `director_studio/controller.py`; `app.py` | Medium |
-| 5 | Cut over to Project Manager-owned output | Retire flat `outputs/*.json` writes and any studio-side file writes. Production Package schema moves into `shared_core`; `project_manager/package_writer.py` becomes the only thing that serializes `production-package/`. | new `shared_core/production_package_schema.py`, `project_manager/package_writer.py`; `director_studio/controller.py` (I/O removed); `config.py` | Medium (breaking: old flat paths disappear) |
-| 6 | Stop auto image generation | **Done.** Removed the automatic `ImageGenerationAgent` call from the default pipeline; Prompt Intelligence output (`image_prompts.json`/`video_prompts.json`) is the package's deliverable on its own. Image agent remains available only as an explicit, opt-in manual tool via `--generate-images`; the legacy `--skip-images` flag is kept as a deprecated no-op for backward compatibility. | `director_studio/controller.py`; `app.py`; `agents/image_generator/*` (untouched, just uninvoked by default) | Medium (visible behavior change) |
-| 7 | Add Shot Planner + Camera Planner + widen Prompt Intelligence | **Done.** Scene Planner's output (`Storyboard`) had camera fields stripped so it now covers shot structure only (SS12: "no camera detail"). New `agents/shot_planner/*` confirms/refines `Storyboard` into `ShotPlan`, independent of camera treatment. New `agents/camera_planner/*` assigns camera angle/movement per shot from `ShotPlan` into `CameraPlan`. Prompt Intelligence's controller wiring now resolves shot fields from `ShotPlan` and camera fields from `CameraPlan` (via `shared_core/lookups.find_camera_for_shot`) instead of reading both off `Storyboard`. | new `agents/shot_planner/*`, `agents/camera_planner/*`, `shared_core/contracts/shot_plan.py`, `shared_core/contracts/camera_plan.py`; `shared_core/contracts/storyboard.py` (camera fields removed); `shared_core/lookups.py`; `director_studio/controller.py`; `project_manager/project.py`, `manager.py`, `package_writer.py` | Low-Med |
-| 8 | Add Research agent | New optional first stage feeding Story Planner. | new `agents/research/*`; controller | Low |
-| 9 | Add Voice Script agent | New agent producing `voice_script.txt`. | new `agents/voice_script/*`; controller, package writer | Low |
-| 10 | Split config into shared + overlays | Separate provider-agnostic settings from studio-specific and Project-Manager-specific settings. | `config.py` → `shared_core/config.py` + `director_studio/config.py` + `project_manager/config.py`; import updates across the repo | Medium (wide import surface, mechanical) |
-| 11 | Scaffold Producer Studio agents | Build Asset Validation, Timeline, Subtitle, Music, Editing Plan, Thumbnail Prompt, Publishing Metadata agents on the five-file pattern. | new `producer_studio/agents/*`, `producer_studio/controller.py` | Low (zero coupling to Director Studio internals) |
-| 12 | FFmpeg Export | Consume the Editing Plan and assemble the final video, using paths supplied by Project Manager. | new `producer_studio/export/ffmpeg_export.py`; `shared_core/producer_package_schema.py`; `project_manager/producer_package_writer.py` | Medium (first external-binary dependency) |
-
-**Sequencing notes:**
-- Phases 8 and 9 are mutually independent once Phase 5 lands and can proceed in any order.
-- Phase 6 (media-generation compliance) is deliberately placed before new Director Studio agents are added, so the "no auto media" principle is locked in while the surface area is still small.
-- Phase 10 is last within Director Studio work because it has the widest import surface — cheapest once Phases 6–9 are no longer moving targets.
-- Milestone G (Phases 11–12) has no code dependency on Director Studio internals beyond "reads a completed Project" and can start in parallel with Director Studio work if resourcing allows.
-
-### Active Technical Debt Ledger
-
-Every item below was explicitly accepted at the milestone that introduced it, not discovered later. This table is the migration checklist for paying each one off — an item is only removed from this ledger once its "Planned Removal Milestone" has actually landed, not before.
-
-This ledger has no open items as of Phase 7.
-
-Items resolved by Phase 7 and removed from this ledger: item 1, `ProjectState` implementing only 8 of ARCHITECTURE.md §8's full 14 states. Decision taken: Shot Planner and Camera Planner are kept as separate agents (not folded into Scene Planner or into each other) — Scene Planner produces shot structure without camera detail, Shot Planner confirms/refines that structure, and Camera Planner assigns camera language against the confirmed Shot Plan. `SHOTS_COMPLETE` and `CAMERA_COMPLETE` are now both implemented in `project_manager/project.py`, in that order, between `SCENES_COMPLETE` and `CHARACTERS_COMPLETE`.
-
-Items resolved by Phase 6 and removed from this ledger: item 2, `ProjectManager.get_images_dir()`'s flat legacy path and `ImageGenerationAgent`'s direct byte writes — both remain unchanged as code, but are now only reachable via the explicit, opt-in `--generate-images` flag rather than the default pipeline. Also resolved as part of the same milestone (found during the pre-Phase-6 architecture audit, not itself a ledger item): `character_planner/validator.py`, `scene_planner/validator.py`, `environment_planner/validator.py`, and `voice_script/validator.py` each imported `ProductionPlan` via `agents.story_planner.contract` instead of `shared_core.contracts.production_plan` — a §14 "no agent imports another agent" violation, now fixed.
-
-Items resolved by Phase 5 (Shared Core Hardening) and removed from this ledger: `shared_core/lookups.py` importing from `agents/*` instead of Shared Core's own types; the Production Package shape living only as builder functions in `project_manager/package_writer.py`; and Director Studio agents importing another agent's `contract.py` instead of `shared_core/contracts/*`. See §7 and §10 for the resulting layout — implemented as a `shared_core/contracts/` package (one module per type, re-exported through `shared_core/contracts/__init__.py`) rather than the single `production_package_schema.py` file named in §10/§15; functionally equivalent, and each agent's own `contract.py`/`schema.py` now re-exports the shared type so downstream imports were unaffected.
+| 1 | Safety net + cleanup | Done | End-to-end pipeline test before refactor. | `tests/integration/test_pipeline.py` |
+| 2 | Extract controller | Done | `app.py` becomes a thin CLI wrapper. | `director_studio/controller.py` |
+| 3 | Relocate shared lookups | Done | Cross-agent lookups centralized. | `shared_core/lookups.py` |
+| 4 | Introduce Project Manager | Done | Project model, persistence, lifecycle state machine. | `project_manager/{project,manager}.py` |
+| 5 | Cut over to Project Manager-owned output | Done | Production Package schema in Shared Core; `package_writer.py` is the sole serializer. | `shared_core/contracts/*`, `project_manager/package_writer.py` |
+| 6 | Stop auto image generation | Done | Image generation opt-in only (`--generate-images`). | `director_studio/controller.py`, `app.py` |
+| 7 | Shot Planner + Camera Planner | Done | Scene Planner narrowed to shot structure; camera detail split out. | `agents/shot_planner/*`, `agents/camera_planner/*` |
+| 8 | Research agent | Done | Optional first stage feeding Story Planner. | `agents/research/*` |
+| 9 | Voice Script agent | Done | `voice_script.txt` production. | `agents/voice_script/*` |
+| 10 | Split config into shared + overlays | **Not done** | Still one flat `config.py` — see §21. | — |
+| 11 | Producer Studio Milestone 1 — Asset Validation | Done | Entry gate: validate imported media against the Production Package. | `agents/asset_validator/*`, `producer_app.py` |
+| 12 | Producer Studio Milestone 2 — Timeline Planning | Done | Sequence validated assets into a `Timeline`. | `agents/timeline_planner/*` |
+| 13 | Producer Studio Milestone 3 — Subtitle Planning | Done | Segment + time-align narration into `SubtitlePlan`. | `agents/subtitle_planner/*` |
+| 14 | Producer Studio Milestone 4 — Music Planning | Done | Per-scene mood/tempo/fade/ducking strategy. | `agents/music_planner/*` |
+| 15 | Producer Studio Milestone 5 — Editing Planning | Done | Merge Timeline + Subtitle + Music into one blueprint; transitions, effects placeholders. | `agents/editing_planner/*` |
+| 16 | Producer Studio Milestone 6 — Thumbnail Planning | Done | Composition/focal-subject/emotion strategy + prompt. | `agents/thumbnail_planner/*` |
+| 17 | Producer Studio Milestone 7 — Publishing Metadata | Done | Canonical + YouTube metadata; advances state to `EDIT_PLAN_READY`. | `agents/publishing_planner/*`; `ProjectState.EDIT_PLAN_READY` added |
+| 18 | Execution Engine Milestone 8.1 — Foundation | Done | Detect ffmpeg, validate inputs, build (not run) the ffmpeg command object. | `execution_engine/{controller,command_builder,ffmpeg_detector,preflight,errors}.py`, `render_app.py` |
+| 19 | Execution Engine Milestone 8.2 — Visual filter graph | Done | `filter_graph_builder.py`: cut/fade/xfade + resolution/fps normalization. | `execution_engine/filter_graph_builder.py` |
+| 20 | Execution Engine Milestone 8.3 — Executor | Done | Real subprocess execution, atomic output, structured `RenderResult`, no exceptions on execution failure. | `execution_engine/ffmpeg_executor.py`; `RenderResult`, frozen `FFmpegCommandSpec` |
+| 21 | Execution Engine Milestone 8.4 — Postflight | Done | `ffprobe`-based content verification; gates `VIDEO_RENDERED`. | `execution_engine/{ffprobe_client,postflight}.py`, `project_manager/render_writer.py`; `ProjectState.VIDEO_RENDERED` added |
+| 22 | Architecture Synchronization (this revision) | Done | Resync this document with the implemented system. | `ARCHITECTURE.md` only |
+| 23 | Publishing executor | Not started | `VIDEO_RENDERED → PUBLISHED`. | — |
+| 24 | Audio mixing / subtitle burn-in | Not started | Wire `MusicPlan`/`SubtitlePlan` into the filter graph once a music asset source exists. | `execution_engine/filter_graph_builder.py` |
 
 ---
 
-## 16. Future Expansion Plan
+## 21. Active Technical Debt Ledger
 
-Ideas explicitly out of scope for the migration above, but consistent with this architecture and worth designing toward:
+Every item below was verified against the current codebase as of this revision (2026-07-25), not carried forward from memory. An item is removed only once its fix has actually landed.
 
-- **Web UI for Director Studio**, replacing/augmenting the CLI — talks to Project Manager exactly as the CLI does today, since orchestration was already decoupled from `app.py` in Phase 2 and mediated through Project Manager from Phase 4 onward.
-- **Style preset library** — reusable art-style/tone bundles that Character Planner, Environment Planner, and Prompt Intelligence can all reference, reducing repeated `art_style` string plumbing.
-- **Per-tool prompt formatting** — a thin adapter layer in Prompt Intelligence that renders the same underlying prompt data into Midjourney-, Flux-, or Veo-specific syntax, instead of one generic string.
-- **Project versioning/diffing** — since Projects already record which upstream inputs each stage was generated from (§8), a diff view between two versions of a re-run stage becomes possible without new storage design.
-- **Multi-format export from Producer Studio** — Editing Plan output as an EDL/Premiere XML target in addition to direct FFmpeg export, for users who want to finish in a traditional NLE.
-- **Batch project generation** — running Director Studio across many ideas unattended (e.g. a content calendar), relying on the same resumable, Project-Manager-driven controller.
-- **Collaborative projects** — multiple humans attached to one project (one doing story review, another doing asset generation), enabled by Project Manager already being the single writer of project state and owner of all persistence.
-- **Plugin system for new agents** — since every agent is a self-contained five-file package with no cross-agent imports, third-party or experimental agents (e.g. a "Trailer Cut Planner") can be added to either studio's `agents/` directory without touching existing ones.
+| # | Item | Accepted at | Severity | Notes |
+|---|---|---|---|---|
+| 1 | Folder layout drift from this document's own §13: `agents/` is flat (shared by both studios, not nested per-studio), `BaseAgent` lives in `agents/base/` not `shared_core/`, `llm/`/`utils/`/`models.py`/`config.py` sit at the package root rather than under `shared_core/`. | Accumulated Phases 5–21 | Low (functionally harmless; now correctly documented in §13/§8 instead of contradicted) | This document previously described the *target* layout as if it were current. §13 now describes the *actual* layout. Closing this gap for real (moving files) is a future, optional refactor — not required for correctness. |
+| 2 | Config split (Phase 10, §20) never implemented — one flat `config.py`. | Roadmap Phase 10, deferred | Low | Still deferred; no functional problem at current scale. |
+| 3 | `app.py` never prints the created project's `project_id`. | Discovered during v1.0 audit (2026-07-25) | **High (usability)** | `producer_app.py` and `render_app.py` both *require* `--project-id`; there is currently no way to obtain it from `app.py`'s own output. The Director → Producer → Execution Engine CLI handoff is broken for real human use even though the underlying pipeline is complete and correct. Not fixed in this (documentation-only) revision. |
+| 4 | `project_id` is used unsanitized in `ProjectManager._project_dir` (`OUTPUT_DIR / "projects" / project_id`), with no validation that it's a well-formed id. | Discovered during v1.0 audit (2026-07-25) | **High (security, latent)** | Path-traversal shape. Low current exposure (local, single-user CLI), but cheap to close at this one choke point before any hosted/multi-tenant exposure. Not fixed in this (documentation-only) revision. |
+| 5 | `D:\ai_video_studio\.agents\` — a git-tracked, 23-file duplicate of old agent code, entirely unreferenced by the active package. | Discovered during v1.0 audit (2026-07-25) | Medium (dead code, repo hygiene) | Should be deleted. Not fixed in this (documentation-only) revision. |
+| 6 | `renders/` has no `manifest.json` index, unlike the Production and Producer Packages. | Introduced at Execution Engine Milestone 8.4 | Low | Three self-describing files (`video.mp4`, `render_report.json`, `render_validation.json`); low value in an index today. |
+| 7 | `datetime.utcnow()` (deprecated in Python) used in 19 files — every `shared_core/contracts/*` default factory plus `agents/base/base_agent.py`. | Accumulated since Phase 5 | Low | Deprecation warning only, consistent everywhere; not a correctness bug. |
+| 8 | Two different Producer Studio input-reload strategies coexist: some stages reconstruct a full typed object from a legacy flat `outputs/*.json` file (`load_prompt_set`, `load_production_plan`, `load_character_sheet`), others read one field directly from the on-disk Production Package (`load_shot_durations`, `load_scene_moods`, `load_package_metadata`). | Accumulated across Producer Studio Milestones 1–7 | Low | Both work correctly; noted as worth reconciling, not blocking. |
+| 9 | Audio mixing and subtitle burn-in are unimplemented — `MusicPlan`/`SubtitlePlan` are fully planned but not yet wired into the filter graph. | Execution Engine v1 scope boundary | Low (scoped, not a defect) | Deliberate v1 scope limit (§7) — no music asset source exists yet for mixing to act on. |
+| 10 | `RenderOptions.timeout_seconds` defaults to unbounded (`None`) unless explicitly passed. | Execution Engine Milestone 8.3 | Low | The originally-designed "derive a timeout from duration × multiplier" default was never implemented. |
+| 11 | `.pyc` files committed before `__pycache__/` was gitignored remain tracked, and continue to show as modified on every local test run. | Pre-existing, predates Producer Studio | Low | Harmless bytecode churn; a future cleanup could `git rm --cached` them. |
+| 12 | `README.md` is a two-line placeholder — no setup instructions, no `.env`/ffmpeg prerequisites, no pointer to this document. | Pre-existing | Low | Low severity for the project's current (effectively solo) usage. |
+
+**Items resolved by this revision (Phase 22):** the prior version of this document itself was the largest technical-debt item — stale folder structure, an entirely undocumented `execution_engine/`, a Migration Roadmap and Technical Debt Ledger that stopped at Phase 7, and a state-machine table that misattributed `EDIT_PLAN_READY`/`VIDEO_RENDERED` to "Producer Studio" generically instead of the specific gating methods. All resolved here.
+
+---
+
+## 22. Version History
+
+| Version | Date | Summary |
+|---|---|---|
+| 1.0.0 | 2026-07-21 | Initial frozen architecture, written against Director Studio + a partially-scaffolded Producer Studio design. Migration Roadmap covered Phases 1–12; Technical Debt Ledger closed out through Phase 7. |
+| — (`director-studio-v1.0`) | 2026-07-24 | Director Studio tagged complete: Phases 1–9 (Research, Story/Scene/Shot/Camera Planning, Character/Environment Bibles, Prompt Intelligence, Voice Script, opt-in image generation). |
+| — (`producer-studio-v1.0`) | 2026-07-25 | Producer Studio tagged complete: all seven planning stages (Asset Validation through Publishing Metadata), `EDIT_PLAN_READY` added to the state machine. Not reflected in this document at the time. |
+| — (`execution-engine-v1.0`) | 2026-07-25 | FFmpeg Execution Engine tagged complete: detection/validation/command-building (8.1), visual filter graph (8.2), real execution with atomic output (8.3), postflight verification gating `VIDEO_RENDERED` (8.4). Not reflected in this document at the time. |
+| **2.0.0 (this revision)** | **2026-07-25** | **Architecture Synchronization (Milestone 9, documentation-only).** Rewrote this document to match the implemented system: added §7 (FFmpeg Execution Engine, previously undocumented), added §11/§12 (Producer Package and Render Output specifications), corrected §13 (folder structure) to the actual flat/root-level layout, corrected §9's state-machine "Set by" column to name the actual gating methods, corrected §8 (Shared Core) to reflect `BaseAgent`/`llm`/`utils`/`models.py`/`config.py`'s actual locations, expanded the Migration Roadmap (§20) through Phase 24, replaced the Technical Debt Ledger (§21) with a freshly-verified list (including two newly-discovered high-severity items: `app.py` not printing `project_id`, and unsanitized `project_id` in path construction — neither fixed here, both explicitly deferred), and added this Version History section. No application code was changed. |
+
+---
+
+## 23. Future Expansion Plan
+
+Ideas explicitly out of scope for v1, but consistent with this architecture:
+
+- **Publishing executor** — `VIDEO_RENDERED → PUBLISHED`, consuming `publishing_metadata.json` + the rendered video, following the same controller/boundary-module split as the Execution Engine.
+- **Thumbnail generation executor** — consumes `thumbnail_plan.json`'s prompt to actually produce the thumbnail image; a separate component from video rendering, same reasoning as keeping the Execution Engine single-purpose (§7).
+- **Audio mixing** — once a music-generation/selection stage produces a real asset, `MusicPlan`'s already-compiled fades/ducking activate at the filter-graph seam already reserved for them (§7, §21 item 9).
+- **Web UI**, replacing/augmenting the three CLIs — talks to Project Manager exactly as the CLIs do today.
+- **Style preset library**, **per-tool prompt formatting**, **project versioning/diffing**, **multi-format export** (EDL/Premiere XML alongside direct ffmpeg), **batch project generation**, **collaborative projects**, **plugin system for new agents** — all as previously scoped, unchanged by this revision.
 
 ---
 
@@ -662,9 +737,9 @@ Ideas explicitly out of scope for the migration above, but consistent with this 
 
 **Status:** FROZEN
 
-**Version:** 1.0.0
+**Version:** 2.0.0
 
-**Last Updated:** 2026-07-21
+**Last Updated:** 2026-07-25
 
 Breaking changes require:
 - Architecture review
