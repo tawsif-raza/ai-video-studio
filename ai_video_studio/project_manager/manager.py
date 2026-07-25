@@ -14,6 +14,7 @@ from shared_core.contracts.shot_plan import ShotPlan
 from shared_core.contracts.editing_plan import EditingPlan
 from shared_core.contracts.music_plan import MusicPlan, SceneMood
 from shared_core.contracts.publishing_metadata import PublishingPlan
+from shared_core.contracts.render import RenderResult, RenderValidationReport
 from shared_core.contracts.thumbnail_plan import ThumbnailPlan
 from shared_core.contracts.storyboard import Storyboard
 from shared_core.contracts.subtitle import SubtitlePlan
@@ -23,6 +24,7 @@ from config import settings
 from project_manager.package_writer import write_production_package
 from project_manager.producer_package_writer import write_producer_package
 from project_manager.project import Project, ProjectState
+from project_manager.render_writer import write_render_reports
 from utils.logger import get_logger
 
 logger = get_logger("app")
@@ -80,6 +82,45 @@ class ProjectManager:
             raise ValueError(f"Project {project.project_id} has no character sheet yet - run Director Studio first")
         path = settings.OUTPUT_DIR / f"character_sheet_{project.source_character_sheet_id}.json"
         return CharacterSheet(**json.loads(path.read_text()))
+
+    def _producer_package_file(self, project: Project, filename: str) -> Path:
+        if not project.producer_package_dir:
+            raise ValueError(
+                f"Project {project.project_id} has no Producer Package yet - run Producer Studio first"
+            )
+        return Path(project.producer_package_dir) / filename
+
+    def load_asset_manifest(self, project: Project) -> ValidatedAssetManifest:
+        """Reconstructs the ValidatedAssetManifest from the Producer Package's
+        asset_manifest.json - the full typed dump save/export wrote, read back
+        for the Execution Engine to consume in a separate process."""
+        path = self._producer_package_file(project, "asset_manifest.json")
+        return ValidatedAssetManifest(**json.loads(path.read_text()))
+
+    def load_editing_plan(self, project: Project) -> EditingPlan:
+        """Reconstructs the EditingPlan from the Producer Package's
+        editing_plan.json - the render blueprint the Execution Engine compiles."""
+        path = self._producer_package_file(project, "editing_plan.json")
+        return EditingPlan(**json.loads(path.read_text()))
+
+    def load_producer_timeline(self, project: Project) -> Timeline:
+        """Reconstructs the Timeline from the Producer Package's
+        timeline_plan.json (named load_producer_timeline to distinguish it from
+        the in-memory Timeline the Producer pipeline builds fresh)."""
+        path = self._producer_package_file(project, "timeline_plan.json")
+        return Timeline(**json.loads(path.read_text()))
+
+    def load_subtitle_plan(self, project: Project) -> SubtitlePlan:
+        """Reconstructs the SubtitlePlan from the Producer Package's
+        subtitle_plan.json."""
+        path = self._producer_package_file(project, "subtitle_plan.json")
+        return SubtitlePlan(**json.loads(path.read_text()))
+
+    def load_music_plan(self, project: Project) -> MusicPlan:
+        """Reconstructs the MusicPlan from the Producer Package's
+        music_plan.json."""
+        path = self._producer_package_file(project, "music_plan.json")
+        return MusicPlan(**json.loads(path.read_text()))
 
     def load_package_metadata(self, project: Project) -> dict:
         """Reads the Production Package's own metadata.json - the 'Project
@@ -272,6 +313,44 @@ class ProjectManager:
         """Where a human places generated images/video/audio for Producer Studio
         to validate (ARCHITECTURE.md SS10: projects/<id>/media/{images,video,audio}/)."""
         return self._project_dir(project.project_id) / "media"
+
+    def get_render_dir(self, project: Project) -> Path:
+        """Where the FFmpeg Execution Engine writes its output, kept entirely
+        separate from the read-only Producer Package (projects/<id>/renders/).
+        Hands out the location only - like get_media_dir/get_images_dir, Project
+        Manager does not create the directory itself; ffmpeg_executor and
+        render_writer each create it on their own first write."""
+        return self._project_dir(project.project_id) / "renders"
+
+    def save_render_result(
+        self,
+        project: Project,
+        *,
+        render_result: RenderResult,
+        validation_report: Optional[RenderValidationReport] = None,
+    ) -> Project:
+        """Writes render_report.json (execution-process diagnostics - always,
+        for every attempted non-dry-run render) and render_validation.json
+        (output-quality verification - only when a render produced a file to
+        probe), kept as two separate files per ARCHITECTURE.md's Execution
+        Engine design. Advances project.status to VIDEO_RENDERED if and only
+        if BOTH render_result.success AND validation_report.is_valid are
+        True - a successful ffmpeg exit alone is not sufficient, exactly as
+        save_asset_manifest only advances state when the manifest is actually
+        valid, not merely produced. Any other outcome leaves the project
+        untouched (no file rewrite, no status change) - there is nothing new
+        to persist on the project record itself when a render didn't succeed
+        far enough to produce a verified file."""
+        render_dir = write_render_reports(
+            project_id=project.project_id, render_result=render_result, validation_report=validation_report
+        )
+        logger.info(f"Render reports written to {render_dir}")
+
+        if render_result.success and validation_report is not None and validation_report.is_valid:
+            return self._advance(
+                project, status=ProjectState.VIDEO_RENDERED, rendered_video_path=render_result.output_path
+            )
+        return project
 
     def scan_media(self, project: Project) -> ImportedMediaManifest:
         """Builds the typed media inventory Asset Validation receives - the one

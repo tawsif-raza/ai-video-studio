@@ -17,9 +17,12 @@ class ProjectState(str, Enum):
     planning sub-stages landed (Publishing Metadata, roadmap Phase 11,
     Milestone 7): it means Timeline, Subtitle, Music, Editing, Thumbnail, AND
     Publishing Metadata are ALL done, exactly as PROMPTS_COMPLETE requires both
-    Prompt Intelligence and Voice Script. VIDEO_RENDERED and PUBLISHED are
-    still not implemented, since FFmpeg Export and the publishing executor
-    don't exist yet.
+    Prompt Intelligence and Voice Script. VIDEO_RENDERED was added once the
+    FFmpeg Execution Engine's postflight validation landed (Milestone 8.4):
+    reaching it requires BOTH a successful ffmpeg exit (RenderResult.success)
+    AND a passing postflight quality verdict (RenderValidationReport.is_valid)
+    - a process success alone is not sufficient. PUBLISHED is still not
+    implemented, since the publishing executor doesn't exist yet.
     """
 
     CREATED = "CREATED"
@@ -34,6 +37,7 @@ class ProjectState(str, Enum):
     PACKAGE_READY = "PACKAGE_READY"
     MEDIA_IMPORTED = "MEDIA_IMPORTED"
     EDIT_PLAN_READY = "EDIT_PLAN_READY"
+    VIDEO_RENDERED = "VIDEO_RENDERED"
 
 
 class Project(BaseModel):
@@ -68,3 +72,4 @@ class Project(BaseModel):
     source_thumbnail_plan_id: Optional[str] = None
     source_publishing_metadata_id: Optional[str] = None
     producer_package_dir: Optional[str] = None
+    rendered_video_path: Optional[str] = None

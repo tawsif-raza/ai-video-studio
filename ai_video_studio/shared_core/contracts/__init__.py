@@ -20,6 +20,17 @@ from shared_core.contracts.music_plan import DuckWindow, MusicCue, MusicPlan, Sc
 from shared_core.contracts.production_plan import CharacterBrief, ProductionPlan, SceneBrief, StoryPlanSchema
 from shared_core.contracts.prompt_set import PromptSet, ShotPrompt, ShotPromptSchema
 from shared_core.contracts.publishing_metadata import PublishingMetadata, PublishingPlan, YouTubeMetadata
+from shared_core.contracts.render import (
+    FFmpegCommandSpec,
+    FFmpegInfo,
+    FFmpegInput,
+    ProbedMedia,
+    RenderOptions,
+    RenderRequest,
+    RenderResult,
+    RenderValidationCheck,
+    RenderValidationReport,
+)
 from shared_core.contracts.research import ResearchBrief, ResearchSchema
 from shared_core.contracts.shot_plan import ShotItem, ShotPlan, ShotPlannerSchema, ShotScenePlan
 from shared_core.contracts.storyboard import ScenePlan, ScenePlannerSchema, ShotBrief, Storyboard
@@ -57,6 +68,15 @@ __all__ = [
     "PublishingMetadata",
     "PublishingPlan",
     "YouTubeMetadata",
+    "FFmpegCommandSpec",
+    "FFmpegInfo",
+    "FFmpegInput",
+    "ProbedMedia",
+    "RenderOptions",
+    "RenderRequest",
+    "RenderResult",
+    "RenderValidationCheck",
+    "RenderValidationReport",
     "ResearchBrief",
     "ResearchSchema",
     "SceneBrief",

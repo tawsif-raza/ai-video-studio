@@ -21,6 +21,7 @@ from shared_core.contracts.camera_plan import CameraPlan, CameraScenePlan, Camer
 from shared_core.contracts.editing_plan import EditingPlan
 from shared_core.contracts.music_plan import MusicPlan
 from shared_core.contracts.publishing_metadata import PublishingMetadata, PublishingPlan, YouTubeMetadata
+from shared_core.contracts.render import RenderResult, RenderValidationCheck, RenderValidationReport
 from shared_core.contracts.thumbnail_plan import ThumbnailPlan
 from shared_core.contracts.shot_plan import ShotItem, ShotPlan, ShotScenePlan
 from shared_core.contracts.subtitle import SubtitleCue, SubtitlePlan
@@ -936,3 +937,155 @@ def test_export_producer_package_writes_publishing_metadata_when_provided(tmp_pa
     assert {f["name"] for f in manifest_index["files"]} == {
         "asset_manifest.json", "timeline_plan.json", "publishing_metadata.json",
     }
+
+
+def test_get_render_dir_is_project_scoped(tmp_path, monkeypatch):
+    monkeypatch.setattr(settings, "OUTPUT_DIR", tmp_path)
+    manager = ProjectManager()
+    project = manager.create_project()
+
+    render_dir = manager.get_render_dir(project)
+
+    assert render_dir == tmp_path / "projects" / project.project_id / "renders"
+    assert not render_dir.exists()  # location handed out, not created
+
+
+def test_load_producer_package_contracts_roundtrip(tmp_path, monkeypatch):
+    from shared_core.contracts.editing_plan import EditingPlan
+    from shared_core.contracts.music_plan import MusicPlan
+    from shared_core.contracts.subtitle import SubtitlePlan
+
+    monkeypatch.setattr(settings, "OUTPUT_DIR", tmp_path)
+    manager = ProjectManager()
+    project = manager.create_project()
+    manifest = ValidatedAssetManifest(source_prompt_set_id="abc", is_valid=True, narration_audio_path="/a/v.wav")
+    timeline = Timeline(source_asset_manifest_id=manifest.manifest_id, total_duration_seconds=5)
+    subtitle_plan = SubtitlePlan(source_timeline_id=timeline.timeline_id)
+    music_plan = MusicPlan(source_timeline_id=timeline.timeline_id)
+    editing_plan = EditingPlan(
+        source_timeline_id=timeline.timeline_id,
+        source_subtitle_plan_id=subtitle_plan.subtitle_plan_id,
+        source_music_plan_id=music_plan.music_plan_id,
+        total_duration_seconds=5,
+    )
+
+    project = manager.export_producer_package(
+        project, asset_manifest=manifest, timeline=timeline, subtitle_plan=subtitle_plan,
+        music_plan=music_plan, editing_plan=editing_plan,
+    )
+
+    assert manager.load_asset_manifest(project).manifest_id == manifest.manifest_id
+    assert manager.load_editing_plan(project).editing_plan_id == editing_plan.editing_plan_id
+    assert manager.load_producer_timeline(project).timeline_id == timeline.timeline_id
+    assert manager.load_subtitle_plan(project).subtitle_plan_id == subtitle_plan.subtitle_plan_id
+    assert manager.load_music_plan(project).music_plan_id == music_plan.music_plan_id
+
+
+def test_load_editing_plan_without_producer_package_raises(tmp_path, monkeypatch):
+    import pytest
+
+    monkeypatch.setattr(settings, "OUTPUT_DIR", tmp_path)
+    manager = ProjectManager()
+    project = manager.create_project()  # no producer package yet
+
+    with pytest.raises(ValueError, match="no Producer Package"):
+        manager.load_editing_plan(project)
+
+
+def _successful_render_result(output_path="/renders/video.mp4"):
+    return RenderResult(success=True, dry_run=False, output_path=output_path, exit_code=0, duration_seconds=5.0)
+
+
+def _failed_render_result():
+    return RenderResult(
+        success=False, dry_run=False, exit_code=1, error="ffmpeg exited with code 1", error_type="ffmpeg_failed",
+    )
+
+
+def _passing_validation_report(output_path="/renders/video.mp4"):
+    return RenderValidationReport(
+        is_valid=True,
+        checks=[RenderValidationCheck(name="duration", passed=True, expected="20.0s", actual="20.0s")],
+        output_path=output_path,
+    )
+
+
+def _failing_validation_report(output_path="/renders/video.mp4"):
+    return RenderValidationReport(
+        is_valid=False,
+        checks=[RenderValidationCheck(name="duration", passed=False, expected="20.0s", actual="1.0s")],
+        output_path=output_path,
+    )
+
+
+def test_save_render_result_advances_to_video_rendered_only_when_both_succeed(tmp_path, monkeypatch):
+    monkeypatch.setattr(settings, "OUTPUT_DIR", tmp_path)
+    manager = ProjectManager()
+    project = manager.create_project()
+
+    render_result = _successful_render_result()
+    project = manager.save_render_result(
+        project, render_result=render_result, validation_report=_passing_validation_report()
+    )
+
+    assert project.status == ProjectState.VIDEO_RENDERED
+    assert project.rendered_video_path == render_result.output_path
+
+
+def test_save_render_result_does_not_advance_when_validation_fails(tmp_path, monkeypatch):
+    monkeypatch.setattr(settings, "OUTPUT_DIR", tmp_path)
+    manager = ProjectManager()
+    project = manager.create_project()
+    original_status = project.status
+
+    project = manager.save_render_result(
+        project, render_result=_successful_render_result(), validation_report=_failing_validation_report()
+    )
+
+    assert project.status == original_status  # unchanged
+    assert project.rendered_video_path is None
+
+
+def test_save_render_result_does_not_advance_when_execution_failed(tmp_path, monkeypatch):
+    monkeypatch.setattr(settings, "OUTPUT_DIR", tmp_path)
+    manager = ProjectManager()
+    project = manager.create_project()
+    original_status = project.status
+
+    project = manager.save_render_result(project, render_result=_failed_render_result(), validation_report=None)
+
+    assert project.status == original_status
+    assert project.rendered_video_path is None
+
+
+def test_save_render_result_writes_both_reports_on_full_success(tmp_path, monkeypatch):
+    monkeypatch.setattr(settings, "OUTPUT_DIR", tmp_path)
+    manager = ProjectManager()
+    project = manager.create_project()
+
+    manager.save_render_result(
+        project, render_result=_successful_render_result(), validation_report=_passing_validation_report()
+    )
+
+    render_dir = tmp_path / "projects" / project.project_id / "renders"
+    assert (render_dir / "render_report.json").exists()
+    assert (render_dir / "render_validation.json").exists()
+    report = json.loads((render_dir / "render_report.json").read_text())
+    validation = json.loads((render_dir / "render_validation.json").read_text())
+    assert report["success"] is True
+    assert validation["is_valid"] is True
+
+
+def test_save_render_result_writes_only_report_when_validation_not_run(tmp_path, monkeypatch):
+    """execution-process diagnostics (render_report.json) and output-quality
+    verification (render_validation.json) are kept as two separate files -
+    a failed execution has nothing to validate, so only the former exists."""
+    monkeypatch.setattr(settings, "OUTPUT_DIR", tmp_path)
+    manager = ProjectManager()
+    project = manager.create_project()
+
+    manager.save_render_result(project, render_result=_failed_render_result(), validation_report=None)
+
+    render_dir = tmp_path / "projects" / project.project_id / "renders"
+    assert (render_dir / "render_report.json").exists()
+    assert not (render_dir / "render_validation.json").exists()
