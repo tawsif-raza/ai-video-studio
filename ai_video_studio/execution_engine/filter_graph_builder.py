@@ -206,7 +206,13 @@ def build_visual_filter_graph(editing_plan: EditingPlan, options: RenderOptions)
         else:
             concat_inputs = "".join(f"[{segment_labels[idx]}]" for idx in chain)
             label = f"chain{chain_index}"
-            all_filters.append(f"{concat_inputs}concat=n={len(chain)}:v=1:a=0[{label}]")
+            # concat's output does not inherit its inputs' timebase (ffmpeg
+            # resets it) even though every input was already normalized to
+            # 1/fps via _normalize_expr - re-asserting fps here keeps this
+            # chain's output on the same timebase as every other node, which
+            # xfade requires exact agreement on when this chain sits next to
+            # one that never passed through concat.
+            all_filters.append(f"{concat_inputs}concat=n={len(chain)}:v=1:a=0,fps={options.fps}[{label}]")
             chain_labels.append(label)
         chain_durations.append(sum(_duration(segments[idx]) for idx in chain))
 

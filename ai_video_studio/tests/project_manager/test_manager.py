@@ -20,6 +20,13 @@ from shared_core.contracts.asset_manifest import ValidatedAssetManifest
 from shared_core.contracts.camera_plan import CameraPlan, CameraScenePlan, CameraShot
 from shared_core.contracts.editing_plan import EditingPlan
 from shared_core.contracts.music_plan import MusicPlan
+from shared_core.contracts.publish import (
+    AuthenticationResult,
+    PublishResult,
+    PublishValidationCheck,
+    PublishValidationReport,
+    ReadyToPublishResult,
+)
 from shared_core.contracts.publishing_metadata import PublishingMetadata, PublishingPlan, YouTubeMetadata
 from shared_core.contracts.render import RenderResult, RenderValidationCheck, RenderValidationReport
 from shared_core.contracts.thumbnail_plan import ThumbnailPlan
@@ -1089,3 +1096,308 @@ def test_save_render_result_writes_only_report_when_validation_not_run(tmp_path,
     render_dir = tmp_path / "projects" / project.project_id / "renders"
     assert (render_dir / "render_report.json").exists()
     assert not (render_dir / "render_validation.json").exists()
+
+
+def _valid_publishing_metadata_json() -> str:
+    plan = PublishingPlan(
+        canonical=PublishingMetadata(
+            title="Test Video", description="A test video.", category="Education", language="en",
+        ),
+        youtube=YouTubeMetadata(
+            title="Test Video", description="A test video.", category="27",
+            default_language="en", playlist="", visibility="private",
+        ),
+    )
+    return plan.model_dump_json()
+
+
+def test_get_publish_dir_is_project_scoped(tmp_path, monkeypatch):
+    monkeypatch.setattr(settings, "OUTPUT_DIR", tmp_path)
+    manager = ProjectManager()
+    project = manager.create_project()
+
+    assert manager.get_publish_dir(project) == tmp_path / "projects" / project.project_id / "publishing"
+
+
+def test_check_publish_readiness_passes_for_a_fully_ready_project(tmp_path, monkeypatch):
+    monkeypatch.setattr(settings, "OUTPUT_DIR", tmp_path)
+    manager = ProjectManager()
+    project = manager.create_project()
+
+    package_dir = tmp_path / "projects" / project.project_id / "producer-package"
+    package_dir.mkdir(parents=True)
+    (package_dir / "publishing_metadata.json").write_text(_valid_publishing_metadata_json())
+
+    video_path = tmp_path / "projects" / project.project_id / "renders" / "video.mp4"
+    video_path.parent.mkdir(parents=True)
+    video_path.write_bytes(b"fake mp4 bytes")
+
+    ready_project = project.model_copy(
+        update={
+            "status": ProjectState.VIDEO_RENDERED,
+            "rendered_video_path": str(video_path),
+            "producer_package_dir": str(package_dir),
+        }
+    )
+
+    report = manager.check_publish_readiness(ready_project, platform="youtube")
+
+    assert report.is_valid is True
+    assert report.platform == "youtube"
+
+
+def test_check_publish_readiness_reports_not_ready_for_a_fresh_project(tmp_path, monkeypatch):
+    monkeypatch.setattr(settings, "OUTPUT_DIR", tmp_path)
+    manager = ProjectManager()
+    project = manager.create_project()
+
+    report = manager.check_publish_readiness(project, platform="youtube")
+
+    assert report.is_valid is False
+    assert any(not c.passed for c in report.checks)
+
+
+def test_check_publish_readiness_writes_publish_validation_json(tmp_path, monkeypatch):
+    monkeypatch.setattr(settings, "OUTPUT_DIR", tmp_path)
+    manager = ProjectManager()
+    project = manager.create_project()
+
+    manager.check_publish_readiness(project, platform="youtube")
+
+    publish_dir = tmp_path / "projects" / project.project_id / "publishing"
+    validation_file = publish_dir / "publish_validation.json"
+    assert validation_file.exists()
+    saved = json.loads(validation_file.read_text())
+    assert saved["is_valid"] is False
+    assert saved["platform"] == "youtube"
+
+
+def test_check_publish_readiness_never_modifies_persisted_project_state(tmp_path, monkeypatch):
+    monkeypatch.setattr(settings, "OUTPUT_DIR", tmp_path)
+    manager = ProjectManager()
+    project = manager.create_project()
+    original_project_json = (tmp_path / "projects" / project.project_id / "project.json").read_text()
+
+    elevated = project.model_copy(update={"status": ProjectState.VIDEO_RENDERED, "rendered_video_path": "/tmp/video.mp4"})
+    manager.check_publish_readiness(elevated, platform="youtube")
+
+    persisted = (tmp_path / "projects" / project.project_id / "project.json").read_text()
+    assert persisted == original_project_json
+    assert json.loads(persisted)["status"] == "CREATED"
+
+
+def test_build_publish_readiness_request_reflects_project_fields(tmp_path, monkeypatch):
+    monkeypatch.setattr(settings, "OUTPUT_DIR", tmp_path)
+    manager = ProjectManager()
+    project = manager.create_project()
+    elevated = project.model_copy(
+        update={
+            "status": ProjectState.VIDEO_RENDERED,
+            "rendered_video_path": "/tmp/video.mp4",
+            "producer_package_dir": str(tmp_path / "producer-package"),
+        }
+    )
+
+    request = manager.build_publish_readiness_request(elevated, platform="youtube")
+
+    assert request.project_status == "VIDEO_RENDERED"
+    assert request.video_path == "/tmp/video.mp4"
+    assert request.publishing_metadata_path == str(tmp_path / "producer-package" / "publishing_metadata.json")
+    assert request.platform == "youtube"
+    assert request.output_dir == str(manager.get_publish_dir(elevated))
+
+
+def test_build_publish_readiness_request_handles_project_with_no_producer_package_yet(tmp_path, monkeypatch):
+    monkeypatch.setattr(settings, "OUTPUT_DIR", tmp_path)
+    manager = ProjectManager()
+    project = manager.create_project()
+
+    request = manager.build_publish_readiness_request(project, platform="youtube")
+
+    assert request.video_path == ""
+    assert request.publishing_metadata_path == ""
+
+
+def test_load_publishing_plan_roundtrips_from_producer_package(tmp_path, monkeypatch):
+    monkeypatch.setattr(settings, "OUTPUT_DIR", tmp_path)
+    manager = ProjectManager()
+    project = manager.create_project()
+    package_dir = tmp_path / "projects" / project.project_id / "producer-package"
+    package_dir.mkdir(parents=True)
+    plan = PublishingPlan(
+        canonical=PublishingMetadata(title="T", description="D", category="Education", language="en"),
+        youtube=YouTubeMetadata(
+            title="T", description="D", category="27", default_language="en", playlist="", visibility="private"
+        ),
+    )
+    (package_dir / "publishing_metadata.json").write_text(plan.model_dump_json())
+    with_package = project.model_copy(update={"producer_package_dir": str(package_dir)})
+
+    loaded = manager.load_publishing_plan(with_package)
+
+    assert loaded.canonical.title == "T"
+    assert loaded.youtube.visibility == "private"
+
+
+def test_load_publishing_plan_raises_when_no_producer_package_yet(tmp_path, monkeypatch):
+    monkeypatch.setattr(settings, "OUTPUT_DIR", tmp_path)
+    manager = ProjectManager()
+    project = manager.create_project()
+
+    try:
+        manager.load_publishing_plan(project)
+        assert False, "expected ValueError"
+    except ValueError:
+        pass
+
+
+def _ready_to_publish_result(*, ready=True) -> ReadyToPublishResult:
+    passing_check = PublishValidationCheck(name="project_state", passed=True, expected="VIDEO_RENDERED", actual="VIDEO_RENDERED")
+    failing_check = PublishValidationCheck(name="project_state", passed=False, expected="VIDEO_RENDERED", actual="EDIT_PLAN_READY")
+    readiness = PublishValidationReport(is_valid=ready, checks=[passing_check if ready else failing_check], platform="youtube")
+    credentials = PublishValidationReport(is_valid=ready, checks=[passing_check if ready else failing_check], platform="youtube")
+    authentication = (
+        AuthenticationResult(success=True, platform="youtube", account_label="My Channel")
+        if ready
+        else AuthenticationResult(success=False, platform="youtube", error="boom", error_type="expired_token")
+    )
+    return ReadyToPublishResult(
+        platform="youtube",
+        dry_run=True,
+        readiness=readiness,
+        credentials=credentials,
+        authentication=authentication,
+        ready_to_publish=ready,
+        request=None,
+    )
+
+
+def test_save_publish_report_writes_publish_report_json(tmp_path, monkeypatch):
+    monkeypatch.setattr(settings, "OUTPUT_DIR", tmp_path)
+    manager = ProjectManager()
+    project = manager.create_project()
+
+    manager.save_publish_report(project, _ready_to_publish_result(ready=True))
+
+    publish_dir = tmp_path / "projects" / project.project_id / "publishing"
+    report_file = publish_dir / "publish_report.json"
+    assert report_file.exists()
+    saved = json.loads(report_file.read_text())
+    assert saved["ready_to_publish"] is True
+    assert saved["platform"] == "youtube"
+    assert saved["authentication"]["success"] is True
+    assert saved["authentication"]["account_label"] == "My Channel"
+
+
+def test_save_publish_report_persists_failed_readiness_too(tmp_path, monkeypatch):
+    monkeypatch.setattr(settings, "OUTPUT_DIR", tmp_path)
+    manager = ProjectManager()
+    project = manager.create_project()
+
+    manager.save_publish_report(project, _ready_to_publish_result(ready=False))
+
+    saved = json.loads((tmp_path / "projects" / project.project_id / "publishing" / "publish_report.json").read_text())
+    assert saved["ready_to_publish"] is False
+    assert saved["authentication"]["error_type"] == "expired_token"
+
+
+def test_save_publish_report_returns_project_unchanged(tmp_path, monkeypatch):
+    monkeypatch.setattr(settings, "OUTPUT_DIR", tmp_path)
+    manager = ProjectManager()
+    project = manager.create_project()
+
+    returned = manager.save_publish_report(project, _ready_to_publish_result(ready=True))
+
+    assert returned == project
+    assert returned.status == ProjectState.CREATED  # unchanged, even though ready_to_publish=True
+
+
+def test_save_publish_report_never_writes_or_modifies_project_json(tmp_path, monkeypatch):
+    monkeypatch.setattr(settings, "OUTPUT_DIR", tmp_path)
+    manager = ProjectManager()
+    project = manager.create_project()
+    original_project_json = (tmp_path / "projects" / project.project_id / "project.json").read_text()
+
+    manager.save_publish_report(project, _ready_to_publish_result(ready=True))
+
+    persisted = (tmp_path / "projects" / project.project_id / "project.json").read_text()
+    assert persisted == original_project_json
+
+
+def test_save_publish_report_does_not_overwrite_publish_validation_json(tmp_path, monkeypatch):
+    monkeypatch.setattr(settings, "OUTPUT_DIR", tmp_path)
+    manager = ProjectManager()
+    project = manager.create_project()
+    manager.check_publish_readiness(project, platform="youtube")  # writes publish_validation.json
+
+    manager.save_publish_report(project, _ready_to_publish_result(ready=True))
+
+    publish_dir = tmp_path / "projects" / project.project_id / "publishing"
+    assert (publish_dir / "publish_validation.json").exists()
+    assert (publish_dir / "publish_report.json").exists()
+    # the two files are independently written and don't clobber each other
+    validation = json.loads((publish_dir / "publish_validation.json").read_text())
+    report = json.loads((publish_dir / "publish_report.json").read_text())
+    assert "checks" in validation
+    assert "ready_to_publish" in report and "checks" not in report
+
+
+def test_save_upload_result_writes_upload_report_json(tmp_path, monkeypatch):
+    monkeypatch.setattr(settings, "OUTPUT_DIR", tmp_path)
+    manager = ProjectManager()
+    project = manager.create_project()
+    upload_result = PublishResult(success=True, platform="youtube", external_video_id="vid1", bytes_uploaded=500, total_bytes=500)
+
+    manager.save_upload_result(project, upload_result)
+
+    saved = json.loads((tmp_path / "projects" / project.project_id / "publishing" / "upload_report.json").read_text())
+    assert saved["success"] is True
+    assert saved["external_video_id"] == "vid1"
+
+
+def test_save_upload_result_writes_verification_only_when_provided(tmp_path, monkeypatch):
+    monkeypatch.setattr(settings, "OUTPUT_DIR", tmp_path)
+    manager = ProjectManager()
+    project = manager.create_project()
+    upload_result = PublishResult(success=False, platform="youtube", error="boom", error_type="interrupted")
+
+    manager.save_upload_result(project, upload_result)
+
+    publish_dir = tmp_path / "projects" / project.project_id / "publishing"
+    assert (publish_dir / "upload_report.json").exists()
+    assert not (publish_dir / "upload_verification.json").exists()
+
+
+def test_save_upload_result_writes_both_files_when_verification_given(tmp_path, monkeypatch):
+    monkeypatch.setattr(settings, "OUTPUT_DIR", tmp_path)
+    manager = ProjectManager()
+    project = manager.create_project()
+    upload_result = PublishResult(success=True, platform="youtube", external_video_id="vid1")
+    verification = PublishValidationReport(
+        is_valid=True, platform="youtube",
+        checks=[PublishValidationCheck(name="video_retrievable", passed=True, expected="x", actual="x")],
+    )
+
+    manager.save_upload_result(project, upload_result, verification=verification)
+
+    publish_dir = tmp_path / "projects" / project.project_id / "publishing"
+    assert (publish_dir / "upload_report.json").exists()
+    assert (publish_dir / "upload_verification.json").exists()
+    saved_verification = json.loads((publish_dir / "upload_verification.json").read_text())
+    assert saved_verification["is_valid"] is True
+
+
+def test_save_upload_result_never_modifies_project_state_even_on_success(tmp_path, monkeypatch):
+    monkeypatch.setattr(settings, "OUTPUT_DIR", tmp_path)
+    manager = ProjectManager()
+    project = manager.create_project()
+    original_project_json = (tmp_path / "projects" / project.project_id / "project.json").read_text()
+    upload_result = PublishResult(success=True, platform="youtube", external_video_id="vid1")
+    verification = PublishValidationReport(is_valid=True, platform="youtube", checks=[])
+
+    returned = manager.save_upload_result(project, upload_result, verification=verification)
+
+    persisted = (tmp_path / "projects" / project.project_id / "project.json").read_text()
+    assert persisted == original_project_json
+    assert returned.status == ProjectState.CREATED
+    assert json.loads(persisted)["status"] == "CREATED"

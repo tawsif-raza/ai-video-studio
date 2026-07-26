@@ -13,6 +13,12 @@ from shared_core.contracts.research import ResearchBrief
 from shared_core.contracts.shot_plan import ShotPlan
 from shared_core.contracts.editing_plan import EditingPlan
 from shared_core.contracts.music_plan import MusicPlan, SceneMood
+from shared_core.contracts.publish import (
+    PublishReadinessRequest,
+    PublishResult,
+    PublishValidationReport,
+    ReadyToPublishResult,
+)
 from shared_core.contracts.publishing_metadata import PublishingPlan
 from shared_core.contracts.render import RenderResult, RenderValidationReport
 from shared_core.contracts.thumbnail_plan import ThumbnailPlan
@@ -21,9 +27,16 @@ from shared_core.contracts.subtitle import SubtitlePlan
 from shared_core.contracts.timeline import ShotDuration, Timeline
 from shared_core.contracts.voice_script import VoiceScript
 from config import settings
+from publishing_engine.preflight import validate_publish_readiness
 from project_manager.package_writer import write_production_package
 from project_manager.producer_package_writer import write_producer_package
 from project_manager.project import Project, ProjectState
+from project_manager.publish_writer import (
+    write_publish_report,
+    write_publish_validation,
+    write_upload_report,
+    write_upload_verification,
+)
 from project_manager.render_writer import write_render_reports
 from utils.logger import get_logger
 
@@ -321,6 +334,107 @@ class ProjectManager:
         Manager does not create the directory itself; ffmpeg_executor and
         render_writer each create it on their own first write."""
         return self._project_dir(project.project_id) / "renders"
+
+    def get_publish_dir(self, project: Project) -> Path:
+        """Where the Publishing Engine writes its output (projects/<id>/publishing/),
+        kept separate from renders/. Hands out the location only, like
+        get_render_dir - publish_writer creates the directory on first write."""
+        return self._project_dir(project.project_id) / "publishing"
+
+    def build_publish_readiness_request(self, project: Project, *, platform: str = "youtube") -> PublishReadinessRequest:
+        """Assembles exactly the typed facts publishing_engine needs (project
+        status, the rendered video's path, publishing_metadata.json's path) -
+        shared by check_publish_readiness (P2) and publish_app.py (P5) so
+        this path-resolution logic exists in exactly one place. Read-only;
+        never raises even when the project hasn't reached those stages yet -
+        an empty path is simply what an incomplete project looks like, and
+        publishing_engine.preflight already reports that as a failed check
+        rather than needing a pre-check here."""
+        metadata_path = (
+            str(Path(project.producer_package_dir) / "publishing_metadata.json")
+            if project.producer_package_dir
+            else ""
+        )
+        return PublishReadinessRequest(
+            project_status=project.status.value,
+            video_path=project.rendered_video_path or "",
+            publishing_metadata_path=metadata_path,
+            platform=platform,
+            output_dir=str(self.get_publish_dir(project)),
+        )
+
+    def load_publishing_plan(self, project: Project) -> PublishingPlan:
+        """Reconstructs the PublishingPlan from the Producer Package's
+        publishing_metadata.json - needed by publish_app.py (Milestone P5)
+        to build a complete PublishRequest once a project is confirmed ready."""
+        path = self._producer_package_file(project, "publishing_metadata.json")
+        return PublishingPlan(**json.loads(path.read_text()))
+
+    def check_publish_readiness(self, project: Project, *, platform: str = "youtube") -> PublishValidationReport:
+        """Milestone P2 (ARCHITECTURE.md SS24, Preflight Validation): hands
+        build_publish_readiness_request's typed facts to the pure/boundary
+        preflight validator - the one place Project Manager calls into the
+        Publishing Engine so far, the same direction it already calls into
+        the Execution Engine.
+
+        Performs no upload, no authentication, and - deliberately, per this
+        milestone's scope - no project.status change; only a future
+        milestone's actual upload+verification may ever advance PUBLISHED.
+        Always writes publish_validation.json, success or failure, since a
+        report on why a project isn't ready yet is itself useful output."""
+        request = self.build_publish_readiness_request(project, platform=platform)
+        report = validate_publish_readiness(request)
+        write_publish_validation(project_id=project.project_id, validation_report=report)
+        return report
+
+    def save_publish_report(self, project: Project, result: ReadyToPublishResult) -> Project:
+        """Milestone P6 (ARCHITECTURE.md SS24): persists the
+        PublishingEngineController's full orchestration result - readiness +
+        credential structure + real authentication outcome + the overall
+        ready_to_publish verdict - to publish_report.json. Deliberately
+        separate from the controller itself, which never touches
+        project_manager (its established boundary, unchanged since
+        Milestone P2): the caller (publish_app.py) runs the controller, then
+        hands the result here to persist it.
+
+        No upload, no YouTube write operation, no thumbnail upload, no
+        scheduling, and - deliberately, per this milestone's scope - no
+        project.status change: ready_to_publish=True alone does not advance
+        PUBLISHED, exactly as a merely-valid render doesn't advance
+        VIDEO_RENDERED without independent postflight verification (SS7,
+        SS9). Returns the project unchanged - there is nothing new to record
+        on the project record itself yet."""
+        publish_dir = write_publish_report(project_id=project.project_id, result=result)
+        logger.info(f"Publish report written to {publish_dir}")
+        return project
+
+    def save_upload_result(
+        self,
+        project: Project,
+        upload_result: PublishResult,
+        *,
+        verification: Optional[PublishValidationReport] = None,
+    ) -> Project:
+        """Milestone P7.2 (ARCHITECTURE.md SS24): persists an actual upload
+        attempt's outcome - upload_report.json always, upload_verification.json
+        only when there was an upload to verify (mirrors save_render_result's
+        render_report.json/render_validation.json split exactly). Deliberately
+        separate from the platform adapter and from publishing_engine.upload_flow,
+        neither of which touches project_manager (their established boundary).
+
+        A successful HTTP upload (upload_result.success=True) is explicitly
+        NOT treated as a successful publish here: this method never advances
+        project.status, regardless of upload_result.success or
+        verification.is_valid. The project is left in its current state
+        until a later milestone performs full postflight verification (this
+        milestone's verification checks retrievability only, not processing
+        status/duration/privacy - see YouTubePlatform.check_status) and adds
+        the actual PUBLISHED transition. Returns the project unchanged."""
+        write_upload_report(project_id=project.project_id, upload_result=upload_result)
+        if verification is not None:
+            write_upload_verification(project_id=project.project_id, verification=verification)
+        logger.info(f"Upload report written for project {project.project_id}")
+        return project
 
     def save_render_result(
         self,

@@ -19,6 +19,20 @@ from shared_core.contracts.environment_sheet import EnvironmentPlannerSchema, En
 from shared_core.contracts.music_plan import DuckWindow, MusicCue, MusicPlan, SceneMood
 from shared_core.contracts.production_plan import CharacterBrief, ProductionPlan, SceneBrief, StoryPlanSchema
 from shared_core.contracts.prompt_set import PromptSet, ShotPrompt, ShotPromptSchema
+from shared_core.contracts.publish import (
+    AuthenticationResult,
+    PlatformCredentials,
+    PublishOptions,
+    PublishReadinessRequest,
+    PublishRequest,
+    PublishResult,
+    PublishValidationCheck,
+    PublishValidationReport,
+    ReadyToPublishResult,
+    UploadProgress,
+    UploadSession,
+    UploadVerificationRequest,
+)
 from shared_core.contracts.publishing_metadata import PublishingMetadata, PublishingPlan, YouTubeMetadata
 from shared_core.contracts.render import (
     FFmpegCommandSpec,
@@ -65,6 +79,18 @@ __all__ = [
     "NarrationLine",
     "ProductionPlan",
     "PromptSet",
+    "AuthenticationResult",
+    "PlatformCredentials",
+    "PublishOptions",
+    "PublishReadinessRequest",
+    "PublishRequest",
+    "PublishResult",
+    "PublishValidationCheck",
+    "PublishValidationReport",
+    "ReadyToPublishResult",
+    "UploadProgress",
+    "UploadSession",
+    "UploadVerificationRequest",
     "PublishingMetadata",
     "PublishingPlan",
     "YouTubeMetadata",

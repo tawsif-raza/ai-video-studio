@@ -59,7 +59,11 @@ def test_resolution_and_fps_applied_to_every_visual_input():
     graph = build_visual_filter_graph(plan, RenderOptions(resolution="1280x720", fps=24))
 
     assert graph.filter_complex.count("scale=1280:720") == 2
-    assert graph.filter_complex.count("fps=24") == 2
+    # 2 per-input normalizations + 1 re-assertion after the concat that joins
+    # them (concat resets timebase - see build_visual_filter_graph) - without
+    # the re-assertion this graph would fail in real ffmpeg with a timebase
+    # mismatch the moment this chain sits next to a crossfade.
+    assert graph.filter_complex.count("fps=24") == 3
     assert graph.filter_complex.count("setsar=1") == 2
 
 
