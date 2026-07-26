@@ -1,5 +1,5 @@
 ﻿import uuid
-from datetime import datetime
+from datetime import UTC, datetime
 
 from pydantic import BaseModel, Field
 
@@ -17,7 +17,7 @@ class ImageAsset(BaseModel):
     scene_id: int
     file_path: str
     prompt_used: str
-    generated_at: datetime = Field(default_factory=datetime.utcnow)
+    generated_at: datetime = Field(default_factory=lambda: datetime.now(UTC))
 
 
 def build_image_prompt(input_data: ImageGenInput) -> str:

@@ -1,5 +1,5 @@
 import uuid
-from datetime import datetime
+from datetime import UTC, datetime
 from typing import List, Optional
 
 from pydantic import BaseModel, Field
@@ -55,4 +55,4 @@ class ValidatedAssetManifest(BaseModel):
     narration_audio_path: Optional[str] = None
     issues: List[ValidationIssue] = Field(default_factory=list)
     is_valid: bool = False
-    generated_at: datetime = Field(default_factory=datetime.utcnow)
+    generated_at: datetime = Field(default_factory=lambda: datetime.now(UTC))

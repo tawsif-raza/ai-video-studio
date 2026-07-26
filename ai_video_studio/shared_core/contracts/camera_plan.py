@@ -1,5 +1,5 @@
 import uuid
-from datetime import datetime
+from datetime import UTC, datetime
 from typing import List
 
 from pydantic import BaseModel, Field
@@ -30,4 +30,4 @@ class CameraPlan(CameraPlannerSchema):
 
     camera_plan_id: str = Field(default_factory=lambda: str(uuid.uuid4()))
     source_shot_plan_id: str = ""
-    generated_at: datetime = Field(default_factory=datetime.utcnow)
+    generated_at: datetime = Field(default_factory=lambda: datetime.now(UTC))

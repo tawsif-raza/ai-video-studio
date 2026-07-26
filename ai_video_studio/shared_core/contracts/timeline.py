@@ -1,5 +1,5 @@
 import uuid
-from datetime import datetime
+from datetime import UTC, datetime
 from typing import List, Optional
 
 from pydantic import BaseModel, Field
@@ -58,4 +58,4 @@ class Timeline(BaseModel):
     clips: List[TimelineClip] = Field(default_factory=list)
     voice_segments: List[VoiceSegment] = Field(default_factory=list)
     total_duration_seconds: float = 0.0
-    generated_at: datetime = Field(default_factory=datetime.utcnow)
+    generated_at: datetime = Field(default_factory=lambda: datetime.now(UTC))

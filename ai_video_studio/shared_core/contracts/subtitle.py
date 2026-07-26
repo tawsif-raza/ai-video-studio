@@ -1,5 +1,5 @@
 import uuid
-from datetime import datetime
+from datetime import UTC, datetime
 from typing import List
 
 from pydantic import BaseModel, Field
@@ -27,4 +27,4 @@ class SubtitlePlan(BaseModel):
     source_timeline_id: str = ""
     cues: List[SubtitleCue] = Field(default_factory=list)
     total_duration_seconds: float = 0.0
-    generated_at: datetime = Field(default_factory=datetime.utcnow)
+    generated_at: datetime = Field(default_factory=lambda: datetime.now(UTC))

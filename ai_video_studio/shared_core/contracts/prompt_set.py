@@ -1,5 +1,5 @@
 import uuid
-from datetime import datetime
+from datetime import UTC, datetime
 from typing import List
 
 from pydantic import BaseModel, Field
@@ -25,7 +25,7 @@ class ShotPrompt(ShotPromptSchema):
     scene_id: int
     shot_id: int
     duration_seconds: int
-    generated_at: datetime = Field(default_factory=datetime.utcnow)
+    generated_at: datetime = Field(default_factory=lambda: datetime.now(UTC))
 
 
 class PromptSet(BaseModel):
@@ -34,4 +34,4 @@ class PromptSet(BaseModel):
     prompt_set_id: str = Field(default_factory=lambda: str(uuid.uuid4()))
     source_storyboard_id: str = ""
     shots: List[ShotPrompt] = Field(default_factory=list)
-    generated_at: datetime = Field(default_factory=datetime.utcnow)
+    generated_at: datetime = Field(default_factory=lambda: datetime.now(UTC))

@@ -2,7 +2,7 @@
 — Architecture
 
 **Status:** Frozen / Approved
-**Scope:** This document describes the **implemented v1 system** — Director Studio, Producer Studio, and the FFmpeg Execution Engine, as they actually exist in the repository today. It is the single source of truth. Every future code change must align with it. Where a future change needs to differ, the difference is proposed as an amendment to this document first (§20), not made silently. This revision (v2.0.0, §22) resynchronizes the document with the implementation after Producer Studio (7 milestones) and the FFmpeg Execution Engine (4 milestones) shipped without corresponding doc updates — see §22 for what changed and why.
+**Scope:** This document describes the **implemented v1 system** — Director Studio, Producer Studio, and the FFmpeg Execution Engine, as they actually exist in the repository today. It is the single source of truth. Every future code change must align with it. Where a future change needs to differ, the difference is proposed as an amendment to this document first (§20), not made silently. This revision (v2.0.0, §22) resynchronizes the document with the implementation after Producer Studio (7 milestones) and the FFmpeg Execution Engine (4 milestones) shipped without corresponding doc updates — see §22 for what changed and why. **§24 (added in v2.1.0) is the one deliberate exception to the "implemented only" scope**: it records the *approved design* for a fourth top-level component, the Publishing Engine, ahead of any implementation — exactly the same design-before-code sequencing the FFmpeg Execution Engine went through, and clearly labeled as not-yet-built throughout.
 
 ---
 
@@ -242,7 +242,7 @@ Architectural rules (enforced structurally, verified by import inspection):
 - Audio mixing (narration is mapped straight through unfiltered; `MusicPlan`'s fades/ducking are planned data with no corresponding music asset to mix yet — see §21).
 - Subtitle burn-in or soft-mux (`RenderOptions.subtitle_mode` is carried but not yet consumed).
 - A segmented-concat fallback for very long/complex edits (single `filter_complex` only).
-- A publishing executor (`VIDEO_RENDERED → PUBLISHED` has no implementation).
+- A publishing executor (`VIDEO_RENDERED → PUBLISHED` has no implementation) — the design is now approved, see §24; implementation has not started.
 
 ---
 
@@ -302,10 +302,10 @@ EDIT_PLAN_READY
    ↓
 VIDEO_RENDERED
    ↓
-PUBLISHED   ← not yet implemented (§21)
+PUBLISHED   ← not yet implemented; design approved, see §24
 ```
 
-All 13 implemented states exist in `project_manager/project.py`'s `ProjectState` enum. `PUBLISHED` is defined nowhere in code yet — no publishing executor exists.
+All 13 implemented states exist in `project_manager/project.py`'s `ProjectState` enum. `PUBLISHED` is defined nowhere in code yet — no publishing executor exists. Its design (module layout, contracts, retry strategy, gating rule) is approved and recorded in §24, following the exact same "design first, implement in incremental milestones" sequencing the FFmpeg Execution Engine used.
 
 | State | Set by (method) | Meaning |
 |---|---|---|
@@ -322,7 +322,7 @@ All 13 implemented states exist in `project_manager/project.py`'s `ProjectState`
 | `MEDIA_IMPORTED` | `ProjectManager.save_asset_manifest` | Human has placed media into `media/`; Asset Validation ran **and** `manifest.is_valid` is `True`. An invalid manifest is still persisted (for its diagnostic issues) but does **not** advance state. |
 | `EDIT_PLAN_READY` | `ProjectManager.save_publishing_metadata` | Timeline, Subtitle, Music, Editing, Thumbnail, and Publishing Metadata planning have **all** completed — Publishing Metadata's save is the one that advances state, since it always runs last. |
 | `VIDEO_RENDERED` | `ProjectManager.save_render_result` | The FFmpeg Execution Engine produced a rendered file **and** postflight validation confirmed it matches the expected duration/resolution/fps/streams. A successful ffmpeg exit alone is insufficient — see §7. |
-| `PUBLISHED` | *(not implemented)* | Reserved for a future publishing executor. |
+| `PUBLISHED` | *(not implemented — design approved, §24)* | Reserved for the Publishing Engine (§24): `PublishResult.success` **and** `PublishValidationReport.is_valid` both `True`, same "process success is necessary but not sufficient" pattern as `VIDEO_RENDERED`. |
 
 Finer-grained per-agent progress within a state is tracked as a sub-field on the project record (e.g. `source_timeline_id`, `source_subtitle_plan_id`, `rendered_video_path`) rather than as additional top-level states, so the state machine always matches the ladder above exactly.
 
@@ -677,8 +677,9 @@ Phases 1–12 (Director Studio → Producer Studio scaffolding) were completed p
 | 20 | Execution Engine Milestone 8.3 — Executor | Done | Real subprocess execution, atomic output, structured `RenderResult`, no exceptions on execution failure. | `execution_engine/ffmpeg_executor.py`; `RenderResult`, frozen `FFmpegCommandSpec` |
 | 21 | Execution Engine Milestone 8.4 — Postflight | Done | `ffprobe`-based content verification; gates `VIDEO_RENDERED`. | `execution_engine/{ffprobe_client,postflight}.py`, `project_manager/render_writer.py`; `ProjectState.VIDEO_RENDERED` added |
 | 22 | Architecture Synchronization (this revision) | Done | Resync this document with the implemented system. | `ARCHITECTURE.md` only |
-| 23 | Publishing executor | Not started | `VIDEO_RENDERED → PUBLISHED`. | — |
+| 23 | Publishing executor | **Designed (§24)** — implementation not started | `VIDEO_RENDERED → PUBLISHED`, YouTube first, multi-platform-ready. | `publishing_engine/*` (design only), `shared_core/contracts/publish.py` (design only) |
 | 24 | Audio mixing / subtitle burn-in | Not started | Wire `MusicPlan`/`SubtitlePlan` into the filter graph once a music asset source exists. | `execution_engine/filter_graph_builder.py` |
+| 25 | Publishing Engine Architecture Design (this revision, v2.1.0) | Done | Design-only milestone: architecture, folder structure, contracts, state transitions, retry strategy, and platform abstraction for the fourth top-level component, approved ahead of implementation. | `ARCHITECTURE.md` §24 only — no application code |
 
 ---
 
@@ -713,7 +714,8 @@ Every item below was verified against the current codebase as of this revision (
 | — (`director-studio-v1.0`) | 2026-07-24 | Director Studio tagged complete: Phases 1–9 (Research, Story/Scene/Shot/Camera Planning, Character/Environment Bibles, Prompt Intelligence, Voice Script, opt-in image generation). |
 | — (`producer-studio-v1.0`) | 2026-07-25 | Producer Studio tagged complete: all seven planning stages (Asset Validation through Publishing Metadata), `EDIT_PLAN_READY` added to the state machine. Not reflected in this document at the time. |
 | — (`execution-engine-v1.0`) | 2026-07-25 | FFmpeg Execution Engine tagged complete: detection/validation/command-building (8.1), visual filter graph (8.2), real execution with atomic output (8.3), postflight verification gating `VIDEO_RENDERED` (8.4). Not reflected in this document at the time. |
-| **2.0.0 (this revision)** | **2026-07-25** | **Architecture Synchronization (Milestone 9, documentation-only).** Rewrote this document to match the implemented system: added §7 (FFmpeg Execution Engine, previously undocumented), added §11/§12 (Producer Package and Render Output specifications), corrected §13 (folder structure) to the actual flat/root-level layout, corrected §9's state-machine "Set by" column to name the actual gating methods, corrected §8 (Shared Core) to reflect `BaseAgent`/`llm`/`utils`/`models.py`/`config.py`'s actual locations, expanded the Migration Roadmap (§20) through Phase 24, replaced the Technical Debt Ledger (§21) with a freshly-verified list (including two newly-discovered high-severity items: `app.py` not printing `project_id`, and unsanitized `project_id` in path construction — neither fixed here, both explicitly deferred), and added this Version History section. No application code was changed. |
+| 2.0.0 | 2026-07-25 | **Architecture Synchronization (Milestone 9, documentation-only).** Rewrote this document to match the implemented system: added §7 (FFmpeg Execution Engine, previously undocumented), added §11/§12 (Producer Package and Render Output specifications), corrected §13 (folder structure) to the actual flat/root-level layout, corrected §9's state-machine "Set by" column to name the actual gating methods, corrected §8 (Shared Core) to reflect `BaseAgent`/`llm`/`utils`/`models.py`/`config.py`'s actual locations, expanded the Migration Roadmap (§20) through Phase 24, replaced the Technical Debt Ledger (§21) with a freshly-verified list (including two newly-discovered high-severity items: `app.py` not printing `project_id`, and unsanitized `project_id` in path construction — neither fixed here, both explicitly deferred), and added this Version History section. No application code was changed. |
+| **2.1.0 (this revision)** | **2026-07-26** | **Publishing Engine Architecture Design (design-only milestone).** Added §24: the approved architecture for the fourth top-level component — folder structure, the new `shared_core/contracts/publish.py` contract module, platform abstraction (`PublishingPlatform` interface + registry, YouTube first), retry strategy (transient/permanent classification, resumable uploads, idempotent re-publish), the `VIDEO_RENDERED → PUBLISHED` state transition and its gating rule, and the `publishing/` output specification — all mirroring the Execution Engine's (§7) pure/boundary split and process-vs-verification report separation. Cross-referenced from §7, §9, §20, and §23. Nothing in §24 is implemented; no application code was changed. |
 
 ---
 
@@ -721,11 +723,129 @@ Every item below was verified against the current codebase as of this revision (
 
 Ideas explicitly out of scope for v1, but consistent with this architecture:
 
-- **Publishing executor** — `VIDEO_RENDERED → PUBLISHED`, consuming `publishing_metadata.json` + the rendered video, following the same controller/boundary-module split as the Execution Engine.
+- **Publishing executor** — `VIDEO_RENDERED → PUBLISHED`, consuming `publishing_metadata.json` + the rendered video, following the same controller/boundary-module split as the Execution Engine. Full design (module layout, contracts, retry strategy, platform abstraction) is approved and recorded in §24; only the implementation milestones remain.
 - **Thumbnail generation executor** — consumes `thumbnail_plan.json`'s prompt to actually produce the thumbnail image; a separate component from video rendering, same reasoning as keeping the Execution Engine single-purpose (§7).
 - **Audio mixing** — once a music-generation/selection stage produces a real asset, `MusicPlan`'s already-compiled fades/ducking activate at the filter-graph seam already reserved for them (§7, §21 item 9).
 - **Web UI**, replacing/augmenting the three CLIs — talks to Project Manager exactly as the CLIs do today.
 - **Style preset library**, **per-tool prompt formatting**, **project versioning/diffing**, **multi-format export** (EDL/Premiere XML alongside direct ffmpeg), **batch project generation**, **collaborative projects**, **plugin system for new agents** — all as previously scoped, unchanged by this revision.
+
+---
+
+## 24. Publishing Engine Architecture (Approved Design — Not Yet Implemented)
+
+> **Everything in this section is a design, not a description of running code.** No file listed here exists yet. It is recorded now — following the same sequencing the FFmpeg Execution Engine used (§7's design was approved before Milestone 8.1 was coded) — so implementation can proceed in incremental milestones against an already-agreed shape, instead of the shape being invented ad hoc mid-implementation.
+
+### 24.1 Responsibility & Rules
+
+**Responsibility:** take a project's already-finished `PublishingPlan` (canonical + platform-specific metadata) and already-rendered `video.mp4`, and get them onto an external platform — the *upload/distribution* step, exactly as the Execution Engine is the *render* step. It is the **fourth top-level component**, sitting after the Execution Engine in the pipeline, with its own controller and its own boundary/pure module split.
+
+Architectural rules (same enforcement style as §7 — structural, verified by import inspection once built):
+
+1. **Consumes Producer Package + Execution Engine output only.** `publishing_engine/` imports only `shared_core.contracts` and `project_manager`. It never imports `director_studio`, `producer_studio`, or `execution_engine`, and never calls any agent from any studio.
+2. **Never plans.** No title, description, tag, category, or visibility decision originates here — all of that was already decided by Producer Studio's Publishing Metadata stage (§6) and lives in `PublishingPlan`. The Publishing Engine's only "decisions" are mechanical: which platform adapter to invoke and how to retry a failed network call.
+3. **Never renders.** It never touches ffmpeg, never opens `filter_graph_builder`, and treats `renders/video.mp4` as an opaque, already-finished file — read-only input, byte-for-byte, the same way the Execution Engine treats Producer Package files as read-only input.
+4. **Requires project state `VIDEO_RENDERED` to run at all** (also re-admits `PUBLISHED`, for idempotent re-publish / metadata-only updates — the same re-admission pattern the Execution Engine uses for `VIDEO_RENDERED` re-renders, §7).
+
+### 24.2 Platform Abstraction
+
+A single abstract interface, `PublishingPlatform`, is implemented once per external platform. The controller and every contract are written against this interface only — they never know they're talking to YouTube specifically.
+
+```
+publishing_engine/platforms/base.py       # PublishingPlatform — the abstract interface
+publishing_engine/platforms/youtube.py    # YouTubePlatform — first, and only v1, implementation
+publishing_engine/platforms/registry.py   # name -> implementation lookup (pure)
+```
+
+`PublishingPlatform` defines three operations, each boundary (real network I/O), each returning a typed result rather than raising for anything past the pre-flight stage:
+
+| Method | Purpose |
+|---|---|
+| `authenticate() -> PlatformInfo` | Resolve credentials (from `config.py`/environment, never from a contract) and confirm they're valid. Mirrors `ffmpeg_detector.detect_ffmpeg` — reports availability as data, never raises itself. |
+| `upload(video_path, thumbnail_path, publishing_plan, options) -> PublishResult` | Owns the actual upload, including retry/backoff and resumable-session handling (§24.5) internally. The only method that performs a real, potentially slow, potentially retried network operation. |
+| `check_status(external_video_id) -> PublishValidationReport` | Poll the platform for post-upload processing state (e.g. YouTube's `processingStatus`) and translate it into the same pass/fail-checks shape `postflight.validate_render` already establishes for renders. |
+
+`publishing_engine/platforms/registry.py` is a pure `{"youtube": YouTubePlatform}` lookup (`resolve_platform(name) -> Type[PublishingPlatform]`, raising `PublishInputError` for an unknown name). **Adding a second platform (TikTok, Instagram, a private CDN) means writing one new class that implements `PublishingPlatform` and adding one registry entry — zero changes to the controller, the contracts, or any other platform's code.** This is the concrete mechanism behind "target YouTube first, support multiple platforms in the design."
+
+`PublishRequest.options.platform` (a plain string, `"youtube"` by default) is the only thing that selects which adapter runs — the same shape as `image_client_factory` already used for the opt-in image-generation tool (§5), not a new pattern.
+
+### 24.3 Contracts (`shared_core/contracts/publish.py` — new, 19th contract module)
+
+Mirrors `render.py`'s established shape exactly: an `Options` input, a `Request` bundle, a process-outcome `Result`, and a separate verification `Report`. **Credentials are never a field on any of these** — resolved live, inside `platforms/youtube.py` only, from `config.py`/environment, and never logged, serialized, or written to any package file or report.
+
+| Contract | Mirrors | Shape |
+|---|---|---|
+| `PublishOptions` | `RenderOptions` | `platform: str = "youtube"`, `visibility_override: Optional[str] = None` (None = defer to `PublishingPlan.youtube.visibility`), `scheduled_publish_at: Optional[datetime] = None`, `dry_run: bool = False`, `timeout_seconds: Optional[int] = None`, `poll_interval_seconds: int = 10`, `max_poll_attempts: int = 30`. |
+| `PlatformInfo` | `FFmpegInfo` | `platform: str`, `available: bool`, `account_label: Optional[str] = None` (e.g. channel name — never a token), `detail: Optional[str] = None`. Never raises on its own; the controller decides whether unavailability is fatal. |
+| `PublishRequest` | `RenderRequest` | `publishing_plan: PublishingPlan`, `video_path: str`, `thumbnail_path: Optional[str] = None` (None until a thumbnail-generation executor exists — §24.9), `output_dir: str`, `options: PublishOptions`. |
+| `PublishResult` | `RenderResult` | `success: bool`, `dry_run: bool = False`, `platform: str = ""`, `external_video_id: Optional[str] = None`, `external_url: Optional[str] = None`, `started_at`/`finished_at: Optional[datetime]`, `retry_count: int = 0`, `error: Optional[str] = None`, `error_type: Optional[str] = None` (`"upload_failed" | "auth_failed" | "timeout" | "quota_exceeded"`). `success=True` means only that the platform *accepted* the upload — process diagnostics, not verified publication. |
+| `PublishValidationCheck` | `RenderValidationCheck` | `name: str` (`"upload_accepted" | "processing_status" | "video_public_state" | "metadata_applied"`), `passed: bool`, `expected: str`, `actual: str`. |
+| `PublishValidationReport` | `RenderValidationReport` | `is_valid: bool`, `checks: List[PublishValidationCheck]`, `external_video_id: Optional[str] = None`, `external_url: Optional[str] = None`, `generated_at: datetime`. **This is the only thing that gates `PUBLISHED`** — exactly as `RenderValidationReport.is_valid` alone gates `VIDEO_RENDERED` (§7, §9). |
+
+`PublishingPlan` itself (`shared_core/contracts/publishing_metadata.py`) is **not modified** — it already exists, already carries `canonical`/`youtube` metadata blocks, and is consumed read-only, same as every other Producer Package artifact the Execution Engine reads.
+
+### 24.4 Module Layout (`publishing_engine/`)
+
+| Module | Role | Layer |
+|---|---|---|
+| `controller.py` (`PublishingEngineController`) | Orchestrates the sequence in §24.6; the only place that decides whether to publish at all (`--dry-run` skips upload and postflight entirely, here — never inside a platform adapter). | orchestration |
+| `preflight.py` (`verify_publish_inputs`) | Re-confirms `video_path` still exists and is non-empty, and that `thumbnail_path` (if given) still exists, immediately before upload — same "planning approved it, but I/O is real" justification as the Execution Engine's `preflight.py`. | boundary (read-only) |
+| `publish_request_builder.py` (`build_publish_request`, `validate_publish_request`) | Pure: confirms provenance — `PublishingPlan.source_editing_plan_id` must match the `EditingPlan` id recorded against the project's *current* `rendered_video_path`, so a stale metadata plan can never be published against a newer re-render (or vice versa) — then assembles the typed `PublishRequest`. | pure |
+| `platforms/base.py` | `PublishingPlatform` abstract interface (§24.2). | interface |
+| `platforms/youtube.py` (`YouTubePlatform`) | The only module that makes a real YouTube Data API v3 call. Owns resumable upload session management and all retry/backoff (§24.5). Never raises for a failed upload — always returns `PublishResult`. | boundary (real network I/O) |
+| `platforms/registry.py` (`resolve_platform`) | Pure name → implementation lookup (§24.2). | pure |
+| `postflight.py` (`validate_publish`) | Pure: interprets a platform's `check_status` result against what a successful publish should look like, producing `PublishValidationReport`. An unreachable/unresolvable status is an unconditional failure, mirroring `postflight.validate_render`'s handling of a `None` probe. | pure |
+| `errors.py` | `PublishError` hierarchy — see §24.7. | — |
+
+### 24.5 Retry Strategy
+
+Retry lives **entirely inside the boundary module** (`platforms/youtube.py`) — never in the controller, never in a pure module — the same "boundary owns retry, pure modules can't fail transiently so they don't retry" principle already implicit in `ffmpeg_executor.py` (which itself doesn't retry, because a local subprocess failure isn't transient the way a network call is).
+
+- **Transient vs. permanent classification.** HTTP 5xx, connection timeouts, and 429 (rate limit / quota-per-minute) are transient → retried with exponential backoff + jitter, capped at a bounded number of attempts (default 5, configurable). 401/403 (bad or expired credentials), a permanently exceeded daily quota, and malformed-request errors (400) are permanent → fail immediately into `PublishResult(success=False, error_type="auth_failed" | "quota_exceeded" | "upload_failed")` with zero retries. This mirrors the agent layer's own `LLMCallError`-vs-`SchemaValidationError` (retryable) vs. `ContractViolationError` (not retryable) split in `agents/base/base_agent.py`, adapted to network-call failure modes instead of LLM failure modes — not a new retry philosophy, the same one applied to a different boundary.
+- **Resumable uploads make retry safe, not just fast.** YouTube's resumable upload protocol is used deliberately: a retried attempt resumes the same upload session from the last acknowledged byte offset rather than restarting the whole file, so a network blip partway through a multi-hundred-MB upload doesn't waste bandwidth or risk a corrupt duplicate.
+- **Idempotency guards against duplicate publishes**, independent of in-upload retry: if `project.status == PUBLISHED` and `project.external_video_id` is already set, re-running the Publishing Engine defaults to a **metadata-update call** (title/description/tags/visibility) against the existing `external_video_id`, not a new upload — the same video is never uploaded twice by a routine re-run. A distinct, explicit "publish as a new video" path (not a default) is the only way to bypass this, deliberately making accidental duplicate uploads hard and duplicate uploads-by-mistake something the controller actively prevents rather than something retry logic has to avoid as a side effect.
+- **`PublishResult.retry_count`** records how many attempts the upload actually took, so `publish_report.json` (§24.8) is diagnostic even on eventual success, not just on failure.
+
+### 24.6 Execution Sequence (`PublishingEngineController.run`)
+
+1. Load the project; require `status == VIDEO_RENDERED` (or `PUBLISHED`, for idempotent re-publish/metadata-update).
+2. Load `PublishingPlan` (`publishing_metadata.json`) and confirm `rendered_video_path` is set.
+3. Validate the request (`publish_request_builder.validate_publish_request`) — provenance check (§24.4) — and confirm the video file still exists (`preflight.verify_publish_inputs`).
+4. Resolve the platform adapter (`platforms/registry.resolve_platform`) and authenticate (`platform.authenticate()` — `ExecutionEnvironmentError`-equivalent, `PublishEnvironmentError`, if credentials are missing/invalid; this is the one hard environment gate, same role `ffmpeg_detector` plays in §7).
+5. **`--dry-run` stops here** — returns the built `PublishRequest` plus `PublishResult(success=True, dry_run=True)`, nothing uploaded, nothing persisted. This branch lives in the controller, never inside `YouTubePlatform`, for the same reason it lives in `ExecutionEngineController` and not `ffmpeg_executor.execute()` (§7).
+6. Upload (`platform.upload(...)`) — retry/backoff and resumable-session handling happen inside this call (§24.5).
+7. If upload succeeded, poll for processing completion (`platform.check_status`) and interpret it (`postflight.validate_publish`); if upload failed, there is nothing to poll.
+8. Persist via `ProjectManager.save_publish_result` (§24.8) — the **only** place `PUBLISHED` is set, and only when `PublishResult.success` **and** `PublishValidationReport.is_valid` are both `True`.
+
+### 24.7 Errors
+
+`publishing_engine/errors.py` mirrors `execution_engine/errors.py`'s hierarchy and reasoning exactly — raised only for problems discovered before an upload can even be attempted; everything that happens once the network call is actually made is a `PublishResult`, never an exception:
+
+- `PublishError` — base.
+- `PublishEnvironmentError` — credentials missing/invalid, or the configured platform has no registered adapter.
+- `MediaAccessError` — the rendered video (or thumbnail, if given) is missing/unreadable on disk. *(Reused from `execution_engine/errors.py` rather than redefined — same failure concept, same meaning, no reason for two classes.)*
+- `PublishInputError` — `PublishingPlan` missing, invalid, or its provenance doesn't match the current `rendered_video_path` (§24.4).
+
+### 24.8 State Transitions & Output Specification
+
+**State transition:** `VIDEO_RENDERED → PUBLISHED`, set by a new `ProjectManager.save_publish_result` method, gated exactly like `save_render_result` (§7, §9): both `PublishResult.success` and `PublishValidationReport.is_valid` must be `True`, or the project's state is left completely unchanged (no partial/no-op write). No new intermediate "PUBLISHING" state is introduced — the Execution Engine sets no intermediate "RENDERING" state either, only the terminal one, once persistence actually happens.
+
+New `Project` fields (mirroring `rendered_video_path`): `external_platform: Optional[str]`, `external_video_id: Optional[str]`, `external_url: Optional[str]`, `published_at: Optional[datetime]`.
+
+**Output specification** — written by `project_manager/publish_writer.py` into a new `projects/<project_id>/publishing/` directory, mirroring `renders/`'s two-report separation (§12) exactly:
+
+| File | Written by | When | Contents |
+|---|---|---|---|
+| `publish_report.json` | `publish_writer.write_publish_reports` | Every attempted (non-dry-run) publish — success or failure. | `PublishResult`: process diagnostics — retry count, timing, error on failure. Kept separate from platform-verified outcome, same reasoning as `render_report.json`/`render_validation.json`. |
+| `publish_validation.json` | `publish_writer.write_publish_reports` | Only when an upload was accepted (`PublishResult.success == True`). | `PublishValidationReport`: the platform-verified outcome — per-check pass/fail plus the external video id/URL. **This is the only thing that gates `PUBLISHED`.** |
+
+`ProjectManager` additions: `load_publishing_plan` (reads `publishing_metadata.json`, same pattern as `load_editing_plan` etc.), `get_publish_dir` (hands out `publishing/`'s location without creating it), `save_publish_result`.
+
+### 24.9 Explicitly Deferred / Not Designed Yet
+
+- **Scheduled publishing execution** — `PublishOptions.scheduled_publish_at` is carried as a field so a future scheduler can act on it, but no cron/queue/scheduling mechanism is designed here; v1 publishing is synchronous, invoked on demand (mirrors `RenderOptions.subtitle_mode` being carried-but-unconsumed in the Execution Engine's own v1, §7).
+- **Simultaneous multi-platform publish** — v1 is one `PublishRequest` → one platform per invocation. A project publishing to both YouTube and a second platform would run the controller twice, producing two independent `PublishResult`/`PublishValidationReport` pairs; a "fan-out to N platforms in one call" orchestration layer is not designed here.
+- **Thumbnail upload** depends on a not-yet-built thumbnail-generation executor (§23) actually producing a thumbnail *image* from `ThumbnailPlan`'s prompt — today `ThumbnailPlan` only contains a prompt, not a file. `PublishRequest.thumbnail_path` is `Optional` and will be `None` until that executor exists; `YouTubePlatform.upload` must handle `None` thumbnail (uses the platform's auto-generated thumbnail) as the default v1 case.
+- **Credential storage mechanism** (OAuth token file vs. `config.py` env vars vs. a secrets manager) is intentionally left as an implementation-milestone decision, not fixed here — the only hard constraint from this design is that credentials never appear in a `shared_core/contracts` type, a Producer Package file, or a report.
 
 ---
 
@@ -737,9 +857,9 @@ Ideas explicitly out of scope for v1, but consistent with this architecture:
 
 **Status:** FROZEN
 
-**Version:** 2.0.0
+**Version:** 2.1.0
 
-**Last Updated:** 2026-07-25
+**Last Updated:** 2026-07-26
 
 Breaking changes require:
 - Architecture review

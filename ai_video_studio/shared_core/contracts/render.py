@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import UTC, datetime
 from typing import List, Optional
 
 from pydantic import BaseModel, ConfigDict, Field
@@ -181,4 +181,4 @@ class RenderValidationReport(BaseModel):
     checks: List[RenderValidationCheck] = Field(default_factory=list)
     probed: Optional[ProbedMedia] = None
     output_path: str = ""
-    generated_at: datetime = Field(default_factory=datetime.utcnow)
+    generated_at: datetime = Field(default_factory=lambda: datetime.now(UTC))

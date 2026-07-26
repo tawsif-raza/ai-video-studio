@@ -59,7 +59,7 @@ class BaseAgent(ABC):
             validated = self._call_and_validate(prompt)
             validated = self.validate_contract(validated)
             contract_output = self.to_contract(validated)
-            meta.finished_at = datetime.utcnow()
+            meta.finished_at = datetime.now(UTC)
             logger.info(f"[{self.agent_name}] Completed successfully")
             return AgentResult(success=True, data=contract_output, metadata=meta)
         except ContractViolationError as e:
