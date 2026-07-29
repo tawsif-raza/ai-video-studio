@@ -1,5 +1,8 @@
 import json
+import uuid
 from pathlib import Path
+
+import pytest
 
 from agents.character_planner.contract import CharacterSheet
 from agents.character_planner.schema import CharacterVisualProfile
@@ -1401,3 +1404,215 @@ def test_save_upload_result_never_modifies_project_state_even_on_success(tmp_pat
     assert persisted == original_project_json
     assert returned.status == ProjectState.CREATED
     assert json.loads(persisted)["status"] == "CREATED"
+
+
+def test_list_projects_empty_when_output_dir_has_no_projects(tmp_path, monkeypatch):
+    monkeypatch.setattr(settings, "OUTPUT_DIR", tmp_path)
+    manager = ProjectManager()
+
+    assert manager.list_projects() == []
+
+
+def test_list_projects_returns_all_created_projects(tmp_path, monkeypatch):
+    monkeypatch.setattr(settings, "OUTPUT_DIR", tmp_path)
+    manager = ProjectManager()
+    first = manager.create_project()
+    second = manager.create_project()
+
+    projects = manager.list_projects()
+
+    assert {p.project_id for p in projects} == {first.project_id, second.project_id}
+
+
+def test_list_projects_newest_first(tmp_path, monkeypatch):
+    monkeypatch.setattr(settings, "OUTPUT_DIR", tmp_path)
+    manager = ProjectManager()
+    older = manager.create_project()
+    older = manager._advance(older, created_at=older.created_at.replace(year=older.created_at.year - 1))
+    newer = manager.create_project()
+
+    projects = manager.list_projects()
+
+    assert [p.project_id for p in projects] == [newer.project_id, older.project_id]
+
+
+def test_list_projects_skips_directories_without_project_json(tmp_path, monkeypatch):
+    monkeypatch.setattr(settings, "OUTPUT_DIR", tmp_path)
+    manager = ProjectManager()
+    valid = manager.create_project()
+    (tmp_path / "projects" / "not-a-real-project").mkdir(parents=True)
+
+    projects = manager.list_projects()
+
+    assert [p.project_id for p in projects] == [valid.project_id]
+
+
+def test_delete_project_removes_project_directory(tmp_path, monkeypatch):
+    monkeypatch.setattr(settings, "OUTPUT_DIR", tmp_path)
+    manager = ProjectManager()
+    project = manager.create_project()
+    project_dir = tmp_path / "projects" / project.project_id
+    assert project_dir.exists()
+
+    manager.delete_project(project.project_id)
+
+    assert not project_dir.exists()
+
+
+def test_delete_project_unknown_id_raises_file_not_found(tmp_path, monkeypatch):
+    monkeypatch.setattr(settings, "OUTPUT_DIR", tmp_path)
+    manager = ProjectManager()
+
+    with pytest.raises(FileNotFoundError):
+        manager.delete_project(str(uuid.uuid4()))
+
+
+@pytest.mark.parametrize("filename,subdir", [
+    ("shot1.png", "images"),
+    ("shot1.JPG", "images"),
+    ("shot1.jpeg", "images"),
+    ("clip1.mp4", "video"),
+    ("clip1.mov", "video"),
+    ("narration.wav", "audio"),
+    ("narration.mp3", "audio"),
+    ("narration.m4a", "audio"),
+])
+def test_save_uploaded_media_routes_by_extension(tmp_path, monkeypatch, filename, subdir):
+    monkeypatch.setattr(settings, "OUTPUT_DIR", tmp_path)
+    manager = ProjectManager()
+    project = manager.create_project()
+
+    saved_path = manager.save_uploaded_media(project, filename, b"content")
+
+    expected_path = tmp_path / "projects" / project.project_id / "media" / subdir / filename
+    assert saved_path == expected_path
+    assert expected_path.read_bytes() == b"content"
+
+
+def test_save_uploaded_media_rejects_unsupported_extension(tmp_path, monkeypatch):
+    monkeypatch.setattr(settings, "OUTPUT_DIR", tmp_path)
+    manager = ProjectManager()
+    project = manager.create_project()
+
+    with pytest.raises(ValueError):
+        manager.save_uploaded_media(project, "malware.exe", b"content")
+
+
+def test_save_uploaded_media_rejects_extensionless_filename(tmp_path, monkeypatch):
+    monkeypatch.setattr(settings, "OUTPUT_DIR", tmp_path)
+    manager = ProjectManager()
+    project = manager.create_project()
+
+    with pytest.raises(ValueError):
+        manager.save_uploaded_media(project, "noextension", b"content")
+
+
+def test_save_uploaded_media_strips_path_traversal_from_filename(tmp_path, monkeypatch):
+    monkeypatch.setattr(settings, "OUTPUT_DIR", tmp_path)
+    manager = ProjectManager()
+    project = manager.create_project()
+
+    saved_path = manager.save_uploaded_media(project, "../../evil.png", b"content")
+
+    expected_path = tmp_path / "projects" / project.project_id / "media" / "images" / "evil.png"
+    assert saved_path == expected_path
+    assert saved_path.is_relative_to(tmp_path / "projects" / project.project_id / "media")
+
+
+def test_save_uploaded_media_is_visible_to_scan_media(tmp_path, monkeypatch):
+    monkeypatch.setattr(settings, "OUTPUT_DIR", tmp_path)
+    manager = ProjectManager()
+    project = manager.create_project()
+
+    manager.save_uploaded_media(project, "shot1.png", b"x" * 100)
+    manager.save_uploaded_media(project, "clip1.mp4", b"x" * 100)
+    manager.save_uploaded_media(project, "narration.wav", b"x" * 100)
+
+    manifest = manager.scan_media(project)
+
+    assert [f.filename for f in manifest.images] == ["shot1.png"]
+    assert [f.filename for f in manifest.videos] == ["clip1.mp4"]
+    assert [f.filename for f in manifest.audio] == ["narration.wav"]
+
+
+def test_load_production_package_raises_when_not_yet_generated(tmp_path, monkeypatch):
+    monkeypatch.setattr(settings, "OUTPUT_DIR", tmp_path)
+    manager = ProjectManager()
+    project = manager.create_project()
+
+    with pytest.raises(ValueError):
+        manager.load_production_package(project)
+
+
+def test_load_production_package_returns_every_file_keyed_by_name(tmp_path, monkeypatch):
+    monkeypatch.setattr(settings, "OUTPUT_DIR", tmp_path)
+    manager = ProjectManager()
+    project = manager.create_project()
+    plan = _make_plan()
+    storyboard = _make_storyboard(plan)
+    shot_plan = _make_shot_plan(storyboard)
+    camera_plan = _make_camera_plan(shot_plan)
+    character_sheet = _make_character_sheet(plan)
+    environment_sheet = _make_environment_sheet(plan)
+    prompt_set = _make_prompt_set(storyboard)
+    research_brief = _make_research_brief()
+    voice_script = _make_voice_script(plan)
+
+    project = manager.export_production_package(
+        project, plan=plan, storyboard=storyboard, shot_plan=shot_plan, camera_plan=camera_plan,
+        character_sheet=character_sheet, environment_sheet=environment_sheet, prompt_set=prompt_set,
+        research_brief=research_brief, voice_script=voice_script, tone="uplifting", audience=None,
+        art_style=None,
+    )
+
+    package = manager.load_production_package(project)
+
+    assert set(package) == {
+        "manifest.json", "metadata.json", "research_brief.json", "story.md", "scene_plan.json",
+        "shot_plan.json", "camera_plan.json", "character_bible.json", "environment_bible.json",
+        "image_prompts.json", "video_prompts.json", "voice_script.txt",
+    }
+    # JSON files are parsed structured content, not raw text
+    assert package["character_bible.json"]["character_profiles"][0]["name"] == "Mira"
+    assert package["research_brief.json"]["key_facts"] == research_brief.key_facts
+    # non-JSON files come back as plain text, exactly as package_writer wrote them
+    assert package["voice_script.txt"] == "Mira starts her journey at dawn."
+    assert package["story.md"].startswith("# Test")
+    # manifest.json's own content is included, matching what's really on disk
+    assert package["manifest.json"]["package_id"] == project.project_id
+    # no raw filesystem path anywhere in the response
+    assert project.production_package_dir not in json.dumps(package)
+
+
+def test_load_producer_package_raises_when_not_yet_generated(tmp_path, monkeypatch):
+    monkeypatch.setattr(settings, "OUTPUT_DIR", tmp_path)
+    manager = ProjectManager()
+    project = manager.create_project()
+
+    with pytest.raises(ValueError):
+        manager.load_producer_package(project)
+
+
+def test_load_producer_package_returns_every_file_keyed_by_name(tmp_path, monkeypatch):
+    monkeypatch.setattr(settings, "OUTPUT_DIR", tmp_path)
+    manager = ProjectManager()
+    project = manager.create_project()
+    manifest = ValidatedAssetManifest(source_prompt_set_id="abc", is_valid=True)
+    timeline = Timeline(
+        source_asset_manifest_id=manifest.manifest_id,
+        clips=[TimelineClip(
+            scene_id=1, shot_id=1, asset_path="/i/s1s1.png", asset_type="image",
+            duration_seconds=5, start_time=0, end_time=5,
+        )],
+        total_duration_seconds=5,
+    )
+
+    project = manager.export_producer_package(project, asset_manifest=manifest, timeline=timeline)
+
+    package = manager.load_producer_package(project)
+
+    assert set(package) == {"manifest.json", "asset_manifest.json", "timeline_plan.json"}
+    assert package["asset_manifest.json"]["manifest_id"] == manifest.manifest_id
+    assert package["timeline_plan.json"]["timeline_id"] == timeline.timeline_id
+    assert package["manifest.json"]["package_id"] == project.project_id
+    assert project.producer_package_dir not in json.dumps(package)

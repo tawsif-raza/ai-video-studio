@@ -1,5 +1,6 @@
 import hashlib
 import json
+import shutil
 from pathlib import Path
 from typing import List, Optional
 
@@ -42,6 +43,17 @@ from utils.logger import get_logger
 
 logger = get_logger("app")
 
+# Deliberately duplicated, not imported, from agents/asset_validator/validator.py's
+# IMAGE_EXTENSIONS/VIDEO_EXTENSIONS/AUDIO_EXTENSIONS: ARCHITECTURE.md SS19 verifies
+# project_manager/ depends only on shared_core/ - importing from agents/ here would
+# be a new, undocumented edge in that graph. Three small extension sets are cheap
+# to duplicate and risk drifting out of sync; that tradeoff is intentional (see
+# Milestone W3's technical debt notes) rather than widening the dependency boundary
+# for save_uploaded_media() alone.
+_UPLOAD_IMAGE_EXTENSIONS = {"png", "jpg", "jpeg"}
+_UPLOAD_VIDEO_EXTENSIONS = {"mp4", "mov"}
+_UPLOAD_AUDIO_EXTENSIONS = {"wav", "mp3", "m4a"}
+
 
 class ProjectManager:
     """
@@ -63,6 +75,42 @@ class ProjectManager:
     def load_project(self, project_id: str) -> Project:
         path = self._project_dir(project_id) / "project.json"
         return Project(**json.loads(path.read_text()))
+
+    def list_projects(self) -> List[Project]:
+        """Additive capability for the Web Dashboard (WEB_DASHBOARD_ARCHITECTURE.md
+        SS6): the CLI surface never needed this - a human running app.py already
+        knows the project_id it printed - but a dashboard's project list has no
+        argv equivalent. Reads exactly what load_project reads, once per project
+        directory; introduces no new file format or second source of truth.
+        Directories without a project.json (e.g. mid-write, or foreign contents)
+        are skipped rather than raising, since a listing endpoint should degrade
+        gracefully instead of failing for one bad entry. Newest first."""
+        projects_root = settings.OUTPUT_DIR / "projects"
+        if not projects_root.exists():
+            return []
+        projects = []
+        for project_dir in projects_root.iterdir():
+            if not project_dir.is_dir():
+                continue
+            project_file = project_dir / "project.json"
+            if not project_file.exists():
+                continue
+            projects.append(Project(**json.loads(project_file.read_text())))
+        return sorted(projects, key=lambda p: p.created_at, reverse=True)
+
+    def delete_project(self, project_id: str) -> None:
+        """Additive capability: v1.0's CLIs never needed to delete a project,
+        so there was no precedent to reuse (ARCHITECTURE.md documents no such
+        method). Removes the project's entire directory tree under
+        OUTPUT_DIR/projects/<id> - production package, producer package,
+        media, renders, and publishing output alike - in one step, since none
+        of those are meaningful without the project.json that anchors them.
+        Irreversible; the caller (web_api's DELETE /projects/{id}) is
+        responsible for confirming intent before calling this. Loads the
+        project first so a missing project_id fails the same way load_project
+        already does, rather than silently no-op'ing on rmtree's behalf."""
+        self.load_project(project_id)
+        shutil.rmtree(self._project_dir(project_id))
 
     def load_prompt_set(self, project: Project) -> PromptSet:
         """Reconstructs the PromptSet a completed Director Studio run produced,
@@ -96,12 +144,40 @@ class ProjectManager:
         path = settings.OUTPUT_DIR / f"character_sheet_{project.source_character_sheet_id}.json"
         return CharacterSheet(**json.loads(path.read_text()))
 
+    def load_production_package(self, project: Project) -> dict:
+        """Milestone W7.5: reads back every file the Production Package's
+        own manifest.json already lists (package_writer.py) - manifest.json
+        is reused as the single source of truth for which files exist,
+        rather than a second, hardcoded file list living here too. Each
+        JSON file is parsed and returned as-is; each .md/.txt file is
+        returned as plain text. This introduces no new serialization -
+        every file was already fully serialized (either a direct
+        model.model_dump_json() dump, or a hand-built projection like
+        scene_plan.json) by package_writer at export time; this only reads
+        it back. manifest.json's own content is included too, under its
+        own filename key, since it's real package content in its own
+        right."""
+        if not project.production_package_dir:
+            raise ValueError(f"Project {project.project_id} has no Production Package yet - run Director Studio first")
+        return self._load_package_contents(Path(project.production_package_dir))
+
     def _producer_package_file(self, project: Project, filename: str) -> Path:
         if not project.producer_package_dir:
             raise ValueError(
                 f"Project {project.project_id} has no Producer Package yet - run Producer Studio first"
             )
         return Path(project.producer_package_dir) / filename
+
+    def load_producer_package(self, project: Project) -> dict:
+        """Producer Package analog of load_production_package - same
+        manifest-driven read-back, same "no new serialization" guarantee.
+        Every file in producer-package/ is a direct contract dump (unlike
+        some Production Package files, none of these are hand-built
+        projections), so this is a pure passthrough of what
+        producer_package_writer.py already wrote."""
+        if not project.producer_package_dir:
+            raise ValueError(f"Project {project.project_id} has no Producer Package yet - run Producer Studio first")
+        return self._load_package_contents(Path(project.producer_package_dir))
 
     def load_asset_manifest(self, project: Project) -> ValidatedAssetManifest:
         """Reconstructs the ValidatedAssetManifest from the Producer Package's
@@ -326,6 +402,47 @@ class ProjectManager:
         """Where a human places generated images/video/audio for Producer Studio
         to validate (ARCHITECTURE.md SS10: projects/<id>/media/{images,video,audio}/)."""
         return self._project_dir(project.project_id) / "media"
+
+    def save_uploaded_media(self, project: Project, filename: str, content: bytes) -> Path:
+        """Additive capability for the Web Dashboard's media upload endpoint
+        (WEB_DASHBOARD_ARCHITECTURE.md SS6): the CLI has no equivalent - a
+        human places files into media/{images,video,audio}/ directly on
+        disk, and scan_media() discovers them. A browser upload has no
+        filesystem of its own to place them in, so Project Manager - the
+        sole writer of project-owned files - does it here instead.
+
+        Infers the destination subdirectory (images/video/audio - the exact
+        names scan_media()/_scan_subdir() already scan) from the filename's
+        extension, using the same three extension sets Asset Validation
+        enforces. An extension outside all three is rejected immediately
+        with ValueError rather than landing in a subdirectory scan_media()
+        would never look in - failing loudly here beats a silent, invisible
+        upload.
+
+        filename is reduced to its basename (Path.name) before use, the
+        same defensive move applied to project_id at the web_api boundary
+        (ARCHITECTURE.md SS21 item 4) - an uploaded filename is caller-
+        supplied input joined directly into a filesystem path, so a value
+        like "../../evil.png" is reduced to just "evil.png" and saved
+        inside the target subdirectory, never able to escape it."""
+        safe_filename = Path(filename).name
+        ext = safe_filename.rsplit(".", 1)[-1].lower() if "." in safe_filename else ""
+        if ext in _UPLOAD_IMAGE_EXTENSIONS:
+            subdir = "images"
+        elif ext in _UPLOAD_VIDEO_EXTENSIONS:
+            subdir = "video"
+        elif ext in _UPLOAD_AUDIO_EXTENSIONS:
+            subdir = "audio"
+        else:
+            allowed = sorted(_UPLOAD_IMAGE_EXTENSIONS | _UPLOAD_VIDEO_EXTENSIONS | _UPLOAD_AUDIO_EXTENSIONS)
+            raise ValueError(f"Unsupported media file extension '.{ext}' for {filename!r} - expected one of {allowed}")
+
+        target_dir = self.get_media_dir(project) / subdir
+        target_dir.mkdir(parents=True, exist_ok=True)
+        target_path = target_dir / safe_filename
+        target_path.write_bytes(content)
+        logger.info(f"Uploaded media {safe_filename} saved to {target_path}")
+        return target_path
 
     def get_render_dir(self, project: Project) -> Path:
         """Where the FFmpeg Execution Engine writes its output, kept entirely
@@ -581,6 +698,25 @@ class ProjectManager:
         )
         logger.info(f"Producer package written to {package_dir}")
         return self._advance(project, producer_package_dir=str(package_dir))
+
+    def _load_package_contents(self, package_dir: Path) -> dict:
+        """Shared read-back logic for load_production_package and
+        load_producer_package (W7.5): parses package_dir/manifest.json to
+        learn which files really exist (the same manifest package_writer.py/
+        producer_package_writer.py already wrote), then reads each one back
+        - JSON files parsed, everything else (story.md, voice_script.txt)
+        as plain text - keyed by filename. Never returns a path string;
+        only file contents. manifest.json itself is included under its own
+        key, since it's real package content too."""
+        manifest = json.loads((package_dir / "manifest.json").read_text())
+        contents: dict = {"manifest.json": manifest}
+        for file_info in manifest["files"]:
+            name = file_info["name"]
+            path = package_dir / name
+            if not path.exists():
+                continue
+            contents[name] = json.loads(path.read_text()) if name.endswith(".json") else path.read_text()
+        return contents
 
     def _scan_subdir(self, subdir: Path) -> List[ScannedMediaFile]:
         if not subdir.exists():

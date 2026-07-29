@@ -726,7 +726,7 @@ Ideas explicitly out of scope for v1, but consistent with this architecture:
 - **Publishing executor** — `VIDEO_RENDERED → PUBLISHED`, consuming `publishing_metadata.json` + the rendered video, following the same controller/boundary-module split as the Execution Engine. Full design (module layout, contracts, retry strategy, platform abstraction) is approved and recorded in §24; only the implementation milestones remain.
 - **Thumbnail generation executor** — consumes `thumbnail_plan.json`'s prompt to actually produce the thumbnail image; a separate component from video rendering, same reasoning as keeping the Execution Engine single-purpose (§7).
 - **Audio mixing** — once a music-generation/selection stage produces a real asset, `MusicPlan`'s already-compiled fades/ducking activate at the filter-graph seam already reserved for them (§7, §21 item 9).
-- **Web UI**, replacing/augmenting the three CLIs — talks to Project Manager exactly as the CLIs do today.
+- **Web UI (v1.1)** — a thin FastAPI layer plus a separate Next.js frontend, augmenting (not replacing) the four existing CLIs. Talks to Project Manager and the four controllers exactly as the CLIs do today; adds no second source of truth and no duplicated orchestration logic. Full architecture and phased implementation plan (D1–D7) recorded in the companion document `WEB_DASHBOARD_ARCHITECTURE.md` — design only, not yet implemented.
 - **Style preset library**, **per-tool prompt formatting**, **project versioning/diffing**, **multi-format export** (EDL/Premiere XML alongside direct ffmpeg), **batch project generation**, **collaborative projects**, **plugin system for new agents** — all as previously scoped, unchanged by this revision.
 
 ---
