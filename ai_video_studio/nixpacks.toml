@@ -1,0 +1,16 @@
+# Railway build configuration (Nixpacks builder). Deployment infrastructure
+# only - adds the one system binary this app assumes is on PATH but that
+# Nixpacks' Python provider does not install by default: ffmpeg
+# (execution_engine/ffmpeg_detector.py resolves it via shutil.which("ffmpeg"),
+# execution_engine/ffprobe_client.py resolves ffprobe the same way from the
+# same package). Also pins the Python runtime to the version this project's
+# test suite has actually been verified against for Nixpacks' build (see
+# DEPLOYMENT.md "Known deployment risks" - local development has been using
+# a newer interpreter than this).
+#
+# No build step, start behavior, or application code is introduced beyond
+# Nixpacks' standard requirements.txt-driven Python detection; the start
+# command itself lives in railway.json, not here, to keep one source of
+# truth for it.
+[phases.setup]
+nixPkgs = ["python312", "ffmpeg"]

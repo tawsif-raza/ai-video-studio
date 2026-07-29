@@ -20,7 +20,10 @@ class Settings:
 
     LOG_LEVEL: str = os.getenv("LOG_LEVEL", "INFO")
 
-    OUTPUT_DIR: Path = BASE_DIR / "outputs"
+    # Overridable so a deployment with a mounted persistent volume (e.g.
+    # Railway) can point this at the volume's mount path via env var;
+    # defaults to the existing local-relative behavior unchanged.
+    OUTPUT_DIR: Path = Path(os.getenv("OUTPUT_DIR", str(BASE_DIR / "outputs")))
 
     MAX_RETRIES: int = int(os.getenv("MAX_RETRIES", "3"))
     LLM_TEMPERATURE: float = float(os.getenv("LLM_TEMPERATURE", "0.8"))
