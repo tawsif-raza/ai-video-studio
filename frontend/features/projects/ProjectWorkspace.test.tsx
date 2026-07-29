@@ -64,9 +64,9 @@ describe("ProjectWorkspace", () => {
     useProducerPackageMock.mockReset();
 
     useProjectMock.mockReturnValue({ project: makeProject(), isLoading: false, error: null, refetch: vi.fn() });
-    useStageSnapshotsMock.mockReturnValue({ render: null, publish: null, isLoading: false });
-    useProductionPackageMock.mockReturnValue({ productionPackage: null, isLoading: false, error: null });
-    useProducerPackageMock.mockReturnValue({ producerPackage: null, isLoading: false, error: null });
+    useStageSnapshotsMock.mockReturnValue({ render: null, publish: null, isLoading: false, refetch: vi.fn() });
+    useProductionPackageMock.mockReturnValue({ productionPackage: null, isLoading: false, error: null, refetch: vi.fn() });
+    useProducerPackageMock.mockReturnValue({ producerPackage: null, isLoading: false, error: null, refetch: vi.fn() });
   });
 
   it("shows a loading message while the project is loading", () => {
@@ -113,6 +113,7 @@ describe("ProjectWorkspace", () => {
       },
       isLoading: false,
       error: null,
+      refetch: vi.fn(),
     });
 
     render(<ProjectWorkspace projectId={PROJECT_ID} />);

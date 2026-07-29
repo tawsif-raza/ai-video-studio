@@ -33,9 +33,14 @@ import { WorkspaceTabs, type WorkspaceTab } from "./WorkspaceTabs";
  */
 export function ProjectWorkspace({ projectId }: { projectId: string }) {
   const { project, isLoading, error, refetch } = useProject(projectId);
-  const { render, publish, isLoading: isLoadingSnapshots } = useStageSnapshots(projectId);
-  const { productionPackage } = useProductionPackage(projectId);
-  const { producerPackage } = useProducerPackage(projectId);
+  const {
+    render,
+    publish,
+    isLoading: isLoadingSnapshots,
+    refetch: refetchStageSnapshots,
+  } = useStageSnapshots(projectId);
+  const { productionPackage, refetch: refetchProductionPackage } = useProductionPackage(projectId);
+  const { producerPackage, refetch: refetchProducerPackage } = useProducerPackage(projectId);
   const searchParams = useSearchParams();
   const initialRunId = searchParams.get("runId");
 
@@ -73,7 +78,12 @@ export function ProjectWorkspace({ projectId }: { projectId: string }) {
             render={render}
             publish={publish}
             isLoadingSnapshots={isLoadingSnapshots}
-            onRunTerminal={refetch}
+            onRunTerminal={() => {
+              refetch();
+              refetchProductionPackage();
+              refetchProducerPackage();
+              refetchStageSnapshots();
+            }}
           />
         )}
         {activeTab === "Research" && <ResearchTab productionPackage={productionPackage} />}
