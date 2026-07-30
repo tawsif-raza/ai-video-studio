@@ -59,7 +59,7 @@ class RenderRunRequest(BaseModel):
     pix_fmt: str = "yuv420p"
     subtitle_mode: str = "soft"
     dry_run: bool = False
-    timeout_seconds: Optional[int] = None
+    timeout_seconds: Optional[int] = 120
 
     def to_render_options(self) -> RenderOptions:
         return RenderOptions(**self.model_dump())

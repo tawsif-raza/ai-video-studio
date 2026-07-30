@@ -43,7 +43,7 @@ def main():
     parser.add_argument("--crf", type=int, default=20)
     parser.add_argument("--preset", default="ultrafast")
     parser.add_argument("--codec", default="libx264", help="Video codec (output -c:v)")
-    parser.add_argument("--timeout", type=int, default=None, help="Render timeout in seconds")
+    parser.add_argument("--timeout", type=int, default=120, help="Render timeout in seconds")
     parser.add_argument(
         "--dry-run", action="store_true",
         help="Build, validate, and print the command, but never invoke ffmpeg",

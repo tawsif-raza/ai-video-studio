@@ -37,7 +37,17 @@ class RenderOptions(BaseModel):
     pix_fmt: str = "yuv420p"
     subtitle_mode: str = "soft"  # "soft" | "burn" - consumed by a later milestone
     dry_run: bool = False
-    timeout_seconds: Optional[int] = None
+    # Was None (no timeout) - Release-Prep milestone found that under memory
+    # pressure this deployment's ffmpeg render can stall indefinitely at the
+    # container's memory ceiling (near-zero CPU, memory pinned at the limit)
+    # rather than being cleanly killed, hanging the run forever and starving
+    # the whole service of memory with no automatic recovery. 120s is well
+    # above every observed successful render's real duration (under 30s, even
+    # under memory pressure) but still bounds the worst case - ffmpeg_executor
+    # already handles TimeoutExpired as a normal, reportable RenderResult
+    # failure (error_type="timeout"); this default just lets that path fire
+    # instead of hanging.
+    timeout_seconds: Optional[int] = 120
 
 
 class FFmpegInfo(BaseModel):
