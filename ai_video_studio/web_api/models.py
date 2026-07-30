@@ -55,7 +55,7 @@ class RenderRunRequest(BaseModel):
     video_codec: str = "libx264"
     audio_codec: str = "aac"
     crf: int = 20
-    preset: str = "fast"
+    preset: str = "ultrafast"
     pix_fmt: str = "yuv420p"
     subtitle_mode: str = "soft"
     dry_run: bool = False

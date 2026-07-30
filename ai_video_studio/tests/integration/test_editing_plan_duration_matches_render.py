@@ -6,10 +6,12 @@ found during D4 cloud validation:
    (reproduced directly against that limit via `docker run --memory=1g
    --cpus=2`, outside this suite - not reproducible here since ordinary
    dev/CI machines have far more headroom, which is exactly why it shipped
-   unnoticed). Fixed by changing the default preset to "fast" everywhere it
-   is mirrored (shared_core/contracts/render.py, web_api/models.py,
-   render_app.py); this file's job is to guard against a regression back to a
-   heavier default, not to reproduce the OOM itself.
+   unnoticed). Fixed by changing the default preset to "ultrafast" everywhere
+   it is mirrored (shared_core/contracts/render.py, web_api/models.py,
+   render_app.py) - "fast"/"superfast"/"veryfast" were all tried first and
+   still failed under a realistic concurrent memory footprint; this file's
+   job is to guard against a regression back to a heavier default, not to
+   reproduce the OOM itself.
 2. EditingPlan.total_duration_seconds held the Timeline's raw, contiguous sum
    of shot durations, but any project with a scene-boundary crossfade renders
    shorter than that sum (a crossfade overlaps, and so shrinks, the two clips
@@ -114,7 +116,7 @@ def _render_and_validate(tmp_path, segments, resolution):
         subtitle_plan=SubtitlePlan(subtitle_plan_id="sp1", source_timeline_id="tl1"),
         music_plan=MusicPlan(music_plan_id="mp1", source_timeline_id="tl1"),
         output_dir=str(tmp_path / "out"),
-        options=RenderOptions(resolution=resolution),  # uses the shipped default preset ("fast")
+        options=RenderOptions(resolution=resolution),  # uses the shipped default preset ("ultrafast")
     )
 
     validate_render_request(request)

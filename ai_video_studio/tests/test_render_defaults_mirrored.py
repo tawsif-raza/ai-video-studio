@@ -8,6 +8,13 @@ preset ("fast") renders the identical resolution/output successfully under the
 same constraint (see tests/integration/test_editing_plan_duration_matches_render.py
 for the successful-render regression at both 720p and 1080p).
 
+Only "ultrafast" held up: under a realistic concurrent memory footprint
+(matching the FastAPI/uvicorn process ffmpeg actually shares the container
+with, not an idle container to itself), "fast", "superfast", and even
+"veryfast" all still failed the same way in further testing against the real
+deployment - a reminder that this ceiling is tight enough that a lighter
+preset than expected was needed, not just a lighter one than "medium".
+
 RenderOptions' default is mirrored, by explicit documented convention
 (web_api/models.py's RenderRunRequest docstring), across three places that
 must never drift apart - which is exactly the failure mode that let this
@@ -25,7 +32,7 @@ _RENDER_APP_PY = Path(__file__).resolve().parent.parent / "render_app.py"
 
 
 def test_render_options_default_preset_is_not_medium():
-    assert RenderOptions().preset == "fast"
+    assert RenderOptions().preset == "ultrafast"
 
 
 def test_render_run_request_default_preset_matches_render_options():

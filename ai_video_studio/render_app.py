@@ -41,7 +41,7 @@ def main():
     parser.add_argument("--resolution", default="1920x1080")
     parser.add_argument("--fps", type=int, default=30)
     parser.add_argument("--crf", type=int, default=20)
-    parser.add_argument("--preset", default="fast")
+    parser.add_argument("--preset", default="ultrafast")
     parser.add_argument("--codec", default="libx264", help="Video codec (output -c:v)")
     parser.add_argument("--timeout", type=int, default=None, help="Render timeout in seconds")
     parser.add_argument(
