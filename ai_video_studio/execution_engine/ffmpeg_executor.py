@@ -35,6 +35,14 @@ from pathlib import Path
 from typing import List, Optional
 
 from shared_core.contracts.render import FFmpegCommandSpec, RenderResult
+from utils.logger import get_logger
+
+try:
+    import resource  # POSIX only (unavailable on Windows) - diagnostic-only, degrades to a no-op there
+except ImportError:
+    resource = None
+
+logger = get_logger("execution_engine.ffmpeg_executor")
 
 # How much of ffmpeg's stderr to keep on failure - enough to diagnose a
 # problem without embedding an unbounded log in the result.
@@ -80,6 +88,14 @@ def execute(
         )
 
     duration = time.monotonic() - start
+
+    # Diagnostic only (Release-Prep milestone): the ffmpeg child's peak RSS,
+    # whether it exited cleanly or was killed - the only way to confirm
+    # whether a -9/SIGKILL exit was actually an OOM kill (vs. something else
+    # entirely) on a deployment with no shell access to inspect it directly.
+    if resource is not None:
+        peak_kb = resource.getrusage(resource.RUSAGE_CHILDREN).ru_maxrss
+        logger.info(f"ffmpeg child peak RSS: {peak_kb} KB (~{peak_kb / 1024:.0f} MB), exit_code={proc.returncode}")
 
     if proc.returncode != 0:
         _cleanup(temp_output)
