@@ -14,14 +14,23 @@ class RenderOptions(BaseModel):
     """Execution-technical configuration only - no content decisions live here
     (those were all made during planning). resolution is applied during the
     filter-graph stage, a later Execution Engine milestone; in 8.1 it is
-    carried but not yet emitted into output_args."""
+    carried but not yet emitted into output_args.
+
+    preset default is "fast", not libx264's own "medium" default: Release-Prep
+    milestone found "medium"'s larger reference-frame/lookahead buffers push a
+    multi-scene 1080p render (several 1080p frames held concurrently for
+    concat/xfade compositing) past a 1GB container's memory ceiling, killing
+    ffmpeg with SIGKILL - reproduced and confirmed under a real 1GB/2vCPU
+    container. "fast" renders the identical output at the identical
+    resolution with a materially smaller memory footprint and was verified to
+    succeed under the same constraint where "medium" did not."""
 
     resolution: str = "1920x1080"
     fps: int = 30
     video_codec: str = "libx264"
     audio_codec: str = "aac"
     crf: int = 20
-    preset: str = "medium"
+    preset: str = "fast"
     pix_fmt: str = "yuv420p"
     subtitle_mode: str = "soft"  # "soft" | "burn" - consumed by a later milestone
     dry_run: bool = False

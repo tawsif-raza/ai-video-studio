@@ -83,6 +83,24 @@ def test_scene_boundary_gets_crossfade():
     assert plan.segments[1].transition_in == "crossfade"
 
 
+def test_total_duration_reflects_crossfade_shrinkage_not_raw_timeline_sum():
+    # Regression for the Release-Prep rendering-reliability defect: the
+    # Timeline's raw sum here is 10.0s, but the two 5s clips are joined by a
+    # crossfade at the scene boundary, which overlaps (and so shrinks) the
+    # actual rendered runtime. total_duration_seconds must reflect that
+    # shrinkage, not the Timeline's untouched sum - postflight validation
+    # compares the rendered file's real duration against this exact field.
+    timeline = _timeline(_clip(1, 1, 0.0, 5.0), _clip(2, 1, 5.0, 10.0))
+    plan = build_editing_plan(EditingPlannerInput(
+        asset_manifest=_manifest(), timeline=timeline, subtitle_plan=_subtitle_plan(),
+        music_plan=_music_plan(_music_cue(1, 0.0, 5.0), _music_cue(2, 5.0, 10.0)),
+    ))
+
+    assert timeline.total_duration_seconds == 10.0
+    assert plan.total_duration_seconds == 9.25  # 10.0 - 0.75s crossfade overlap
+    assert plan.total_duration_seconds < timeline.total_duration_seconds
+
+
 def test_image_gets_ken_burns_placeholder_video_gets_none():
     timeline = _timeline(_clip(1, 1, 0.0, 5.0, "image"), _clip(1, 2, 5.0, 10.0, "video"))
     plan = build_editing_plan(EditingPlannerInput(

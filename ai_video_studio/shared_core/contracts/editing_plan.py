@@ -4,6 +4,17 @@ from typing import List
 
 from pydantic import BaseModel, Field
 
+# Duration of the crossfade execution_engine/filter_graph_builder.py applies
+# at every scene-boundary transition (its own CROSSFADE_SECONDS). Duplicated
+# here rather than imported - shared_core may not depend on execution_engine
+# (ARCHITECTURE.md SS19) - and kept honest by
+# tests/integration/test_editing_plan_duration_matches_render.py, which
+# renders a real multi-scene clip through actual ffmpeg and asserts ffprobe's
+# measured duration matches compute_final_duration_seconds(), a stronger
+# guarantee than sharing the constant would give since it checks the real
+# rendered artifact, not just that two numbers happen to agree.
+_CROSSFADE_SECONDS = 0.75
+
 
 class EditingSegment(BaseModel):
     """One clip's placement in the final edit. Carries the resolved
@@ -41,3 +52,38 @@ class EditingPlan(BaseModel):
     segments: List[EditingSegment] = Field(default_factory=list)
     total_duration_seconds: float = 0.0
     generated_at: datetime = Field(default_factory=lambda: datetime.now(UTC))
+
+
+def compute_final_duration_seconds(segments: List[EditingSegment]) -> float:
+    """The actual runtime a render of these segments will produce - always
+    less than or equal to the raw sum of each segment's own duration whenever
+    a crossfade transition is present, since a crossfade overlaps (and so
+    shrinks) the two clips on either side of it rather than playing them back
+    to back.
+
+    This is what EditingPlan.total_duration_seconds must hold: it previously
+    held the Timeline's raw, contiguous sum instead (segments' own start/end
+    times, which do not reserve any crossfade overlap), so postflight
+    validation - which compares the rendered file's real duration against
+    total_duration_seconds - failed by design for every project using a
+    scene-boundary crossfade (Release-Prep milestone, following D4 cloud
+    validation)."""
+    if not segments:
+        return 0.0
+
+    chain_durations: List[float] = []
+    current = segments[0].end_time - segments[0].start_time
+    for prev, nxt in zip(segments, segments[1:]):
+        nxt_duration = nxt.end_time - nxt.start_time
+        if prev.transition_out == "crossfade":
+            chain_durations.append(current)
+            current = nxt_duration
+        else:
+            current += nxt_duration
+    chain_durations.append(current)
+
+    total = chain_durations[0]
+    for chain_duration in chain_durations[1:]:
+        overlap = min(_CROSSFADE_SECONDS, total / 2, chain_duration / 2)
+        total = total + chain_duration - overlap
+    return total

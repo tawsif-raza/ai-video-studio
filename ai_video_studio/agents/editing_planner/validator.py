@@ -2,7 +2,7 @@ from typing import Dict, List
 
 from agents.base.exceptions import ContractViolationError
 from agents.editing_planner.contract import EditingPlannerInput
-from shared_core.contracts.editing_plan import EditingPlan, EditingSegment
+from shared_core.contracts.editing_plan import EditingPlan, EditingSegment, compute_final_duration_seconds
 from shared_core.contracts.music_plan import MusicCue
 from shared_core.contracts.subtitle import SubtitleCue
 from shared_core.contracts.timeline import TimelineClip
@@ -125,5 +125,9 @@ def build_editing_plan(input_data: EditingPlannerInput) -> EditingPlan:
         source_subtitle_plan_id=input_data.subtitle_plan.subtitle_plan_id,
         source_music_plan_id=input_data.music_plan.music_plan_id,
         segments=segments,
-        total_duration_seconds=timeline.total_duration_seconds,
+        # Not timeline.total_duration_seconds: that is the raw, contiguous sum
+        # of shot durations, but scene-boundary crossfades (assigned just
+        # above via _transition_for) overlap and shrink the actual rendered
+        # runtime below that sum - see compute_final_duration_seconds.
+        total_duration_seconds=compute_final_duration_seconds(segments),
     )
