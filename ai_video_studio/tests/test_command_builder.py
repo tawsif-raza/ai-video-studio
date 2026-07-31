@@ -82,11 +82,28 @@ def test_fractional_duration_formatted_compactly():
 
 
 def test_output_args_reflect_options():
-    spec = build_command(_request(options=RenderOptions(video_codec="libx265", crf=18, preset="slow", fps=24)))
+    spec = build_command(_request(
+        options=RenderOptions(video_codec="libx265", crf=18, preset="slow", fps=24, threads=4)
+    ))
     assert "-c:v" in spec.output_args and "libx265" in spec.output_args
     assert "-crf" in spec.output_args and "18" in spec.output_args
     assert "-preset" in spec.output_args and "slow" in spec.output_args
     assert "-r" in spec.output_args and "24" in spec.output_args
+    assert "-threads" in spec.output_args and "4" in spec.output_args
+
+
+def test_output_args_default_to_single_threaded_encode():
+    # Release-Prep milestone: production RSS telemetry showed ffmpeg's own
+    # peak memory for a 1080p multi-scene render (~860MB) leaves too little
+    # headroom in this deployment's 1GB container even at preset="ultrafast" -
+    # preset was already at its floor, so RenderOptions.threads (default 1)
+    # is the next lever, disabling libx264's frame-parallel per-thread
+    # buffers. A silent regression back to auto-detect (0) would reopen the
+    # OOM this test exists to guard against.
+    spec = build_command(_request())
+    assert "-threads" in spec.output_args
+    threads_index = spec.output_args.index("-threads")
+    assert spec.output_args[threads_index + 1] == "1"
 
 
 def test_output_path_under_render_dir():

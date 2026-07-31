@@ -75,6 +75,30 @@ def test_render_app_cli_default_timeout_matches_render_options():
     assert int(match.group(1)) == RenderOptions().timeout_seconds
 
 
+def test_render_options_default_threads_is_single_not_autodetect():
+    # Not libx264's own auto-detect (0): production RSS telemetry
+    # (execution_engine/ffmpeg_executor.py's peak-RSS diagnostic) showed
+    # ffmpeg's own memory for a 1080p multi-scene render staying pinned at
+    # ~860MB of this deployment's 1GB ceiling even at preset="ultrafast" -
+    # preset alone was insufficient and is already at its floor. 1 disables
+    # frame-parallel encoding, the next real memory lever - see module
+    # docstring.
+    assert RenderOptions().threads == 1
+
+
+def test_render_app_cli_default_threads_matches_render_options():
+    source = _RENDER_APP_PY.read_text()
+    match = re.search(r'--threads["\']?,\s*type=int,\s*default=(\d+)', source)
+    assert match, "could not find --threads argparse default in render_app.py"
+    assert int(match.group(1)) == RenderOptions().threads
+
+
+def test_render_run_request_default_threads_matches_render_options():
+    assert RenderRunRequest().threads == RenderOptions().threads
+    request = RenderRunRequest()
+    assert request.to_render_options().threads == RenderOptions().threads
+
+
 def test_render_run_request_default_timeout_matches_render_options():
     # RenderRunRequest.timeout_seconds previously defaulted to None even
     # after RenderOptions' own default was fixed - to_render_options() passes

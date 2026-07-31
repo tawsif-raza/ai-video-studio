@@ -42,6 +42,7 @@ def main():
     parser.add_argument("--fps", type=int, default=30)
     parser.add_argument("--crf", type=int, default=20)
     parser.add_argument("--preset", default="ultrafast")
+    parser.add_argument("--threads", type=int, default=1, help="Encoder thread count (output -threads)")
     parser.add_argument("--codec", default="libx264", help="Video codec (output -c:v)")
     parser.add_argument("--timeout", type=int, default=120, help="Render timeout in seconds")
     parser.add_argument(
@@ -55,6 +56,7 @@ def main():
         fps=args.fps,
         crf=args.crf,
         preset=args.preset,
+        threads=args.threads,
         video_codec=args.codec,
         dry_run=args.dry_run,
         timeout_seconds=args.timeout,

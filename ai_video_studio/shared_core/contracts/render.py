@@ -25,8 +25,12 @@ class RenderOptions(BaseModel):
     footprint (matching the FastAPI/uvicorn process ffmpeg actually shares
     the container with in production, not an idle container to itself):
     under that realistic headroom, "fast", "superfast", and even "veryfast"
-    all still failed - only "ultrafast" succeeded consistently, including
-    with an extra safety margin beyond the observed baseline."""
+    all still failed. "ultrafast" was believed to hold consistently with an
+    extra safety margin, but production RSS telemetry gathered afterward
+    disproved that: the ffmpeg child's own peak RSS for this render sits at
+    ~860MB (84%+ of the 1GB ceiling) regardless of preset, and the render was
+    still observed to SIGKILL intermittently - see threads below, the next
+    lever this milestone actually found and tuned."""
 
     resolution: str = "1920x1080"
     fps: int = 30
@@ -34,6 +38,21 @@ class RenderOptions(BaseModel):
     audio_codec: str = "aac"
     crf: int = 20
     preset: str = "ultrafast"
+    # Was libx264's own auto-detect (0 = one encode thread per detected CPU).
+    # Release-Prep milestone found that even "ultrafast" still SIGKILLs this
+    # deployment's 1080p multi-scene render intermittently: production RSS
+    # telemetry (ffmpeg_executor's peak-RSS diagnostic) showed the ffmpeg
+    # child alone consistently using ~860MB of the container's 1GB ceiling
+    # regardless of preset - preset only trims encoder lookahead/reference
+    # buffers, not the per-thread reconstruction buffers frame-parallel
+    # threading allocates, so it was never actually addressing this. preset
+    # is already at its floor (ultrafast); threads is the next real memory
+    # lever and was never tuned. 1 disables frame-parallel encoding, trading
+    # some encode speed (still well inside timeout_seconds) for a smaller,
+    # single-threaded encoder memory footprint - the goal is real headroom
+    # for the FastAPI/uvicorn process ffmpeg shares the container with, not
+    # just a number that happened to survive one test run.
+    threads: int = 1
     pix_fmt: str = "yuv420p"
     subtitle_mode: str = "soft"  # "soft" | "burn" - consumed by a later milestone
     dry_run: bool = False

@@ -100,6 +100,7 @@ def _output_args(options: RenderOptions) -> list:
         "-c:v", options.video_codec,
         "-preset", options.preset,
         "-crf", str(options.crf),
+        "-threads", str(options.threads),
         "-c:a", options.audio_codec,
         "-pix_fmt", options.pix_fmt,
         "-r", str(options.fps),
