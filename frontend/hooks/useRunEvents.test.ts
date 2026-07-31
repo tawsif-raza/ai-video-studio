@@ -1,7 +1,10 @@
-import { act, renderHook } from "@testing-library/react";
-import { afterEach, beforeEach, describe, expect, it } from "vitest";
+import { act, renderHook, waitFor } from "@testing-library/react";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
 import { useRunEvents } from "./useRunEvents";
+
+const { getRunMock } = vi.hoisted(() => ({ getRunMock: vi.fn() }));
+vi.mock("@/api/runs", () => ({ getRun: getRunMock }));
 
 /** Minimal, controllable stand-in for the browser's EventSource - jsdom
  * doesn't implement it, and this lets tests deterministically emit the
@@ -40,6 +43,17 @@ describe("useRunEvents", () => {
     FakeEventSource.instances = [];
     // @ts-expect-error - test double, not the real browser EventSource
     global.EventSource = FakeEventSource;
+    getRunMock.mockReset();
+    getRunMock.mockResolvedValue({
+      run_id: "run-1",
+      project_id: "p1",
+      stage: "producer",
+      status: "succeeded",
+      started_at: "",
+      finished_at: "",
+      error: null,
+      result: null,
+    });
   });
 
   afterEach(() => {
@@ -97,6 +111,28 @@ describe("useRunEvents", () => {
     expect(result.current.status).toBe("succeeded");
     expect(result.current.progress).toBe(100);
     expect(result.current.isConnected).toBe(false);
+  });
+
+  it("fetches the run's full result via GET /runs/{id} once completed", async () => {
+    getRunMock.mockResolvedValue({
+      run_id: "run-1",
+      project_id: "p1",
+      stage: "producer",
+      status: "succeeded",
+      started_at: "",
+      finished_at: "",
+      error: null,
+      result: { asset_validation: { missing_shot_count: 2 } },
+    });
+    const { result } = renderHook(() => useRunEvents("run-1"));
+    const source = FakeEventSource.instances[0];
+
+    act(() => source.emit("completed", { status: "succeeded" }));
+
+    expect(getRunMock).toHaveBeenCalledWith("run-1");
+    await waitFor(() => {
+      expect(result.current.result).toEqual({ asset_validation: { missing_shot_count: 2 } });
+    });
   });
 
   it("closes the connection once a completed event arrives", () => {

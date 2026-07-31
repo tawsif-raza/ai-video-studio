@@ -68,6 +68,26 @@ def test_image_only_asset_type_is_image():
     assert timeline.clips[0].asset_type == "image"
 
 
+def test_shot_with_neither_image_nor_video_resolves_to_black():
+    # Release milestone: Asset Validation now tolerates a shot with no
+    # image/video at all (up to MAX_TOLERATED_MISSING_SHOTS) rather than
+    # blocking is_valid outright - Timeline Planning must still produce a
+    # real clip for it, just with no real asset behind it.
+    manifest = _make_manifest([
+        ValidatedAsset(scene_id=1, shot_id=1, image_path=None, video_path=None),
+    ])
+    durations = _durations((1, 1, 5))
+
+    timeline = build_timeline(TimelinePlannerInput(asset_manifest=manifest, shot_durations=durations))
+
+    assert timeline.clips[0].asset_type == "black"
+    assert timeline.clips[0].asset_path is None
+    # Still fully sequenced like any other clip - a placeholder shot doesn't
+    # get skipped or shrink the timeline.
+    assert timeline.clips[0].start_time == 0
+    assert timeline.clips[0].end_time == 5
+
+
 def test_voice_segments_span_each_scenes_clips():
     manifest = _make_manifest([
         ValidatedAsset(scene_id=1, shot_id=1, image_path="/i/s1s1.png"),

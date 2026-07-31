@@ -76,6 +76,19 @@ def test_video_segment_has_no_pre_input_args():
     assert spec.inputs[0].kind == "video"
 
 
+def test_black_segment_becomes_lavfi_color_source_sized_to_render_resolution():
+    # Release milestone: a shot Asset Validation tolerated as missing has no
+    # real file - command_builder synthesizes a black frame at this render's
+    # own resolution (a render-time decision, not a planning-time one).
+    spec = build_command(_request(
+        segments=[_segment(1, 1, 0.0, 4.0, "black")],
+        options=RenderOptions(resolution="1280x720"),
+    ))
+    assert spec.inputs[0].pre_input_args == ["-f", "lavfi"]
+    assert spec.inputs[0].kind == "black"
+    assert spec.inputs[0].path == "color=c=black:s=1280x720:d=4"
+
+
 def test_fractional_duration_formatted_compactly():
     spec = build_command(_request(segments=[_segment(1, 1, 0.0, 2.5, "image")]))
     assert spec.inputs[0].pre_input_args == ["-loop", "1", "-t", "2.5"]

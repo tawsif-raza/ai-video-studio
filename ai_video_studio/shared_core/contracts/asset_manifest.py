@@ -39,15 +39,22 @@ class ValidatedAsset(BaseModel):
 
 class ValidationIssue(BaseModel):
     """One concrete, human-readable problem found during validation - this is
-    the report a human acts on to fix their media/ folder."""
+    the report a human acts on to fix their media/ folder. "missing_shot" (a
+    shot with no image or video at all) is tolerated up to
+    MAX_TOLERATED_MISSING_SHOTS and so does not by itself fail is_valid;
+    "missing" (a file that exists but is corrupt/undersized, treated as
+    absent) always does, same as "duplicate"/"naming"/"narration"."""
 
-    category: str  # "missing" | "duplicate" | "naming" | "narration"
+    category: str  # "missing" | "missing_shot" | "duplicate" | "naming" | "narration"
     description: str
 
 
 class ValidatedAssetManifest(BaseModel):
     """Public output contract (ARCHITECTURE.md SS6/SS12): Asset Validation's
-    report today, and Timeline Planning's input in a future milestone."""
+    report today, and Timeline Planning's input in a future milestone.
+    missing_shot_count is the same count already itemized in issues as
+    "missing_shot" entries, surfaced as a plain number so a caller (the
+    dashboard) can show "3 shots missing" without parsing issue text."""
 
     manifest_id: str = Field(default_factory=lambda: str(uuid.uuid4()))
     source_prompt_set_id: str = ""
@@ -55,4 +62,5 @@ class ValidatedAssetManifest(BaseModel):
     narration_audio_path: Optional[str] = None
     issues: List[ValidationIssue] = Field(default_factory=list)
     is_valid: bool = False
+    missing_shot_count: int = 0
     generated_at: datetime = Field(default_factory=lambda: datetime.now(UTC))

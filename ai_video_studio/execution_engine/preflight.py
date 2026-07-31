@@ -22,6 +22,11 @@ def verify_media_exists(request: RenderRequest) -> None:
     missing = []
 
     for segment in request.editing_plan.segments:
+        if segment.asset_type == "black":
+            # Asset Validation tolerated this shot as missing - there is no
+            # real file to check, command_builder synthesizes a black frame
+            # for it instead.
+            continue
         if not os.path.isfile(segment.asset_path):
             missing.append(segment.asset_path)
 

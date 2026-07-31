@@ -18,7 +18,7 @@ from pathlib import Path
 
 from execution_engine.errors import RenderInputError
 from execution_engine.ffmpeg_format import format_seconds
-from execution_engine.filter_graph_builder import build_visual_filter_graph
+from execution_engine.filter_graph_builder import build_visual_filter_graph, parse_resolution
 from shared_core.contracts.render import FFmpegCommandSpec, FFmpegInput, RenderOptions, RenderRequest
 
 GLOBAL_ARGS = ["-y", "-hide_banner", "-loglevel", "error"]
@@ -116,7 +116,13 @@ def build_command(request: RenderRequest) -> FFmpegCommandSpec:
     Images carry `-loop 1 -t <dur>` so a still becomes a finite clip; a video
     input is trimmed to the plan's duration inside the filter graph instead
     (filter_graph_builder), since that requires a filter operating on decoded
-    frames, not a pre-input flag. The compiled visual graph's output stream is
+    frames, not a pre-input flag. A "black" segment (a shot Asset Validation
+    tolerated as missing, up to MAX_TOLERATED_MISSING_SHOTS) has no real file
+    at all - it becomes an `-f lavfi -i color=c=black:s=<w>x<h>:d=<dur>`
+    synthetic input sized to this render's own resolution, the one place a
+    concrete WxH is chosen for it (Timeline/Editing Planning deliberately
+    only carry the fact that it's missing, not a resolution, since that's a
+    per-render decision). The compiled visual graph's output stream is
     explicitly mapped alongside the raw (unfiltered) narration audio stream -
     audio mixing is still deferred, so the narration is only ever passed
     through, never blended."""
@@ -125,10 +131,16 @@ def build_command(request: RenderRequest) -> FFmpegCommandSpec:
         duration = segment.end_time - segment.start_time
         if segment.asset_type == "image":
             pre_input_args = ["-loop", "1", "-t", format_seconds(duration)]
+            input_path = segment.asset_path
+        elif segment.asset_type == "black":
+            width, height = parse_resolution(request.options.resolution)
+            pre_input_args = ["-f", "lavfi"]
+            input_path = f"color=c=black:s={width}x{height}:d={format_seconds(duration)}"
         else:
             pre_input_args = []
+            input_path = segment.asset_path
         inputs.append(FFmpegInput(
-            path=segment.asset_path,
+            path=input_path,
             kind=segment.asset_type,
             scene_id=segment.scene_id,
             shot_id=segment.shot_id,

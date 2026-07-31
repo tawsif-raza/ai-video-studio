@@ -67,17 +67,72 @@ def test_full_coverage_by_video_is_valid():
     assert manifest.assets[0].image_path is None
 
 
-def test_missing_shot_detected():
+def test_missing_shot_within_tolerance_is_still_valid():
+    # Release milestone: a shot or two not generated yet is common
+    # mid-production and shouldn't block everything else - up to
+    # MAX_TOLERATED_MISSING_SHOTS missing shots is tolerated (the Execution
+    # Engine renders a plain black frame for each), previously this alone
+    # made is_valid False for even a single missing shot.
     prompt_set = _make_prompt_set(shots=((1, 1), (1, 2)))
     media = ImportedMediaManifest(images=[_scanned("scene_1_shot_1.png")], audio=[_narration()])
 
     manifest = validate_assets(AssetValidatorInput(prompt_set=prompt_set, imported_media=media))
 
-    assert manifest.is_valid is False
-    assert any(i.category == "missing" and "shot 2" in i.description for i in manifest.issues)
+    assert manifest.is_valid is True
+    assert manifest.missing_shot_count == 1
+    assert any(i.category == "missing_shot" and "shot 2" in i.description for i in manifest.issues)
     covered = {(a.scene_id, a.shot_id): a for a in manifest.assets}
     assert covered[(1, 2)].image_path is None
     assert covered[(1, 2)].video_path is None
+
+
+def test_missing_shots_at_exact_tolerance_boundary_is_valid():
+    from agents.asset_validator.validator import MAX_TOLERATED_MISSING_SHOTS
+
+    shots = tuple((1, i) for i in range(1, MAX_TOLERATED_MISSING_SHOTS + 2))
+    prompt_set = _make_prompt_set(shots=shots)
+    # Only the first shot has media - exactly MAX_TOLERATED_MISSING_SHOTS are missing.
+    media = ImportedMediaManifest(images=[_scanned("scene_1_shot_1.png")], audio=[_narration()])
+
+    manifest = validate_assets(AssetValidatorInput(prompt_set=prompt_set, imported_media=media))
+
+    assert manifest.missing_shot_count == MAX_TOLERATED_MISSING_SHOTS
+    assert manifest.is_valid is True
+
+
+def test_missing_shots_over_tolerance_blocks_with_clear_count():
+    from agents.asset_validator.validator import MAX_TOLERATED_MISSING_SHOTS
+
+    shots = tuple((1, i) for i in range(1, MAX_TOLERATED_MISSING_SHOTS + 3))
+    prompt_set = _make_prompt_set(shots=shots)
+    media = ImportedMediaManifest(images=[_scanned("scene_1_shot_1.png")], audio=[_narration()])
+
+    manifest = validate_assets(AssetValidatorInput(prompt_set=prompt_set, imported_media=media))
+
+    expected_missing = MAX_TOLERATED_MISSING_SHOTS + 1
+    assert manifest.missing_shot_count == expected_missing
+    assert manifest.is_valid is False
+    assert any(
+        i.category == "missing_shot" and str(expected_missing) in i.description and "tolerates" in i.description
+        for i in manifest.issues
+    )
+
+
+def test_missing_shots_within_tolerance_still_blocked_by_other_issues():
+    # Missing-shot coverage is the only category tolerated by count - a
+    # naming violation elsewhere must still block regardless of how few
+    # shots are missing.
+    prompt_set = _make_prompt_set(shots=((1, 1), (1, 2)))
+    media = ImportedMediaManifest(
+        images=[_scanned("random_photo.png")],
+        audio=[_narration()],
+    )
+
+    manifest = validate_assets(AssetValidatorInput(prompt_set=prompt_set, imported_media=media))
+
+    assert manifest.missing_shot_count == 2
+    assert manifest.is_valid is False
+    assert any(i.category == "naming" for i in manifest.issues)
 
 
 def test_duplicate_same_slot_detected():

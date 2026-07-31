@@ -52,7 +52,11 @@ class VisualFilterGraph:
     video_output_label: str
 
 
-def _parse_resolution(resolution: str) -> Tuple[int, int]:
+def parse_resolution(resolution: str) -> Tuple[int, int]:
+    """Public (not just this module's own concern): command_builder also
+    needs the render's target width/height to synthesize a black-frame lavfi
+    source for a shot Asset Validation tolerated as missing, so this parse is
+    shared rather than duplicated."""
     match = _RESOLUTION_RE.match(resolution.strip())
     if not match:
         raise RenderInputError(f"Invalid resolution '{resolution}' - expected WIDTHxHEIGHT, e.g. '1920x1080'")
@@ -146,10 +150,11 @@ def _build_segment_chain(
 
     trim_expr = ""
     if segment.asset_type == "video":
-        # Images are already exactly `duration` long via `-loop 1 -t <dur>`
-        # in command_builder; a video source is conformed to the plan's
-        # duration here, since concat/xfade require every input's length to
-        # match what the plan says, not what the source file happens to hold.
+        # Images (and "black" placeholder segments, via their lavfi `:d=`
+        # parameter) are already exactly `duration` long via command_builder;
+        # a video source is conformed to the plan's duration here, since
+        # concat/xfade require every input's length to match what the plan
+        # says, not what the source file happens to hold.
         trim_expr = f"trim=duration={format_seconds(duration)},setpts=PTS-STARTPTS,"
     filters.append(f"[{index}:v]{trim_expr}{_normalize_expr(width, height, fps)}[{current}]")
 
@@ -181,7 +186,7 @@ def build_visual_filter_graph(editing_plan: EditingPlan, options: RenderOptions)
     if not segments:
         raise RenderInputError("Editing plan has no segments - cannot build a filter graph")
 
-    width, height = _parse_resolution(options.resolution)
+    width, height = parse_resolution(options.resolution)
     if options.fps <= 0:
         raise RenderInputError(f"Invalid fps '{options.fps}' - must be positive")
 

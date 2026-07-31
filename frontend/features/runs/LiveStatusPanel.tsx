@@ -7,6 +7,29 @@ import { Card, CardTitle } from "@/components/ui/Card";
 import { useRunEvents } from "@/hooks/useRunEvents";
 
 /**
+ * Producer Studio's run result carries asset_validation.missing_shot_count
+ * (web_api/producer_runner.py) - a plain number the backend already computed
+ * rather than something parsed out of issue text. A run can show "Completed
+ * successfully" while some shots were tolerated as missing (rendered as
+ * black placeholders) - this makes that visible instead of silent.
+ */
+function MissingShotNotice({ result }: { result: Record<string, unknown> | null }) {
+  const assetValidation = result?.asset_validation;
+  if (!assetValidation || typeof assetValidation !== "object") return null;
+
+  const missingShotCount = (assetValidation as Record<string, unknown>).missing_shot_count;
+  if (typeof missingShotCount !== "number" || missingShotCount <= 0) return null;
+
+  return (
+    <p className="mt-2 rounded-lg border border-amber-200 bg-amber-50 p-2.5 text-sm text-amber-800 dark:border-amber-900 dark:bg-amber-950 dark:text-amber-300">
+      {missingShotCount} shot{missingShotCount === 1 ? "" : "s"} {missingShotCount === 1 ? "is" : "are"} missing an
+      image or video - rendered as a plain black frame for now. Check the Media tab and upload the missing file(s)
+      if you want real visuals there.
+    </p>
+  );
+}
+
+/**
  * Live view of one run, driven entirely by GET /runs/{runId}/events (W6)
  * via the browser's native EventSource - no polling, no WebSockets.
  * Displays exactly the four things Milestone W7 asks for: current stage,
@@ -84,6 +107,7 @@ export function LiveStatusPanel({
           Completed successfully.
         </p>
       )}
+      {live.status === "succeeded" && <MissingShotNotice result={live.result} />}
     </Card>
   );
 }

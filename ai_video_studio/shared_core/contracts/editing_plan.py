@@ -1,6 +1,6 @@
 import uuid
 from datetime import UTC, datetime
-from typing import List
+from typing import List, Optional
 
 from pydantic import BaseModel, Field
 
@@ -28,8 +28,8 @@ class EditingSegment(BaseModel):
 
     scene_id: int
     shot_id: int
-    asset_path: str
-    asset_type: str  # "image" | "video"
+    asset_path: Optional[str] = None
+    asset_type: str  # "image" | "video" | "black"
     start_time: float
     end_time: float
     subtitle_cue_indices: List[int] = Field(default_factory=list)

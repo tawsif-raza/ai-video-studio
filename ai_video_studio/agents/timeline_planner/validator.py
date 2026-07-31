@@ -1,4 +1,4 @@
-from typing import Dict, List, Tuple
+from typing import Dict, List, Optional, Tuple
 
 from agents.base.exceptions import ContractViolationError
 from agents.timeline_planner.contract import TimelinePlannerInput
@@ -6,13 +6,18 @@ from shared_core.contracts.asset_manifest import ValidatedAsset
 from shared_core.contracts.timeline import Timeline, TimelineClip, VoiceSegment
 
 
-def _resolve_clip_asset(asset: ValidatedAsset) -> Tuple[str, str]:
+def _resolve_clip_asset(asset: ValidatedAsset) -> Tuple[Optional[str], str]:
     """Video is preferred over a static image when a shot has both - a video
     clip is closer to the final cut than a still frame stretched to fill the
-    shot's duration."""
+    shot's duration. Neither present means Asset Validation tolerated this
+    shot as missing (MAX_TOLERATED_MISSING_SHOTS) - "black" with no path at
+    all, since the Execution Engine renders a plain black frame for it rather
+    than picking a real file that doesn't exist."""
     if asset.video_path is not None:
         return asset.video_path, "video"
-    return asset.image_path, "image"
+    if asset.image_path is not None:
+        return asset.image_path, "image"
+    return None, "black"
 
 
 def build_timeline(input_data: TimelinePlannerInput) -> Timeline:

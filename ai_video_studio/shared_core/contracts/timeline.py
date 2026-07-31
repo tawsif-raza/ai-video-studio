@@ -22,12 +22,17 @@ class TimelineClip(BaseModel):
     the shot's approved image/video asset was chosen - video is preferred over
     a static image when both exist (ARCHITECTURE.md SS6: Timeline Planning
     sequences validated assets, it does not generate or choose media itself
-    beyond this one ordering decision)."""
+    beyond this one ordering decision). asset_path is None and asset_type is
+    "black" for a shot Asset Validation tolerated as missing (up to
+    MAX_TOLERATED_MISSING_SHOTS) - the Execution Engine renders a plain black
+    frame for that shot's duration instead of a real file; no concrete
+    resolution is chosen here since that's a render-time decision
+    (RenderOptions), not a planning-time one."""
 
     scene_id: int
     shot_id: int
-    asset_path: str
-    asset_type: str  # "image" | "video"
+    asset_path: Optional[str] = None
+    asset_type: str  # "image" | "video" | "black"
     duration_seconds: int
     start_time: float
     end_time: float

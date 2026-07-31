@@ -316,11 +316,40 @@ def test_complete_media_advances_to_media_imported_and_builds_timeline_and_subti
     assert printed["publishing"]["youtube"]["visibility"] == "private"
 
 
-def test_incomplete_media_does_not_advance_state_or_build_timeline(tmp_path, monkeypatch, capsys):
+def test_missing_shot_within_tolerance_still_advances(tmp_path, monkeypatch, capsys):
+    # Release milestone: a shot or two not yet generated no longer blocks
+    # Producer Studio outright - Asset Validation tolerates up to
+    # MAX_TOLERATED_MISSING_SHOTS missing shots (the Execution Engine renders
+    # a black frame for each), so the pipeline still completes end to end.
     manager, project = _build_package_ready_project(tmp_path, monkeypatch)
     _write_media(
         manager, project,
-        images=[("scene_1_shot_1.png", b"0" * 6000)],  # shot 2 missing entirely
+        images=[("scene_1_shot_1.png", b"0" * 6000)],  # shot 2 missing entirely - within tolerance
+        audio=[("voice_script.wav", b"2" * 6000)],
+    )
+
+    exit_code = _run_producer_app(monkeypatch, project.project_id)
+
+    assert exit_code == 0
+    reloaded = manager.load_project(project.project_id)
+    assert reloaded.status == ProjectState.EDIT_PLAN_READY
+    assert reloaded.source_editing_plan_id is not None
+
+    printed = json.loads(capsys.readouterr().out)
+    assert printed["asset_validation"]["is_valid"] is True
+    assert printed["asset_validation"]["missing_shot_count"] == 1
+    assert any("shot 2" in issue["description"] for issue in printed["asset_validation"]["issues"])
+    assert len(printed["editing"]["segments"]) == 2
+
+
+def test_naming_violation_still_blocks_regardless_of_missing_shot_tolerance(tmp_path, monkeypatch, capsys):
+    # Missing-shot coverage is the only category Asset Validation tolerates
+    # by count - a naming violation (or any other issue type) must still
+    # block outright, same as before this milestone.
+    manager, project = _build_package_ready_project(tmp_path, monkeypatch)
+    _write_media(
+        manager, project,
+        images=[("scene_1_shot_1.png", b"0" * 6000), ("not_a_valid_name.png", b"1" * 6000)],
         audio=[("voice_script.wav", b"2" * 6000)],
     )
 
@@ -329,23 +358,13 @@ def test_incomplete_media_does_not_advance_state_or_build_timeline(tmp_path, mon
     assert exit_code == 1
     reloaded = manager.load_project(project.project_id)
     assert reloaded.status == ProjectState.PACKAGE_READY  # unchanged
-    assert reloaded.source_timeline_id is None
-    assert reloaded.source_subtitle_plan_id is None
-    assert reloaded.source_music_plan_id is None
     assert reloaded.source_editing_plan_id is None
-    assert reloaded.source_thumbnail_plan_id is None
-    assert reloaded.source_publishing_metadata_id is None
     assert not (tmp_path / "projects" / project.project_id / "producer-package").exists()
 
     printed = json.loads(capsys.readouterr().out)
     assert printed["asset_validation"]["is_valid"] is False
-    assert any("shot 2" in issue["description"] for issue in printed["asset_validation"]["issues"])
-    assert "timeline" not in printed
-    assert "subtitles" not in printed
-    assert "music" not in printed
+    assert any(issue["category"] == "naming" for issue in printed["asset_validation"]["issues"])
     assert "editing" not in printed
-    assert "thumbnail" not in printed
-    assert "publishing" not in printed
 
 
 def test_video_only_coverage_also_valid(tmp_path, monkeypatch):

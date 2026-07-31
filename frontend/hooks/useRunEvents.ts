@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 
+import { getRun } from "@/api/runs";
 import { runEventsUrl } from "@/api/sse";
 import type {
   CompletedEvent,
@@ -18,6 +19,12 @@ export interface RunLiveState {
   progress: number | null;
   error: string | null;
   isConnected: boolean;
+  // The SSE stream's own "completed" event carries only a status, not the
+  // run's full result (e.g. asset_validation.missing_shot_count) - that's
+  // fetched separately via GET /runs/{id} once the stream reports terminal,
+  // so callers that need it (e.g. showing "N shots missing media") don't
+  // each have to re-implement that follow-up fetch themselves.
+  result: Record<string, unknown> | null;
 }
 
 const initialState: RunLiveState = {
@@ -26,6 +33,7 @@ const initialState: RunLiveState = {
   progress: null,
   error: null,
   isConnected: false,
+  result: null,
 };
 
 /**
@@ -71,6 +79,13 @@ export function useRunEvents(runId: string | null | undefined): RunLiveState {
       const data = JSON.parse(event.data) as CompletedEvent;
       setState((prev) => ({ ...prev, status: data.status, isConnected: false }));
       source.close();
+      getRun(runId)
+        .then((run) => setState((prev) => ({ ...prev, result: run.result })))
+        .catch(() => {
+          // Best-effort only - the run itself already completed successfully
+          // per the SSE event above; failing to fetch its detail afterward
+          // shouldn't be treated as the run having failed.
+        });
     };
     const onFailed = (event: MessageEvent<string>) => {
       const data = JSON.parse(event.data) as FailedEvent;

@@ -92,7 +92,7 @@ class FFmpegInput(BaseModel):
     model_config = ConfigDict(frozen=True)
 
     path: str
-    kind: str  # "image" | "video" | "audio"
+    kind: str  # "image" | "video" | "audio" | "black"
     scene_id: Optional[int] = None
     shot_id: Optional[int] = None
     duration_seconds: Optional[float] = None

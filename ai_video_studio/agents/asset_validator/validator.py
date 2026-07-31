@@ -23,6 +23,14 @@ MIN_IMAGE_BYTES = 5_000
 MIN_VIDEO_BYTES = 10_000
 MIN_AUDIO_BYTES = 5_000
 
+# How many shots may be entirely missing an image/video asset before
+# validation blocks the project. A shot or two not generated yet is common
+# mid-production and shouldn't block everything else (naming, narration,
+# duplicates are still hard failures regardless of this count) - the
+# Execution Engine renders a plain black frame for a tolerated missing shot
+# (execution_engine/command_builder.py) rather than failing outright.
+MAX_TOLERATED_MISSING_SHOTS = 2
+
 # Naming convention this milestone establishes for human-imported, per-shot media
 # (nothing in ARCHITECTURE.md specified one yet): scene_<scene_id>_shot_<shot_id>.<ext>
 # for images/video, and a single voice_script.<ext> for the whole project's narration,
@@ -178,14 +186,16 @@ def validate_assets(input_data: AssetValidatorInput) -> ValidatedAssetManifest:
     issues.extend(_find_cross_slot_duplicates(list(image_slots.values()), list(video_slots.values())))
 
     assets: List[ValidatedAsset] = []
+    missing_shot_count = 0
     for shot in input_data.prompt_set.shots:
         slot = (shot.scene_id, shot.shot_id)
         image_file = image_slots.get(slot)
         video_file = video_slots.get(slot)
 
         if image_file is None and video_file is None:
+            missing_shot_count += 1
             issues.append(ValidationIssue(
-                category="missing",
+                category="missing_shot",
                 description=f"Scene {shot.scene_id} shot {shot.shot_id} has no image or video asset",
             ))
 
@@ -198,7 +208,22 @@ def validate_assets(input_data: AssetValidatorInput) -> ValidatedAssetManifest:
 
     narration_audio_path = _resolve_narration(input_data.imported_media.audio, issues)
 
-    is_valid = len(issues) == 0
+    # Missing-shot coverage is the one issue category tolerated up to a
+    # count - everything else (naming, duplicates, narration, corrupt files)
+    # still blocks outright regardless of how many shots are missing.
+    blocking_issue_count = sum(1 for issue in issues if issue.category != "missing_shot")
+    is_valid = blocking_issue_count == 0 and missing_shot_count <= MAX_TOLERATED_MISSING_SHOTS
+
+    if missing_shot_count > MAX_TOLERATED_MISSING_SHOTS:
+        issues.append(ValidationIssue(
+            category="missing_shot",
+            description=(
+                f"{missing_shot_count} shots are missing an image or video asset - more than the "
+                f"{MAX_TOLERATED_MISSING_SHOTS} this system tolerates before blocking. Add media for "
+                f"the missing shots listed above, or bring it down to {MAX_TOLERATED_MISSING_SHOTS} "
+                f"or fewer to proceed."
+            ),
+        ))
 
     return ValidatedAssetManifest(
         source_prompt_set_id=input_data.prompt_set.prompt_set_id,
@@ -206,4 +231,5 @@ def validate_assets(input_data: AssetValidatorInput) -> ValidatedAssetManifest:
         narration_audio_path=narration_audio_path,
         issues=issues,
         is_valid=is_valid,
+        missing_shot_count=missing_shot_count,
     )

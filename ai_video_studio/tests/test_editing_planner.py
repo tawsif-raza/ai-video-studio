@@ -112,6 +112,25 @@ def test_image_gets_ken_burns_placeholder_video_gets_none():
     assert plan.segments[1].effects_placeholders == []
 
 
+def test_black_placeholder_clip_passes_through_with_no_ken_burns():
+    # Release milestone: a shot Timeline Planning resolved to "black" (no
+    # real asset - Asset Validation tolerated it as missing) carries no real
+    # asset_path and gets no ken_burns placeholder, same as a video clip.
+    clip = TimelineClip(
+        scene_id=1, shot_id=1, asset_path=None, asset_type="black",
+        duration_seconds=5, start_time=0.0, end_time=5.0,
+    )
+    timeline = _timeline(clip)
+    plan = build_editing_plan(EditingPlannerInput(
+        asset_manifest=_manifest(), timeline=timeline,
+        subtitle_plan=_subtitle_plan(), music_plan=_music_plan(_music_cue(1, 0.0, 5.0)),
+    ))
+
+    assert plan.segments[0].asset_path is None
+    assert plan.segments[0].asset_type == "black"
+    assert plan.segments[0].effects_placeholders == []
+
+
 def test_subtitle_cue_indices_assigned_by_time_overlap():
     timeline = _timeline(_clip(1, 1, 0.0, 5.0), _clip(1, 2, 5.0, 10.0))
     subtitle_plan = _subtitle_plan(
