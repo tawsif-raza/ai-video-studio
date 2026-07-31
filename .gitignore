@@ -219,3 +219,9 @@ __marimo__/
 
 .env
 .env.*
+
+# Vercel (frontend deploy link)
+.vercel
+
+# Local pipeline run artifacts - not part of the application
+ai_video_studio/outputs/
