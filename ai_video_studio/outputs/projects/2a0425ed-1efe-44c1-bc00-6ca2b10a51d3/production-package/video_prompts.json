@@ -1,0 +1,112 @@
+[
+  {
+    "scene_id": 1,
+    "shot_id": 1,
+    "video_motion_prompt": "The camera dollies in over 5 seconds, drawing closer to Jack's captivated expression as his fingers brush against the old radio, while the dusty attic surroundings blur slightly in the background, emphasizing Jack's discovery."
+  },
+  {
+    "scene_id": 1,
+    "shot_id": 2,
+    "video_motion_prompt": "The camera remains static for 3 seconds, capturing every detail of Jack's hands and face as he intently examines the radio, with no movement except for the slight, almost imperceptible, motion of his fingers tracing the radio's components."
+  },
+  {
+    "scene_id": 1,
+    "shot_id": 3,
+    "video_motion_prompt": "As Jack becomes lost in thought, the camera pans left, drifting slowly across the attic's nostalgic relics, in a gentle, 2-second movement that echoes the soft lapping of the distant waves."
+  },
+  {
+    "scene_id": 2,
+    "shot_id": 1,
+    "video_motion_prompt": "As the static fills the air, the camera slowly zooms out to reveal more of the cluttered attic, while Jack's expression remains hopeful, frozen in a moment of longing."
+  },
+  {
+    "scene_id": 2,
+    "shot_id": 2,
+    "video_motion_prompt": "As Jack's eyes widen in response to the faint, distant distress call on the radio, the camera tilts up, following his gaze, over the course of 4 seconds, capturing the mixture of concern and longing on his face."
+  },
+  {
+    "scene_id": 2,
+    "shot_id": 3,
+    "video_motion_prompt": "As Jack's concern grows, the camera slowly dollies out, revealing more of the cluttered attic surroundings, with the soft light from the window dancing across the dusty relics, over the course of 4 seconds."
+  },
+  {
+    "scene_id": 3,
+    "shot_id": 1,
+    "video_motion_prompt": "As Jack turns the pages, the camera tracks left, following his gaze, the books and instruments blurring slightly as the camera moves, capturing the quiet, contemplative atmosphere of the library in a moody watercolor style."
+  },
+  {
+    "scene_id": 3,
+    "shot_id": 2,
+    "video_motion_prompt": "The camera remains static for 5 seconds, capturing Jack's intent study, as the misty atmosphere outside subtly shifts, and the warm light from the window casts a gentle glow on his face."
+  },
+  {
+    "scene_id": 3,
+    "shot_id": 3,
+    "video_motion_prompt": "The camera dollies in over 5 seconds, drawing closer to Jack's hands as they scribble notes, his eyes widening with fascination, the background blurring slightly as the focus tightens on his intense expression."
+  },
+  {
+    "scene_id": 4,
+    "shot_id": 1,
+    "video_motion_prompt": "The camera slowly zooms in over 6 seconds, focusing on Jack's face as the eerie messages from the radio fill the air, drawing the viewer into his haunted expression."
+  },
+  {
+    "scene_id": 4,
+    "shot_id": 2,
+    "video_motion_prompt": "The camera pans right across the dimly lit room, following Jack's gaze as he slowly turns his head, his eyes scanning the shadows, over the course of 4 seconds, the candles and firelight dancing across his face."
+  },
+  {
+    "scene_id": 4,
+    "shot_id": 3,
+    "video_motion_prompt": "As Jack's eyes widen in rapt attention, the camera slowly dollies out to reveal more of the warm, candlelit room, the sound of the radio and the storm outside filling the air."
+  },
+  {
+    "scene_id": 4,
+    "shot_id": 4,
+    "video_motion_prompt": "As Jack's expression becomes increasingly solemn, the camera tracks to the right, following the faint glow of the candles and the old radio, over the course of 5 seconds."
+  },
+  {
+    "scene_id": 5,
+    "shot_id": 1,
+    "video_motion_prompt": "The camera remains static for 10 seconds as the warm light of the sunset fades, casting a serene, golden glow over the scene, with only the mist gently rolling in, shrouding the landscape in an ethereal veil."
+  },
+  {
+    "scene_id": 5,
+    "shot_id": 2,
+    "video_motion_prompt": "As Jack's thoughts drift away, the camera pans left, slowly revealing more of the lantern room's warm, golden interior, before settling on the vast, misty expanse of the sea outside, all within a 10-second span."
+  },
+  {
+    "scene_id": 5,
+    "shot_id": 3,
+    "video_motion_prompt": "The camera slowly dollies in on Jack's face over 10 seconds, his expression deepening in contemplation as the mist and light around him subtly shift, drawing the viewer into his introspective world."
+  },
+  {
+    "scene_id": 6,
+    "shot_id": 1,
+    "video_motion_prompt": "As the poignant message fades out on the radio, the camera tilts up, following Jack's gaze towards the lighthouse, over 6 seconds, capturing the depth of his emotions and the haunting beauty of the landscape."
+  },
+  {
+    "scene_id": 6,
+    "shot_id": 2,
+    "video_motion_prompt": "As Jack's expression shifts to reveal the emotional weight of the message, the camera tracks to the right, following the gentle turn of his head as he gazes deeper into the sea, the misty coastline unfolding slowly in the background."
+  },
+  {
+    "scene_id": 6,
+    "shot_id": 3,
+    "video_motion_prompt": "The camera zooms out over 3 seconds, as Jack's expression subtly shifts, revealing more of the cluttered lighthouse attic behind him, while the soft, diffused light remains constant, casting a warm glow on the nostalgic scene."
+  },
+  {
+    "scene_id": 7,
+    "shot_id": 1,
+    "video_motion_prompt": "The camera pans left, following the gentle movement of Jack's gaze as the sound of waves soothes, over the course of 5 seconds."
+  },
+  {
+    "scene_id": 7,
+    "shot_id": 2,
+    "video_motion_prompt": "The camera remains static, capturing the serene stillness of the moment, as the only movement is the gentle, almost imperceptible sway of Jack's body with the sea breeze, for 3 seconds."
+  },
+  {
+    "scene_id": 7,
+    "shot_id": 3,
+    "video_motion_prompt": "The camera slowly dollies out, revealing more of the rugged coastline and the vast sea, as Jack Harris remains still, lost in thought, over the course of 2 seconds."
+  }
+]

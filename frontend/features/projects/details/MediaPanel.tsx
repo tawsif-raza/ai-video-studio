@@ -51,17 +51,24 @@ export function MediaPanel({ projectId }: { projectId: string }) {
     setIsUploading(true);
     setError(null);
     try {
-      // One file per call, exactly matching the backend's design (W3) -
-      // batch multiple files client-side, not by inventing a bulk endpoint.
-      for (const file of Array.from(files)) {
-        await uploadMedia(projectId, file);
+      // One file per call still matches the backend's design (W3) - batched
+      // client-side, not a bulk endpoint - but concurrently, not one at a
+      // time: awaiting each upload before starting the next made total wait
+      // time the SUM of every file's round trip instead of the slowest one,
+      // which is what made multi-photo uploads feel so slow.
+      const results = await Promise.allSettled(
+        Array.from(files).map((file) => uploadMedia(projectId, file)),
+      );
+      const failures = results.filter((r): r is PromiseRejectedResult => r.status === "rejected");
+      if (failures.length > 0) {
+        const messages = failures.map((f) => (f.reason instanceof Error ? f.reason.message : String(f.reason)));
+        setError(`${failures.length} of ${files.length} file(s) failed to upload: ${messages.join("; ")}`);
+      } else if (fileInputRef.current) {
+        fileInputRef.current.value = "";
       }
-      if (fileInputRef.current) fileInputRef.current.value = "";
-      load();
-    } catch (err) {
-      setError(err instanceof Error ? err.message : "Upload failed");
     } finally {
       setIsUploading(false);
+      load();
     }
   };
 

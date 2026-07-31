@@ -1,0 +1,87 @@
+[
+  {
+    "scene_id": 1,
+    "shot_id": 1,
+    "video_motion_prompt": "As the 10-second shot unfolds, the camera pans slowly across the forest, following the movement of the playing animals and the swaying trees, while Methuselah remains steadfast, a symbol of enduring wisdom and tranquility."
+  },
+  {
+    "scene_id": 2,
+    "shot_id": 2,
+    "video_motion_prompt": "As logging equipment arrives and trees begin to fall around Methuselah, the camera slowly dollies in over 10 seconds, capturing the destruction unfolding around the ancient tree, emphasizing the emotional impact of the devastation on the centuries-old Methuselah."
+  },
+  {
+    "scene_id": 3,
+    "shot_id": 3,
+    "video_motion_prompt": "The camera remains static for 10 seconds, capturing the stillness of the desolate landscape, as the scorching sun beats down on Methuselah, the last tree on earth, its leaves gently swaying in the breeze."
+  },
+  {
+    "scene_id": 4,
+    "shot_id": 4,
+    "video_motion_prompt": "The camera tracks the group of children as they cautiously approach Methuselah, their footsteps echoing across the barren landscape, while the camera smoothly moves to maintain the over-the-shoulder perspective, capturing the curiosity and wonder on their faces as they discover the ancient tree."
+  },
+  {
+    "scene_id": 4,
+    "shot_id": 5,
+    "video_motion_prompt": "The camera slowly zooms in over 5 seconds, emphasizing the girl's fascinated expression as she learns about the forest's history from Methuselah's perspective, with the tree's branches and leaves subtly swaying in the breeze."
+  },
+  {
+    "scene_id": 5,
+    "shot_id": 6,
+    "video_motion_prompt": "The camera moves in a smooth pedestal motion, subtly rising and falling as Dr. Patel and the children move around the planting area, emphasizing their actions and emotions over the 10-second duration."
+  },
+  {
+    "scene_id": 5,
+    "shot_id": 7,
+    "video_motion_prompt": "The camera follows the children as they move around, planting trees and laughing, with a sense of purpose and hope, the handheld shot capturing their dynamic movements over a 5-second duration."
+  },
+  {
+    "scene_id": 5,
+    "shot_id": 8,
+    "video_motion_prompt": "The camera crane rises to emphasize the scale of Methuselah and the newly planted trees, panning slowly over the landscape to convey the sense of hope and renewal, as the children continue planting in the distance."
+  },
+  {
+    "scene_id": 6,
+    "shot_id": 9,
+    "video_motion_prompt": "As the ecosystem revitalizes, the camera tilts up over 10 seconds, capturing the growth of new trees and the return of animals, while Methuselah stands tall, a symbol of enduring life."
+  },
+  {
+    "scene_id": 6,
+    "shot_id": 10,
+    "video_motion_prompt": "As the camera slowly moves in a bird's eye view, the forest comes alive with more trees and animals appearing, and the camera pans down to reveal the vibrant, thriving ecosystem, with the slow motion emphasizing the emotional and cinematic quality of the scene over 5 seconds."
+  },
+  {
+    "scene_id": 6,
+    "shot_id": 11,
+    "video_motion_prompt": "As the group explores, the camera dollies out, slowly revealing the vibrant, thriving forest ecosystem, with the characters moving through the foliage, their faces filled with awe and curiosity, over the course of 5 seconds."
+  },
+  {
+    "scene_id": 6,
+    "shot_id": 12,
+    "video_motion_prompt": "The camera pans slowly over the forest, capturing the vibrant flora and fauna, as children's laughter and the sounds of nature fill the air, with the camera movement emphasizing the sense of harmony and joy, over a duration of 5 seconds."
+  },
+  {
+    "scene_id": 7,
+    "shot_id": 13,
+    "video_motion_prompt": "The camera tracks slowly across the forest floor, capturing the joyful movements of the children and their families, as they play and interact with each other and their surroundings, with the camera panning up to reveal the lush canopy above, and Methuselah's towering presence in the background."
+  },
+  {
+    "scene_id": 7,
+    "shot_id": 14,
+    "video_motion_prompt": "The camera cranes down, sweeping over the forest, capturing the movement and activity of the families as they explore and play, the trees and foliage blurring slightly as the crane shot emphasizes the sense of community and shared joy."
+  },
+  {
+    "scene_id": 7,
+    "shot_id": 15,
+    "video_motion_prompt": "The camera remains static for 5 seconds, capturing the serene atmosphere of the renewed forest, as the gentle breeze rustles the leaves of the trees and the children's laughter echoes in the background."
+  },
+  {
+    "scene_id": 8,
+    "shot_id": 16,
+    "video_motion_prompt": "The camera slowly zooms in on Methuselah over 10 seconds, capturing the subtle dance of leaves and the gentle sway of branches in the breeze, as the warm light of the golden hour casts a sense of serenity and hope across the renewed forest."
+  },
+  {
+    "scene_id": 9,
+    "shot_id": 17,
+    "video_motion_prompt": "The camera pans slowly over the landscape, sweeping across the forest and its surroundings, emphasizing the vastness and harmony of the ecosystem, as the light of dawn gradually illuminates more of the scene, revealing the depth and beauty of the natural world."
+  }
+]

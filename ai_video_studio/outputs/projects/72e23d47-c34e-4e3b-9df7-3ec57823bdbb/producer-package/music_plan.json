@@ -1,0 +1,221 @@
+{
+  "music_plan_id": "6758e48a-1105-4933-8e4f-1133de5f40ff",
+  "source_timeline_id": "74350ee2-4519-4df8-b042-0dbb411a7412",
+  "cues": [
+    {
+      "scene_id": 1,
+      "start_time": 0.0,
+      "end_time": 10.0,
+      "mood": "calm",
+      "tempo": "slow",
+      "intensity": "low",
+      "is_silent": false,
+      "fade_in_seconds": 1.5,
+      "fade_out_seconds": 1.0,
+      "duck_windows": [
+        {
+          "start_time": 0.0,
+          "end_time": 6.32
+        },
+        {
+          "start_time": 6.32,
+          "end_time": 10.0
+        }
+      ]
+    },
+    {
+      "scene_id": 2,
+      "start_time": 10.0,
+      "end_time": 20.0,
+      "mood": "neutral",
+      "tempo": "medium",
+      "intensity": "medium",
+      "is_silent": false,
+      "fade_in_seconds": 1.0,
+      "fade_out_seconds": 1.0,
+      "duck_windows": [
+        {
+          "start_time": 10.0,
+          "end_time": 16.42857142857143
+        },
+        {
+          "start_time": 16.42857142857143,
+          "end_time": 20.0
+        }
+      ]
+    },
+    {
+      "scene_id": 3,
+      "start_time": 20.0,
+      "end_time": 30.0,
+      "mood": "neutral",
+      "tempo": "medium",
+      "intensity": "medium",
+      "is_silent": false,
+      "fade_in_seconds": 1.0,
+      "fade_out_seconds": 1.0,
+      "duck_windows": [
+        {
+          "start_time": 20.0,
+          "end_time": 27.61467889908257
+        },
+        {
+          "start_time": 27.61467889908257,
+          "end_time": 30.0
+        }
+      ]
+    },
+    {
+      "scene_id": 4,
+      "start_time": 30.0,
+      "end_time": 45.0,
+      "mood": "neutral",
+      "tempo": "medium",
+      "intensity": "medium",
+      "is_silent": false,
+      "fade_in_seconds": 1.0,
+      "fade_out_seconds": 1.0,
+      "duck_windows": [
+        {
+          "start_time": 30.0,
+          "end_time": 36.95783132530121
+        },
+        {
+          "start_time": 36.95783132530121,
+          "end_time": 44.54819277108434
+        },
+        {
+          "start_time": 44.54819277108434,
+          "end_time": 45.0
+        }
+      ]
+    },
+    {
+      "scene_id": 5,
+      "start_time": 45.0,
+      "end_time": 65.0,
+      "mood": "uplifting",
+      "tempo": "medium",
+      "intensity": "medium-high",
+      "is_silent": false,
+      "fade_in_seconds": 1.0,
+      "fade_out_seconds": 1.0,
+      "duck_windows": [
+        {
+          "start_time": 45.0,
+          "end_time": 47.90909090909091
+        },
+        {
+          "start_time": 47.90909090909091,
+          "end_time": 58.090909090909086
+        },
+        {
+          "start_time": 58.090909090909086,
+          "end_time": 65.0
+        }
+      ]
+    },
+    {
+      "scene_id": 6,
+      "start_time": 65.0,
+      "end_time": 90.0,
+      "mood": "uplifting",
+      "tempo": "medium",
+      "intensity": "medium-high",
+      "is_silent": false,
+      "fade_in_seconds": 1.0,
+      "fade_out_seconds": 1.0,
+      "duck_windows": [
+        {
+          "start_time": 65.0,
+          "end_time": 75.6353591160221
+        },
+        {
+          "start_time": 75.6353591160221,
+          "end_time": 85.99447513812154
+        },
+        {
+          "start_time": 85.99447513812154,
+          "end_time": 90.0
+        }
+      ]
+    },
+    {
+      "scene_id": 7,
+      "start_time": 90.0,
+      "end_time": 110.0,
+      "mood": "neutral",
+      "tempo": "medium",
+      "intensity": "medium",
+      "is_silent": false,
+      "fade_in_seconds": 1.0,
+      "fade_out_seconds": 1.0,
+      "duck_windows": [
+        {
+          "start_time": 90.0,
+          "end_time": 98.62068965517241
+        },
+        {
+          "start_time": 98.62068965517241,
+          "end_time": 107.12643678160919
+        },
+        {
+          "start_time": 107.12643678160919,
+          "end_time": 110.0
+        }
+      ]
+    },
+    {
+      "scene_id": 8,
+      "start_time": 110.0,
+      "end_time": 120.0,
+      "mood": "neutral",
+      "tempo": "medium",
+      "intensity": "medium",
+      "is_silent": false,
+      "fade_in_seconds": 1.0,
+      "fade_out_seconds": 1.0,
+      "duck_windows": [
+        {
+          "start_time": 110.0,
+          "end_time": 114.57142857142857
+        },
+        {
+          "start_time": 114.57142857142857,
+          "end_time": 118.8
+        },
+        {
+          "start_time": 118.8,
+          "end_time": 120.0
+        }
+      ]
+    },
+    {
+      "scene_id": 9,
+      "start_time": 120.0,
+      "end_time": 130.0,
+      "mood": "uplifting",
+      "tempo": "medium",
+      "intensity": "medium-high",
+      "is_silent": false,
+      "fade_in_seconds": 1.0,
+      "fade_out_seconds": 1.5,
+      "duck_windows": [
+        {
+          "start_time": 120.0,
+          "end_time": 123.73873873873873
+        },
+        {
+          "start_time": 123.73873873873873,
+          "end_time": 127.38738738738738
+        },
+        {
+          "start_time": 127.38738738738738,
+          "end_time": 130.0
+        }
+      ]
+    }
+  ],
+  "total_duration_seconds": 130.0,
+  "generated_at": "2026-07-26T10:32:31.824977Z"
+}

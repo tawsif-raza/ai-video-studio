@@ -1,0 +1,395 @@
+{
+  "editing_plan_id": "86a4e278-34d7-4f74-a896-1f835bd3c2b3",
+  "source_timeline_id": "101abe2e-925a-4545-b744-210a58f94cf5",
+  "source_subtitle_plan_id": "55094315-420d-46e6-acb8-a1c3bb6a28e3",
+  "source_music_plan_id": "06347507-f5fe-413e-b1c5-3b2ccf70098f",
+  "segments": [
+    {
+      "scene_id": 1,
+      "shot_id": 1,
+      "asset_path": "D:\\ai_video_studio\\ai_video_studio\\outputs\\projects\\2a0425ed-1efe-44c1-bc00-6ca2b10a51d3\\media\\images\\scene_1_shot_1.jpg",
+      "asset_type": "image",
+      "start_time": 0.0,
+      "end_time": 5.0,
+      "subtitle_cue_indices": [
+        1
+      ],
+      "music_cue_scene_id": 1,
+      "transition_in": "fade_from_black",
+      "transition_out": "cut",
+      "effects_placeholders": [
+        "ken_burns"
+      ]
+    },
+    {
+      "scene_id": 1,
+      "shot_id": 2,
+      "asset_path": "D:\\ai_video_studio\\ai_video_studio\\outputs\\projects\\2a0425ed-1efe-44c1-bc00-6ca2b10a51d3\\media\\images\\scene_1_shot_2.jpg",
+      "asset_type": "image",
+      "start_time": 5.0,
+      "end_time": 8.0,
+      "subtitle_cue_indices": [
+        1,
+        2
+      ],
+      "music_cue_scene_id": 1,
+      "transition_in": "cut",
+      "transition_out": "cut",
+      "effects_placeholders": [
+        "ken_burns"
+      ]
+    },
+    {
+      "scene_id": 1,
+      "shot_id": 3,
+      "asset_path": "D:\\ai_video_studio\\ai_video_studio\\outputs\\projects\\2a0425ed-1efe-44c1-bc00-6ca2b10a51d3\\media\\images\\scene_1_shot_3.jpg",
+      "asset_type": "image",
+      "start_time": 8.0,
+      "end_time": 10.0,
+      "subtitle_cue_indices": [
+        2
+      ],
+      "music_cue_scene_id": 1,
+      "transition_in": "cut",
+      "transition_out": "crossfade",
+      "effects_placeholders": [
+        "ken_burns"
+      ]
+    },
+    {
+      "scene_id": 2,
+      "shot_id": 1,
+      "asset_path": "D:\\ai_video_studio\\ai_video_studio\\outputs\\projects\\2a0425ed-1efe-44c1-bc00-6ca2b10a51d3\\media\\images\\scene_2_shot_1.jpg",
+      "asset_type": "image",
+      "start_time": 10.0,
+      "end_time": 14.0,
+      "subtitle_cue_indices": [
+        3
+      ],
+      "music_cue_scene_id": 2,
+      "transition_in": "crossfade",
+      "transition_out": "cut",
+      "effects_placeholders": [
+        "ken_burns"
+      ]
+    },
+    {
+      "scene_id": 2,
+      "shot_id": 2,
+      "asset_path": "D:\\ai_video_studio\\ai_video_studio\\outputs\\projects\\2a0425ed-1efe-44c1-bc00-6ca2b10a51d3\\media\\images\\scene_2_shot_2.jpg",
+      "asset_type": "image",
+      "start_time": 14.0,
+      "end_time": 18.0,
+      "subtitle_cue_indices": [
+        3,
+        4
+      ],
+      "music_cue_scene_id": 2,
+      "transition_in": "cut",
+      "transition_out": "cut",
+      "effects_placeholders": [
+        "ken_burns"
+      ]
+    },
+    {
+      "scene_id": 2,
+      "shot_id": 3,
+      "asset_path": "D:\\ai_video_studio\\ai_video_studio\\outputs\\projects\\2a0425ed-1efe-44c1-bc00-6ca2b10a51d3\\media\\images\\scene_2_shot_3.jpg",
+      "asset_type": "image",
+      "start_time": 18.0,
+      "end_time": 22.0,
+      "subtitle_cue_indices": [
+        4
+      ],
+      "music_cue_scene_id": 2,
+      "transition_in": "cut",
+      "transition_out": "crossfade",
+      "effects_placeholders": [
+        "ken_burns"
+      ]
+    },
+    {
+      "scene_id": 3,
+      "shot_id": 1,
+      "asset_path": "D:\\ai_video_studio\\ai_video_studio\\outputs\\projects\\2a0425ed-1efe-44c1-bc00-6ca2b10a51d3\\media\\images\\scene_3_shot_1.jpg",
+      "asset_type": "image",
+      "start_time": 22.0,
+      "end_time": 27.0,
+      "subtitle_cue_indices": [
+        5
+      ],
+      "music_cue_scene_id": 3,
+      "transition_in": "crossfade",
+      "transition_out": "cut",
+      "effects_placeholders": [
+        "ken_burns"
+      ]
+    },
+    {
+      "scene_id": 3,
+      "shot_id": 2,
+      "asset_path": "D:\\ai_video_studio\\ai_video_studio\\outputs\\projects\\2a0425ed-1efe-44c1-bc00-6ca2b10a51d3\\media\\images\\scene_3_shot_2.jpg",
+      "asset_type": "image",
+      "start_time": 27.0,
+      "end_time": 32.0,
+      "subtitle_cue_indices": [
+        5,
+        6
+      ],
+      "music_cue_scene_id": 3,
+      "transition_in": "cut",
+      "transition_out": "cut",
+      "effects_placeholders": [
+        "ken_burns"
+      ]
+    },
+    {
+      "scene_id": 3,
+      "shot_id": 3,
+      "asset_path": "D:\\ai_video_studio\\ai_video_studio\\outputs\\projects\\2a0425ed-1efe-44c1-bc00-6ca2b10a51d3\\media\\images\\scene_3_shot_3.jpg",
+      "asset_type": "image",
+      "start_time": 32.0,
+      "end_time": 37.0,
+      "subtitle_cue_indices": [
+        6,
+        7
+      ],
+      "music_cue_scene_id": 3,
+      "transition_in": "cut",
+      "transition_out": "crossfade",
+      "effects_placeholders": [
+        "ken_burns"
+      ]
+    },
+    {
+      "scene_id": 4,
+      "shot_id": 1,
+      "asset_path": "D:\\ai_video_studio\\ai_video_studio\\outputs\\projects\\2a0425ed-1efe-44c1-bc00-6ca2b10a51d3\\media\\images\\scene_4_shot_1.jpg",
+      "asset_type": "image",
+      "start_time": 37.0,
+      "end_time": 43.0,
+      "subtitle_cue_indices": [
+        8
+      ],
+      "music_cue_scene_id": 4,
+      "transition_in": "crossfade",
+      "transition_out": "cut",
+      "effects_placeholders": [
+        "ken_burns"
+      ]
+    },
+    {
+      "scene_id": 4,
+      "shot_id": 2,
+      "asset_path": "D:\\ai_video_studio\\ai_video_studio\\outputs\\projects\\2a0425ed-1efe-44c1-bc00-6ca2b10a51d3\\media\\images\\scene_4_shot_2.jpg",
+      "asset_type": "image",
+      "start_time": 43.0,
+      "end_time": 47.0,
+      "subtitle_cue_indices": [
+        8
+      ],
+      "music_cue_scene_id": 4,
+      "transition_in": "cut",
+      "transition_out": "cut",
+      "effects_placeholders": [
+        "ken_burns"
+      ]
+    },
+    {
+      "scene_id": 4,
+      "shot_id": 3,
+      "asset_path": "D:\\ai_video_studio\\ai_video_studio\\outputs\\projects\\2a0425ed-1efe-44c1-bc00-6ca2b10a51d3\\media\\images\\scene_4_shot_3.jpg",
+      "asset_type": "image",
+      "start_time": 47.0,
+      "end_time": 52.0,
+      "subtitle_cue_indices": [
+        8,
+        9
+      ],
+      "music_cue_scene_id": 4,
+      "transition_in": "cut",
+      "transition_out": "cut",
+      "effects_placeholders": [
+        "ken_burns"
+      ]
+    },
+    {
+      "scene_id": 4,
+      "shot_id": 4,
+      "asset_path": "D:\\ai_video_studio\\ai_video_studio\\outputs\\projects\\2a0425ed-1efe-44c1-bc00-6ca2b10a51d3\\media\\images\\scene_4_shot_4.jpg",
+      "asset_type": "image",
+      "start_time": 52.0,
+      "end_time": 57.0,
+      "subtitle_cue_indices": [
+        9
+      ],
+      "music_cue_scene_id": 4,
+      "transition_in": "cut",
+      "transition_out": "crossfade",
+      "effects_placeholders": [
+        "ken_burns"
+      ]
+    },
+    {
+      "scene_id": 5,
+      "shot_id": 1,
+      "asset_path": "D:\\ai_video_studio\\ai_video_studio\\outputs\\projects\\2a0425ed-1efe-44c1-bc00-6ca2b10a51d3\\media\\images\\scene_5_shot_1.jpg",
+      "asset_type": "image",
+      "start_time": 57.0,
+      "end_time": 67.0,
+      "subtitle_cue_indices": [
+        10
+      ],
+      "music_cue_scene_id": 5,
+      "transition_in": "crossfade",
+      "transition_out": "cut",
+      "effects_placeholders": [
+        "ken_burns"
+      ]
+    },
+    {
+      "scene_id": 5,
+      "shot_id": 2,
+      "asset_path": "D:\\ai_video_studio\\ai_video_studio\\outputs\\projects\\2a0425ed-1efe-44c1-bc00-6ca2b10a51d3\\media\\images\\scene_5_shot_2.jpg",
+      "asset_type": "image",
+      "start_time": 67.0,
+      "end_time": 77.0,
+      "subtitle_cue_indices": [
+        10,
+        11
+      ],
+      "music_cue_scene_id": 5,
+      "transition_in": "cut",
+      "transition_out": "cut",
+      "effects_placeholders": [
+        "ken_burns"
+      ]
+    },
+    {
+      "scene_id": 5,
+      "shot_id": 3,
+      "asset_path": "D:\\ai_video_studio\\ai_video_studio\\outputs\\projects\\2a0425ed-1efe-44c1-bc00-6ca2b10a51d3\\media\\images\\scene_5_shot_3.jpg",
+      "asset_type": "image",
+      "start_time": 77.0,
+      "end_time": 87.0,
+      "subtitle_cue_indices": [
+        11,
+        12
+      ],
+      "music_cue_scene_id": 5,
+      "transition_in": "cut",
+      "transition_out": "crossfade",
+      "effects_placeholders": [
+        "ken_burns"
+      ]
+    },
+    {
+      "scene_id": 6,
+      "shot_id": 1,
+      "asset_path": "D:\\ai_video_studio\\ai_video_studio\\outputs\\projects\\2a0425ed-1efe-44c1-bc00-6ca2b10a51d3\\media\\images\\scene_6_shot_1.jpg",
+      "asset_type": "image",
+      "start_time": 87.0,
+      "end_time": 93.0,
+      "subtitle_cue_indices": [
+        13,
+        14
+      ],
+      "music_cue_scene_id": 6,
+      "transition_in": "crossfade",
+      "transition_out": "cut",
+      "effects_placeholders": [
+        "ken_burns"
+      ]
+    },
+    {
+      "scene_id": 6,
+      "shot_id": 2,
+      "asset_path": "D:\\ai_video_studio\\ai_video_studio\\outputs\\projects\\2a0425ed-1efe-44c1-bc00-6ca2b10a51d3\\media\\images\\scene_6_shot_2.jpg",
+      "asset_type": "image",
+      "start_time": 93.0,
+      "end_time": 97.0,
+      "subtitle_cue_indices": [
+        14
+      ],
+      "music_cue_scene_id": 6,
+      "transition_in": "cut",
+      "transition_out": "cut",
+      "effects_placeholders": [
+        "ken_burns"
+      ]
+    },
+    {
+      "scene_id": 6,
+      "shot_id": 3,
+      "asset_path": "D:\\ai_video_studio\\ai_video_studio\\outputs\\projects\\2a0425ed-1efe-44c1-bc00-6ca2b10a51d3\\media\\images\\scene_6_shot_3.jpg",
+      "asset_type": "image",
+      "start_time": 97.0,
+      "end_time": 100.0,
+      "subtitle_cue_indices": [
+        14,
+        15
+      ],
+      "music_cue_scene_id": 6,
+      "transition_in": "cut",
+      "transition_out": "crossfade",
+      "effects_placeholders": [
+        "ken_burns"
+      ]
+    },
+    {
+      "scene_id": 7,
+      "shot_id": 1,
+      "asset_path": "D:\\ai_video_studio\\ai_video_studio\\outputs\\projects\\2a0425ed-1efe-44c1-bc00-6ca2b10a51d3\\media\\images\\scene_7_shot_1.jpg",
+      "asset_type": "image",
+      "start_time": 100.0,
+      "end_time": 105.0,
+      "subtitle_cue_indices": [
+        16,
+        17
+      ],
+      "music_cue_scene_id": 7,
+      "transition_in": "crossfade",
+      "transition_out": "cut",
+      "effects_placeholders": [
+        "ken_burns"
+      ]
+    },
+    {
+      "scene_id": 7,
+      "shot_id": 2,
+      "asset_path": "D:\\ai_video_studio\\ai_video_studio\\outputs\\projects\\2a0425ed-1efe-44c1-bc00-6ca2b10a51d3\\media\\images\\scene_7_shot_2.jpg",
+      "asset_type": "image",
+      "start_time": 105.0,
+      "end_time": 108.0,
+      "subtitle_cue_indices": [
+        17,
+        18
+      ],
+      "music_cue_scene_id": 7,
+      "transition_in": "cut",
+      "transition_out": "cut",
+      "effects_placeholders": [
+        "ken_burns"
+      ]
+    },
+    {
+      "scene_id": 7,
+      "shot_id": 3,
+      "asset_path": "D:\\ai_video_studio\\ai_video_studio\\outputs\\projects\\2a0425ed-1efe-44c1-bc00-6ca2b10a51d3\\media\\images\\scene_7_shot_3.jpg",
+      "asset_type": "image",
+      "start_time": 108.0,
+      "end_time": 110.0,
+      "subtitle_cue_indices": [
+        18
+      ],
+      "music_cue_scene_id": 7,
+      "transition_in": "cut",
+      "transition_out": "fade_to_black",
+      "effects_placeholders": [
+        "ken_burns"
+      ]
+    }
+  ],
+  "total_duration_seconds": 110.0,
+  "generated_at": "2026-07-29T10:28:58.633699Z"
+}

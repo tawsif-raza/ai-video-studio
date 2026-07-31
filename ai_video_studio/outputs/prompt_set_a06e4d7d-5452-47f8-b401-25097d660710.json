@@ -1,0 +1,143 @@
+{
+  "prompt_set_id": "a06e4d7d-5452-47f8-b401-25097d660710",
+  "source_storyboard_id": "c7151772-3287-49c1-b9c6-1d63b51e67d0",
+  "shots": [
+    {
+      "image_prompt": "In an ultra-realistic, cinematic documentary style with emotional storytelling, a majestic, centuries-old tree, Methuselah, stands tall amidst a lush, vibrant forest, its gnarled branches and twisted roots a testament to its age and wisdom, with a leafy canopy that stretches up to the sky. The tree is surrounded by diverse flora and fauna, with warm sunlight peeking through the dense foliage, casting dappled shadows on the forest floor. Animals play and frolic around the tree, while other trees in the forest sway gently in the breeze, evoking a sense of tranquility and harmony with nature. The camera captures this serene scene in an establishing shot, framing the tree and its surroundings in a wide angle, showcasing the beauty and wonder of the thriving forest ecosystem.",
+      "video_motion_prompt": "As the 10-second shot unfolds, the camera pans slowly across the forest, following the movement of the playing animals and the swaying trees, while Methuselah remains steadfast, a symbol of enduring wisdom and tranquility.",
+      "scene_id": 1,
+      "shot_id": 1,
+      "duration_seconds": 10,
+      "generated_at": "2026-07-26T09:55:46.628783Z"
+    },
+    {
+      "image_prompt": "In an ultra-realistic cinematic documentary style with emotional storytelling, a low-angle shot captures the majestic, centuries-old tree Methuselah standing tall amidst a desolate, barren landscape, its gnarled branches and twisted roots a testament to its age and wisdom, with a leafy canopy stretching up to the sky. The tree stands defiantly amidst the devastation of its forest home, now ravaged by logging, with felled trees and discarded equipment littering the ground under an ominous sky. The camera is positioned to look up at Methuselah, emphasizing its grandeur and the tragedy of its surroundings.",
+      "video_motion_prompt": "As logging equipment arrives and trees begin to fall around Methuselah, the camera slowly dollies in over 10 seconds, capturing the destruction unfolding around the ancient tree, emphasizing the emotional impact of the devastation on the centuries-old Methuselah.",
+      "scene_id": 2,
+      "shot_id": 2,
+      "duration_seconds": 10,
+      "generated_at": "2026-07-26T09:55:47.345816Z"
+    },
+    {
+      "image_prompt": "A majestic, centuries-old tree, Methuselah, stands tall amidst a desolate, barren landscape, its gnarled branches and twisted roots a testament to its age and wisdom, with a leafy canopy that seems to stretch up to the sky, set against a backdrop of a devastated forest ecosystem, viewed from a high-angle shot, emphasizing the stark contrast between the tree's former glory and its current isolation, under the scorching sun, with the tree's roots digging deep into the earth, a poignant symbol of resilience in the face of environmental degradation, in an ultra-realistic cinematic documentary style with emotional storytelling.",
+      "video_motion_prompt": "The camera remains static for 10 seconds, capturing the stillness of the desolate landscape, as the scorching sun beats down on Methuselah, the last tree on earth, its leaves gently swaying in the breeze.",
+      "scene_id": 3,
+      "shot_id": 3,
+      "duration_seconds": 10,
+      "generated_at": "2026-07-26T09:55:49.027874Z"
+    },
+    {
+      "image_prompt": "In an ultra-realistic, cinematic documentary style, a determined young girl, Lily, with bright, inquisitive eyes and practical, earth-toned clothing, kneels in the dirt surrounded by small potted plants and gardening tools, wearing a wide-brimmed hat and gloves, looks up in wonder over her shoulder at the majestic, centuries-old tree, Methuselah, standing tall amidst a desolate, barren landscape, its gnarled branches and twisted roots a testament to its age and wisdom, with a leafy canopy stretching up to the clear blue sky, as she and her friends approach the tree, their faces filled with a mix of wonder and concern, captured in an over-the-shoulder shot that conveys the emotional storytelling of hope and resilience.",
+      "video_motion_prompt": "The camera tracks the group of children as they cautiously approach Methuselah, their footsteps echoing across the barren landscape, while the camera smoothly moves to maintain the over-the-shoulder perspective, capturing the curiosity and wonder on their faces as they discover the ancient tree.",
+      "scene_id": 4,
+      "shot_id": 4,
+      "duration_seconds": 10,
+      "generated_at": "2026-07-26T09:55:52.846393Z"
+    },
+    {
+      "image_prompt": "In an ultra-realistic cinematic documentary style with emotional storytelling, a determined young girl, Lily, with a passionate expression and bright, inquisitive eyes, dressed in practical, earth-toned clothing, kneels in the dirt surrounded by small potted plants and gardening tools, with a wide-brimmed hat and gloves, looking up at a majestic, centuries-old tree, Methuselah, standing tall amidst a desolate, barren landscape, its gnarled branches and twisted roots a testament to its age and wisdom, with a leafy canopy that seems to stretch up to the sky, as she listens intently to the tree's stories of the forest's history, with the clear blue sky above and a gentle breeze rustling her hair, in a point-of-view shot that captures the emotional connection between the girl and the tree.",
+      "video_motion_prompt": "The camera slowly zooms in over 5 seconds, emphasizing the girl's fascinated expression as she learns about the forest's history from Methuselah's perspective, with the tree's branches and leaves subtly swaying in the breeze.",
+      "scene_id": 4,
+      "shot_id": 5,
+      "duration_seconds": 5,
+      "generated_at": "2026-07-26T09:56:01.701753Z"
+    },
+    {
+      "image_prompt": "In an ultra-realistic cinematic documentary style, a medium shot captures Dr. Patel, a knowledgeable scientist with a kind, warm expression and wire-rimmed glasses, dressed in practical outdoor clothing, guiding a determined young girl, Lily, with bright inquisitive eyes and earth-toned clothing, as she kneels in the dirt surrounded by small potted plants and gardening tools, with a wide-brimmed hat and gloves, alongside other children, all engaged in planting new trees in a desolate, barren landscape, with Methuselah, a majestic centuries-old tree, standing tall in the background, its gnarled branches and twisted roots a testament to its age, set against a partly cloudy sky with a hint of rain, as the children look up with a sense of purpose and hope, symbolizing renewal and the power of collective action.",
+      "video_motion_prompt": "The camera moves in a smooth pedestal motion, subtly rising and falling as Dr. Patel and the children move around the planting area, emphasizing their actions and emotions over the 10-second duration.",
+      "scene_id": 5,
+      "shot_id": 6,
+      "duration_seconds": 10,
+      "generated_at": "2026-07-26T09:56:02.474448Z"
+    },
+    {
+      "image_prompt": "In an ultra-realistic cinematic documentary style, a determined young girl, Lily, with a passionate expression and bright, inquisitive eyes, dressed in practical, earth-toned clothing, kneels in the dirt amidst a desolate, barren landscape, surrounded by small potted plants and gardening tools, with a wide-brimmed hat and gloves, as she gently places a sapling into the earth, looking up at the majestic, centuries-old tree, Methuselah, with its gnarled branches and twisted roots, set against a backdrop of a devastated forest ecosystem, now being revitalized by the children's collective efforts, under a partly cloudy sky with the hint of rain, as seen from a handheld camera angle, capturing the emotional storytelling of the scene.",
+      "video_motion_prompt": "The camera follows the children as they move around, planting trees and laughing, with a sense of purpose and hope, the handheld shot capturing their dynamic movements over a 5-second duration.",
+      "scene_id": 5,
+      "shot_id": 7,
+      "duration_seconds": 5,
+      "generated_at": "2026-07-26T09:56:06.235504Z"
+    },
+    {
+      "image_prompt": "In an ultra-realistic cinematic documentary style with emotional storytelling, a wide shot captures the majestic, centuries-old tree Methuselah standing tall amidst a desolate, barren landscape, now surrounded by newly planted trees symbolizing resilience and new beginnings, with children in the distance, their small hands gently placing saplings into the earth, looking up at Methuselah with a sense of purpose and hope under a partly cloudy sky with the hint of rain, as Dr. Patel and a determined young girl, Lily, observe from a short distance, with Methuselah's gnarled branches and twisted roots a testament to its age and wisdom, set against a backdrop of a gradually restoring forest ecosystem.",
+      "video_motion_prompt": "The camera crane rises to emphasize the scale of Methuselah and the newly planted trees, panning slowly over the landscape to convey the sense of hope and renewal, as the children continue planting in the distance.",
+      "scene_id": 5,
+      "shot_id": 8,
+      "duration_seconds": 5,
+      "generated_at": "2026-07-26T09:56:10.059967Z"
+    },
+    {
+      "image_prompt": "In an ultra-realistic cinematic documentary style with emotional storytelling, a worm's eye view captures the majestic, centuries-old tree, Methuselah, standing tall amidst a renewed forest teeming with life, as new trees begin to sprout and animals return, with a determined young girl, Lily, kneeling in the dirt surrounded by small potted plants and gardening tools, and a knowledgeable scientist, Dr. Patel, standing amidst the lush foliage, taking notes, under the misty dawn sky with gentle dew, symbolizing hope and resilience over environmental degradation.",
+      "video_motion_prompt": "As the ecosystem revitalizes, the camera tilts up over 10 seconds, capturing the growth of new trees and the return of animals, while Methuselah stands tall, a symbol of enduring life.",
+      "scene_id": 6,
+      "shot_id": 9,
+      "duration_seconds": 10,
+      "generated_at": "2026-07-26T09:56:11.758657Z"
+    },
+    {
+      "image_prompt": "In an ultra-realistic cinematic documentary style with emotional storytelling, a bird's eye view captures the majestic, centuries-old tree, Methuselah, standing tall amidst a now renewed and thriving forest ecosystem, teeming with life, as the last remnants of desolation fade away, with determined young girl Lily, dressed in earth-toned clothing and wide-brimmed hat, kneeling in the dirt surrounded by potted plants, and knowledgeable scientist Dr. Patel, with wire-rimmed glasses and outdoor-inspired clothing, standing amidst the lush foliage, observing the forest's growth, under the misty dawn sky with gentle dew, symbolizing hope and resilience over environmental degradation.",
+      "video_motion_prompt": "As the camera slowly moves in a bird's eye view, the forest comes alive with more trees and animals appearing, and the camera pans down to reveal the vibrant, thriving ecosystem, with the slow motion emphasizing the emotional and cinematic quality of the scene over 5 seconds.",
+      "scene_id": 6,
+      "shot_id": 10,
+      "duration_seconds": 5,
+      "generated_at": "2026-07-26T09:56:22.554954Z"
+    },
+    {
+      "image_prompt": "In an ultra-realistic cinematic documentary style with emotional storytelling, a determined young girl, Lily, with bright, inquisitive eyes and practical earth-toned clothing, kneels in the dirt surrounded by small potted plants and gardening tools, while Dr. Patel, a knowledgeable scientist with wire-rimmed glasses and a warm expression, stands nearby with a notebook and pencil, both marveling at the majestic, centuries-old tree, Methuselah, standing tall amidst a lush, renewed forest teeming with life, under the misty dawn sky with gentle dew, as seen from a Dutch angle, capturing the emotional moment of exploration and wonder.",
+      "video_motion_prompt": "As the group explores, the camera dollies out, slowly revealing the vibrant, thriving forest ecosystem, with the characters moving through the foliage, their faces filled with awe and curiosity, over the course of 5 seconds.",
+      "scene_id": 6,
+      "shot_id": 11,
+      "duration_seconds": 5,
+      "generated_at": "2026-07-26T09:56:23.381098Z"
+    },
+    {
+      "image_prompt": "In an ultra-realistic cinematic documentary style, an establishing shot captures the renewed forest teeming with life under the misty dawn sky, with the gentle dew casting a mystical spell, as Methuselah, a majestic centuries-old tree, stands tall amidst the lush foliage, surrounded by a diverse array of trees and flora, while Lily, a determined young girl with a passionate expression and bright inquisitive eyes, dressed in practical earth-toned clothing and a wide-brimmed hat, kneels in the dirt surrounded by small potted plants and gardening tools, and Dr. Patel, a knowledgeable scientist with a kind warm expression and wire-rimmed glasses, stands amidst the lush greenery with a notebook and pencil in hand, all set against a backdrop of thriving vibrant forest, symbolizing the triumph of hope and resilience over environmental degradation.",
+      "video_motion_prompt": "The camera pans slowly over the forest, capturing the vibrant flora and fauna, as children's laughter and the sounds of nature fill the air, with the camera movement emphasizing the sense of harmony and joy, over a duration of 5 seconds.",
+      "scene_id": 6,
+      "shot_id": 12,
+      "duration_seconds": 5,
+      "generated_at": "2026-07-26T09:56:31.311040Z"
+    },
+    {
+      "image_prompt": "In an ultra-realistic cinematic scene, a low-angle shot captures the majestic sight of a renewed forest, teeming with life, as children, now grown with their own kids, play and picnic under the vibrant canopy, surrounded by the gentle rustle of leaves and the warm sunlight, with Methuselah, the ancient tree, standing tall in the background, its gnarled branches and twisted roots a testament to its age and wisdom, while Lily, now a grown woman, kneels in the dirt, dressed in earth-toned clothing, wide-brimmed hat, and gloves, tending to small potted plants and gardening tools, as families gather and children's laughter echoes through the trees, symbolizing the renewal of hope and the power of collective action.",
+      "video_motion_prompt": "The camera tracks slowly across the forest floor, capturing the joyful movements of the children and their families, as they play and interact with each other and their surroundings, with the camera panning up to reveal the lush canopy above, and Methuselah's towering presence in the background.",
+      "scene_id": 7,
+      "shot_id": 13,
+      "duration_seconds": 10,
+      "generated_at": "2026-07-26T09:56:32.108643Z"
+    },
+    {
+      "image_prompt": "A high-angle shot looks down upon a vibrant, renewed forest, where families gather to picnic and children play, their laughter and joy echoing through the trees, under the warm sunlight, with the gentle breeze rustling the leaves. In the midst of this scene, a determined young girl, Lily, with bright, inquisitive eyes, dressed in practical, earth-toned clothing, including a wide-brimmed hat and gloves, kneels in the dirt surrounded by small potted plants and gardening tools, while a majestic, centuries-old tree, Methuselah, stands tall in the background, its gnarled branches and twisted roots a testament to its age and wisdom, with a leafy canopy stretching up to the sky, as the community comes together, symbolizing the renewal of hope and the power of collective action in restoring the natural world.",
+      "video_motion_prompt": "The camera cranes down, sweeping over the forest, capturing the movement and activity of the families as they explore and play, the trees and foliage blurring slightly as the crane shot emphasizes the sense of community and shared joy.",
+      "scene_id": 7,
+      "shot_id": 14,
+      "duration_seconds": 5,
+      "generated_at": "2026-07-26T09:56:38.928935Z"
+    },
+    {
+      "image_prompt": "In an ultra-realistic cinematic documentary style, a majestic, centuries-old tree, Methuselah, stands tall amidst a renewed forest ecosystem, its gnarled branches and twisted roots a testament to its age and wisdom, with a lush, leafy canopy stretching upwards, set against a warm sunlight. In the background, families gather to picnic and children play, their laughter and joy echoing through the trees, while a determined young girl, Lily, kneels in the dirt, dressed in practical, earth-toned clothing, surrounded by small potted plants and gardening tools, with a wide-brimmed hat and gloves, looking up at Methuselah with bright, inquisitive eyes. The scene is captured in a medium shot, with Methuselah as the central figure, exuding a sense of timelessness and hope, as the gentle breeze rustles the leaves, symbolizing the renewal of hope and the power of collective action.",
+      "video_motion_prompt": "The camera remains static for 5 seconds, capturing the serene atmosphere of the renewed forest, as the gentle breeze rustles the leaves of the trees and the children's laughter echoes in the background.",
+      "scene_id": 7,
+      "shot_id": 15,
+      "duration_seconds": 5,
+      "generated_at": "2026-07-26T09:56:42.741381Z"
+    },
+    {
+      "image_prompt": "In an ultra-realistic cinematic documentary style with emotional storytelling, a majestic, centuries-old tree, Methuselah, stands tall amidst a vibrant tapestry of trees and flora, under the warm, golden light of the setting sun, its gnarled branches and twisted roots a testament to its age and wisdom, with a leafy canopy stretching up to the sky, symbolizing hope, resilience, and the enduring power of nature, as seen from a point-of-view shot, emphasizing the tree's grandeur and the thriving forest ecosystem surrounding it.",
+      "video_motion_prompt": "The camera slowly zooms in on Methuselah over 10 seconds, capturing the subtle dance of leaves and the gentle sway of branches in the breeze, as the warm light of the golden hour casts a sense of serenity and hope across the renewed forest.",
+      "scene_id": 8,
+      "shot_id": 16,
+      "duration_seconds": 10,
+      "generated_at": "2026-07-26T09:56:43.509482Z"
+    },
+    {
+      "image_prompt": "In an ultra-realistic cinematic documentary style with emotional storytelling, a wide shot captures the breathtaking panorama of a renewed forest stretching out towards the horizon, blending seamlessly into the surrounding landscape of rolling hills, distant mountains, and shimmering mist, all under the soft, mystical light of the dawn sky, as the last tree on earth stands prominently as a beacon of hope, symbolizing the interconnectedness of all living things, with every detail, from the texture of the tree bark to the subtle hues of the mist, rendered in exquisite, lifelike precision.",
+      "video_motion_prompt": "The camera pans slowly over the landscape, sweeping across the forest and its surroundings, emphasizing the vastness and harmony of the ecosystem, as the light of dawn gradually illuminates more of the scene, revealing the depth and beauty of the natural world.",
+      "scene_id": 9,
+      "shot_id": 17,
+      "duration_seconds": 10,
+      "generated_at": "2026-07-26T09:56:50.243104Z"
+    }
+  ],
+  "generated_at": "2026-07-26T09:56:50.243792Z"
+}

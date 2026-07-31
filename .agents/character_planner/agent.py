@@ -14,6 +14,8 @@ class CharacterPlannerAgent(BaseAgent):
     """
 
     agent_name = "character_planner"
+
+    
     output_schema = CharacterPlannerSchema
 
     def __init__(self, llm_client):

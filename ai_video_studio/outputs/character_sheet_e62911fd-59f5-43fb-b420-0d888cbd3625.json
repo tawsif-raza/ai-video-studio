@@ -1,0 +1,64 @@
+{
+  "character_profiles": [
+    {
+      "name": "Methuselah",
+      "age_range": "centuries-old",
+      "build": "towering, gnarled trunk with sprawling branches",
+      "face_details": "knots and grooves resembling a wise, ancient face",
+      "hair": "leafy canopy",
+      "outfit": "weathered, moss-covered bark",
+      "color_palette": [
+        "earthy brown",
+        "mossy green"
+      ],
+      "distinguishing_features": "twisted, ancient roots and a hollowed trunk",
+      "art_style_keywords": [
+        "ultra-realistic",
+        "cinematic",
+        "documentary-style"
+      ],
+      "reference_prompt": "A majestic, centuries-old tree stands tall amidst a desolate, barren landscape, its gnarled branches and twisted roots a testament to its age and wisdom, with a leafy canopy that seems to stretch up to the sky, set against a backdrop of a devastated forest ecosystem."
+    },
+    {
+      "name": "Lily",
+      "age_range": "8-12 years old",
+      "build": "slender, athletic build",
+      "face_details": "determined, passionate expression with bright, inquisitive eyes",
+      "hair": "long, curly brown hair tied back in a ponytail",
+      "outfit": "practical, earth-toned clothing with a wide-brimmed hat and gardening gloves",
+      "color_palette": [
+        "earth brown",
+        "sky blue"
+      ],
+      "distinguishing_features": "scrapes and scratches on her knees and hands from gardening",
+      "art_style_keywords": [
+        "ultra-realistic",
+        "cinematic",
+        "documentary-style"
+      ],
+      "reference_prompt": "A determined young girl with a passionate expression and bright, inquisitive eyes, dressed in practical, earth-toned clothing, kneeling in the dirt surrounded by small potted plants and gardening tools, with a wide-brimmed hat and gloves, set against a backdrop of a budding forest ecosystem."
+    },
+    {
+      "name": "Dr. Patel",
+      "age_range": "40-50 years old",
+      "build": "fit, professional build",
+      "face_details": "kind, knowledgeable expression with warm, brown eyes",
+      "hair": "short, dark hair with a few streaks of gray",
+      "outfit": "practical, outdoor-inspired clothing with a crisp, white shirt and a pair of sturdy boots",
+      "color_palette": [
+        "earth brown",
+        "forest green"
+      ],
+      "distinguishing_features": "a pair of wire-rimmed glasses perched on the end of her nose",
+      "art_style_keywords": [
+        "ultra-realistic",
+        "cinematic",
+        "documentary-style"
+      ],
+      "reference_prompt": "A knowledgeable scientist with a kind, warm expression and a pair of wire-rimmed glasses, dressed in practical, outdoor-inspired clothing, standing amidst a lush, restored forest ecosystem, with a few trees and plants surrounding her, and a small notebook and pencil in hand, set against a backdrop of a thriving, vibrant forest."
+    }
+  ],
+  "sheet_id": "e62911fd-59f5-43fb-b420-0d888cbd3625",
+  "source_plan_id": "2e6b11a3-430b-41e9-a97b-5ed27da63129",
+  "generated_at": "2026-07-26T09:55:19.971677Z"
+}

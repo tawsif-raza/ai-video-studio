@@ -1,0 +1,33 @@
+{
+  "thumbnail_plan_id": "afa78943-7e26-458a-85fb-15ed69fb2f7d",
+  "source_editing_plan_id": "86a4e278-34d7-4f74-a896-1f835bd3c2b3",
+  "variants": [
+    {
+      "variant_id": "variant_1",
+      "strategy": "Protagonist close-up on the determined hero moment (scene 5)",
+      "focal_subject": "Jack Harris",
+      "emotion": "determined",
+      "composition": "Jack Harris framed in a tight close-up, right-of-center and facing the viewer, against a blurred lighthouse lantern room at sunset backdrop with shallow depth of field; bold negative space in the upper-left reserved for the title overlay.",
+      "image_prompt": "Jack Harris framed in a tight close-up, right-of-center and facing the viewer, against a blurred lighthouse lantern room at sunset backdrop with shallow depth of field; bold negative space in the upper-left reserved for the title overlay. A solitary, aged man stands at the edge of a rugged coastline, his eyes lost in the distance as he gazes out at the sea, the faint outline of a lighthouse looming in the background, the atmosphere heavy with mist and nostalgia, rendered in muted, dreamy watercolors that evoke a sense of longing and connection to the past. The expression conveys determined. Cinematic YouTube thumbnail for \"The Whispering Waves\": A retired lighthouse keeper uncovers the secrets of the past through an old radio that picks up mysterious messages from vanished ships. Theme of connection to the past, mysterious tone. Style: moody watercolor, muted coastal palette. High-contrast, saturated color, dramatic rim lighting, sharp focus on the subject's face, leaving clear negative space for overlay text.",
+      "source_scene_id": 5,
+      "source_shot_id": 3,
+      "text_safe_areas": [
+        {
+          "label": "title",
+          "x": 0.04,
+          "y": 0.06,
+          "width": 0.56,
+          "height": 0.3
+        },
+        {
+          "label": "lower_third",
+          "x": 0.04,
+          "y": 0.7,
+          "width": 0.55,
+          "height": 0.22
+        }
+      ]
+    }
+  ],
+  "generated_at": "2026-07-29T10:28:58.636279Z"
+}

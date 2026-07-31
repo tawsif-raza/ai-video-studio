@@ -1,0 +1,147 @@
+[
+  {
+    "scene_id": 1,
+    "shots": [
+      {
+        "shot_id": 1,
+        "camera_angle": "high-angle",
+        "camera_movement": "dolly-in"
+      },
+      {
+        "shot_id": 2,
+        "camera_angle": "extreme close-up",
+        "camera_movement": "static"
+      },
+      {
+        "shot_id": 3,
+        "camera_angle": "medium shot",
+        "camera_movement": "pan-left"
+      }
+    ]
+  },
+  {
+    "scene_id": 2,
+    "shots": [
+      {
+        "shot_id": 1,
+        "camera_angle": "medium shot",
+        "camera_movement": "zoom-out"
+      },
+      {
+        "shot_id": 2,
+        "camera_angle": "low-angle",
+        "camera_movement": "tilt-up"
+      },
+      {
+        "shot_id": 3,
+        "camera_angle": "close-up",
+        "camera_movement": "dolly-out"
+      }
+    ]
+  },
+  {
+    "scene_id": 3,
+    "shots": [
+      {
+        "shot_id": 1,
+        "camera_angle": "over-the-shoulder",
+        "camera_movement": "track-left"
+      },
+      {
+        "shot_id": 2,
+        "camera_angle": "medium shot",
+        "camera_movement": "static"
+      },
+      {
+        "shot_id": 3,
+        "camera_angle": "point-of-view",
+        "camera_movement": "dolly-in"
+      }
+    ]
+  },
+  {
+    "scene_id": 4,
+    "shots": [
+      {
+        "shot_id": 1,
+        "camera_angle": "high-angle",
+        "camera_movement": "zoom-in"
+      },
+      {
+        "shot_id": 2,
+        "camera_angle": "low-angle",
+        "camera_movement": "pan-right"
+      },
+      {
+        "shot_id": 3,
+        "camera_angle": "close-up",
+        "camera_movement": "dolly-out"
+      },
+      {
+        "shot_id": 4,
+        "camera_angle": "medium shot",
+        "camera_movement": "track-right"
+      }
+    ]
+  },
+  {
+    "scene_id": 5,
+    "shots": [
+      {
+        "shot_id": 1,
+        "camera_angle": "extreme long shot",
+        "camera_movement": "static"
+      },
+      {
+        "shot_id": 2,
+        "camera_angle": "medium shot",
+        "camera_movement": "pan-left"
+      },
+      {
+        "shot_id": 3,
+        "camera_angle": "close-up",
+        "camera_movement": "dolly-in"
+      }
+    ]
+  },
+  {
+    "scene_id": 6,
+    "shots": [
+      {
+        "shot_id": 1,
+        "camera_angle": "low-angle",
+        "camera_movement": "tilt-up"
+      },
+      {
+        "shot_id": 2,
+        "camera_angle": "over-the-shoulder",
+        "camera_movement": "track-right"
+      },
+      {
+        "shot_id": 3,
+        "camera_angle": "medium shot",
+        "camera_movement": "zoom-out"
+      }
+    ]
+  },
+  {
+    "scene_id": 7,
+    "shots": [
+      {
+        "shot_id": 1,
+        "camera_angle": "extreme long shot",
+        "camera_movement": "pan-left"
+      },
+      {
+        "shot_id": 2,
+        "camera_angle": "close-up",
+        "camera_movement": "static"
+      },
+      {
+        "shot_id": 3,
+        "camera_angle": "medium shot",
+        "camera_movement": "dolly-out"
+      }
+    ]
+  }
+]

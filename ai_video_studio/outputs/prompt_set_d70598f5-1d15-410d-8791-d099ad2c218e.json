@@ -1,0 +1,183 @@
+{
+  "prompt_set_id": "d70598f5-1d15-410d-8791-d099ad2c218e",
+  "source_storyboard_id": "34726a70-70c5-4c40-b1f4-7433a39f08f2",
+  "shots": [
+    {
+      "image_prompt": "In a moody watercolor style with a muted coastal palette, a high-angle view captures Jack Harris, an aged man with a solitary demeanor, discovering an old, mysterious radio amidst the cluttered, dimly lit lighthouse attic, surrounded by old trunks, faded navigational maps, and cobweb-covered lanterns, all covered in a thick layer of dust, with soft, diffused light peeking through the small attic window, casting a warm glow on the nostalgic, forgotten treasures, as he gazes at the radio with a mix of curiosity and longing, his eyes reflecting the heavy atmosphere of mist and nostalgia that fills the space.",
+      "video_motion_prompt": "The camera dollies in over 5 seconds, drawing closer to Jack's captivated expression as his fingers brush against the old radio, while the dusty attic surroundings blur slightly in the background, emphasizing Jack's discovery.",
+      "scene_id": 1,
+      "shot_id": 1,
+      "duration_seconds": 5,
+      "generated_at": "2026-07-29T09:36:28.470529Z"
+    },
+    {
+      "image_prompt": "In a moody watercolor style with a muted coastal palette, an extreme close-up of Jack Harris's aged hands and face as he examines the intricate details of an old radio, set against the cluttered, dimly lit backdrop of a lighthouse attic with old trunks, faded navigational maps, and cobweb-covered lanterns, all covered in dust, with soft, diffused light peeking through a small attic window, casting a warm glow on the nostalgic scene.",
+      "video_motion_prompt": "The camera remains static for 3 seconds, capturing every detail of Jack's hands and face as he intently examines the radio, with no movement except for the slight, almost imperceptible, motion of his fingers tracing the radio's components.",
+      "scene_id": 1,
+      "shot_id": 2,
+      "duration_seconds": 3,
+      "generated_at": "2026-07-29T09:36:35.177040Z"
+    },
+    {
+      "image_prompt": "A solitary, aged man, Jack Harris, stands amidst the cluttered, dimly lit lighthouse attic, surrounded by old trunks, faded navigational maps, and cobweb-covered lanterns, all covered in a thick layer of dust, with soft, diffused light peeking through the small attic window, casting a warm glow on the nostalgic, forgotten treasures, as he gazes out into the distance, lost in thought, his eyes heavy with the weight of memories, the atmosphere evoking a sense of longing and connection to the past, rendered in muted, dreamy watercolors with a moody, coastal palette, in a medium shot that captures the intimacy of the moment.",
+      "video_motion_prompt": "As Jack becomes lost in thought, the camera pans left, drifting slowly across the attic's nostalgic relics, in a gentle, 2-second movement that echoes the soft lapping of the distant waves.",
+      "scene_id": 1,
+      "shot_id": 3,
+      "duration_seconds": 2,
+      "generated_at": "2026-07-29T09:36:37.900995Z"
+    },
+    {
+      "image_prompt": "A solitary, aged man, Jack Harris, stands in a cluttered, dimly lit lighthouse attic, surrounded by old trunks, faded navigational maps, and cobweb-covered lanterns, all covered in a thick layer of dust, with soft, diffused light peeking through the small attic window, casting a warm glow on the nostalgic, forgotten treasures, as he turns on an old radio, his eyes squinting slightly in anticipation, set against a muted, dreamy watercolor backdrop with a moody coastal palette, in a medium shot framing, with the camera beginning to zoom out to capture more of the attic's dusty, nostalgic atmosphere.",
+      "video_motion_prompt": "As the static fills the air, the camera slowly zooms out to reveal more of the cluttered attic, while Jack's expression remains hopeful, frozen in a moment of longing.",
+      "scene_id": 2,
+      "shot_id": 1,
+      "duration_seconds": 4,
+      "generated_at": "2026-07-29T09:36:41.668709Z"
+    },
+    {
+      "image_prompt": "In a moody watercolor scene with a muted coastal palette, a solitary, aged man, Jack Harris, stands at the edge of a rugged coastline, his eyes lost in the distance as he gazes out at the sea, the faint outline of a lighthouse looming in the background, with the atmosphere heavy with mist and nostalgia, captured in a low-angle shot that looks up at Jack, as if the viewer is standing below him, with the cluttered, dimly lit lighthouse attic visible behind him, complete with old trunks, faded navigational maps, and cobweb-covered lanterns, all covered in a thick layer of dust, and soft, diffused light peeking through the small attic window, casting a warm glow on the nostalgic, forgotten treasures.",
+      "video_motion_prompt": "As Jack's eyes widen in response to the faint, distant distress call on the radio, the camera tilts up, following his gaze, over the course of 4 seconds, capturing the mixture of concern and longing on his face.",
+      "scene_id": 2,
+      "shot_id": 2,
+      "duration_seconds": 4,
+      "generated_at": "2026-07-29T09:36:42.431616Z"
+    },
+    {
+      "image_prompt": "A close-up of Jack Harris's weathered face, his eyes squinting in concern as his puzzled expression deepens, set against the soft, muted tones of a dreamy watercolor lighthouse attic backdrop with old trunks, faded navigational maps, and cobweb-covered lanterns, all shrouded in a thick layer of dust, with soft, diffused light peeking through the small attic window, casting a warm, moody glow on the nostalgic scene, in the muted, coastal color palette of a watercolor painting.",
+      "video_motion_prompt": "As Jack's concern grows, the camera slowly dollies out, revealing more of the cluttered attic surroundings, with the soft light from the window dancing across the dusty relics, over the course of 4 seconds.",
+      "scene_id": 2,
+      "shot_id": 3,
+      "duration_seconds": 4,
+      "generated_at": "2026-07-29T09:36:49.366532Z"
+    },
+    {
+      "image_prompt": "A solitary, aged man, Jack Harris, sits in a cozy, misty lighthouse library, surrounded by old bookshelves lined with leather-bound tomes, with brass navigational instruments on a nearby desk, as he delves into the history of a ship through old books, his eyes fixed intently on the pages, the warm, golden light spilling in through the window casting a sense of intimacy, viewed from an over-the-shoulder angle, with the faint outline of a rugged coastline and lighthouse visible in the background, rendered in muted, dreamy watercolors that evoke a sense of longing and connection to the past.",
+      "video_motion_prompt": "As Jack turns the pages, the camera tracks left, following his gaze, the books and instruments blurring slightly as the camera moves, capturing the quiet, contemplative atmosphere of the library in a moody watercolor style.",
+      "scene_id": 3,
+      "shot_id": 1,
+      "duration_seconds": 5,
+      "generated_at": "2026-07-29T09:36:50.450708Z"
+    },
+    {
+      "image_prompt": "In a moody watercolor scene with a muted coastal palette, a solitary, aged man, Jack Harris, sits at a desk in a cozy, misty lighthouse library, surrounded by old bookshelves lined with leather-bound tomes and brass navigational instruments, with a warm, golden light spilling in through the window, as he studies old newspapers and historical documents, his eyes focused intently, in a medium shot that captures his contemplative expression, with the faint outline of a lighthouse visible outside the window, evoking a sense of longing and connection to the past.",
+      "video_motion_prompt": "The camera remains static for 5 seconds, capturing Jack's intent study, as the misty atmosphere outside subtly shifts, and the warm light from the window casts a gentle glow on his face.",
+      "scene_id": 3,
+      "shot_id": 2,
+      "duration_seconds": 5,
+      "generated_at": "2026-07-29T09:36:56.219357Z"
+    },
+    {
+      "image_prompt": "In a moody watercolor scene with a muted coastal palette, Jack Harris, a solitary aged man with eyes lost in thought, sits in a cozy lighthouse library surrounded by old bookshelves lined with leather-bound tomes and brass navigational instruments on a nearby desk, warm golden light spilling in through the window, as he takes notes, his expression increasingly intrigued by his findings, with the faint outline of a lighthouse visible outside the window, the atmosphere heavy with mist and nostalgia, captured from a point-of-view angle as if the viewer is peering over his shoulder.",
+      "video_motion_prompt": "The camera dollies in over 5 seconds, drawing closer to Jack's hands as they scribble notes, his eyes widening with fascination, the background blurring slightly as the focus tightens on his intense expression.",
+      "scene_id": 3,
+      "shot_id": 3,
+      "duration_seconds": 5,
+      "generated_at": "2026-07-29T09:36:59.457243Z"
+    },
+    {
+      "image_prompt": "In a cozy, stormy lighthouse living room at night, with flickering candles casting shadows on the walls, old armchairs gathered around a crackling fireplace, a solitary, aged man, Jack Harris, sits in comfort, his eyes lost in the distance as he listens to the old radio broadcast mysterious, eerie, and unsettling messages from vanished ships, the atmosphere heavy with mist and nostalgia, rendered in muted, dreamy watercolors that evoke a sense of longing and connection to the past, with the camera looking down from a high angle, as if from above, capturing the entire, intimate scene.",
+      "video_motion_prompt": "The camera slowly zooms in over 6 seconds, focusing on Jack's face as the eerie messages from the radio fill the air, drawing the viewer into his haunted expression.",
+      "scene_id": 4,
+      "shot_id": 1,
+      "duration_seconds": 6,
+      "generated_at": "2026-07-29T09:37:00.162155Z"
+    },
+    {
+      "image_prompt": "A solitary, aged man, Jack Harris, stands in the center of a cozy, stormy lighthouse living room at night, rendered in muted, dreamy watercolors, with flickering candles casting shadows on the walls and old armchairs gathered around a crackling fireplace, the atmosphere heavy with a sense of longing and connection to the past, as he looks around the dark room with an eerie connection, his eyes lost in thought, viewed from a low-angle perspective that emphasizes his figure against the warm, muted glow of the interior, with the faint outline of a rugged coastline and a lighthouse visible through the window, shrouded in mist and the sound of a storm raging outside.",
+      "video_motion_prompt": "The camera pans right across the dimly lit room, following Jack's gaze as he slowly turns his head, his eyes scanning the shadows, over the course of 4 seconds, the candles and firelight dancing across his face.",
+      "scene_id": 4,
+      "shot_id": 2,
+      "duration_seconds": 4,
+      "generated_at": "2026-07-29T09:37:06.231393Z"
+    },
+    {
+      "image_prompt": "A close-up of Jack Harris, an aged man with a contemplative expression, leans in towards an old radio in a cozy lighthouse living room at night, the flickering candles and crackling fireplace casting a warm, golden glow on his weathered face, as the sound of a storm rages outside and the faint outlines of old armchairs and a lighthouse interior blur into the background, all rendered in muted, dreamy watercolors with a moody, coastal palette that evokes a sense of longing and mystery.",
+      "video_motion_prompt": "As Jack's eyes widen in rapt attention, the camera slowly dollies out to reveal more of the warm, candlelit room, the sound of the radio and the storm outside filling the air.",
+      "scene_id": 4,
+      "shot_id": 3,
+      "duration_seconds": 5,
+      "generated_at": "2026-07-29T09:37:09.080601Z"
+    },
+    {
+      "image_prompt": "A solemn, aged man, Jack Harris, sits in a cozy lighthouse living room at night, with flickering candles casting shadows on the walls, old armchairs gathered around a crackling fireplace, and the sound of the storm raging outside, his eyes fixed intently on an old radio broadcasting mysterious messages from vanished ships, his expression haunted, in a medium shot, rendered in muted, dreamy watercolors that evoke a sense of longing and connection to the past, with a moody watercolor style and muted coastal palette.",
+      "video_motion_prompt": "As Jack's expression becomes increasingly solemn, the camera tracks to the right, following the faint glow of the candles and the old radio, over the course of 5 seconds.",
+      "scene_id": 4,
+      "shot_id": 4,
+      "duration_seconds": 5,
+      "generated_at": "2026-07-29T09:37:12.942154Z"
+    },
+    {
+      "image_prompt": "In a moody watercolor style with a muted coastal palette, an extreme long shot captures a solitary, aged man, Jack Harris, standing at the edge of a rugged coastline, his eyes lost in the distance as he gazes out at the sea, with the faint outline of a majestic lighthouse looming in the background, its lantern room glowing warmly as sunset's golden light is refracted through prismatic glass, the atmosphere heavy with mist and nostalgia, evoking a sense of longing and connection to the past.",
+      "video_motion_prompt": "The camera remains static for 10 seconds as the warm light of the sunset fades, casting a serene, golden glow over the scene, with only the mist gently rolling in, shrouding the landscape in an ethereal veil.",
+      "scene_id": 5,
+      "shot_id": 1,
+      "duration_seconds": 10,
+      "generated_at": "2026-07-29T09:37:15.731653Z"
+    },
+    {
+      "image_prompt": "A solitary, aged man, Jack Harris, stands contemplatively in the lantern room of a serene lighthouse at sunset, surrounded by prismatic glass that refracts warm, golden light, with a brass lantern standing tall behind him, and a breathtaking coastal view stretching out to the horizon, his eyes lost in thought as he gazes out at the sea, the faint outline of the coastline visible in the distance, the atmosphere heavy with mist and nostalgia, all rendered in muted, dreamy watercolors that evoke a sense of longing and connection to the past, captured in a medium shot that frames his introspective moment.",
+      "video_motion_prompt": "As Jack's thoughts drift away, the camera pans left, slowly revealing more of the lantern room's warm, golden interior, before settling on the vast, misty expanse of the sea outside, all within a 10-second span.",
+      "scene_id": 5,
+      "shot_id": 2,
+      "duration_seconds": 10,
+      "generated_at": "2026-07-29T09:37:19.570949Z"
+    },
+    {
+      "image_prompt": "A close-up of Jack Harris, an aged man with a contemplative expression, stands at the edge of a rugged coastline, his eyes lost in the distance as he gazes out at the sea under the faint outline of a lighthouse, the atmosphere heavy with mist and nostalgia, rendered in muted, dreamy watercolors that evoke a sense of longing and connection to the past, with the warm, golden light of sunset casting a serene glow on his face, and the breathtaking coastal view stretching out to the horizon behind him.",
+      "video_motion_prompt": "The camera slowly dollies in on Jack's face over 10 seconds, his expression deepening in contemplation as the mist and light around him subtly shift, drawing the viewer into his introspective world.",
+      "scene_id": 5,
+      "shot_id": 3,
+      "duration_seconds": 10,
+      "generated_at": "2026-07-29T09:37:20.605675Z"
+    },
+    {
+      "image_prompt": "In a moody watercolor style with a muted coastal palette, a solitary, aged man, Jack Harris, stands at the edge of a rugged coastline, looking upwards with a mix of sadness and longing, his eyes reflecting the faint outline of a lighthouse looming in the background, shrouded in mist, as he holds an old radio to his ear, with the cluttered, dimly lit lighthouse attic behind him, featuring old trunks, faded navigational maps, and cobweb-covered lanterns, all covered in a thick layer of dust, with soft, diffused light peeking through the small attic window, casting a warm glow on the nostalgic, forgotten treasures, captured in a low-angle shot, emphasizing his isolation and the significance of the moment.",
+      "video_motion_prompt": "As the poignant message fades out on the radio, the camera tilts up, following Jack's gaze towards the lighthouse, over 6 seconds, capturing the depth of his emotions and the haunting beauty of the landscape.",
+      "scene_id": 6,
+      "shot_id": 1,
+      "duration_seconds": 6,
+      "generated_at": "2026-07-29T09:37:26.551373Z"
+    },
+    {
+      "image_prompt": "A solitary, aged man, Jack Harris, stands at the edge of a rugged coastline, his eyes lost in the distance as he gazes out at the sea, the faint outline of a lighthouse looming in the background, with the atmosphere heavy with mist and nostalgia, rendered in muted, dreamy watercolors, captured from an over-the-shoulder angle as if the viewer is standing just behind him, with the camera positioned to include the vast, misty seascape and the man's contemplative profile.",
+      "video_motion_prompt": "As Jack's expression shifts to reveal the emotional weight of the message, the camera tracks to the right, following the gentle turn of his head as he gazes deeper into the sea, the misty coastline unfolding slowly in the background.",
+      "scene_id": 6,
+      "shot_id": 2,
+      "duration_seconds": 4,
+      "generated_at": "2026-07-29T09:37:30.291618Z"
+    },
+    {
+      "image_prompt": "A solitary, aged man, Jack Harris, with a bittersweet expression, stands at the edge of a rugged coastline, his eyes lost in the distance as he gazes out at the sea, the faint outline of a lighthouse looming in the background, all set against a muted, dreamy watercolor palette with a moody, coastal tone, captured in a medium shot with a sense of longing and connection to the past, as the atmosphere is heavy with mist and nostalgia, with the cluttered, dimly lit lighthouse attic visible behind him, featuring old trunks, faded navigational maps, and cobweb-covered lanterns, all covered in a thick layer of dust, with soft, diffused light peeking through the small attic window.",
+      "video_motion_prompt": "The camera zooms out over 3 seconds, as Jack's expression subtly shifts, revealing more of the cluttered lighthouse attic behind him, while the soft, diffused light remains constant, casting a warm glow on the nostalgic scene.",
+      "scene_id": 6,
+      "shot_id": 3,
+      "duration_seconds": 3,
+      "generated_at": "2026-07-29T09:37:33.179438Z"
+    },
+    {
+      "image_prompt": "In a moody watercolor scene with a muted coastal palette, a solitary, aged man, Jack Harris, stands at the edge of a rugged coastline, gazing out at the sea through a peaceful, contemplative lighthouse window at dusk, with an old window frame, a worn wooden sill, and a fading coastal view, the faint outline of the coastline and a lighthouse looming in the background, the atmosphere heavy with mist and nostalgia, as the last remnants of daylight cast a warm, gentle glow on the scene, captured in an extreme long shot.",
+      "video_motion_prompt": "The camera pans left, following the gentle movement of Jack's gaze as the sound of waves soothes, over the course of 5 seconds.",
+      "scene_id": 7,
+      "shot_id": 1,
+      "duration_seconds": 5,
+      "generated_at": "2026-07-29T09:37:36.812350Z"
+    },
+    {
+      "image_prompt": "A close-up of Jack Harris, an aged man with a contemplative expression, stands at the edge of a rugged coastline, his eyes lost in the distance as he gazes out at the sea, the faint outline of a lighthouse looming in the background, the atmosphere heavy with mist and nostalgia, rendered in muted, dreamy watercolors that evoke a sense of longing and connection to the past, set against the warm, gentle glow of a fading coastal view at dusk, with an old lighthouse window frame and a worn wooden sill in the foreground, the radio in the background having fallen silent, inviting a moment of stillness, in a moody watercolor style with a muted coastal palette.",
+      "video_motion_prompt": "The camera remains static, capturing the serene stillness of the moment, as the only movement is the gentle, almost imperceptible sway of Jack's body with the sea breeze, for 3 seconds.",
+      "scene_id": 7,
+      "shot_id": 2,
+      "duration_seconds": 3,
+      "generated_at": "2026-07-29T09:37:40.499269Z"
+    },
+    {
+      "image_prompt": "A solitary, aged man, Jack Harris, stands at the edge of a rugged coastline, his eyes lost in the distance as he gazes out at the vast, mysterious sea, with the faint outline of a lighthouse looming in the background, set against a peaceful, contemplative backdrop of a lighthouse window at dusk, with an old window frame, a worn wooden sill, and a fading coastal view, as the last remnants of daylight cast a warm, gentle glow on the scene, inviting a sense of reflection, in a medium shot, rendered in muted, dreamy watercolors that evoke a sense of longing and connection to the past, with a moody watercolor style and a muted coastal palette.",
+      "video_motion_prompt": "The camera slowly dollies out, revealing more of the rugged coastline and the vast sea, as Jack Harris remains still, lost in thought, over the course of 2 seconds.",
+      "scene_id": 7,
+      "shot_id": 3,
+      "duration_seconds": 2,
+      "generated_at": "2026-07-29T09:37:41.287351Z"
+    }
+  ],
+  "generated_at": "2026-07-29T09:37:41.288211Z"
+}

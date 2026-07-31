@@ -1,0 +1,117 @@
+{
+  "environment_profiles": [
+    {
+      "setting": "lighthouse attic",
+      "time_of_day": "afternoon",
+      "weather": "overcast",
+      "key_visual_elements": [
+        "old trunks",
+        "faded navigational maps",
+        "cobweb-covered lanterns"
+      ],
+      "color_palette": [
+        "muted blue",
+        "faded grey",
+        "weathered wood"
+      ],
+      "lighting": "soft, diffused",
+      "atmosphere": "musty, nostalgic",
+      "art_style_keywords": [
+        "moody watercolor",
+        "muted coastal palette"
+      ],
+      "reference_prompt": "A cluttered, dimly lit lighthouse attic with old trunks, faded navigational maps, and cobweb-covered lanterns, all covered in a thick layer of dust, with soft, diffused light peeking through the small attic window, casting a warm glow on the nostalgic, forgotten treasures."
+    },
+    {
+      "setting": "lighthouse library",
+      "time_of_day": "late morning",
+      "weather": "misty",
+      "key_visual_elements": [
+        "old bookshelves",
+        "leather-bound tomes",
+        "brass navigational instruments"
+      ],
+      "color_palette": [
+        "muted green",
+        "weathered leather",
+        "brass"
+      ],
+      "lighting": "warm, golden",
+      "atmosphere": "intimate, scholarly",
+      "art_style_keywords": [
+        "moody watercolor",
+        "muted coastal palette"
+      ],
+      "reference_prompt": "A cozy, misty lighthouse library with old bookshelves lined with leather-bound tomes, brass navigational instruments on a nearby desk, and a warm, golden light spilling in through the window, casting a sense of intimacy and scholarly pursuit, as if the keeper has just stepped away from their research."
+    },
+    {
+      "setting": "lighthouse living room at night",
+      "time_of_day": "night",
+      "weather": "stormy",
+      "key_visual_elements": [
+        "flickering candles",
+        "old armchairs",
+        "crackling fireplace"
+      ],
+      "color_palette": [
+        "warm amber",
+        "muted blue",
+        "flickering orange"
+      ],
+      "lighting": "warm, flickering",
+      "atmosphere": "cozy, ominous",
+      "art_style_keywords": [
+        "moody watercolor",
+        "muted coastal palette"
+      ],
+      "reference_prompt": "A cozy, stormy lighthouse living room at night, with flickering candles casting shadows on the walls, old armchairs gathered around a crackling fireplace, and the sound of the storm raging outside, as the keeper sits in comfort, listening to the old radio broadcast mysterious messages from vanished ships."
+    },
+    {
+      "setting": "lighthouse lantern room at sunset",
+      "time_of_day": "sunset",
+      "weather": "clear",
+      "key_visual_elements": [
+        "prismatic glass",
+        "brass lantern",
+        "breathtaking coastal view"
+      ],
+      "color_palette": [
+        "warm orange",
+        "soft pink",
+        "muted blue"
+      ],
+      "lighting": "warm, golden",
+      "atmosphere": "serene, majestic",
+      "art_style_keywords": [
+        "moody watercolor",
+        "muted coastal palette"
+      ],
+      "reference_prompt": "A serene, majestic lighthouse lantern room at sunset, with prismatic glass refracting the warm, golden light, a brass lantern standing tall, and a breathtaking coastal view stretching out to the horizon, as the keeper stands at the edge of the room, taking in the beauty of the fading day."
+    },
+    {
+      "setting": "lighthouse window at dusk",
+      "time_of_day": "dusk",
+      "weather": "calm",
+      "key_visual_elements": [
+        "old window frame",
+        "worn wooden sill",
+        "fading coastal view"
+      ],
+      "color_palette": [
+        "muted blue",
+        "soft grey",
+        "warm beige"
+      ],
+      "lighting": "soft, diffused",
+      "atmosphere": "peaceful, contemplative",
+      "art_style_keywords": [
+        "moody watercolor",
+        "muted coastal palette"
+      ],
+      "reference_prompt": "A peaceful, contemplative lighthouse window at dusk, with an old window frame, a worn wooden sill, and a fading coastal view, as the last remnants of daylight cast a warm, gentle glow on the scene, inviting the keeper to sit, reflect, and listen to the whispers of the past."
+    }
+  ],
+  "sheet_id": "29085085-7e67-4e9c-8b69-dab1f4f1668b",
+  "source_plan_id": "15de0e16-cf12-49ed-b3d2-06c95d6b90de",
+  "generated_at": "2026-07-29T09:36:25.685620Z"
+}
