@@ -66,7 +66,10 @@ def parse_resolution(resolution: str) -> Tuple[int, int]:
     return width, height
 
 
-def _duration(segment: EditingSegment) -> float:
+def segment_duration(segment: EditingSegment) -> float:
+    """Public: segmented_renderer.py needs the same per-segment/per-chain
+    duration arithmetic this module already established, to replicate the
+    accumulated-offset math outside a single filter_complex."""
     duration = segment.end_time - segment.start_time
     if duration <= 0:
         raise RenderInputError(
@@ -76,7 +79,7 @@ def _duration(segment: EditingSegment) -> float:
     return duration
 
 
-def _validate_boundary_transitions(segments: List[EditingSegment]) -> None:
+def validate_boundary_transitions(segments: List[EditingSegment]) -> None:
     first, last = segments[0], segments[-1]
     if first.transition_in not in ("fade_from_black", "cut"):
         raise RenderInputError(
@@ -90,7 +93,7 @@ def _validate_boundary_transitions(segments: List[EditingSegment]) -> None:
         )
 
 
-def _join_type(prev: EditingSegment, nxt: EditingSegment) -> str:
+def join_type(prev: EditingSegment, nxt: EditingSegment) -> str:
     """The transition between two adjacent shots, read from the plan and
     cross-checked for consistency - prev.transition_out and nxt.transition_in
     describe the same boundary and must agree, or the plan is malformed."""
@@ -108,23 +111,30 @@ def _join_type(prev: EditingSegment, nxt: EditingSegment) -> str:
     return prev.transition_out
 
 
-def _group_into_chains(segments: List[EditingSegment]) -> List[List[int]]:
+def group_into_chains(segments: List[EditingSegment]) -> List[List[int]]:
     """Splits segments into runs joined by 'cut' - each run becomes one concat
     chain; a 'crossfade' join starts a new chain. For today's Editing Planner
     this always lines up with scene boundaries (cuts within a scene,
     crossfades between scenes), but the grouping is derived from the actual
     transition data, not from scene_id, so it stays correct if that ever
-    changes."""
+    changes.
+
+    Public: segmented_renderer.py (execution_engine's high-memory-project
+    fallback, see its module docstring) reuses this exact grouping to decide
+    where one small ffmpeg process's inputs end and the next begins - a
+    chain is always rendered by a single process since 'cut' needs no
+    cross-process blending, while a 'crossfade' boundary is exactly where
+    segmented_renderer inserts a separate, disk-based merge step."""
     chains: List[List[int]] = [[0]]
     for i in range(1, len(segments)):
-        if _join_type(segments[i - 1], segments[i]) == "cut":
+        if join_type(segments[i - 1], segments[i]) == "cut":
             chains[-1].append(i)
         else:
             chains.append([i])
     return chains
 
 
-def _normalize_expr(width: int, height: int, fps: int) -> str:
+def normalize_expr(width: int, height: int, fps: int) -> str:
     """Letterbox-scales to the target frame, pads to fill it, forces square
     pixels, and conforms frame rate - so image and video inputs of any source
     size/rate/SAR join cleanly in concat/xfade, which require matching
@@ -136,15 +146,23 @@ def _normalize_expr(width: int, height: int, fps: int) -> str:
     )
 
 
-def _build_segment_chain(
+def build_segment_chain(
     index: int, segment: EditingSegment, *, is_first: bool, is_last: bool, width: int, height: int, fps: int
 ) -> Tuple[List[str], str]:
     """Compiles one segment's own filter chain: trim (video only) + normalize,
     then an opening fade-from-black if this is the true first shot of the
     whole edit, then a closing fade-to-black if this is the true last shot -
     both independently gated on this segment's own transition_in/
-    transition_out, so a single-segment edit can carry both."""
-    duration = _duration(segment)
+    transition_out, so a single-segment edit can carry both.
+
+    Public: segmented_renderer.py calls this per segment too, with `index`
+    re-based to each chain's own local (0-based, per-process) input
+    position rather than the segment's position in the whole edit - the
+    label names this produces (n{index}/fi{index}/fo{index}) only need to
+    be unique within the one filter_complex string they end up in, and a
+    segmented chain's filter_complex is scoped to that chain's own ffmpeg
+    process, never mixed with another chain's labels."""
+    duration = segment_duration(segment)
     filters: List[str] = []
     current = f"n{index}"
 
@@ -156,7 +174,7 @@ def _build_segment_chain(
         # concat/xfade require every input's length to match what the plan
         # says, not what the source file happens to hold.
         trim_expr = f"trim=duration={format_seconds(duration)},setpts=PTS-STARTPTS,"
-    filters.append(f"[{index}:v]{trim_expr}{_normalize_expr(width, height, fps)}[{current}]")
+    filters.append(f"[{index}:v]{trim_expr}{normalize_expr(width, height, fps)}[{current}]")
 
     if is_first and segment.transition_in == "fade_from_black":
         fade_duration = min(EDGE_FADE_SECONDS, duration / 2)
@@ -190,14 +208,14 @@ def build_visual_filter_graph(editing_plan: EditingPlan, options: RenderOptions)
     if options.fps <= 0:
         raise RenderInputError(f"Invalid fps '{options.fps}' - must be positive")
 
-    _validate_boundary_transitions(segments)
-    chains = _group_into_chains(segments)
+    validate_boundary_transitions(segments)
+    chains = group_into_chains(segments)
 
     all_filters: List[str] = []
     segment_labels: Dict[int, str] = {}
     last_index = len(segments) - 1
     for i, segment in enumerate(segments):
-        seg_filters, label = _build_segment_chain(
+        seg_filters, label = build_segment_chain(
             i, segment, is_first=(i == 0), is_last=(i == last_index), width=width, height=height, fps=options.fps,
         )
         all_filters.extend(seg_filters)
@@ -213,13 +231,13 @@ def build_visual_filter_graph(editing_plan: EditingPlan, options: RenderOptions)
             label = f"chain{chain_index}"
             # concat's output does not inherit its inputs' timebase (ffmpeg
             # resets it) even though every input was already normalized to
-            # 1/fps via _normalize_expr - re-asserting fps here keeps this
+            # 1/fps via normalize_expr - re-asserting fps here keeps this
             # chain's output on the same timebase as every other node, which
             # xfade requires exact agreement on when this chain sits next to
             # one that never passed through concat.
             all_filters.append(f"{concat_inputs}concat=n={len(chain)}:v=1:a=0,fps={options.fps}[{label}]")
             chain_labels.append(label)
-        chain_durations.append(sum(_duration(segments[idx]) for idx in chain))
+        chain_durations.append(sum(segment_duration(segments[idx]) for idx in chain))
 
     final_label = chain_labels[0]
     accumulated_duration = chain_durations[0]

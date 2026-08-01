@@ -107,11 +107,12 @@ def _output_args(options: RenderOptions) -> list:
     ]
 
 
-def build_command(request: RenderRequest) -> FFmpegCommandSpec:
-    """Builds the FFmpegCommandSpec from a request that has already been
-    validated (validate_render_request) and whose media has been confirmed to
-    exist (preflight.verify_media_exists). One visual input per editing
-    segment, in plan order, then the single narration audio input last.
+def build_segment_input(segment, resolution: str) -> FFmpegInput:
+    """Builds one editing segment's FFmpegInput - promoted out of
+    build_command so segmented_renderer.py (execution_engine's fallback for
+    high-memory many-scene projects, see its module docstring) can build
+    the exact same per-chain inputs without duplicating the image-loop/
+    black-frame-synthesis logic.
 
     Images carry `-loop 1 -t <dur>` so a still becomes a finite clip; a video
     input is trimmed to the plan's duration inside the filter graph instead
@@ -122,31 +123,38 @@ def build_command(request: RenderRequest) -> FFmpegCommandSpec:
     synthetic input sized to this render's own resolution, the one place a
     concrete WxH is chosen for it (Timeline/Editing Planning deliberately
     only carry the fact that it's missing, not a resolution, since that's a
-    per-render decision). The compiled visual graph's output stream is
-    explicitly mapped alongside the raw (unfiltered) narration audio stream -
-    audio mixing is still deferred, so the narration is only ever passed
-    through, never blended."""
-    inputs = []
-    for segment in request.editing_plan.segments:
-        duration = segment.end_time - segment.start_time
-        if segment.asset_type == "image":
-            pre_input_args = ["-loop", "1", "-t", format_seconds(duration)]
-            input_path = segment.asset_path
-        elif segment.asset_type == "black":
-            width, height = parse_resolution(request.options.resolution)
-            pre_input_args = ["-f", "lavfi"]
-            input_path = f"color=c=black:s={width}x{height}:d={format_seconds(duration)}"
-        else:
-            pre_input_args = []
-            input_path = segment.asset_path
-        inputs.append(FFmpegInput(
-            path=input_path,
-            kind=segment.asset_type,
-            scene_id=segment.scene_id,
-            shot_id=segment.shot_id,
-            duration_seconds=duration,
-            pre_input_args=pre_input_args,
-        ))
+    per-render decision)."""
+    duration = segment.end_time - segment.start_time
+    if segment.asset_type == "image":
+        pre_input_args = ["-loop", "1", "-t", format_seconds(duration)]
+        input_path = segment.asset_path
+    elif segment.asset_type == "black":
+        width, height = parse_resolution(resolution)
+        pre_input_args = ["-f", "lavfi"]
+        input_path = f"color=c=black:s={width}x{height}:d={format_seconds(duration)}"
+    else:
+        pre_input_args = []
+        input_path = segment.asset_path
+    return FFmpegInput(
+        path=input_path,
+        kind=segment.asset_type,
+        scene_id=segment.scene_id,
+        shot_id=segment.shot_id,
+        duration_seconds=duration,
+        pre_input_args=pre_input_args,
+    )
+
+
+def build_command(request: RenderRequest) -> FFmpegCommandSpec:
+    """Builds the FFmpegCommandSpec from a request that has already been
+    validated (validate_render_request) and whose media has been confirmed to
+    exist (preflight.verify_media_exists). One visual input per editing
+    segment, in plan order, then the single narration audio input last.
+
+    The compiled visual graph's output stream is explicitly mapped alongside
+    the raw (unfiltered) narration audio stream - audio mixing is still
+    deferred, so the narration is only ever passed through, never blended."""
+    inputs = [build_segment_input(segment, request.options.resolution) for segment in request.editing_plan.segments]
 
     inputs.append(FFmpegInput(
         path=request.asset_manifest.narration_audio_path,

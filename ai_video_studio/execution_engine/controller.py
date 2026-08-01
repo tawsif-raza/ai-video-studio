@@ -30,6 +30,7 @@ from execution_engine.ffmpeg_executor import execute
 from execution_engine.ffprobe_client import probe
 from execution_engine.postflight import validate_render
 from execution_engine.preflight import verify_media_exists
+from execution_engine.segmented_renderer import execute_segmented, should_segment
 from project_manager.project import ProjectState
 from shared_core.contracts.render import RenderOptions, RenderRequest, RenderResult
 from utils.logger import get_logger
@@ -99,10 +100,28 @@ class ExecutionEngineController:
             return project, ffmpeg_info, command_spec, RenderResult(success=True, dry_run=True), None
 
         # ---- Execute ----
-        logger.info("Executing ffmpeg render")
-        render_result = self.executor(
-            command_spec, ffmpeg_path=ffmpeg_info.path or "ffmpeg", timeout_seconds=options.timeout_seconds
-        )
+        # Many-scene edits (several crossfade boundaries) are routed through
+        # the segmented renderer instead of this single filter_complex path:
+        # holding every visual input open in one ffmpeg process is what was
+        # observed OOM-killing a real many-scene render on a memory-
+        # constrained deployment regardless of output resolution (see
+        # segmented_renderer's module docstring). should_segment reads the
+        # same editing_plan command_spec was already built from, so this
+        # never disagrees with what was just validated/logged above.
+        # self.executor is still the seam both paths run every subprocess
+        # through, so a caller that fakes it (tests) gets the same fake
+        # behavior regardless of which path a given plan takes.
+        if should_segment(request.editing_plan):
+            logger.info("Editing plan has multiple scene-crossfade boundaries - using segmented render")
+            render_result = execute_segmented(
+                request, ffmpeg_path=ffmpeg_info.path or "ffmpeg", timeout_seconds=options.timeout_seconds,
+                executor=self.executor,
+            )
+        else:
+            logger.info("Executing ffmpeg render")
+            render_result = self.executor(
+                command_spec, ffmpeg_path=ffmpeg_info.path or "ffmpeg", timeout_seconds=options.timeout_seconds
+            )
 
         # ---- Postflight: only meaningful when there's a file to probe ----
         validation_report = None
