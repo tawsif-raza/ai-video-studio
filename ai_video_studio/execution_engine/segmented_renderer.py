@@ -76,10 +76,22 @@ def should_segment(editing_plan) -> bool:
 @dataclass(frozen=True)
 class RenderStep:
     """One ffmpeg invocation in the segmented pipeline, plus a short label
-    for logging - segmented_renderer's unit of work."""
+    for logging and the intermediate file(s) that become safe to delete
+    once this step succeeds. cleanup_after exists because every merge
+    step's output is a full re-encode of an ever-larger span of the
+    timeline - without deleting each superseded intermediate immediately,
+    all of them (culminating in one nearly-full-length copy per merge
+    step) sit on disk simultaneously until the very end, which is what
+    exhausted a real deployment's disk during a 9-chain render even after
+    the memory problem this module exists for was fixed."""
 
     command_spec: FFmpegCommandSpec
     description: str
+    cleanup_after: List[Path] = None
+
+    def __post_init__(self):
+        if self.cleanup_after is None:
+            object.__setattr__(self, "cleanup_after", [])
 
 
 def _chain_output_args(options: RenderOptions) -> List[str]:
@@ -162,7 +174,14 @@ def _build_merge_step(
     two real inputs, regardless of how many chains preceded this step or
     how far into the timeline `offset` falls, since both inputs are
     ordinary video files ffmpeg streams from disk rather than live decoder
-    branches held open in one shared graph."""
+    branches held open in one shared graph.
+
+    cleanup_after names both inputs: once this merge succeeds, neither the
+    previous accumulated file nor the chain file it just absorbed is
+    referenced by any later step - the disk-space bug this field exists to
+    fix was exactly this: without deleting them here, every merge step's
+    output (each one a growing re-encode of more of the timeline) piled up
+    simultaneously instead of only the newest one surviving."""
     inputs = [
         FFmpegInput(path=str(accumulated_path), kind="video"),
         FFmpegInput(path=str(next_path), kind="video"),
@@ -179,7 +198,10 @@ def _build_merge_step(
         output_args=output_args,
         output_path=str(output_path),
     )
-    return RenderStep(command_spec=spec, description=f"merge -> {output_path.name}")
+    return RenderStep(
+        command_spec=spec, description=f"merge -> {output_path.name}",
+        cleanup_after=[accumulated_path, next_path],
+    )
 
 
 def _build_final_mux_step(
@@ -190,7 +212,9 @@ def _build_final_mux_step(
     output. `-c:v copy` is safe here: video_only_path was already encoded
     at the render's final codec/crf/preset/pix_fmt/fps by the last chain or
     merge step, so nothing about picture quality changes by copying it
-    instead of re-encoding yet again."""
+    instead of re-encoding yet again. cleanup_after names video_only_path
+    only - narration_audio_path is the project's real, permanent narration
+    file, never a temporary intermediate this pipeline owns."""
     inputs = [
         FFmpegInput(path=str(video_only_path), kind="video"),
         FFmpegInput(path=narration_audio_path, kind="audio"),
@@ -208,7 +232,10 @@ def _build_final_mux_step(
         output_args=output_args,
         output_path=str(output_path),
     )
-    return RenderStep(command_spec=spec, description=f"final audio mux -> {output_path.name}")
+    return RenderStep(
+        command_spec=spec, description=f"final audio mux -> {output_path.name}",
+        cleanup_after=[video_only_path],
+    )
 
 
 def build_segmented_render_plan(request: RenderRequest, segment_dir: Path) -> List[RenderStep]:
@@ -274,10 +301,16 @@ def execute_segmented(
     """Runs build_segmented_render_plan's steps in order through the same
     ffmpeg_executor.execute() the single-pass path uses - every step is an
     ordinary FFmpegCommandSpec, so atomic-write and failure-reporting
-    behavior is identical to a normal render, just repeated per step. Stops
-    at the first failing step and returns its RenderResult (a failed
-    intermediate step is exactly as reportable as a failed single-pass
-    render). On overall success, cleans up every intermediate file and
+    behavior is identical to a normal render, just repeated per step. Deletes
+    each step's cleanup_after files immediately once that step succeeds
+    (not just at the very end) - a merge-heavy pipeline otherwise
+    accumulates one full re-encoded intermediate per chain boundary
+    simultaneously, which was observed exhausting real disk space on a
+    constrained deployment even after the memory problem this module
+    exists for was fixed. Stops at the first failing step and returns its
+    RenderResult (a failed intermediate step is exactly as reportable as a
+    failed single-pass render); the segment directory (and whatever hasn't
+    already been cleaned up) is removed either way. On overall success,
     returns the final step's RenderResult (output_path is the real final
     video) with duration_seconds replaced by the SUM of every step's
     wall-clock time, since that's what actually elapsed even though it's
@@ -301,6 +334,7 @@ def execute_segmented(
             logger.error(f"Segmented render step failed ({step.description}): {result.error}")
             _cleanup_dir(segment_dir)
             return result.model_copy(update={"duration_seconds": total_duration, "started_at": started_at})
+        _cleanup_files(step.cleanup_after)
 
     logger.info(f"Segmented render succeeded across {len(steps)} step(s), {total_duration:.1f}s total")
     _cleanup_dir(segment_dir)
@@ -309,3 +343,11 @@ def execute_segmented(
 
 def _cleanup_dir(path: Path) -> None:
     shutil.rmtree(path, ignore_errors=True)
+
+
+def _cleanup_files(paths: List[Path]) -> None:
+    for path in paths:
+        try:
+            path.unlink(missing_ok=True)
+        except OSError:
+            pass

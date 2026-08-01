@@ -230,6 +230,78 @@ def test_execute_segmented_cleans_up_intermediate_files_on_success(tmp_path):
     assert not (tmp_path / ".segments").exists()
 
 
+def test_merge_steps_mark_both_consumed_inputs_for_cleanup(tmp_path):
+    """Regression test for the real disk-space bug found in production: a
+    9-chain render succeeded at every step (memory bounded, as intended)
+    but the FINAL step still failed with 'No space left on device', because
+    nothing deleted a merge step's two consumed inputs once it succeeded -
+    every merge's growing output sat on disk simultaneously instead of only
+    the newest one surviving. Each merge step must name exactly its own two
+    inputs (the previous accumulated file and the chain file it just
+    absorbed) as safe to delete."""
+    request = _request(_many_scene_segments(6), output_dir=str(tmp_path))
+
+    steps = build_segmented_render_plan(request, tmp_path / ".segments")
+
+    # 6 chains + 5 merges + 1 final mux = 12 steps
+    chain_steps, merge_steps, final_step = steps[:6], steps[6:11], steps[11]
+    for step in chain_steps:
+        assert step.cleanup_after == []
+
+    for i, step in enumerate(merge_steps):
+        assert len(step.cleanup_after) == 2
+        # the second consumed input is always the (i+1)-th chain's own output
+        assert step.cleanup_after[1] == tmp_path / ".segments" / f"chain_{i + 1}.mp4"
+
+    # the final mux step's cleanup_after names the last merge's own output -
+    # the one video-only file it consumed and baked into the real result.
+    assert final_step.cleanup_after == [tmp_path / ".segments" / "merge_5.mp4"]
+
+
+def test_execute_segmented_never_keeps_more_than_a_bounded_number_of_intermediates_on_disk(tmp_path):
+    """The actual regression, exercised end-to-end. Chains are still all
+    built before any merge starts (each chain is a small, constant-size
+    clip, so that phase's own peak of `num_scenes` files is cheap and
+    expected) - what must NOT happen is the merge phase adding further,
+    ever-larger accumulation on top of that: each merge step nets -1 file
+    (consumes 2, produces 1), so the file count must trend strictly
+    downward once merging starts, never re-growing past the chain-building
+    phase's own peak. Before the per-step cleanup fix, nothing was deleted
+    until the very end, so the count instead grew monotonically to
+    num_scenes (chains) + (num_scenes - 1) (merges) = 17 files - each
+    later merge file also a full re-encode of more of the timeline, which
+    is what exhausted real disk space in production."""
+    num_scenes = 9
+    request = _request(_many_scene_segments(num_scenes), output_dir=str(tmp_path))
+    segment_dir = tmp_path / ".segments"
+    file_counts = []
+
+    class _TrackingExecutor(_FakeExecutor):
+        def __call__(self, command_spec, *, ffmpeg_path, timeout_seconds):
+            result = super().__call__(command_spec, ffmpeg_path=ffmpeg_path, timeout_seconds=timeout_seconds)
+            if segment_dir.exists():
+                file_counts.append(len(list(segment_dir.glob("*.mp4"))))
+            return result
+
+    result = execute_segmented(request, executor=_TrackingExecutor())
+
+    assert result.success is True
+    chain_phase_peak = max(file_counts[:num_scenes])
+    assert chain_phase_peak == num_scenes  # all chains built before merging starts - expected, cheap
+
+    # Before the fix, this would have kept climbing (17 by the final step).
+    # With per-step cleanup, nothing after the chain-building phase may
+    # exceed that phase's own peak by more than the one transient file a
+    # create-then-delete step ordering briefly produces (the new merge
+    # output is written before its two now-stale inputs are deleted, so a
+    # crash mid-step never leaves zero valid copies of that data).
+    merge_and_final_phase = file_counts[num_scenes:]
+    assert max(merge_and_final_phase) <= chain_phase_peak + 1, file_counts
+    # And it must actually trend down, not hover near the peak throughout -
+    # the real signature of "each merge nets -1", not "still accumulating".
+    assert file_counts[-1] <= 2, file_counts
+
+
 def test_execute_segmented_stops_at_first_failing_step(tmp_path):
     request = _request(_many_scene_segments(6), output_dir=str(tmp_path))
     fake = _FakeExecutor(fail_on_call=3)
