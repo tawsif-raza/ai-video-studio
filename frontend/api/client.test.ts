@@ -1,6 +1,42 @@
 import { afterEach, describe, expect, it, vi } from "vitest";
 
-import { apiDelete, apiGet, apiPost, apiPostForm, ApiError } from "./client";
+import { apiDelete, apiGet, apiPost, apiPostForm, apiPostFormWithProgress, ApiError } from "./client";
+
+/**
+ * jsdom's real XMLHttpRequest would attempt an actual network request, so
+ * apiPostFormWithProgress's XHR path needs a hand-rolled fake the same way
+ * every other test here mocks fetch - open/send capture the call, and the
+ * test drives upload.onprogress/onload/onerror manually to simulate the
+ * browser's event timing.
+ */
+class FakeXHR {
+  static instances: FakeXHR[] = [];
+  method = "";
+  url = "";
+  status = 200;
+  responseText = "";
+  responseHeaders: Record<string, string> = {};
+  upload: { onprogress: ((event: ProgressEvent) => void) | null } = { onprogress: null };
+  onload: (() => void) | null = null;
+  onerror: (() => void) | null = null;
+  onabort: (() => void) | null = null;
+  responseType = "";
+  sentBody: unknown = null;
+
+  open(method: string, url: string) {
+    this.method = method;
+    this.url = url;
+  }
+
+  getResponseHeader(name: string): string | null {
+    return this.responseHeaders[name.toLowerCase()] ?? null;
+  }
+
+  send(body: unknown) {
+    this.sentBody = body;
+    FakeXHR.instances.push(this);
+  }
+}
 
 function jsonResponse(body: unknown, init: ResponseInit = {}) {
   return new Response(JSON.stringify(body), {
@@ -13,6 +49,8 @@ function jsonResponse(body: unknown, init: ResponseInit = {}) {
 describe("api client", () => {
   afterEach(() => {
     vi.restoreAllMocks();
+    vi.unstubAllGlobals();
+    FakeXHR.instances = [];
   });
 
   it("apiGet issues a GET request and returns parsed JSON", async () => {
@@ -106,5 +144,89 @@ describe("api client", () => {
       status: 422,
       message: "field required; must be a string",
     });
+  });
+});
+
+describe("apiPostFormWithProgress", () => {
+  afterEach(() => {
+    vi.unstubAllGlobals();
+    FakeXHR.instances = [];
+  });
+
+  it("opens a POST XHR to the right URL and sends the form as the body", () => {
+    vi.stubGlobal("XMLHttpRequest", FakeXHR);
+    const form = new FormData();
+    form.append("file", new File(["x"], "shot1.png"));
+
+    apiPostFormWithProgress("/projects/p1/media", form);
+
+    const xhr = FakeXHR.instances[0];
+    expect(xhr.method).toBe("POST");
+    expect(xhr.url).toBe("http://127.0.0.1:8000/projects/p1/media");
+    expect(xhr.sentBody).toBe(form);
+  });
+
+  it("reports upload progress via onProgress as lengthComputable events fire", () => {
+    vi.stubGlobal("XMLHttpRequest", FakeXHR);
+    const onProgress = vi.fn();
+
+    apiPostFormWithProgress("/projects/p1/media", new FormData(), onProgress);
+
+    const xhr = FakeXHR.instances[0];
+    xhr.upload.onprogress?.({ lengthComputable: true, loaded: 50, total: 200 } as ProgressEvent);
+    xhr.upload.onprogress?.({ lengthComputable: true, loaded: 200, total: 200 } as ProgressEvent);
+
+    expect(onProgress).toHaveBeenNthCalledWith(1, 50, 200);
+    expect(onProgress).toHaveBeenNthCalledWith(2, 200, 200);
+  });
+
+  it("ignores non-lengthComputable progress events", () => {
+    vi.stubGlobal("XMLHttpRequest", FakeXHR);
+    const onProgress = vi.fn();
+
+    apiPostFormWithProgress("/projects/p1/media", new FormData(), onProgress);
+
+    FakeXHR.instances[0].upload.onprogress?.({ lengthComputable: false, loaded: 1, total: 0 } as ProgressEvent);
+
+    expect(onProgress).not.toHaveBeenCalled();
+  });
+
+  it("resolves with the parsed JSON body on a successful response", async () => {
+    vi.stubGlobal("XMLHttpRequest", FakeXHR);
+
+    const promise = apiPostFormWithProgress<{ filename: string }>("/projects/p1/media", new FormData());
+    const xhr = FakeXHR.instances[0];
+    xhr.status = 201;
+    xhr.responseHeaders["content-type"] = "application/json";
+    xhr.responseText = JSON.stringify({ filename: "shot1.png" });
+    xhr.onload?.();
+
+    await expect(promise).resolves.toEqual({ filename: "shot1.png" });
+  });
+
+  it("rejects with ApiError carrying the backend's detail on a non-2xx status", async () => {
+    vi.stubGlobal("XMLHttpRequest", FakeXHR);
+
+    const promise = apiPostFormWithProgress("/projects/p1/media", new FormData());
+    const xhr = FakeXHR.instances[0];
+    xhr.status = 400;
+    xhr.responseHeaders["content-type"] = "application/json";
+    xhr.responseText = JSON.stringify({ detail: "Unsupported media file extension" });
+    xhr.onload?.();
+
+    await expect(promise).rejects.toMatchObject({
+      name: "ApiError",
+      status: 400,
+      message: "Unsupported media file extension",
+    });
+  });
+
+  it("rejects with ApiError on a network error", async () => {
+    vi.stubGlobal("XMLHttpRequest", FakeXHR);
+
+    const promise = apiPostFormWithProgress("/projects/p1/media", new FormData());
+    FakeXHR.instances[0].onerror?.();
+
+    await expect(promise).rejects.toMatchObject({ name: "ApiError", status: 0 });
   });
 });

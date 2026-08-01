@@ -1,5 +1,6 @@
 from datetime import datetime
-from typing import Optional
+from enum import Enum
+from typing import List, Optional
 
 from pydantic import BaseModel
 
@@ -41,6 +42,48 @@ class MediaUploadResponse(BaseModel):
     filename: str
     path: str
     size_bytes: int
+
+
+class MediaCategory(str, Enum):
+    """Mirrors the three subdirectory names save_uploaded_media/scan_media/
+    delete_uploaded_media already use (project_manager/manager.py) -
+    declared here, not re-derived from ImportedMediaManifest's "images"/
+    "videos"/"audio" field names, since the filesystem's own directory is
+    "video" (singular) while the manifest field is "videos" (plural) - an
+    existing asymmetry (WEB_DASHBOARD_ARCHITECTURE.md); this enum matches
+    the filesystem/ProjectManager side, which is what the delete path
+    actually operates on."""
+
+    IMAGES = "images"
+    VIDEO = "video"
+    AUDIO = "audio"
+
+
+class MediaDeleteItem(BaseModel):
+    category: MediaCategory
+    filename: str
+
+
+class BulkMediaDeleteRequest(BaseModel):
+    """Milestone W10 SS3: one call deletes many files. Deliberately not
+    wrapped in a single filesystem transaction (plain files have no such
+    primitive) - each item is deleted independently and reported
+    individually in BulkMediaDeleteResponse, "atomic where practical"
+    meaning each single file removal (unlink) is itself atomic, not that
+    the whole batch either fully succeeds or fully no-ops."""
+
+    items: List[MediaDeleteItem]
+
+
+class MediaDeleteResult(BaseModel):
+    category: MediaCategory
+    filename: str
+    success: bool
+    error: Optional[str] = None
+
+
+class BulkMediaDeleteResponse(BaseModel):
+    results: List[MediaDeleteResult]
 
 
 class RenderRunRequest(BaseModel):

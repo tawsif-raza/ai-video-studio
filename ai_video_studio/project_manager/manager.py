@@ -66,6 +66,18 @@ class ProjectManager:
     in ARCHITECTURE.md SS15 Phase 6, not touched by this milestone).
     """
 
+    def __init__(self) -> None:
+        # Milestone W10: memoizes scan_media()'s per-file sha256 by
+        # (size, mtime_ns) so a dashboard that calls GET .../media
+        # repeatedly (e.g. after every upload in a large batch) doesn't
+        # re-read and re-hash every already-scanned file's full bytes each
+        # time - only a cheap stat() for files that haven't changed. Safe to
+        # hold on the instance: get_project_manager() (web_api/dependencies.py)
+        # already keeps exactly one ProjectManager per process via
+        # @lru_cache, the same lifetime this cache needs. Keyed by absolute
+        # path string, which is unique across every project's media dir.
+        self._media_hash_cache: dict[str, tuple[int, int, str]] = {}
+
     def create_project(self) -> Project:
         project = Project()
         self._write_project_file(project)
@@ -444,6 +456,42 @@ class ProjectManager:
         logger.info(f"Uploaded media {safe_filename} saved to {target_path}")
         return target_path
 
+    def delete_uploaded_media(self, project: Project, category: str, filename: str) -> Path:
+        """Milestone W10: the delete-side counterpart to save_uploaded_media,
+        same division of responsibility - Project Manager is the sole writer
+        (and remover) of project-owned files, so a browser-initiated delete
+        has to come through here rather than web_api touching the filesystem
+        itself.
+
+        category is one of the same three subdirectory names
+        save_uploaded_media/scan_media already use ("images"/"video"/"audio"),
+        not inferred from filename - the caller (a delete button next to one
+        listed file) already knows which category it's deleting, and trusting
+        that avoids re-deriving it from an extension that might not round-trip
+        cleanly. filename is reduced to its basename first, the same
+        path-traversal defense save_uploaded_media applies.
+
+        Raises ValueError for an unrecognized category and FileNotFoundError
+        if the file isn't there - both are the caller's (web_api's) job to
+        translate into 400/404, exactly as save_uploaded_media's ValueError
+        already is. No stale reference to clean up beyond the file itself:
+        media has no separate persisted metadata record (scan_media() always
+        re-scans the filesystem live), so removing the file alone leaves no
+        orphaned reference behind."""
+        valid_categories = {"images", "video", "audio"}
+        if category not in valid_categories:
+            raise ValueError(f"Unknown media category {category!r} - expected one of {sorted(valid_categories)}")
+
+        safe_filename = Path(filename).name
+        target_path = self.get_media_dir(project) / category / safe_filename
+        if not target_path.is_file():
+            raise FileNotFoundError(f"Media file {safe_filename!r} not found in {category}")
+
+        target_path.unlink()
+        self._media_hash_cache.pop(str(target_path), None)
+        logger.info(f"Deleted uploaded media {target_path}")
+        return target_path
+
     def get_render_dir(self, project: Project) -> Path:
         """Where the FFmpeg Execution Engine writes its output, kept entirely
         separate from the read-only Producer Package (projects/<id>/renders/).
@@ -719,18 +767,36 @@ class ProjectManager:
         return contents
 
     def _scan_subdir(self, subdir: Path) -> List[ScannedMediaFile]:
+        """Milestone W10: reads+hashes a file's full bytes only the first
+        time it's seen, or again if it's actually changed since (size or
+        mtime differs from the cached fingerprint) - repeat scans of a
+        project whose media/ hasn't changed (the common case: a dashboard
+        refreshing the Media tab, or re-scanning after a batch upload added
+        one new file) cost one stat() per unchanged file instead of a full
+        read+sha256. Output is bit-identical to the un-cached version
+        either way - Asset Validation's duplicate-content detection (which
+        depends on these exact hashes) sees no behavior change."""
         if not subdir.exists():
             return []
         files = []
         for path in sorted(subdir.iterdir()):
             if not path.is_file():
                 continue
-            data = path.read_bytes()
+            stat = path.stat()
+            cache_key = str(path)
+            cached = self._media_hash_cache.get(cache_key)
+            if cached is not None and cached[0] == stat.st_size and cached[1] == stat.st_mtime_ns:
+                size_bytes, _, sha256 = cached
+            else:
+                data = path.read_bytes()
+                size_bytes = len(data)
+                sha256 = hashlib.sha256(data).hexdigest()
+                self._media_hash_cache[cache_key] = (size_bytes, stat.st_mtime_ns, sha256)
             files.append(ScannedMediaFile(
                 filename=path.name,
                 path=str(path),
-                size_bytes=len(data),
-                sha256=hashlib.sha256(data).hexdigest(),
+                size_bytes=size_bytes,
+                sha256=sha256,
             ))
         return files
 

@@ -469,6 +469,55 @@ def test_scan_media_discovers_files_with_hash_and_size(tmp_path, monkeypatch):
     assert len(manifest.images[0].sha256) == 64
 
 
+def test_scan_media_reuses_cached_hash_for_unchanged_file(tmp_path, monkeypatch):
+    """Milestone W10: a second scan of a file whose size/mtime haven't
+    changed must not re-read its bytes - the whole point of the cache added
+    to _scan_subdir. Asserted indirectly (no read_bytes call) so the test
+    exercises the real code path rather than mocking internals."""
+    monkeypatch.setattr(settings, "OUTPUT_DIR", tmp_path)
+    manager = ProjectManager()
+    project = manager.create_project()
+    images_dir = manager.get_media_dir(project) / "images"
+    images_dir.mkdir(parents=True)
+    image_path = images_dir / "scene_1_shot_1.png"
+    image_path.write_bytes(b"0" * 6000)
+
+    first = manager.scan_media(project)
+    original_read_bytes = Path.read_bytes
+    calls = []
+
+    def spy_read_bytes(self, *args, **kwargs):
+        calls.append(self)
+        return original_read_bytes(self, *args, **kwargs)
+
+    monkeypatch.setattr(Path, "read_bytes", spy_read_bytes)
+    second = manager.scan_media(project)
+
+    assert calls == []
+    assert second.images[0].sha256 == first.images[0].sha256
+    assert second.images[0].size_bytes == first.images[0].size_bytes
+
+
+def test_scan_media_rehashes_when_file_content_changes(tmp_path, monkeypatch):
+    """The cache must not serve a stale hash once a file is genuinely
+    overwritten (size and/or mtime change)."""
+    monkeypatch.setattr(settings, "OUTPUT_DIR", tmp_path)
+    manager = ProjectManager()
+    project = manager.create_project()
+    images_dir = manager.get_media_dir(project) / "images"
+    images_dir.mkdir(parents=True)
+    image_path = images_dir / "scene_1_shot_1.png"
+    image_path.write_bytes(b"0" * 6000)
+
+    first = manager.scan_media(project)
+
+    image_path.write_bytes(b"1" * 7000)
+    second = manager.scan_media(project)
+
+    assert second.images[0].size_bytes == 7000
+    assert second.images[0].sha256 != first.images[0].sha256
+
+
 def test_save_asset_manifest_advances_state_only_when_valid(tmp_path, monkeypatch):
     monkeypatch.setattr(settings, "OUTPUT_DIR", tmp_path)
     manager = ProjectManager()
@@ -1533,6 +1582,62 @@ def test_save_uploaded_media_is_visible_to_scan_media(tmp_path, monkeypatch):
     assert [f.filename for f in manifest.images] == ["shot1.png"]
     assert [f.filename for f in manifest.videos] == ["clip1.mp4"]
     assert [f.filename for f in manifest.audio] == ["narration.wav"]
+
+
+def test_delete_uploaded_media_removes_file_and_is_gone_from_scan(tmp_path, monkeypatch):
+    monkeypatch.setattr(settings, "OUTPUT_DIR", tmp_path)
+    manager = ProjectManager()
+    project = manager.create_project()
+    saved_path = manager.save_uploaded_media(project, "shot1.png", b"x" * 100)
+    assert saved_path.exists()
+
+    manager.delete_uploaded_media(project, "images", "shot1.png")
+
+    assert not saved_path.exists()
+    manifest = manager.scan_media(project)
+    assert manifest.images == []
+
+
+def test_delete_uploaded_media_raises_for_missing_file(tmp_path, monkeypatch):
+    monkeypatch.setattr(settings, "OUTPUT_DIR", tmp_path)
+    manager = ProjectManager()
+    project = manager.create_project()
+
+    with pytest.raises(FileNotFoundError):
+        manager.delete_uploaded_media(project, "images", "nope.png")
+
+
+def test_delete_uploaded_media_rejects_unknown_category(tmp_path, monkeypatch):
+    monkeypatch.setattr(settings, "OUTPUT_DIR", tmp_path)
+    manager = ProjectManager()
+    project = manager.create_project()
+
+    with pytest.raises(ValueError):
+        manager.delete_uploaded_media(project, "documents", "shot1.png")
+
+
+def test_delete_uploaded_media_strips_path_traversal_from_filename(tmp_path, monkeypatch):
+    monkeypatch.setattr(settings, "OUTPUT_DIR", tmp_path)
+    manager = ProjectManager()
+    project = manager.create_project()
+    manager.save_uploaded_media(project, "evil.png", b"content")
+
+    manager.delete_uploaded_media(project, "images", "../../evil.png")
+
+    assert not (manager.get_media_dir(project) / "images" / "evil.png").exists()
+
+
+def test_delete_uploaded_media_only_removes_the_named_file(tmp_path, monkeypatch):
+    monkeypatch.setattr(settings, "OUTPUT_DIR", tmp_path)
+    manager = ProjectManager()
+    project = manager.create_project()
+    manager.save_uploaded_media(project, "shot1.png", b"x" * 100)
+    manager.save_uploaded_media(project, "shot2.png", b"y" * 100)
+
+    manager.delete_uploaded_media(project, "images", "shot1.png")
+
+    manifest = manager.scan_media(project)
+    assert [f.filename for f in manifest.images] == ["shot2.png"]
 
 
 def test_load_production_package_raises_when_not_yet_generated(tmp_path, monkeypatch):

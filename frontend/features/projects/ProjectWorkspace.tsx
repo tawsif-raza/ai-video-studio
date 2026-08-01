@@ -94,7 +94,26 @@ export function ProjectWorkspace({ projectId }: { projectId: string }) {
         {activeTab === "Prompt Set" && <PromptSetTab productionPackage={productionPackage} />}
         {activeTab === "Voice Script" && <VoiceScriptTab productionPackage={productionPackage} />}
         {activeTab === "Timeline" && <TimelineTab producerPackage={producerPackage} />}
-        {activeTab === "Media" && <MediaTab projectId={projectId} />}
+        {activeTab === "Media" && (
+          <MediaTab
+            projectId={projectId}
+            onMediaChanged={() => {
+              // Milestone W10 requirement #7: media count, timeline, asset
+              // statistics, and producer package readiness all update
+              // without a manual page refresh. Timeline/asset stats/
+              // publishing readiness all live inside the Producer Package
+              // (timeline_plan.json/asset_manifest.json/publishing readiness
+              // - see TimelineTab/PublishingTab), so re-fetching it here is
+              // sufficient; media count itself is already refreshed inside
+              // MediaPanel's own load(). Cheap and safe even before Producer
+              // Studio has ever run (resolves to null, same as any other
+              // 404-before-generated case useProducerPackage already
+              // handles).
+              refetchProducerPackage();
+              refetchProductionPackage();
+            }}
+          />
+        )}
         {activeTab === "Render Preview" && <RenderPreviewTab project={project} />}
         {activeTab === "Publishing" && (
           <PublishingTab

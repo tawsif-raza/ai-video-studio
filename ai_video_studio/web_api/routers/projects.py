@@ -13,7 +13,15 @@ from web_api.dependencies import (
     get_run_registry,
 )
 from web_api.director_runner import run_director_pipeline
-from web_api.models import CreateProjectRequest, MediaUploadResponse, RunAccepted
+from web_api.models import (
+    BulkMediaDeleteRequest,
+    BulkMediaDeleteResponse,
+    CreateProjectRequest,
+    MediaCategory,
+    MediaDeleteResult,
+    MediaUploadResponse,
+    RunAccepted,
+)
 from web_api.run_registry import RunConflictError, RunRegistry
 
 router = APIRouter(prefix="/projects", tags=["projects"])
@@ -132,6 +140,64 @@ def get_media(
     except FileNotFoundError:
         raise HTTPException(status_code=404, detail=f"Project {project_id} not found")
     return project_manager.scan_media(project)
+
+
+@router.delete("/{project_id}/media/{category}/{filename}", status_code=status.HTTP_204_NO_CONTENT)
+def delete_media(
+    project_id: uuid.UUID,
+    category: MediaCategory,
+    filename: str,
+    project_manager: ProjectManager = Depends(get_project_manager),
+) -> None:
+    """Milestone W10: single-file delete, the counterpart to POST .../media.
+    category is a path segment (not inferred from filename) so the URL
+    itself says which of the three media subdirectories to look in - the
+    same information the dashboard's per-item delete button already has
+    from the manifest it's rendering. Delegates entirely to
+    ProjectManager.delete_uploaded_media(); this handler's only job is HTTP
+    plumbing (project-existence check, ValueError/FileNotFoundError -> 404)."""
+    try:
+        project = project_manager.load_project(str(project_id))
+    except FileNotFoundError:
+        raise HTTPException(status_code=404, detail=f"Project {project_id} not found")
+
+    try:
+        project_manager.delete_uploaded_media(project, category.value, filename)
+    except FileNotFoundError:
+        raise HTTPException(
+            status_code=404, detail=f"Media file {filename!r} not found in category {category.value!r}"
+        )
+
+
+@router.post("/{project_id}/media/bulk-delete", response_model=BulkMediaDeleteResponse)
+def bulk_delete_media(
+    project_id: uuid.UUID,
+    body: BulkMediaDeleteRequest,
+    project_manager: ProjectManager = Depends(get_project_manager),
+) -> BulkMediaDeleteResponse:
+    """Milestone W10: deletes many media files in one request, reporting
+    each item's outcome individually rather than failing the whole batch on
+    one missing file - the dashboard's multi-select "delete selected"
+    action needs to know exactly which of N files it removed, since a file
+    a second browser tab already deleted shouldn't abort the rest of the
+    batch. The project-existence check happens once, up front, for the
+    whole batch (a project that doesn't exist can't have any media to
+    delete); each item's own success/failure is then independent."""
+    try:
+        project = project_manager.load_project(str(project_id))
+    except FileNotFoundError:
+        raise HTTPException(status_code=404, detail=f"Project {project_id} not found")
+
+    results: List[MediaDeleteResult] = []
+    for item in body.items:
+        try:
+            project_manager.delete_uploaded_media(project, item.category.value, item.filename)
+            results.append(MediaDeleteResult(category=item.category, filename=item.filename, success=True))
+        except FileNotFoundError as exc:
+            results.append(
+                MediaDeleteResult(category=item.category, filename=item.filename, success=False, error=str(exc))
+            )
+    return BulkMediaDeleteResponse(results=results)
 
 
 @router.get("/{project_id}/production-package")

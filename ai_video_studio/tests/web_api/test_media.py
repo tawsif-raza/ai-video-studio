@@ -78,3 +78,90 @@ def test_get_media_empty_when_nothing_uploaded(client, app_):
 
     assert response.status_code == 200
     assert response.json() == {"images": [], "videos": [], "audio": []}
+
+
+def test_delete_media_removes_file_and_returns_204(client, app_):
+    project = get_project_manager().create_project()
+    client.post(
+        f"/projects/{project.project_id}/media",
+        files={"file": ("shot1.png", b"x" * 100, "image/png")},
+    )
+
+    response = client.delete(f"/projects/{project.project_id}/media/images/shot1.png")
+
+    assert response.status_code == 204
+    manifest = client.get(f"/projects/{project.project_id}/media").json()
+    assert manifest["images"] == []
+
+
+def test_delete_media_unknown_project_returns_404(client):
+    response = client.delete(f"/projects/{uuid.uuid4()}/media/images/shot1.png")
+
+    assert response.status_code == 404
+
+
+def test_delete_media_unknown_file_returns_404(client, app_):
+    project = get_project_manager().create_project()
+
+    response = client.delete(f"/projects/{project.project_id}/media/images/nope.png")
+
+    assert response.status_code == 404
+
+
+def test_delete_media_rejects_invalid_category(client, app_):
+    project = get_project_manager().create_project()
+
+    response = client.delete(f"/projects/{project.project_id}/media/documents/nope.png")
+
+    assert response.status_code == 422
+
+
+def test_bulk_delete_media_reports_per_item_success_and_failure(client, app_):
+    project = get_project_manager().create_project()
+    client.post(
+        f"/projects/{project.project_id}/media",
+        files={"file": ("shot1.png", b"x" * 100, "image/png")},
+    )
+    client.post(
+        f"/projects/{project.project_id}/media",
+        files={"file": ("shot2.png", b"x" * 100, "image/png")},
+    )
+
+    response = client.post(
+        f"/projects/{project.project_id}/media/bulk-delete",
+        json={
+            "items": [
+                {"category": "images", "filename": "shot1.png"},
+                {"category": "images", "filename": "shot2.png"},
+                {"category": "images", "filename": "does-not-exist.png"},
+            ]
+        },
+    )
+
+    assert response.status_code == 200
+    results = {r["filename"]: r for r in response.json()["results"]}
+    assert results["shot1.png"]["success"] is True
+    assert results["shot2.png"]["success"] is True
+    assert results["does-not-exist.png"]["success"] is False
+    assert results["does-not-exist.png"]["error"]
+
+    manifest = client.get(f"/projects/{project.project_id}/media").json()
+    assert manifest["images"] == []
+
+
+def test_bulk_delete_media_unknown_project_returns_404(client):
+    response = client.post(
+        f"/projects/{uuid.uuid4()}/media/bulk-delete",
+        json={"items": [{"category": "images", "filename": "shot1.png"}]},
+    )
+
+    assert response.status_code == 404
+
+
+def test_bulk_delete_media_empty_items_returns_empty_results(client, app_):
+    project = get_project_manager().create_project()
+
+    response = client.post(f"/projects/{project.project_id}/media/bulk-delete", json={"items": []})
+
+    assert response.status_code == 200
+    assert response.json() == {"results": []}

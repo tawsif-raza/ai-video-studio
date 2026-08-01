@@ -1,6 +1,15 @@
 import { afterEach, describe, expect, it, vi } from "vitest";
 
-import { createProject, deleteProject, getProject, getProjectMedia, listProjects, uploadMedia } from "./projects";
+import {
+  bulkDeleteMedia,
+  createProject,
+  deleteMedia,
+  deleteProject,
+  getProject,
+  getProjectMedia,
+  listProjects,
+  uploadMedia,
+} from "./projects";
 
 function jsonResponse(body: unknown, init: ResponseInit = {}) {
   return new Response(JSON.stringify(body), {
@@ -80,5 +89,44 @@ describe("projects api", () => {
     expect(init?.method).toBe("POST");
     const form = init?.body as FormData;
     expect(form.get("file")).toBe(file);
+  });
+
+  it("deleteMedia calls DELETE /projects/{id}/media/{category}/{filename}", async () => {
+    const fetchMock = vi.spyOn(global, "fetch").mockResolvedValue(new Response(null, { status: 204 }));
+
+    await deleteMedia("p1", "images", "shot1.png");
+
+    const [url, init] = fetchMock.mock.calls[0];
+    expect(String(url)).toBe("http://127.0.0.1:8000/projects/p1/media/images/shot1.png");
+    expect(init?.method).toBe("DELETE");
+  });
+
+  it("deleteMedia URL-encodes the filename", async () => {
+    const fetchMock = vi.spyOn(global, "fetch").mockResolvedValue(new Response(null, { status: 204 }));
+
+    await deleteMedia("p1", "images", "shot 1.png");
+
+    const [url] = fetchMock.mock.calls[0];
+    expect(String(url)).toBe("http://127.0.0.1:8000/projects/p1/media/images/shot%201.png");
+  });
+
+  it("bulkDeleteMedia POSTs the item list to /projects/{id}/media/bulk-delete", async () => {
+    const fetchMock = vi.spyOn(global, "fetch").mockResolvedValue(jsonResponse({ results: [] }));
+
+    const result = await bulkDeleteMedia("p1", [
+      { category: "images", filename: "shot1.png" },
+      { category: "video", filename: "clip1.mp4" },
+    ]);
+
+    const [url, init] = fetchMock.mock.calls[0];
+    expect(String(url)).toBe("http://127.0.0.1:8000/projects/p1/media/bulk-delete");
+    expect(init?.method).toBe("POST");
+    expect(JSON.parse(init?.body as string)).toEqual({
+      items: [
+        { category: "images", filename: "shot1.png" },
+        { category: "video", filename: "clip1.mp4" },
+      ],
+    });
+    expect(result).toEqual({ results: [] });
   });
 });

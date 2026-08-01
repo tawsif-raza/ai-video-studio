@@ -72,3 +72,57 @@ export const apiPostForm = <T>(path: string, form: FormData): Promise<T> =>
   request<T>(path, { method: "POST", body: form });
 
 export const apiDelete = <T>(path: string): Promise<T> => request<T>(path, { method: "DELETE" });
+
+/**
+ * Milestone W10: fetch() has no upload-progress signal (its ReadableStream
+ * request-body path isn't supported widely/consistently enough for a byte-
+ * accurate progress bar), so a multipart upload that needs to report
+ * "N% sent" has to go through XMLHttpRequest instead - the one place in
+ * this app that doesn't go through request() above. Mirrors request()'s
+ * error handling (ApiError with parsed JSON body when possible) and its
+ * "no fetch cache" intent (XHR doesn't participate in the fetch cache at
+ * all, so there's nothing to opt out of).
+ */
+export function apiPostFormWithProgress<T>(
+  path: string,
+  form: FormData,
+  onProgress?: (loadedBytes: number, totalBytes: number) => void,
+): Promise<T> {
+  return new Promise((resolve, reject) => {
+    const xhr = new XMLHttpRequest();
+    xhr.open("POST", `${API_BASE_URL}${path}`);
+    xhr.responseType = "text";
+
+    if (onProgress) {
+      xhr.upload.onprogress = (event) => {
+        if (event.lengthComputable) {
+          onProgress(event.loaded, event.total);
+        }
+      };
+    }
+
+    xhr.onerror = () => reject(new ApiError(0, "Network error during upload", null));
+    xhr.onabort = () => reject(new ApiError(0, "Upload aborted", null));
+
+    xhr.onload = () => {
+      const contentType = xhr.getResponseHeader("content-type") ?? "";
+      let body: unknown = null;
+      if (contentType.includes("application/json") && xhr.responseText) {
+        try {
+          body = JSON.parse(xhr.responseText);
+        } catch {
+          body = null;
+        }
+      }
+
+      if (xhr.status < 200 || xhr.status >= 300) {
+        reject(new ApiError(xhr.status, extractErrorMessage(xhr.status, body as ApiErrorBody | null), body));
+        return;
+      }
+
+      resolve(body as T);
+    };
+
+    xhr.send(form);
+  });
+}
