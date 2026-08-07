@@ -2,7 +2,7 @@
 — Architecture
 
 **Status:** Frozen / Approved
-**Scope:** This document describes the **implemented v1 system** — Director Studio, Producer Studio, and the FFmpeg Execution Engine, as they actually exist in the repository today. It is the single source of truth. Every future code change must align with it. Where a future change needs to differ, the difference is proposed as an amendment to this document first (§20), not made silently. This revision (v2.0.0, §22) resynchronizes the document with the implementation after Producer Studio (7 milestones) and the FFmpeg Execution Engine (4 milestones) shipped without corresponding doc updates — see §22 for what changed and why. **§24 (added in v2.1.0) is the one deliberate exception to the "implemented only" scope**: it records the *approved design* for a fourth top-level component, the Publishing Engine, ahead of any implementation — exactly the same design-before-code sequencing the FFmpeg Execution Engine went through, and clearly labeled as not-yet-built throughout.
+**Scope:** This document describes the **implemented v1 system** — Director Studio, Producer Studio, and the FFmpeg Execution Engine, as they actually exist in the repository today. It is the single source of truth. Every future code change must align with it. Where a future change needs to differ, the difference is proposed as an amendment to this document first (§20), not made silently. This revision (v2.0.0, §22) resynchronizes the document with the implementation after Producer Studio (7 milestones) and the FFmpeg Execution Engine (4 milestones) shipped without corresponding doc updates — see §22 for what changed and why. **§24 and §25 are deliberate exceptions to the "implemented only" scope**: §24 (added in v2.1.0) records the *approved design* for a fourth top-level component, the Publishing Engine; §25 (added in v2.2.0) records the *approved design* for a fifth, the Video Generation Engine — both ahead of any implementation, exactly the same design-before-code sequencing the FFmpeg Execution Engine went through, and both clearly labeled as not-yet-built throughout.
 
 ---
 
@@ -324,7 +324,7 @@ All 13 implemented states exist in `project_manager/project.py`'s `ProjectState`
 | `VIDEO_RENDERED` | `ProjectManager.save_render_result` | The FFmpeg Execution Engine produced a rendered file **and** postflight validation confirmed it matches the expected duration/resolution/fps/streams. A successful ffmpeg exit alone is insufficient — see §7. |
 | `PUBLISHED` | *(not implemented — design approved, §24)* | Reserved for the Publishing Engine (§24): `PublishResult.success` **and** `PublishValidationReport.is_valid` both `True`, same "process success is necessary but not sufficient" pattern as `VIDEO_RENDERED`. |
 
-Finer-grained per-agent progress within a state is tracked as a sub-field on the project record (e.g. `source_timeline_id`, `source_subtitle_plan_id`, `rendered_video_path`) rather than as additional top-level states, so the state machine always matches the ladder above exactly.
+Finer-grained per-agent progress within a state is tracked as a sub-field on the project record (e.g. `source_timeline_id`, `source_subtitle_plan_id`, `rendered_video_path`) rather than as additional top-level states, so the state machine always matches the ladder above exactly. The (designed, not yet implemented) Video Generation Engine follows this same rule deliberately — see §25.10.
 
 ### Rules
 
@@ -679,7 +679,8 @@ Phases 1–12 (Director Studio → Producer Studio scaffolding) were completed p
 | 22 | Architecture Synchronization (this revision) | Done | Resync this document with the implemented system. | `ARCHITECTURE.md` only |
 | 23 | Publishing executor | **Designed (§24)** — implementation not started | `VIDEO_RENDERED → PUBLISHED`, YouTube first, multi-platform-ready. | `publishing_engine/*` (design only), `shared_core/contracts/publish.py` (design only) |
 | 24 | Audio mixing / subtitle burn-in | Not started | Wire `MusicPlan`/`SubtitlePlan` into the filter graph once a music asset source exists. | `execution_engine/filter_graph_builder.py` |
-| 25 | Publishing Engine Architecture Design (this revision, v2.1.0) | Done | Design-only milestone: architecture, folder structure, contracts, state transitions, retry strategy, and platform abstraction for the fourth top-level component, approved ahead of implementation. | `ARCHITECTURE.md` §24 only — no application code |
+| 25 | Publishing Engine Architecture Design (v2.1.0) | Done | Design-only milestone: architecture, folder structure, contracts, state transitions, retry strategy, and platform abstraction for the fourth top-level component, approved ahead of implementation. | `ARCHITECTURE.md` §24 only — no application code |
+| 26 | Video Generation Engine Architecture Design (this revision, v2.2.0) | Done | Design-only milestone: architecture, folder structure, contracts, hybrid image/video rendering model, and provider abstraction (Google Veo named as first target, not implemented) for the fifth top-level component, approved ahead of implementation. | `ARCHITECTURE.md` §25 only — no application code |
 
 ---
 
@@ -715,7 +716,8 @@ Every item below was verified against the current codebase as of this revision (
 | — (`producer-studio-v1.0`) | 2026-07-25 | Producer Studio tagged complete: all seven planning stages (Asset Validation through Publishing Metadata), `EDIT_PLAN_READY` added to the state machine. Not reflected in this document at the time. |
 | — (`execution-engine-v1.0`) | 2026-07-25 | FFmpeg Execution Engine tagged complete: detection/validation/command-building (8.1), visual filter graph (8.2), real execution with atomic output (8.3), postflight verification gating `VIDEO_RENDERED` (8.4). Not reflected in this document at the time. |
 | 2.0.0 | 2026-07-25 | **Architecture Synchronization (Milestone 9, documentation-only).** Rewrote this document to match the implemented system: added §7 (FFmpeg Execution Engine, previously undocumented), added §11/§12 (Producer Package and Render Output specifications), corrected §13 (folder structure) to the actual flat/root-level layout, corrected §9's state-machine "Set by" column to name the actual gating methods, corrected §8 (Shared Core) to reflect `BaseAgent`/`llm`/`utils`/`models.py`/`config.py`'s actual locations, expanded the Migration Roadmap (§20) through Phase 24, replaced the Technical Debt Ledger (§21) with a freshly-verified list (including two newly-discovered high-severity items: `app.py` not printing `project_id`, and unsanitized `project_id` in path construction — neither fixed here, both explicitly deferred), and added this Version History section. No application code was changed. |
-| **2.1.0 (this revision)** | **2026-07-26** | **Publishing Engine Architecture Design (design-only milestone).** Added §24: the approved architecture for the fourth top-level component — folder structure, the new `shared_core/contracts/publish.py` contract module, platform abstraction (`PublishingPlatform` interface + registry, YouTube first), retry strategy (transient/permanent classification, resumable uploads, idempotent re-publish), the `VIDEO_RENDERED → PUBLISHED` state transition and its gating rule, and the `publishing/` output specification — all mirroring the Execution Engine's (§7) pure/boundary split and process-vs-verification report separation. Cross-referenced from §7, §9, §20, and §23. Nothing in §24 is implemented; no application code was changed. |
+| 2.1.0 | 2026-07-26 | **Publishing Engine Architecture Design (design-only milestone).** Added §24: the approved architecture for the fourth top-level component — folder structure, the new `shared_core/contracts/publish.py` contract module, platform abstraction (`PublishingPlatform` interface + registry, YouTube first), retry strategy (transient/permanent classification, resumable uploads, idempotent re-publish), the `VIDEO_RENDERED → PUBLISHED` state transition and its gating rule, and the `publishing/` output specification — all mirroring the Execution Engine's (§7) pure/boundary split and process-vs-verification report separation. Cross-referenced from §7, §9, §20, and §23. Nothing in §24 is implemented; no application code was changed. |
+| **2.2.0 (this revision)** | **2026-08-02** | **Video Generation Engine Architecture Design (design-only milestone).** Added §25: the approved architecture for the fifth top-level component — folder structure, the new `shared_core/contracts/video_generation.py` contract module, provider abstraction (`VideoGenerationProvider` interface + registry, Google Veo named as the first target, not implemented), the per-shot `ShotMediaSelection` hybrid-mode model, and the `video_manifest.json` output specification. Documents a key existing finding: the hybrid image/video rendering model this design needed (`TimelineClip.asset_type`, `ValidatedAsset.video_path`, `filter_graph_builder`'s video-trim branch) was already implemented ahead of need during the Execution Engine milestones, so Producer Studio and the Execution Engine require zero code changes. Cross-referenced from §1, §9, §20, and §23. Nothing in §25 is implemented; no application code was changed, and no provider API was called. |
 
 ---
 
@@ -724,6 +726,7 @@ Every item below was verified against the current codebase as of this revision (
 Ideas explicitly out of scope for v1, but consistent with this architecture:
 
 - **Publishing executor** — `VIDEO_RENDERED → PUBLISHED`, consuming `publishing_metadata.json` + the rendered video, following the same controller/boundary-module split as the Execution Engine. Full design (module layout, contracts, retry strategy, platform abstraction) is approved and recorded in §24; only the implementation milestones remain.
+- **Video Generation Engine** — an opt-in, automated populator of `media/video/` via external AI video providers (Google Veo first), consuming `video_prompts.json` (already produced today) and slotting into the hybrid image/video rendering model Producer Studio and the Execution Engine already implement. Full design (module layout, contracts, provider abstraction, hybrid-mode selection) is approved and recorded in §25; only the implementation milestones remain.
 - **Thumbnail generation executor** — consumes `thumbnail_plan.json`'s prompt to actually produce the thumbnail image; a separate component from video rendering, same reasoning as keeping the Execution Engine single-purpose (§7).
 - **Audio mixing** — once a music-generation/selection stage produces a real asset, `MusicPlan`'s already-compiled fades/ducking activate at the filter-graph seam already reserved for them (§7, §21 item 9).
 - **Web UI (v1.1)** — a thin FastAPI layer plus a separate Next.js frontend, augmenting (not replacing) the four existing CLIs. Talks to Project Manager and the four controllers exactly as the CLIs do today; adds no second source of truth and no duplicated orchestration logic. Full architecture and phased implementation plan (D1–D7) recorded in the companion document `WEB_DASHBOARD_ARCHITECTURE.md` — design only, not yet implemented.
@@ -849,6 +852,267 @@ New `Project` fields (mirroring `rendered_video_path`): `external_platform: Opti
 
 ---
 
+## 25. Video Generation Engine Architecture (Approved Design — Not Yet Implemented)
+
+> **Everything in this section is a design, not a description of running code.** No file listed here exists yet. It is recorded now — following the exact same sequencing the FFmpeg Execution Engine (§7) and the Publishing Engine (§24) both used — so implementation can proceed in incremental milestones against an already-agreed shape. No Google Veo (or any other provider) integration is implemented by this section; no API call of any kind is made by writing it.
+
+### 25.1 Responsibility & Rules
+
+**Responsibility:** take a shot's already-finished `video_motion_prompt` (Director Studio's Prompt Intelligence stage, §5, already produces this today — see §25.2) and turn it into a real `.mp4` clip via an external AI video provider, placing it exactly where a human today places a hand-generated video clip: `media/video/scene_<id>_shot_<id>.mp4`. It is the **fifth top-level component**, a peer to Director Studio, Producer Studio, the Execution Engine (§7), and the Publishing Engine (§24) — with its own controller and its own boundary/pure module split, following the same architectural discipline as both.
+
+Architectural rules (same enforcement style as §7/§24 — structural, verified by import inspection once built):
+
+1. **Consumes the Production Package's `PromptSet` only.** `video_generation_engine/` imports only `shared_core.contracts` and `project_manager`. It never imports `director_studio`, `producer_studio`, `execution_engine`, or `publishing_engine`, and never calls any agent from any studio — the exact rule §19 already enforces for `execution_engine/`.
+2. **Never plans.** No shot structure, duration, camera treatment, or narrative decision originates here — all of that was already decided by Shot Planner, Camera Planner, and Prompt Intelligence (§5) and lives in `PromptSet`. The Video Generation Engine's only decisions are mechanical: which provider adapter to call, how to poll/retry, and whether a shot was actually requested as VIDEO mode (§25.3).
+3. **Never renders the final video.** It never touches `ffmpeg`, never opens `filter_graph_builder.py` or `command_builder.py`. It produces per-shot source clips, which downstream treats exactly like human-imported video — the Execution Engine's job (§7) is unchanged.
+4. **Runs at project state `PACKAGE_READY`** (also re-admits `MEDIA_IMPORTED` and `EDIT_PLAN_READY`, for idempotent re-generation of individual shots — e.g. re-rolling one rejected clip without disturbing an otherwise-valid `media/` folder). It does **not** introduce a new top-level `ProjectState`: per §9's own rule ("finer-grained per-agent progress... tracked as a sub-field... rather than as additional top-level states"), generation progress lives on new `Project` sub-fields (§25.10), the same pattern `rendered_video_path` already established.
+
+### 25.2 The Existing Hybrid Hook (why this integrates almost for free)
+
+This is the single most important finding of this design pass, and it changes the entire risk profile of the milestone: **the hybrid image/video data model this milestone asks for already exists and is already load-bearing**, discovered by reading (not assuming) the current pipeline:
+
+- `shared_core/contracts/prompt_set.py`: `ShotPrompt` already carries **both** `image_prompt` and `video_motion_prompt` per shot. Prompt Intelligence already writes `production-package/video_prompts.json` today (`package_writer.py`, `MANIFEST_DESCRIPTIONS`) — nothing downstream currently reads it back; it is exported and then ignored. The milestone's requested "Story → Video Prompts" arrow is **already implemented**.
+- `shared_core/contracts/asset_manifest.py`: `ValidatedAsset` already carries **both** `image_path: Optional[str]` and `video_path: Optional[str]` per shot, populated independently by whichever files Asset Validation finds in `media/images/` and `media/video/`.
+- `shared_core/contracts/timeline.py`: `TimelineClip.asset_type` is already typed as `"image" | "video" | "black"`, and `agents/timeline_planner/validator.py`'s `_resolve_clip_asset` already contains this exact, already-shipped rule: **"video is preferred over a static image when both exist"** (`Timeline`'s own docstring says so verbatim).
+- `shared_core/contracts/editing_plan.py`: `EditingSegment.asset_type` carries the same three-way value straight through from the Timeline.
+- `execution_engine/filter_graph_builder.py:170`: already branches on `segment.asset_type == "video"` to apply a `trim=` filter (a video source is conformed to the plan's duration) versus treating an image as already-exact-duration — both paths converge into the same `normalize_expr` and the same `concat`/`xfade` graph.
+
+In other words: **the entire hybrid rendering pipeline this milestone asks for (§25 requirement 4) is not new design — it is already-shipped, already-tested behavior**, apparently built ahead of need during the Execution Engine milestones so that a human could hand-place a mix of images and videos into one project. Nothing in Producer Studio or the Execution Engine needs to change for this milestone. The Video Generation Engine's entire job is to become a new, automated *producer* of the files that already slot into this path — the same role a human's own video-generation workflow (Veo, Runway, etc., used manually, per §1) already plays today, just automated and orchestrated.
+
+### 25.3 Media Mode Selection & Hybrid Rendering
+
+Per-shot mode selection is new (nothing upstream records it today), and is deliberately kept as a small, additive, optional contract rather than a change to `PromptSet`, `ShotPrompt`, or any other existing Director Studio output — preserving requirement 9 (zero migration for old projects) trivially, since old projects simply never have this file:
+
+- `ShotMediaSelection` (new — §25.4): `scene_id`, `shot_id`, `mode: "image" | "video"`. Absence of a selection for a given shot defaults to `"image"` — today's only behavior — so a project that never touches the Video Generation Engine behaves identically to today, byte for byte.
+- **Image Mode** (today's default): no selections are made; the human or the opt-in `image_generator` (§5) populates `media/images/`, exactly as now.
+- **Video Mode**: every shot is selected `"video"`; the Video Generation Engine populates `media/video/` for the whole project.
+- **Hybrid Mode**: a per-shot mix — e.g. a hero establishing shot generated as video for motion, cheaper/simpler coverage shots left as static images. `ShotMediaSelection` is a list, so this is the natural, no-extra-concept case, not a third code path — "hybrid" is simply "some shots selected video, some not, some unselected."
+
+The Execution Engine never sees `ShotMediaSelection` at all — by the time a render happens, its only signal is whatever `TimelineClip.asset_type` the already-existing `_resolve_clip_asset` rule derived from which files actually exist on disk (§25.2). This keeps the hybrid decision a **Producer Studio input concern**, not an Execution Engine concern, matching §7's existing rule that the Execution Engine invents no content and only compiles what Producer Studio already decided.
+
+### 25.4 Contracts (`shared_core/contracts/video_generation.py` — new, 20th contract module)
+
+Mirrors `render.py`/`publish.py`'s established shape exactly: an `Options` input, a `Request` bundle, a process-outcome `Result`, an async `Status` poll type, and a separate verification `Report` — the same "process success is necessary but not sufficient" discipline that gates `VIDEO_RENDERED` and (designed) `PUBLISHED`. **Credentials are never a field on any of these** — resolved live, inside `providers/google_veo.py` (and future provider modules) only, from `config.py`/environment, never logged, serialized, or written to any package file or report — the exact rule §24.3 already established for the Publishing Engine.
+
+| Contract | Mirrors | Shape |
+|---|---|---|
+| `VideoGenerationOptions` | `RenderOptions` / `PublishOptions` | `provider: str = "google_veo"`, `aspect_ratio: str = "9:16"`, `resolution: Optional[str] = None` (defer to provider default), `seed_image_path: Optional[str] = None` (optional image-to-video conditioning — e.g. seeding from an already-generated `ImageAsset` for character/environment consistency), `dry_run: bool = False`, `timeout_seconds: Optional[int] = None`, `poll_interval_seconds: int = 10`, `max_poll_attempts: int = 60`. |
+| `ProviderInfo` | `FFmpegInfo` / `PlatformInfo` | `provider: str`, `available: bool`, `account_label: Optional[str] = None` (never a token), `detail: Optional[str] = None`. Never raises on its own; the controller decides whether unavailability is fatal. |
+| `VideoGenerationRequest` | `RenderRequest` / `PublishRequest` | `shot_prompt: ShotPrompt` (reuses the existing contract — the only field it needs is `video_motion_prompt`, already produced), `scene_id: int`, `shot_id: int`, `output_dir: str`, `options: VideoGenerationOptions`. |
+| `VideoAsset` | `ImageAsset` (`agents/image_generator/contract.py`) | `asset_id`, `scene_id`, `shot_id`, `file_path`, `prompt_used`, `provider: str`, `external_job_id: Optional[str] = None`, `duration_seconds: Optional[float] = None`, `generated_at`. |
+| `VideoGenerationStatus` | *(new async-poll shape, same role as `PublishingPlatform.check_status`'s return, §24.2)* | `status: str` (`"pending" \| "generating" \| "succeeded" \| "failed"`), `external_job_id: str`, `progress_pct: Optional[float] = None`, `detail: Optional[str] = None`. |
+| `VideoGenerationResult` | `RenderResult` / `PublishResult` | `success: bool`, `dry_run: bool = False`, `provider: str = ""`, `scene_id: int`, `shot_id: int`, `external_job_id: Optional[str] = None`, `started_at`/`finished_at: Optional[datetime]`, `retry_count: int = 0`, `error: Optional[str] = None`, `error_type: Optional[str] = None` (`"generation_failed" \| "auth_failed" \| "timeout" \| "quota_exceeded" \| "content_filtered"`). `success=True` means only the provider *accepted and completed* the job — process diagnostics, not verified media quality. |
+| `VideoGenerationValidationReport` | `RenderValidationReport` / `PublishValidationReport` | `is_valid: bool`, `checks: List[...]`, `probed: Optional[ProbedMedia]` (**reuses `shared_core.contracts.render.ProbedMedia` directly** — a generated clip and a rendered clip are probed the same way), `output_path: str`, `generated_at`. **This is the only thing that gates a shot's clip being trusted** — same role `RenderValidationReport.is_valid` plays for `VIDEO_RENDERED` (§7, §9). |
+| `ShotMediaSelection` | *(new — §25.3)* | `scene_id: int`, `shot_id: int`, `mode: str` (`"image" \| "video"`). |
+| `VideoGenerationManifest` | *(new — project-level record, Production Package's `video_manifest.json`, requirement 5)* | `manifest_id`, `source_prompt_set_id`, `selections: List[ShotMediaSelection]`, `assets: List[VideoAsset]`, `generated_at`. |
+
+`PromptSet` and `ShotPrompt` (`shared_core/contracts/prompt_set.py`) are **not modified** — `video_motion_prompt` already exists and is consumed read-only, the same way the Execution Engine already treats every Producer Package artifact as read-only input (§7).
+
+### 25.5 Provider Abstraction
+
+A single abstract interface, `VideoGenerationProvider`, implemented once per external provider — the controller and every contract are written against this interface only, mirroring `PublishingPlatform` (§24.2) exactly:
+
+| Method | Purpose |
+|---|---|
+| `authenticate() -> ProviderInfo` | Resolve credentials and confirm they're valid. Mirrors `ffmpeg_detector.detect_ffmpeg` / `PublishingPlatform.authenticate` — reports availability as data, never raises itself. |
+| `generate(request: VideoGenerationRequest) -> VideoGenerationResult` | Submit the job and own everything the submission implies internally: most video providers are asynchronous (submit → poll → download), so retry/backoff and the poll loop both live inside this call, not the controller. |
+| `check_status(external_job_id: str) -> VideoGenerationStatus` | Poll for async completion — same shape and same role as `PublishingPlatform.check_status`. |
+
+`provider_registry.py` is a pure `{name: Type[VideoGenerationProvider]}` lookup (`resolve_provider(name) -> Type[VideoGenerationProvider]`, raising `VideoGenerationInputError` for an unknown name) — mirroring `publishing_engine/platforms/registry.py` (§24.2) exactly. **In this design, the registry is empty: zero providers are implemented.** Adding Google Veo, Runway, Kling, Luma, or Pika each means writing one new class implementing `VideoGenerationProvider` and adding one registry entry — zero changes to the controller, the contracts, or any other provider's code, the identical mechanism §24.2 already established for publishing platforms.
+
+**Google Veo is the intended first, and design-only-designated, implementation** (`providers/google_veo.py`) — named because it is the provider the milestone brief calls out, not because any code, prompt template, or API contract for it has been written. No file under `providers/` is created by this design pass.
+
+### 25.6 Module Layout (`video_generation_engine/`)
+
+| Module | Role | Layer |
+|---|---|---|
+| `controller.py` (`VideoGenerationEngineController`) | Orchestrates the sequence in §25.8; the only place that decides whether to generate at all (`--dry-run` skips submission and postflight entirely, here — never inside a provider adapter, same rule §7/§24 already apply). | orchestration |
+| `preflight.py` (`verify_generation_inputs`) | Confirms the target `media/video/` output directory is writable, confirms the requested shot(s) actually have a `video_motion_prompt` in the loaded `PromptSet`, and confirms `seed_image_path` (if given) still exists — the same "planning approved it, but I/O is real" justification §7's and §24's own `preflight.py` already use. | boundary (read-only) |
+| `request_builder.py` (`build_generation_request`, `validate_generation_request`) | Pure: resolves `ShotMediaSelection` against `PromptSet` and assembles the typed `VideoGenerationRequest` per selected shot. | pure |
+| `prompt_builder.py` (`build_video_prompt`) | Pure: composes the final provider-ready prompt string from `ShotPrompt.video_motion_prompt` + shot description + camera angle/movement + duration + aspect ratio — the video-generation analogue of `agents/image_generator/contract.py`'s existing `build_image_prompt`, same composition pattern, new function. | pure |
+| `providers/base.py` | `VideoGenerationProvider` abstract interface (§25.5). | interface |
+| `providers/google_veo.py` | Not created in this milestone — reserved name for the first real implementation (§25.5). | boundary (real network I/O), future |
+| `provider_registry.py` (`resolve_provider`) | Pure name → implementation lookup (§25.5); empty in this design. | pure |
+| `postflight.py` (`validate_generated_clip`) | Pure: compares a downloaded clip's `ProbedMedia` against the request's expected profile (duration, aspect ratio), producing `VideoGenerationValidationReport`. An unprobeable file is an unconditional failure, mirroring `postflight.validate_render`'s handling of a `None` probe. | pure |
+| `errors.py` | `VideoGenerationError` hierarchy (§25.9). | — |
+
+**Probing is intentionally *not* shared with `execution_engine.ffprobe_client`.** Reusing that function directly would create a new cross-engine import edge that doesn't exist anywhere else in the system — `execution_engine/` and `publishing_engine/` don't import each other either (§24.3 treats `video.mp4` as an opaque, already-finished file rather than re-probing it). This design accepts the small duplication of a thin `ffprobe`-invoking wrapper inside `video_generation_engine/` instead, preserving the "no engine imports another engine" symmetry that already holds for all of §7/§19/§24. (This mirrors the exact tradeoff already made once: `execution_engine/errors.py`'s `MediaAccessError` *was* reused by the Publishing Engine design, §24.7 — reuse is fine for a shared *type*, but a shared *boundary call* between peer engines is the line this design chooses not to cross, since it's a new dependency edge rather than a shared vocabulary.)
+
+**Note on the milestone brief's suggested `contracts.py`:** the suggested example structure lists a `contracts.py` file inside `video_generation_engine/`. This design deliberately omits it, for consistency with the Publishing Engine precedent: §24.4's module table has no `contracts.py` either, because the actual contract *definitions* belong in `shared_core/contracts/` (§8, §19 — "Shared Core contains everything genuinely provider-agnostic... nothing in Shared Core may import from `director_studio/`, `producer_studio/`, `execution_engine/`, or `project_manager/`"), and every other module here imports them directly from `shared_core.contracts.video_generation` rather than through a redundant local re-export layer.
+
+### 25.7 Pipeline Integration
+
+```
+Story Planner ──► Scene Planner ──► Shot Planner ──► Camera Planner
+      ──► Character/Environment Bibles ──► Prompt Intelligence
+             ──► PromptSet (image_prompt + video_motion_prompt per shot — ALREADY PRODUCED TODAY)
+                    │
+                    ├── media/images/  ◄── human, or opt-in agents/image_generator/ (UNCHANGED, §5)
+                    │
+                    └── media/video/   ◄── human, OR [NEW] Video Generation Engine
+                                             (ShotMediaSelection picks which shots;
+                                              provider generates scene_<id>_shot_<id>.mp4)
+                    │
+                    ▼
+             Asset Validation (UNCHANGED) ──► ValidatedAssetManifest (image_path and/or video_path per shot)
+                    ▼
+             Timeline Planning (UNCHANGED) ──► prefers video over image per shot when both exist (§25.2, already shipped)
+                    ▼
+             Subtitle / Music / Editing / Thumbnail / Publishing Metadata Planning (UNCHANGED)
+                    ▼
+             FFmpeg Execution Engine (UNCHANGED) ──► video.mp4 (mixed image+video sources, already-shipped filter graph)
+```
+
+This directly answers the milestone's requested "Future" pipeline (`Story → Video Prompts → AI Video Provider → MP4 Clips → FFmpeg`): every arrow in that chain already exists except one — "AI Video Provider" — which is exactly and only what `video_generation_engine/` adds. It slots in as an **alternative, automatable populator of `media/video/`**, parallel to (never replacing) the permanent human checkpoint §1 already establishes between Director Studio and Producer Studio.
+
+### 25.8 Execution Sequence (`VideoGenerationEngineController.run`)
+
+1. Load the project; require `status in (PACKAGE_READY, MEDIA_IMPORTED, EDIT_PLAN_READY)`.
+2. Load `PromptSet` (`video_prompts.json`) and the requested `ShotMediaSelection` list (explicit argument or a persisted `video_manifest.json` from a prior partial run).
+3. For shots already carrying a valid `VideoAsset` from a prior run, **skip by default** — the same idempotency guard §24.5 designs for Publishing, adapted from "don't double-upload" to "don't double-spend": a routine re-run never silently regenerates (and re-charges for) an already-succeeded clip. Regenerating a specific shot is an explicit, targeted request, never the default of a bare re-run.
+4. Validate the request (`request_builder.validate_generation_request`) and confirm generation inputs (`preflight.verify_generation_inputs`).
+5. Resolve the provider adapter (`provider_registry.resolve_provider`) and authenticate (`provider.authenticate()` — a `VideoGenerationEnvironmentError` if credentials are missing/invalid or no provider is registered for the requested name; the one hard environment gate, same role `ffmpeg_detector`/`platform.authenticate()` play in §7/§24).
+6. **`--dry-run` stops here** — returns the built `VideoGenerationRequest`(s) plus `VideoGenerationResult(success=True, dry_run=True)` per shot, nothing submitted, nothing persisted. Lives in the controller, never inside a provider adapter, for the same reason §7/§24 keep this branch at the orchestration layer.
+7. Generate (`provider.generate(...)`) per selected shot — submission, polling, and download all happen inside this call (§25.5).
+8. If generation succeeded, probe the downloaded clip and validate it (`postflight.validate_generated_clip`); if generation failed, there is nothing to probe.
+9. Persist via `ProjectManager.save_video_generation_result` (§25.10) — writes the clip's `VideoAsset` into `video_manifest.json` and updates the project's generation-progress sub-fields. This step **never** advances `project.status` on its own — Asset Validation (unchanged, §6) remains the sole gate that advances state to `MEDIA_IMPORTED`, exactly as if a human had placed the same file by hand.
+
+**Sequence diagram** (one shot, non-dry-run happy path; the skip/dry-run/failure branches above are noted inline):
+
+```mermaid
+sequenceDiagram
+    participant UI as Dashboard / CLI
+    participant Ctl as VideoGenerationEngineController
+    participant PM as ProjectManager
+    participant Pre as preflight / request_builder
+    participant Reg as provider_registry
+    participant Prov as VideoGenerationProvider (e.g. google_veo)
+    participant Ext as External Provider API
+    participant Post as postflight
+
+    UI->>Ctl: run(project_id, selections, options)
+    Ctl->>PM: load_project(project_id)
+    PM-->>Ctl: Project
+    Ctl->>PM: load_prompt_set()
+    PM-->>Ctl: PromptSet
+    Ctl->>Ctl: filter shots already carrying a valid VideoAsset (skip by default, step 3)
+    Ctl->>Pre: validate_generation_request / verify_generation_inputs
+    Pre-->>Ctl: VideoGenerationRequest (or VideoGenerationInputError)
+    Ctl->>Reg: resolve_provider(options.provider)
+    Reg-->>Ctl: VideoGenerationProvider class
+    Ctl->>Prov: authenticate()
+    Prov-->>Ctl: ProviderInfo
+
+    alt dry_run = true
+        Ctl-->>UI: VideoGenerationResult(success=True, dry_run=True) — nothing submitted, nothing persisted
+    else dry_run = false
+        Ctl->>Prov: generate(VideoGenerationRequest)
+        Prov->>Ext: submit generation job
+        Ext-->>Prov: external_job_id
+        loop poll until succeeded / failed / max_poll_attempts
+            Prov->>Ext: check_status(external_job_id)
+            Ext-->>Prov: VideoGenerationStatus
+        end
+        alt status = succeeded
+            Prov->>Ext: download clip
+            Ext-->>Prov: clip bytes
+            Prov-->>Ctl: VideoGenerationResult(success=True)
+            Ctl->>Post: validate_generated_clip(clip, request)
+            Post-->>Ctl: VideoGenerationValidationReport
+        else status = failed / timeout
+            Prov-->>Ctl: VideoGenerationResult(success=False, error_type=...)
+            Note over Ctl,Post: nothing to probe — postflight is skipped
+        end
+        Ctl->>PM: save_video_generation_result(VideoAsset?, VideoGenerationResult, VideoGenerationValidationReport?)
+        PM->>PM: write video_manifest.json; update video_generation_manifest_path / video_generation_status
+        Note over PM: project.status is never advanced here — Asset Validation remains the sole MEDIA_IMPORTED gate
+        Ctl-->>UI: VideoGenerationResult (+ VideoGenerationValidationReport)
+    end
+```
+
+### 25.9 Errors
+
+`video_generation_engine/errors.py` mirrors `execution_engine/errors.py` and `publishing_engine/errors.py` exactly — raised only for problems discovered before generation can even be attempted; everything that happens once a provider call is actually made is a `VideoGenerationResult`, never an exception:
+
+- `VideoGenerationError` — base.
+- `VideoGenerationEnvironmentError` — credentials missing/invalid, or the configured provider has no registered adapter.
+- `MediaAccessError` — *(reused from `execution_engine/errors.py`, same reuse `publishing_engine`'s design already makes, §24.7 — same failure concept, no reason for a third class)* — the seed image (if given) or output directory is missing/unwritable.
+- `VideoGenerationInputError` — `PromptSet` missing the requested shot, or `ShotMediaSelection` references a `scene_id`/`shot_id` that doesn't exist in the plan.
+
+### 25.10 State & Output Specification
+
+**No new top-level `ProjectState`** (§25.1, rule 4). New `Project` sub-fields (all `Optional`, mirroring `rendered_video_path`'s own pattern): `video_generation_manifest_path: Optional[str] = None`, `video_generation_status: Optional[str] = None` (`"not_started" | "in_progress" | "partial" | "complete"`, a coarse dashboard-facing summary only — the authoritative per-shot detail lives in `video_manifest.json` itself). Because every new field is `Optional` with a `None` default, an old project's `project.json` — which has never heard of these keys — deserializes exactly as it does today; this is the same mechanism that already made `rendered_video_path`, `external_video_id`, etc. migration-free additions.
+
+**Output specification** — written by `project_manager/video_generation_writer.py` into the Production Package, alongside the already-existing `video_prompts.json` (§10):
+
+| File | Written by | When | Contents |
+|---|---|---|---|
+| `video_manifest.json` | `video_generation_writer.write_video_generation_manifest` | Every attempted (non-dry-run) generation run, updated incrementally as shots complete. | `VideoGenerationManifest`: every shot's `ShotMediaSelection`, its resulting `VideoAsset` (if succeeded), and the `VideoGenerationResult`/`VideoGenerationValidationReport` pair for diagnostics — the same process-vs-verification split as `render_report.json`/`render_validation.json` (§12) and `publish_report.json`/`publish_validation.json` (§24.8). |
+
+The actual clip files land in `projects/<project_id>/media/video/scene_<id>_shot_<id>.mp4` — **the exact path and naming convention Asset Validation already expects from a human** (§6, §14) — so no change to `agents/asset_validator/*`, `producer_package_writer.py`, or any Producer Package file is required.
+
+**Note on the milestone brief's suggested `video_prompts/shot001.txt` layout:** the brief's example shows one prompt file per shot. This design deliberately does not introduce that layout — `production-package/video_prompts.json` (the serialized `PromptSet`) already carries every shot's `video_motion_prompt` in one place, is already written today (§25.2), and is the only input `request_builder.py` needs. Adding a parallel per-shot `.txt` layout would be a second, redundant source of the same data with no consumer designed to read it — the milestone's underlying need ("a durable, inspectable record of what was asked for, per shot") is already met by `video_prompts.json` plus `video_manifest.json`'s `selections`/`assets` lists.
+
+`ProjectManager` additions: `load_prompt_set` (already exists, reused), `get_media_video_dir` (hands out `media/video/`'s location, mirroring `get_images_dir`), `save_video_generation_result` (writes `video_manifest.json`, updates the `Project` sub-fields — never advances `status`).
+
+### 25.11 Dashboard Support
+
+No UI is implemented by this design; the shape below is what a future implementation milestone would build against, consuming the same typed contracts (§25.4) the backend already exposes via a new router mirroring the existing `web_api/routers/publish.py`/`render.py` shape (trigger + status-poll, not a new API convention).
+
+- **Media Generation Mode** — a project-level choice, presented once (e.g. on `ProjectWorkspace`'s `OverviewTab` or `MediaTab`, both already existing): **Image Mode** (today's default, unchanged), **Video Mode** (every shot defaults to `"video"` in `ShotMediaSelection`), **Hybrid Mode** (per-shot toggle, defaulting to `"image"`). This is a UI convenience over `ShotMediaSelection` (§25.3) — the backend has no separate "mode" concept beyond the per-shot list.
+- **`MediaTab.tsx`** (already existing, already shows per-shot media coverage) gains a per-shot IMAGE/VIDEO toggle plus a "Generate" action and a status chip reflecting `VideoGenerationStatus`/`video_generation_status`, polled the same way `features/runs/LiveStatusPanel.tsx` and `RunControls.tsx` already poll long-running producer/render runs today — reusing that existing polling pattern rather than inventing a second one for this async operation.
+- **A pre-generation cost/consent confirmation** is a required UI step before any provider call — unlike the opt-in `image_generator` (fast, cheap, synchronous), video generation is slow and has real per-clip cost; the dashboard must never trigger it silently as a side effect of another action.
+- **`RenderPreviewTab.tsx`** (already existing) needs no change — it previews the already-unchanged Execution Engine output, which already treats mixed image/video sources uniformly (§25.2).
+
+### 25.12 Migration & Backward Compatibility
+
+Requirement 9 ("old project format must continue working, zero migration") is satisfied structurally, not by a migration script:
+
+- No existing contract (`PromptSet`, `ShotPrompt`, `ValidatedAsset`, `TimelineClip`, `EditingSegment`, `Project`) is modified — only new, fully `Optional` fields/files are added.
+- `video_manifest.json` and the new `Project` sub-fields are absent from every old project; their absence is a valid, already-handled state (`video_generation_status: None` reads as "never attempted," identical in meaning to a project that never runs this engine at all).
+- The Video Generation Engine is opt-in at the CLI/API layer, the same way `--generate-images` is opt-in today (§5) — it is never invoked as part of `DirectorStudioController.run` or `ProducerStudioController.run`'s default sequencing.
+- Asset Validation, Timeline Planning, Editing Planning, and the Execution Engine require **zero code changes** (§25.2) — they already handle a project with only images, only videos, or a mix, per shot.
+
+### 25.13 Risks
+
+1. **Cost and latency are qualitatively different from the existing `image_generator` tool.** A synchronous, cheap per-scene image call becomes an asynchronous, potentially multi-minute, real-money-per-clip operation per *shot*. Mitigation: opt-in by default (§25.3, §25.12), explicit dashboard consent (§25.11), the idempotency guard against silent re-spend (§25.8 step 3), and `dry_run` support at every layer (§25.8 step 6).
+2. **Visual inconsistency across shots.** Unlike Director Studio's Character/Environment Bibles (consumed today by `image_generator` indirectly via prompt text), an external video provider has no innate access to a project's established visual identity. Mitigation: `prompt_builder.build_video_prompt` (§25.6) composes the full character/environment/camera context into the prompt exactly as `build_image_prompt` already does, and `VideoGenerationOptions.seed_image_path` (§25.4) allows image-to-video conditioning from an already-approved `ImageAsset` for shots where consistency matters more than motion variety.
+3. **Provider capability variance.** Not every provider supports async polling, image-to-video seeding, or the same aspect ratios; `VideoGenerationProvider` (§25.5) may need capability flags on `ProviderInfo` once a second real provider is implemented (deferred, §25.15) — the abstraction is not guaranteed leak-proof until proven against two providers, not one.
+4. **Partial-failure UX.** A hybrid-mode project can end up with some shots generated, some pending, some failed. Asset Validation's existing `missing_shot` tolerance (up to `MAX_TOLERATED_MISSING_SHOTS`) already handles a shot with no media at all gracefully, but the dashboard (§25.11) must surface *why* a shot is missing (never attempted vs. failed vs. still generating) rather than presenting all three identically.
+5. **Rendered-file memory profile is unverified, not just assumed safe.** This codebase has direct, recent, hard-won history here (`RenderOptions`'s own docstring, and the last several commits: "segmented render fallback for many-scene projects — fixes OOM", "delete segmented-render intermediates as they're consumed") — a "should be fine" assumption about ffmpeg memory behavior has already been *wrong* once in this exact codebase, under real production RSS telemetry. A generated H.264/H.265 video source has a materially different decode memory profile than looping a static image (§25.14) and must not be assumed safe by analogy — see §25.14's recommended verification step before this ships behind any real provider.
+
+### 25.14 Memory & Storage Considerations
+
+- **Memory:** `filter_graph_builder.py` already normalizes image and video inputs through the same `trim`/`normalize`/`concat`/`xfade` graph (§25.2), so no *new* filter-graph code path is introduced by this milestone. However, decoding a real video source is not the same operation as looping a static image (`-loop 1`), and this repository's own render-pipeline history (`RenderOptions.preset`/`.threads` docstrings, the segmented-renderer OOM fix) shows that "the code path is unified" has previously been mistaken for "the memory cost is unified." **Before any real provider ships (V3+, §25.15), a real multi-scene render mixing generated video clips should be memory-profiled under the same production-RSS-telemetry methodology already used for the image-only case**, and `should_segment`'s segmentation threshold (`execution_engine/segmented_renderer.py`) revisited if video sources push peak RSS higher than images did at the same scene count. This is a **testing/verification recommendation for a future milestone, not a design change** — no code is touched here.
+- **Storage:** generated clips are dramatically larger than generated images (tens of MB vs. low single-digit MB each), and hybrid/video-mode projects with multiple re-rolled shots multiply that further. `media/` is already outside version control (human-imported assets are never committed) and the project already has a working pattern of aggressively deleting consumed intermediates (`fix(render): delete segmented-render intermediates as they're consumed`) — the same discipline should extend to superseded/failed generation attempts in `media/video/`, so a shot re-rolled three times doesn't leave two orphaned clips behind. This is a `video_generation_writer`/cleanup-policy design note for the implementation milestone, not something this design pass builds.
+
+### 25.15 Explicitly Deferred / Not Designed Yet
+
+- **Google Veo's actual request/response shape, auth flow, and pricing model** — none of this is designed here; `providers/google_veo.py` is a reserved name, not a specification (§25.5).
+- **A second real provider** (Runway/Kling/Luma/Pika) proving the registry abstraction generalizes, and any capability-flag additions to `ProviderInfo` that proving exercise surfaces (§25.13, item 3).
+- **Automatic mode selection** (e.g. "generate video only for the establishing shot of each scene") — v1 `ShotMediaSelection` is always an explicit, human/dashboard-driven list; no heuristic auto-selection is designed.
+- **Budget/quota guardrails** (a project-level spend cap, a warn-before-N-clips confirmation) — flagged as a real need (§25.13, item 1) but not specified here; likely a `VideoGenerationOptions` addition in a later milestone.
+- **Cleanup policy implementation** for superseded/failed clips (§25.14) — the need is identified, the mechanism is not designed.
+- **Memory-profiling methodology details** (§25.14) — the recommendation to profile is recorded; the actual telemetry harness is not designed here.
+
+### 25.16 Recommended First Implementation Milestone (V2)
+
+This milestone (V1) is design-only, per its own constraints — no application code, no Google Veo integration, no API calls. Following the exact precedent already set by how the Execution Engine (§7) and Publishing Engine (§24) were actually built — structure and contracts first, a real external integration only once the skeleton is proven — the recommended scope for **V2** is:
+
+**Build the skeleton with zero external providers, so the whole pipeline is provably correct before any real cost or network dependency exists:**
+
+1. `shared_core/contracts/video_generation.py` — all contracts from §25.4, unit-tested for round-trip serialization only (no behavior).
+2. `video_generation_engine/` module skeleton: `controller.py`, `preflight.py`, `request_builder.py`, `prompt_builder.py`, `providers/base.py` (the abstract `VideoGenerationProvider`), `provider_registry.py`, `postflight.py`, `errors.py` — implementing the full sequence in §25.8, including the diagram in this revision.
+3. **One deterministic, zero-cost "local" provider** registered under a non-default name (e.g. `"local_stub"`), implementing `VideoGenerationProvider` by synchronously producing a short placeholder clip (e.g. via `ffmpeg -f lavfi -i color=...`, reusing the same black-frame technique `command_builder.py` already uses for missing shots, §3) instead of calling any real network API. This is what makes the milestone verifiable end-to-end — dry-run, happy-path generate, postflight validation, idempotent skip-on-rerun, and manifest persistence — without touching Google Veo or spending anything.
+4. `project_manager/video_generation_writer.py` and the three `ProjectManager` additions listed in §25.10 (`get_media_video_dir`, `save_video_generation_result`), plus the new `Project` sub-fields.
+5. CLI entry point mirroring `render_app.py`/the publishing CLI's shape, opt-in only, never part of `DirectorStudioController`/`ProducerStudioController`'s default sequencing (§25.12).
+
+**Explicitly out of scope for V2** (deferred to V3+, per §25.15): the real `providers/google_veo.py` implementation, any second real provider, dashboard UI (§25.11 remains a design until a dedicated frontend milestone), budget/quota guardrails, the cleanup policy for superseded clips, and the memory-profiling exercise for mixed image/video renders (§25.14) — that profiling should happen once real (larger, provider-generated) clips exist to profile, not against the local stub's placeholder output.
+
+This ordering keeps every milestone independently shippable and reversible — exactly as `render.py`'s and `publish.py`'s own history (§22) already demonstrates for this codebase — and means the first time a real API call to any video provider is made is a deliberate, isolated V3 decision, not a side effect of building the plumbing around it.
+
+---
+
 *This document is the frozen architecture. Deviations discovered during implementation should be raised as a proposed amendment to this document before being coded, not worked around silently.*
 
 ---
@@ -857,9 +1121,9 @@ New `Project` fields (mirroring `rendered_video_path`): `external_platform: Opti
 
 **Status:** FROZEN
 
-**Version:** 2.1.0
+**Version:** 2.2.0
 
-**Last Updated:** 2026-07-26
+**Last Updated:** 2026-08-02
 
 Breaking changes require:
 - Architecture review
