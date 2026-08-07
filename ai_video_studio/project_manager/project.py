@@ -73,3 +73,15 @@ class Project(BaseModel):
     source_publishing_metadata_id: Optional[str] = None
     producer_package_dir: Optional[str] = None
     rendered_video_path: Optional[str] = None
+
+    # Video Generation Engine (ARCHITECTURE.md SS25.10, Milestone V2) - both
+    # Optional with a None default, mirroring rendered_video_path's own
+    # migration-free pattern: an old project's project.json, which has never
+    # heard of these keys, deserializes exactly as it does today.
+    # video_generation_status is a coarse dashboard-facing summary only
+    # ("not_started" | "partial" | "complete" - see
+    # project_manager.manager.ProjectManager._compute_video_generation_status
+    # for why "in_progress", SS25.10's fourth value, is not yet reachable);
+    # the authoritative per-shot detail lives in video_manifest.json itself.
+    video_generation_manifest_path: Optional[str] = None
+    video_generation_status: Optional[str] = None

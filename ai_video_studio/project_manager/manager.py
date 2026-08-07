@@ -26,6 +26,13 @@ from shared_core.contracts.thumbnail_plan import ThumbnailPlan
 from shared_core.contracts.storyboard import Storyboard
 from shared_core.contracts.subtitle import SubtitlePlan
 from shared_core.contracts.timeline import ShotDuration, Timeline
+from shared_core.contracts.video_generation import (
+    ShotMediaSelection,
+    VideoAsset,
+    VideoGenerationManifest,
+    VideoGenerationResult,
+    VideoGenerationValidationReport,
+)
 from shared_core.contracts.voice_script import VoiceScript
 from config import settings
 from publishing_engine.preflight import validate_publish_readiness
@@ -39,6 +46,7 @@ from project_manager.publish_writer import (
     write_upload_verification,
 )
 from project_manager.render_writer import write_render_reports
+from project_manager.video_generation_writer import write_video_generation_manifest
 from utils.logger import get_logger
 
 logger = get_logger("app")
@@ -415,6 +423,15 @@ class ProjectManager:
         to validate (ARCHITECTURE.md SS10: projects/<id>/media/{images,video,audio}/)."""
         return self._project_dir(project.project_id) / "media"
 
+    def get_media_video_dir(self, project: Project) -> Path:
+        """Where the Video Generation Engine writes its own generated clips
+        (ARCHITECTURE.md SS25.10, Milestone V2), using the exact same
+        media/video/scene_<id>_shot_<id>.mp4 path and naming convention Asset
+        Validation already expects from a human - mirrors get_images_dir's
+        role for images. Hands out the location only, like get_media_dir;
+        the caller (a provider adapter) creates the directory on first write."""
+        return self.get_media_dir(project) / "video"
+
     def save_uploaded_media(self, project: Project, filename: str, content: bytes) -> Path:
         """Additive capability for the Web Dashboard's media upload endpoint
         (WEB_DASHBOARD_ARCHITECTURE.md SS6): the CLI has no equivalent - a
@@ -630,6 +647,90 @@ class ProjectManager:
                 project, status=ProjectState.VIDEO_RENDERED, rendered_video_path=render_result.output_path
             )
         return project
+
+    def load_video_generation_manifest(self, project: Project) -> Optional[VideoGenerationManifest]:
+        """Reconstructs the cumulative VideoGenerationManifest from the
+        Production Package's video_manifest.json, if a prior generation run
+        has ever written one. Returns None - not an error - for a project
+        that has never touched the Video Generation Engine at all
+        (ARCHITECTURE.md SS25.12: absence is a valid, already-handled state,
+        the same convention rendered_video_path=None already establishes)."""
+        if not project.production_package_dir:
+            return None
+        path = Path(project.production_package_dir) / "video_manifest.json"
+        if not path.is_file():
+            return None
+        return VideoGenerationManifest(**json.loads(path.read_text()))
+
+    def save_video_generation_result(
+        self,
+        project: Project,
+        *,
+        selections: List[ShotMediaSelection],
+        new_assets: List[VideoAsset],
+        results: List[VideoGenerationResult],
+        validation_reports: List[VideoGenerationValidationReport],
+    ) -> Project:
+        """Merges one Video Generation Engine run's selections/assets/results/
+        validation_reports into the project's cumulative manifest (a fresh
+        one if this is the first run) and persists it to video_manifest.json
+        inside the Production Package (ARCHITECTURE.md SS25.8 step 9,
+        SS25.10). A later selection or a newer asset for the same
+        (scene_id, shot_id) replaces the earlier one; results/
+        validation_reports are append-only diagnostic history.
+
+        Never advances project.status, regardless of how many shots
+        succeeded - Asset Validation (unchanged) remains the sole gate that
+        advances state to MEDIA_IMPORTED, exactly as if a human had placed
+        the same file by hand."""
+        if not project.production_package_dir:
+            raise ValueError(f"Project {project.project_id} has no Production Package yet - run Director Studio first")
+
+        existing = self.load_video_generation_manifest(project)
+        manifest = existing if existing is not None else VideoGenerationManifest(
+            source_prompt_set_id=project.source_prompt_set_id or ""
+        )
+
+        selection_map = {(s.scene_id, s.shot_id): s for s in manifest.selections}
+        for selection in selections:
+            selection_map[(selection.scene_id, selection.shot_id)] = selection
+
+        asset_map = {(a.scene_id, a.shot_id): a for a in manifest.assets}
+        for asset in new_assets:
+            asset_map[(asset.scene_id, asset.shot_id)] = asset
+
+        manifest = manifest.model_copy(update={
+            "selections": list(selection_map.values()),
+            "assets": list(asset_map.values()),
+            "results": manifest.results + results,
+            "validation_reports": manifest.validation_reports + validation_reports,
+        })
+
+        manifest_path = write_video_generation_manifest(
+            production_package_dir=project.production_package_dir, manifest=manifest
+        )
+        logger.info(f"Video generation manifest written to {manifest_path}")
+
+        status = self._compute_video_generation_status(manifest)
+        return self._advance(
+            project, video_generation_manifest_path=str(manifest_path), video_generation_status=status
+        )
+
+    def _compute_video_generation_status(self, manifest: VideoGenerationManifest) -> str:
+        """Coarse dashboard-facing summary (ARCHITECTURE.md SS25.10). Only
+        three of the four documented values are reachable from here:
+        "in_progress" describes a job actively polling mid-flight, but this
+        method only ever runs after generate() has already returned a
+        terminal VideoGenerationResult (SS25.8) - there is no mid-flight
+        moment for it to observe. It's reserved for a later milestone that
+        surfaces progress from a real async provider before its call
+        returns."""
+        video_selections = [s for s in manifest.selections if s.mode == "video"]
+        if not video_selections:
+            return "not_started"
+        generated_keys = {(a.scene_id, a.shot_id) for a in manifest.assets}
+        selected_keys = {(s.scene_id, s.shot_id) for s in video_selections}
+        return "complete" if generated_keys >= selected_keys else "partial"
 
     def scan_media(self, project: Project) -> ImportedMediaManifest:
         """Builds the typed media inventory Asset Validation receives - the one
