@@ -18,6 +18,14 @@ class Settings:
     GROQ_API_KEYS: list = [k.strip() for k in os.getenv("GROQ_API_KEYS", "").split(",") if k.strip()]
     GROQ_MODEL: str = os.getenv("GROQ_MODEL", "llama-3.3-70b-versatile")
 
+    # Google Veo (video_generation_engine/providers/google_veo.py) uses the
+    # same Google AI Studio account as Gemini - GOOGLE_VEO_API_KEY lets a
+    # deployment use a distinct/billing-separated key, but falls back to
+    # GEMINI_API_KEY (already required for image generation) so a single key
+    # is enough for both by default.
+    GOOGLE_VEO_API_KEY: str = os.getenv("GOOGLE_VEO_API_KEY", "") or os.getenv("GEMINI_API_KEY", "")
+    GOOGLE_VEO_MODEL: str = os.getenv("GOOGLE_VEO_MODEL", "veo-3.1-fast-generate-preview")
+
     LOG_LEVEL: str = os.getenv("LOG_LEVEL", "INFO")
 
     # Overridable so a deployment with a mounted persistent volume (e.g.

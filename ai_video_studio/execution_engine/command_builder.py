@@ -10,15 +10,28 @@ Milestone 8.1 built the inputs list, global args, and output configuration
 with filter_complex left as None. Milestone 8.2 fills filter_complex in by
 delegating to the dedicated filter_graph_builder component (cut/fade/xfade
 plus resolution/fps normalization) and adds the -map arguments the compiled
-graph requires. Audio mixing and subtitle burn-in remain deferred: the
-narration audio input is still mapped straight through, unfiltered.
+graph requires. Subtitle burn-in remains deferred.
+
+Audio mixing (ARCHITECTURE.md SS21 item 9) is wired in as of this milestone:
+when the controller has resolved a music asset (request.music_asset_path -
+see music_library.resolve_music_asset), that file becomes an additional `-i`
+input and filter_graph_builder.build_audio_filter_graph compiles the
+narration+music `amix` graph, appended into the same filter_complex string
+the video graph already occupies. When no music asset resolved,
+music_asset_path is None and the narration audio input is mapped straight
+through unfiltered, exactly as before this milestone - the graceful-degrade
+path is simply "this branch never runs", not a special case within it.
 """
 
 from pathlib import Path
 
 from execution_engine.errors import RenderInputError
 from execution_engine.ffmpeg_format import format_seconds
-from execution_engine.filter_graph_builder import build_visual_filter_graph, parse_resolution
+from execution_engine.filter_graph_builder import (
+    build_audio_filter_graph,
+    build_visual_filter_graph,
+    parse_resolution,
+)
 from shared_core.contracts.render import FFmpegCommandSpec, FFmpegInput, RenderOptions, RenderRequest
 
 GLOBAL_ARGS = ["-y", "-hide_banner", "-loglevel", "error"]
@@ -149,11 +162,17 @@ def build_command(request: RenderRequest) -> FFmpegCommandSpec:
     """Builds the FFmpegCommandSpec from a request that has already been
     validated (validate_render_request) and whose media has been confirmed to
     exist (preflight.verify_media_exists). One visual input per editing
-    segment, in plan order, then the single narration audio input last.
+    segment, in plan order, then the narration audio input, then - only when
+    request.music_asset_path was resolved - the music input last.
 
-    The compiled visual graph's output stream is explicitly mapped alongside
-    the raw (unfiltered) narration audio stream - audio mixing is still
-    deferred, so the narration is only ever passed through, never blended."""
+    The compiled visual graph's output stream is always mapped the same way.
+    The audio map depends on whether a music asset resolved: with none, the
+    raw (unfiltered) narration stream is mapped straight through exactly as
+    before audio mixing existed; with one, build_audio_filter_graph's
+    narration+music `amix` output is mapped instead, and its filter fragment
+    is appended into the same filter_complex string the video graph already
+    occupies (one `-filter_complex` argument, per FFmpegCommandSpec's shape -
+    see its own docstring)."""
     inputs = [build_segment_input(segment, request.options.resolution) for segment in request.editing_plan.segments]
 
     inputs.append(FFmpegInput(
@@ -163,19 +182,30 @@ def build_command(request: RenderRequest) -> FFmpegCommandSpec:
     audio_input_index = len(inputs) - 1
 
     graph = build_visual_filter_graph(request.editing_plan, request.options)
+    filter_complex = graph.filter_complex
+    audio_map = f"{audio_input_index}:a"
+
+    if request.music_asset_path:
+        inputs.append(FFmpegInput(path=request.music_asset_path, kind="audio"))
+        music_input_index = len(inputs) - 1
+        audio_graph = build_audio_filter_graph(
+            request.music_plan, narration_input_index=audio_input_index, music_input_index=music_input_index,
+        )
+        filter_complex = f"{filter_complex};{audio_graph.filter_complex}"
+        audio_map = f"[{audio_graph.audio_output_label}]"
 
     output_path = str(Path(request.output_dir) / OUTPUT_FILENAME)
 
     output_args = [
         "-map", f"[{graph.video_output_label}]",
-        "-map", f"{audio_input_index}:a",
+        "-map", audio_map,
         *_output_args(request.options),
     ]
 
     return FFmpegCommandSpec(
         global_args=list(GLOBAL_ARGS),
         inputs=inputs,
-        filter_complex=graph.filter_complex,
+        filter_complex=filter_complex,
         output_args=output_args,
         output_path=output_path,
     )

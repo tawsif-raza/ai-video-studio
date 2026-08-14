@@ -18,8 +18,24 @@ it deterministically compiles:
   whole edit, via `fade`
 
 No filesystem access, no subprocess, no execution - a typed function of typed
-plan data to a filter-graph string, exactly like command_builder itself. Audio
-mixing and subtitle rendering are explicitly out of scope and untouched.
+plan data to a filter-graph string, exactly like command_builder itself.
+Subtitle rendering remains explicitly out of scope and untouched.
+
+Audio mixing (ARCHITECTURE.md SS21 item 9, SS23 "Audio mixing") is
+build_audio_filter_graph below, added alongside the pre-existing visual
+graph builder rather than as a new module (this module's whole job is
+"compile typed plan data into filter_complex fragments" - audio is more of
+that, not a different responsibility): given a MusicPlan and the ffmpeg
+input indices for the narration and (already-resolved-to-exist, by
+music_library.resolve_music_asset + preflight.verify_music_asset_exists)
+music track, it compiles a narration+music `amix` graph - music scaled to a
+background level, muted or ducked per-cue via `volume`+`enable=between(...)`,
+faded in/out via `afade` at the plan's own first/last non-silent cue
+boundaries. Also pure - same no-I/O guarantee as everything else here.
+command_builder only calls it once a music asset has actually resolved;
+when none has, it keeps today's raw narration passthrough untouched, so this
+function's absence from a render is itself the graceful-degrade path, not a
+special case inside it.
 """
 
 import re
@@ -29,6 +45,7 @@ from typing import Dict, List, Tuple
 from execution_engine.errors import RenderInputError
 from execution_engine.ffmpeg_format import format_seconds
 from shared_core.contracts.editing_plan import EditingPlan, EditingSegment
+from shared_core.contracts.music_plan import MusicPlan
 from shared_core.contracts.render import RenderOptions
 
 # Crossfade duration at a scene boundary, and fade duration at the very
@@ -255,3 +272,114 @@ def build_visual_filter_graph(editing_plan: EditingPlan, options: RenderOptions)
         accumulated_duration = accumulated_duration + next_duration - xfade_duration
 
     return VisualFilterGraph(filter_complex=";".join(all_filters), video_output_label=final_label)
+
+
+# ---- audio mixing (Milestone A - see module docstring) ----
+
+# Resting/default level of the music bed relative to the (unfiltered,
+# always-full-level) narration track - keeps music audibly present without
+# ever competing with narration for "primary track" even in a gap between
+# duck windows.
+MUSIC_BASE_LEVEL = 0.6
+
+# Multiplied on top of MUSIC_BASE_LEVEL during a duck window (a subtitle
+# cue's speaking span) - not an absolute target level, so it composes
+# correctly regardless of what MUSIC_BASE_LEVEL is tuned to.
+MUSIC_DUCK_FACTOR = 0.3
+
+
+@dataclass(frozen=True)
+class AudioFilterGraph:
+    """The compiled narration+music audio graph plus the label of its final
+    mixed output stream - command_builder maps this label directly
+    (`-map "[label]"`), the same convention VisualFilterGraph.video_output_label
+    already establishes for the video side."""
+
+    filter_complex: str
+    audio_output_label: str
+
+
+def _music_gain_windows(music_plan: MusicPlan) -> List[Tuple[float, float, float]]:
+    """One (start, end, gain_factor) window per cue that needs the music
+    bed pulled away from its MUSIC_BASE_LEVEL default: a silent cue's whole
+    span mutes the bed entirely (gain 0.0 - Music Planning already decided
+    this scene carries no music), and a non-silent cue's own duck_windows
+    (one per subtitle cue in that scene) pull it down under narration
+    (MUSIC_DUCK_FACTOR) without silencing it. Windows never overlap - cues
+    partition the timeline by scene, and duck_windows lie inside their own
+    cue's span - so the filters build_audio_filter_graph chains from this
+    list compose correctly regardless of order; sorted by start_time purely
+    for deterministic, readable output."""
+    windows: List[Tuple[float, float, float]] = []
+    for cue in music_plan.cues:
+        if cue.is_silent:
+            windows.append((cue.start_time, cue.end_time, 0.0))
+        else:
+            windows.extend((w.start_time, w.end_time, MUSIC_DUCK_FACTOR) for w in cue.duck_windows)
+    return sorted(windows, key=lambda w: w[0])
+
+
+def build_audio_filter_graph(
+    music_plan: MusicPlan, *, narration_input_index: int, music_input_index: int
+) -> AudioFilterGraph:
+    """Pure: compiles the narration+music `amix` graph. Only ever called by
+    command_builder once a music asset has actually resolved and been
+    confirmed to exist (music_library.resolve_music_asset +
+    verify_music_asset_exists, via preflight.py) - a render with no
+    resolved music never calls this at all and keeps the original raw
+    narration passthrough, which is the graceful-degrade path, not
+    something this function itself needs to handle.
+
+    Narration (`narration_input_index:a`) is mapped into the mix
+    unfiltered, and `amix`'s own `normalize=0` keeps it that way - amix's
+    default `normalize=1` would otherwise auto-divide EVERY input's gain by
+    the input count, quietening narration along with music, which would
+    violate "narration stays the primary/loud track". The music bed
+    (`music_input_index:a`) is scaled to MUSIC_BASE_LEVEL, then muted or
+    ducked per _music_gain_windows, then faded in/out via `afade` using
+    MusicPlan's own first and last non-silent cue's already-computed
+    fade_in_seconds/fade_out_seconds - and ONLY those two, not every
+    interior cue's fade. Milestone A mixes one continuous track for the
+    whole video (see command_builder's single music `-i` input), so an
+    interior cue's fade_in/fade_out (planned for a future per-scene
+    track-switching milestone, where they'd smooth an actual file change at
+    that scene boundary) has nothing to smooth here - applying it anyway
+    would just dip the one continuous file's volume at every scene
+    boundary for no reason a viewer could attribute to anything happening
+    on screen or in the narration."""
+    current = f"{music_input_index}:a"
+    filters: List[str] = [f"[{current}]volume={MUSIC_BASE_LEVEL:g}[mbase]"]
+    current = "mbase"
+
+    for i, (start, end, gain) in enumerate(_music_gain_windows(music_plan)):
+        label = f"mgain{i}"
+        filters.append(
+            f"[{current}]volume={gain:g}:enable='between(t,{format_seconds(start)},{format_seconds(end)})'[{label}]"
+        )
+        current = label
+
+    non_silent = [cue for cue in music_plan.cues if not cue.is_silent]
+    if non_silent:
+        first_cue = non_silent[0]
+        if first_cue.fade_in_seconds > 0:
+            filters.append(
+                f"[{current}]afade=t=in:st={format_seconds(first_cue.start_time)}:"
+                f"d={format_seconds(first_cue.fade_in_seconds)}[mfadein]"
+            )
+            current = "mfadein"
+
+        last_cue = non_silent[-1]
+        if last_cue.fade_out_seconds > 0:
+            fade_start = max(last_cue.end_time - last_cue.fade_out_seconds, 0.0)
+            filters.append(
+                f"[{current}]afade=t=out:st={format_seconds(fade_start)}:"
+                f"d={format_seconds(last_cue.fade_out_seconds)}[mfadeout]"
+            )
+            current = "mfadeout"
+
+    filters.append(
+        f"[{narration_input_index}:a][{current}]amix=inputs=2:duration=first:"
+        f"dropout_transition=0:normalize=0[aout]"
+    )
+
+    return AudioFilterGraph(filter_complex=";".join(filters), audio_output_label="aout")

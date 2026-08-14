@@ -4,24 +4,32 @@ Pure name -> implementation lookup for video generation providers
 exactly. Adding a provider means adding one entry here and nowhere else -
 zero changes to the controller, the contracts, or any other provider's code.
 
-Milestone V2 (Stub Provider Foundation) registers exactly one provider,
-"stub" - the zero-cost local placeholder generator. It is registered under a
-non-default name on purpose: VideoGenerationOptions.provider still defaults
-to "google_veo" (shared_core/contracts/video_generation.py), which has no
-registered adapter yet, so resolving the bare default fails closed with
-VideoGenerationInputError rather than silently reaching for the stub. No
-Google Veo (or any other real provider) is implemented or registered by this
-milestone (ARCHITECTURE.md SS25.15).
+Milestone V2 (Stub Provider Foundation) registered exactly one provider,
+"stub" - the zero-cost local placeholder generator - under a non-default
+name on purpose: VideoGenerationOptions.provider defaults to "google_veo"
+(shared_core/contracts/video_generation.py), which had no registered adapter
+yet in V2, so resolving the bare default failed closed with
+VideoGenerationInputError rather than silently reaching for the stub.
+
+Milestone V3 (Real Google Veo Provider) registers "google_veo"
+(video_generation_engine/providers/google_veo.py) - the first real,
+network-backed provider. A bare-default VideoGenerationOptions now resolves
+to it; GoogleVeoProvider.authenticate() is what actually gates whether it's
+usable (missing credentials report ProviderInfo(available=False, ...), which
+the controller turns into VideoGenerationEnvironmentError - resolution
+itself never fails just because credentials happen to be unset).
 """
 
 from typing import Dict, Type
 
 from video_generation_engine.errors import VideoGenerationInputError
 from video_generation_engine.providers.base import VideoGenerationProvider
+from video_generation_engine.providers.google_veo import GoogleVeoProvider
 from video_generation_engine.providers.stub import StubProvider
 
 _PROVIDER_REGISTRY: Dict[str, Type[VideoGenerationProvider]] = {
     "stub": StubProvider,
+    "google_veo": GoogleVeoProvider,
 }
 
 

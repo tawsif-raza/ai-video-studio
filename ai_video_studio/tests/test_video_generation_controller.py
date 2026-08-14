@@ -1,5 +1,6 @@
 import pytest
 
+import config
 from project_manager.project import Project, ProjectState
 from shared_core.contracts.prompt_set import PromptSet, ShotPrompt
 from shared_core.contracts.render import ProbedMedia
@@ -197,14 +198,19 @@ def test_already_generated_shots_are_skipped_by_default(tmp_path):
 
 # ---- provider resolution / environment ----
 
-def test_default_options_provider_is_unregistered_google_veo(tmp_path):
-    # Hard verification of this milestone's constraint using the REAL
-    # registry (no fake resolver): a caller who never specifies
-    # options.provider must not reach any registered adapter.
+def test_default_options_provider_resolves_to_google_veo(tmp_path, monkeypatch):
+    # Milestone V3: google_veo is now a registered adapter, so the bare
+    # default (no options.provider override) must reach it - using the REAL
+    # registry (no fake resolver). Credentials are monkeypatched empty so
+    # this stays deterministic regardless of the real environment's .env;
+    # the resulting VideoGenerationEnvironmentError naming "google_veo"
+    # proves resolution reached the real adapter rather than failing at
+    # provider_registry lookup (that would be VideoGenerationInputError).
+    monkeypatch.setattr(config.settings, "GOOGLE_VEO_API_KEY", "")
     pm = _FakeProjectManager(project=_project(), prompt_set=_prompt_set(), media_video_dir=tmp_path)
     controller = VideoGenerationEngineController(pm)
 
-    with pytest.raises(VideoGenerationInputError) as exc:
+    with pytest.raises(VideoGenerationEnvironmentError) as exc:
         controller.run(project_id="p1", selections=[ShotMediaSelection(scene_id=1, shot_id=1, mode="video")])
     assert "google_veo" in str(exc.value)
 

@@ -1,0 +1,18 @@
+{
+  "tracks": [
+    {
+      "path": "calm_placeholder.wav",
+      "mood": "calm",
+      "tempo": "slow",
+      "intensity": "low",
+      "label": "Calm Placeholder Tone (STUB - replace with a real royalty-free track)"
+    },
+    {
+      "path": "neutral_placeholder.wav",
+      "mood": "neutral",
+      "tempo": "medium",
+      "intensity": "medium",
+      "label": "Neutral Placeholder Tone (STUB - replace with a real royalty-free track)"
+    }
+  ]
+}

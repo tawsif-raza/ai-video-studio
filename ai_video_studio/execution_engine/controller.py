@@ -28,6 +28,7 @@ from execution_engine.errors import ExecutionEnvironmentError, RenderInputError
 from execution_engine.ffmpeg_detector import detect_ffmpeg
 from execution_engine.ffmpeg_executor import execute
 from execution_engine.ffprobe_client import probe
+from execution_engine.music_library import load_library_index, resolve_music_asset
 from execution_engine.postflight import validate_render
 from execution_engine.preflight import verify_media_exists
 from execution_engine.segmented_renderer import execute_segmented, should_segment
@@ -73,14 +74,29 @@ class ExecutionEngineController:
         logger.info(f"FFmpeg detected: version={ffmpeg_info.version} path={ffmpeg_info.path}")
 
         # ---- Load every Producer Package input (Project Manager owns this I/O) ----
+        music_plan = self.project_manager.load_music_plan(project)
+
+        # ---- Resolve a music asset (ARCHITECTURE.md SS21 item 9) ----
+        # load_library_index is the boundary read; resolve_music_asset is
+        # pure. Neither raises - no match (or an empty/missing library)
+        # simply resolves to None, and every step downstream (preflight,
+        # command_builder) already treats that as "narration-only render",
+        # not an error.
+        music_asset_path = resolve_music_asset(music_plan, load_library_index())
+        if music_asset_path:
+            logger.info(f"Resolved music asset for mixing: {music_asset_path}")
+        else:
+            logger.info("No matching music asset resolved - narration-only render")
+
         request = RenderRequest(
             editing_plan=self.project_manager.load_editing_plan(project),
             asset_manifest=self.project_manager.load_asset_manifest(project),
             timeline=self.project_manager.load_producer_timeline(project),
             subtitle_plan=self.project_manager.load_subtitle_plan(project),
-            music_plan=self.project_manager.load_music_plan(project),
+            music_plan=music_plan,
             output_dir=str(self.project_manager.get_render_dir(project)),
             options=options,
+            music_asset_path=music_asset_path,
         )
 
         # ---- Validate inputs (contracts, then media existence) ----

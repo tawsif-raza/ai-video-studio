@@ -22,7 +22,8 @@ def _request(*, segments=None, options=None, output_dir="/out",
              manifest_valid=True, narration="/media/audio/voice_script.wav",
              timeline_id="tl1", manifest_id="m1", subtitle_id="sp1", music_id="mp1",
              ep_timeline_id=None, ep_subtitle_id=None, ep_music_id=None,
-             timeline_manifest_id=None, subtitle_timeline_id=None, music_timeline_id=None):
+             timeline_manifest_id=None, subtitle_timeline_id=None, music_timeline_id=None,
+             music_plan=None, music_asset_path=None):
     segments = segments if segments is not None else [_segment(1, 1, 0.0, 2.0), _segment(1, 2, 2.0, 5.0)]
     manifest = ValidatedAssetManifest(
         manifest_id=manifest_id, source_prompt_set_id="ps", is_valid=manifest_valid, narration_audio_path=narration,
@@ -35,7 +36,7 @@ def _request(*, segments=None, options=None, output_dir="/out",
         subtitle_plan_id=subtitle_id,
         source_timeline_id=subtitle_timeline_id if subtitle_timeline_id is not None else timeline_id,
     )
-    music_plan = MusicPlan(
+    music_plan = music_plan if music_plan is not None else MusicPlan(
         music_plan_id=music_id,
         source_timeline_id=music_timeline_id if music_timeline_id is not None else timeline_id,
     )
@@ -50,7 +51,7 @@ def _request(*, segments=None, options=None, output_dir="/out",
     return RenderRequest(
         editing_plan=editing_plan, asset_manifest=manifest, timeline=timeline,
         subtitle_plan=subtitle_plan, music_plan=music_plan, output_dir=output_dir,
-        options=options or RenderOptions(),
+        options=options or RenderOptions(), music_asset_path=music_asset_path,
     )
 
 
@@ -203,3 +204,55 @@ def test_editing_plan_music_reference_mismatch_rejected():
 
 def test_valid_request_passes():
     validate_render_request(_request())  # should not raise
+
+
+# ---- music mixing wiring ----
+
+def test_no_music_asset_keeps_raw_narration_passthrough():
+    # graceful-degrade baseline: music_asset_path=None (its default) must
+    # produce byte-identical behavior to before audio mixing existed.
+    spec = build_command(_request(segments=[_segment(1, 1, 0.0, 2.0)]))
+    assert len(spec.inputs) == 2  # 1 visual segment + narration only
+    assert spec.output_args[2] == "-map"
+    assert spec.output_args[3] == "1:a"
+    assert "amix" not in spec.filter_complex
+
+
+def test_resolved_music_asset_added_as_final_input():
+    spec = build_command(_request(
+        segments=[_segment(1, 1, 0.0, 2.0)], music_asset_path="/media/music/calm.wav",
+    ))
+    assert len(spec.inputs) == 3  # 1 visual segment + narration + music
+    assert spec.inputs[-1].kind == "audio"
+    assert spec.inputs[-1].path == "/media/music/calm.wav"
+
+
+def test_resolved_music_asset_maps_amix_output_not_raw_narration():
+    spec = build_command(_request(
+        segments=[_segment(1, 1, 0.0, 2.0)], music_asset_path="/media/music/calm.wav",
+    ))
+    assert spec.output_args[2] == "-map"
+    assert spec.output_args[3] == "[aout]"
+    assert "amix=inputs=2" in spec.filter_complex
+
+
+def test_resolved_music_audio_graph_appended_to_visual_filter_complex():
+    spec = build_command(_request(
+        segments=[_segment(1, 1, 0.0, 2.0), _segment(1, 2, 2.0, 5.0)],
+        music_asset_path="/media/music/calm.wav",
+    ))
+    # both the visual graph's own signature (concat, since these two
+    # segments cut-join within one scene) and the audio graph's amix are
+    # present in the single filter_complex string
+    assert "concat=n=2:v=1:a=0" in spec.filter_complex
+    assert "amix=inputs=2" in spec.filter_complex
+
+
+def test_music_input_references_narration_index_correctly_in_audio_graph():
+    # 2 visual segments (indices 0,1) + narration (index 2) + music (index 3)
+    spec = build_command(_request(
+        segments=[_segment(1, 1, 0.0, 2.0), _segment(1, 2, 2.0, 5.0)],
+        music_asset_path="/media/music/calm.wav",
+    ))
+    assert "[2:a]" in spec.filter_complex  # narration mapped raw into amix
+    assert spec.inputs[3].path == "/media/music/calm.wav"

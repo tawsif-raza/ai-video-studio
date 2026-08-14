@@ -10,7 +10,7 @@ from shared_core.contracts.subtitle import SubtitlePlan
 from shared_core.contracts.timeline import Timeline
 
 
-def _request(image_path, narration_path):
+def _request(image_path, narration_path, music_asset_path=None):
     segment = EditingSegment(
         scene_id=1, shot_id=1, asset_path=str(image_path), asset_type="image",
         start_time=0.0, end_time=2.0, music_cue_scene_id=1, transition_in="cut", transition_out="cut",
@@ -28,6 +28,7 @@ def _request(image_path, narration_path):
         subtitle_plan=SubtitlePlan(subtitle_plan_id="sp1", source_timeline_id="tl1"),
         music_plan=MusicPlan(music_plan_id="mp1", source_timeline_id="tl1"),
         output_dir="/out",
+        music_asset_path=str(music_asset_path) if music_asset_path is not None else None,
     )
 
 
@@ -86,3 +87,40 @@ def test_black_placeholder_segment_skips_file_check(tmp_path):
     )
 
     verify_media_exists(request)  # should not raise
+
+
+# ---- music asset preflight (ARCHITECTURE.md SS21 item 9) ----
+
+def test_no_resolved_music_asset_is_not_checked(tmp_path):
+    # music_asset_path=None (no match / no library) must never be treated as
+    # a missing-media problem - that's the graceful-degrade path, not an
+    # integrity error.
+    image = tmp_path / "scene_1_shot_1.png"
+    image.write_bytes(b"x" * 100)
+    narration = tmp_path / "voice_script.wav"
+    narration.write_bytes(b"a" * 100)
+
+    verify_media_exists(_request(image, narration, music_asset_path=None))  # should not raise
+
+
+def test_passes_when_resolved_music_asset_exists(tmp_path):
+    image = tmp_path / "scene_1_shot_1.png"
+    image.write_bytes(b"x" * 100)
+    narration = tmp_path / "voice_script.wav"
+    narration.write_bytes(b"a" * 100)
+    music = tmp_path / "calm.wav"
+    music.write_bytes(b"m" * 100)
+
+    verify_media_exists(_request(image, narration, music_asset_path=music))  # should not raise
+
+
+def test_raises_when_resolved_music_asset_missing_same_severity_as_shot_asset(tmp_path):
+    image = tmp_path / "scene_1_shot_1.png"
+    image.write_bytes(b"x" * 100)
+    narration = tmp_path / "voice_script.wav"
+    narration.write_bytes(b"a" * 100)
+    missing_music = tmp_path / "calm.wav"  # never created
+
+    with pytest.raises(MediaAccessError) as exc:
+        verify_media_exists(_request(image, narration, music_asset_path=missing_music))
+    assert "calm.wav" in str(exc.value)

@@ -49,9 +49,10 @@ class VideoGenerationOptions(BaseModel):
     explicitly opt into the zero-cost stub (provider="stub") rather than a
     bare default ever silently reaching for it, the same "explicit, not
     implicit" discipline PublishOptions.visibility_override already applies
-    to publishing visibility. Since no google_veo adapter is registered yet
-    (SS25.5/SS25.15), resolving the bare default fails closed with
-    VideoGenerationInputError until a later milestone registers one."""
+    to publishing visibility. Milestone V3 registers a real "google_veo"
+    adapter (video_generation_engine/providers/google_veo.py), so the bare
+    default now resolves to it; GoogleVeoProvider.authenticate() (missing
+    credentials) is what actually gates usability, not provider resolution."""
 
     provider: str = "google_veo"
     aspect_ratio: str = "9:16"

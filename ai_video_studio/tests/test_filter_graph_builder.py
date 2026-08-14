@@ -4,9 +4,13 @@ from execution_engine.errors import RenderInputError
 from execution_engine.filter_graph_builder import (
     CROSSFADE_SECONDS,
     EDGE_FADE_SECONDS,
+    MUSIC_BASE_LEVEL,
+    MUSIC_DUCK_FACTOR,
+    build_audio_filter_graph,
     build_visual_filter_graph,
 )
 from shared_core.contracts.editing_plan import EditingPlan, EditingSegment
+from shared_core.contracts.music_plan import DuckWindow, MusicCue, MusicPlan
 from shared_core.contracts.render import RenderOptions
 
 
@@ -216,3 +220,121 @@ def test_edge_fade_constant_used_when_uncapped():
     plan = _plan(_segment(1, 1, 0.0, 10.0, transition_in="fade_from_black"))
     graph = build_visual_filter_graph(plan, _default_options())
     assert f"d={EDGE_FADE_SECONDS:g}" in graph.filter_complex
+
+
+# ---- audio mixing (build_audio_filter_graph) ----
+
+def _music_cue(scene_id, start, end, *, is_silent=False, fade_in=0.0, fade_out=0.0, duck_windows=None):
+    return MusicCue(
+        scene_id=scene_id, start_time=start, end_time=end, mood="calm", tempo="slow", intensity="low",
+        is_silent=is_silent, fade_in_seconds=fade_in, fade_out_seconds=fade_out,
+        duck_windows=duck_windows or [],
+    )
+
+
+def _music_plan(*cues):
+    return MusicPlan(music_plan_id="mp1", source_timeline_id="tl1", cues=list(cues))
+
+
+def test_narration_mapped_unfiltered_and_stays_primary_via_normalize_zero():
+    plan = _music_plan(_music_cue(1, 0.0, 5.0))
+    graph = build_audio_filter_graph(plan, narration_input_index=2, music_input_index=3)
+
+    assert "[2:a]" in graph.filter_complex  # narration referenced raw, never filtered
+    assert "amix=inputs=2" in graph.filter_complex
+    assert "normalize=0" in graph.filter_complex
+    assert graph.audio_output_label == "aout"
+
+
+def test_music_scaled_to_base_level():
+    plan = _music_plan(_music_cue(1, 0.0, 5.0))
+    graph = build_audio_filter_graph(plan, narration_input_index=1, music_input_index=2)
+    assert f"[2:a]volume={MUSIC_BASE_LEVEL:g}[mbase]" in graph.filter_complex
+
+
+def test_silent_cue_mutes_music_for_its_whole_span():
+    plan = _music_plan(_music_cue(1, 0.0, 5.0, is_silent=True))
+    graph = build_audio_filter_graph(plan, narration_input_index=1, music_input_index=2)
+    assert "volume=0:enable='between(t,0,5)'" in graph.filter_complex
+
+
+def test_duck_window_reduces_by_duck_factor_not_absolute_level():
+    plan = _music_plan(_music_cue(1, 0.0, 10.0, duck_windows=[DuckWindow(start_time=2.0, end_time=4.0)]))
+    graph = build_audio_filter_graph(plan, narration_input_index=1, music_input_index=2)
+    assert f"volume={MUSIC_DUCK_FACTOR:g}:enable='between(t,2,4)'" in graph.filter_complex
+
+
+def test_multiple_duck_windows_all_present_and_sorted():
+    plan = _music_plan(_music_cue(
+        1, 0.0, 20.0,
+        duck_windows=[DuckWindow(start_time=10.0, end_time=12.0), DuckWindow(start_time=1.0, end_time=3.0)],
+    ))
+    graph = build_audio_filter_graph(plan, narration_input_index=1, music_input_index=2)
+    first_idx = graph.filter_complex.index("between(t,1,3)")
+    second_idx = graph.filter_complex.index("between(t,10,12)")
+    assert first_idx < second_idx  # sorted by start_time regardless of input order
+
+
+def test_fade_in_uses_first_non_silent_cues_own_values():
+    plan = _music_plan(_music_cue(1, 0.0, 5.0, fade_in=1.5))
+    graph = build_audio_filter_graph(plan, narration_input_index=1, music_input_index=2)
+    assert "afade=t=in:st=0:d=1.5[mfadein]" in graph.filter_complex
+
+
+def test_fade_in_anchored_to_first_non_silent_cues_start_time_when_earlier_cue_is_silent():
+    plan = _music_plan(
+        _music_cue(1, 0.0, 3.0, is_silent=True),
+        _music_cue(2, 3.0, 10.0, fade_in=1.0),
+    )
+    graph = build_audio_filter_graph(plan, narration_input_index=1, music_input_index=2)
+    assert "afade=t=in:st=3:d=1[mfadein]" in graph.filter_complex
+
+
+def test_fade_out_uses_last_non_silent_cues_own_values():
+    plan = _music_plan(_music_cue(1, 0.0, 10.0, fade_out=2.0))
+    graph = build_audio_filter_graph(plan, narration_input_index=1, music_input_index=2)
+    assert "afade=t=out:st=8:d=2[mfadeout]" in graph.filter_complex
+
+
+def test_interior_cue_fades_not_applied_only_outermost():
+    # three non-silent cues: only the first cue's fade_in and the last cue's
+    # fade_out should produce an afade - the middle cue's own fade values
+    # (meant for a future per-scene-track milestone) must not dip the one
+    # continuous track mid-video.
+    plan = _music_plan(
+        _music_cue(1, 0.0, 5.0, fade_in=1.5, fade_out=1.0),
+        _music_cue(2, 5.0, 10.0, fade_in=1.0, fade_out=1.0),
+        _music_cue(3, 10.0, 15.0, fade_in=1.0, fade_out=1.5),
+    )
+    graph = build_audio_filter_graph(plan, narration_input_index=1, music_input_index=2)
+    assert graph.filter_complex.count("afade=t=in") == 1
+    assert graph.filter_complex.count("afade=t=out") == 1
+    assert "afade=t=in:st=0:d=1.5" in graph.filter_complex
+    assert "afade=t=out:st=13.5:d=1.5" in graph.filter_complex
+
+
+def test_zero_fade_values_produce_no_afade():
+    plan = _music_plan(_music_cue(1, 0.0, 5.0, fade_in=0.0, fade_out=0.0))
+    graph = build_audio_filter_graph(plan, narration_input_index=1, music_input_index=2)
+    assert "afade" not in graph.filter_complex
+
+
+def test_no_cues_still_produces_a_valid_mix_graph():
+    plan = _music_plan()
+    graph = build_audio_filter_graph(plan, narration_input_index=1, music_input_index=2)
+    assert "amix=inputs=2" in graph.filter_complex
+    assert "afade" not in graph.filter_complex
+
+
+def test_all_silent_cues_music_muted_throughout_but_graph_still_valid():
+    plan = _music_plan(_music_cue(1, 0.0, 5.0, is_silent=True))
+    graph = build_audio_filter_graph(plan, narration_input_index=1, music_input_index=2)
+    assert "volume=0:enable='between(t,0,5)'" in graph.filter_complex
+    assert "afade" not in graph.filter_complex  # no non-silent cue to anchor a fade to
+
+
+def test_same_input_produces_identical_audio_graph():
+    plan = _music_plan(_music_cue(1, 0.0, 5.0, fade_in=1.0, fade_out=1.0))
+    first = build_audio_filter_graph(plan, narration_input_index=1, music_input_index=2)
+    second = build_audio_filter_graph(plan, narration_input_index=1, music_input_index=2)
+    assert first == second

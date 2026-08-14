@@ -140,7 +140,17 @@ class RenderRequest(BaseModel):
     """The typed bundle the Execution Engine consumes - every Producer Package
     artifact the render needs, reconstructed by Project Manager, plus the
     render output directory it provided and the caller's options. The engine
-    never opens these files itself; it operates on this typed request."""
+    never opens these files itself; it operates on this typed request.
+
+    music_asset_path (added for audio mixing, ARCHITECTURE.md SS21 item 9) is
+    not part of any Producer Package artifact - it's the controller's own
+    resolve_music_asset(music_plan, ...) result (execution_engine/
+    music_library.py), carried on the request so preflight.py and
+    command_builder.py both see the same already-resolved path without
+    re-deriving it. None (the default - every existing caller is unaffected)
+    means no music matched the library, or no library has been supplied yet;
+    command_builder falls back to narration-only passthrough exactly as
+    before this field existed."""
 
     editing_plan: EditingPlan
     asset_manifest: ValidatedAssetManifest
@@ -149,6 +159,7 @@ class RenderRequest(BaseModel):
     music_plan: MusicPlan
     output_dir: str
     options: RenderOptions = Field(default_factory=RenderOptions)
+    music_asset_path: Optional[str] = None
 
 
 class RenderResult(BaseModel):
