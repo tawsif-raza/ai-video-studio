@@ -1,7 +1,7 @@
 import argparse
 
 from director_studio.controller import DirectorStudioController
-from llm.groq_client import GroqClient as LLMClient
+from llm.failover_client import FailoverLLMClient as LLMClient
 from llm.gemini_image_client import GeminiImageClient
 from project_manager.manager import ProjectManager
 

@@ -1144,3 +1144,6 @@ Breaking changes require:
 - Migration plan
 
 Minor implementation changes do not require architecture updates.
+
+Draft amendment, prepared for review before merging into ARCHITECTURE.md. Follows the document's own §2 rule: "the difference is proposed as an amendment to this document first, not made silently." Closes Technical Debt Ledger item §21.9 (audio-mixing half only — subtitle burn-in remains open, see updated §21 entry below) and the audio-mixing item in §23's Future Expansion Plan.
+

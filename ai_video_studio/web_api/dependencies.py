@@ -4,7 +4,7 @@ from fastapi import Request
 
 from director_studio.controller import DirectorStudioController
 from execution_engine.controller import ExecutionEngineController
-from llm.groq_client import GroqClient as LLMClient
+from llm.failover_client import FailoverLLMClient as LLMClient
 from producer_studio.controller import ProducerStudioController
 from project_manager.manager import ProjectManager
 from publishing_engine.controller import PublishingEngineController
@@ -34,10 +34,10 @@ def get_run_registry(request: Request) -> RunRegistry:
 
 def get_llm_client_factory():
     """Returns the same LLM client class app.py already uses
-    (llm.groq_client.GroqClient) - a factory, not an instance, so each
-    Director Studio run gets its own client the same way app.py's main()
-    does. Overridden in tests via app.dependency_overrides to inject a fake
-    LLM client without touching Director Studio."""
+    (llm.failover_client.FailoverLLMClient) - a factory, not an instance, so
+    each Director Studio run gets its own client the same way app.py's
+    main() does. Overridden in tests via app.dependency_overrides to inject
+    a fake LLM client without touching Director Studio."""
     return LLMClient
 
 

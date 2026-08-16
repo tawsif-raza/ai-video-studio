@@ -15,8 +15,11 @@ class Settings:
     OPENAI_API_KEY: str = os.getenv("OPENAI_API_KEY", "")
     GPT_MODEL: str = os.getenv("GPT_MODEL", "gpt-4o-mini")
 
-    GROQ_API_KEYS: list = [k.strip() for k in os.getenv("GROQ_API_KEYS", "").split(",") if k.strip()]
+    GROQ_API_KEYS: list = [k.strip() for k in os.getenv("GROQ_API_KEY", "").split(",") if k.strip()]
     GROQ_MODEL: str = os.getenv("GROQ_MODEL", "llama-3.3-70b-versatile")
+
+    CEREBRAS_API_KEY: str = os.getenv("CEREBRAS_API_KEY", "")
+    CEREBRAS_MODEL: str = os.getenv("CEREBRAS_MODEL", "gpt-oss-120b")
 
     # Google Veo (video_generation_engine/providers/google_veo.py) uses the
     # same Google AI Studio account as Gemini - GOOGLE_VEO_API_KEY lets a
@@ -53,5 +56,5 @@ if not settings.OPENAI_API_KEY:
 
 if not settings.GROQ_API_KEYS:
     warnings.warn(
-        "GROQ_API_KEYS not set - Groq-backed agents will fail until you set it in .env"
+        "GROQ_API_KEY not set - Groq-backed agents will fail until you set it in .env"
     )
