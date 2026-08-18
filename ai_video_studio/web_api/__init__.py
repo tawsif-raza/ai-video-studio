@@ -15,6 +15,15 @@ from web_api.run_registry import RunRegistry
 # dev-server default; falls back to the Next.js dev server's origin.
 _DEFAULT_CORS_ORIGINS = ["http://localhost:3000", "http://127.0.0.1:3000"]
 
+# Every Vercel preview and production deployment of the dashboard project
+# lives under this pattern (per-PR previews get a random hash suffix, branch
+# previews get "git-<branch>"), matched by regex so a new preview URL works
+# without an env var update on Railway for every deploy. Exact origins from
+# DASHBOARD_CORS_ORIGINS are still required for anything outside Vercel.
+_VERCEL_PREVIEW_ORIGIN_RE = (
+    r"^https://ai-video-studio-dashboard(-[a-z0-9-]+)?-team-jarvy\.vercel\.app$"
+)
+
 
 def _cors_origins() -> list[str]:
     raw = os.getenv("DASHBOARD_CORS_ORIGINS")
@@ -37,6 +46,7 @@ def create_app() -> FastAPI:
     app.add_middleware(
         CORSMiddleware,
         allow_origins=_cors_origins(),
+        allow_origin_regex=_VERCEL_PREVIEW_ORIGIN_RE,
         allow_methods=["*"],
         allow_headers=["*"],
     )
