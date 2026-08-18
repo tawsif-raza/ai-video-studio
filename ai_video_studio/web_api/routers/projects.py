@@ -63,6 +63,8 @@ def create_project(
         audience=body.audience,
         art_style=body.art_style,
         skip_research=body.skip_research,
+        scene_count_mode=body.scene_count_mode,
+        scene_count=body.scene_count,
         llm_client_factory=llm_client_factory,
         controller_factory=controller_factory,
     )

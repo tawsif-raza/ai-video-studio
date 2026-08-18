@@ -1,5 +1,7 @@
 import uuid
 
+import pytest
+
 from tests.web_api.conftest import (
     FailingDirectorController,
     SucceedingDirectorController,
@@ -88,3 +90,48 @@ def test_delete_project_unknown_id_returns_404(client):
     response = client.delete(f"/projects/{uuid.uuid4()}")
 
     assert response.status_code == 404
+
+
+def test_create_project_custom_scene_count_is_accepted(client, app_):
+    response = post_with_controller(
+        client, app_, SucceedingDirectorController,
+        body={"idea": "A brave explorer", "scene_count_mode": "custom", "scene_count": 10},
+    )
+    assert response.status_code == 202
+
+
+@pytest.mark.parametrize(
+    "scene_count_mode,scene_count",
+    [
+        ("custom", 0),
+        ("custom", -1),
+        ("custom", 25.5),
+        ("custom", "twelve"),
+        ("custom", 101),  # above MAX_SCENE_COUNT (config.py default 100)
+        ("custom", None),  # missing scene_count with custom mode
+        ("default", 20),  # scene_count set while mode is 'default'
+    ],
+)
+def test_create_project_rejects_invalid_scene_count(client, app_, scene_count_mode, scene_count):
+    response = post_with_controller(
+        client, app_, SucceedingDirectorController,
+        body={"idea": "A brave explorer", "scene_count_mode": scene_count_mode, "scene_count": scene_count},
+    )
+    assert response.status_code == 422
+
+
+def test_create_project_rejects_duration_too_short_for_scene_count(client, app_):
+    """Section 13 Test 6 (duration conflict): a duration that can't
+    physically fit the requested scene count (each scene needs >= 2s) must
+    be rejected up front, rather than silently falling back toward the
+    default ~20-21 scene behavior or burning retries against the LLM."""
+    response = post_with_controller(
+        client, app_, SucceedingDirectorController,
+        body={
+            "idea": "A brave explorer",
+            "duration_seconds": 10,
+            "scene_count_mode": "custom",
+            "scene_count": 10,  # needs >= 20s at the 2s-per-scene floor
+        },
+    )
+    assert response.status_code == 422

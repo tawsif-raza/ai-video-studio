@@ -57,6 +57,8 @@ class DirectorStudioController:
         skip_images=False,
         generate_images=False,
         skip_research=False,
+        scene_count_mode="default",
+        scene_count=None,
         image_client_factory=None,
     ):
         llm = self.llm
@@ -66,6 +68,17 @@ class DirectorStudioController:
             logger.warning(
                 "--skip-images is deprecated and now a no-op: image generation is "
                 "opt-in by default. Use --generate-images to run it."
+            )
+
+        if scene_count_mode == "custom":
+            logger.info(
+                f"Scene Count Mode: custom | Requested Scene Count: {scene_count} | "
+                f"Target Scene Count: {scene_count}"
+            )
+        else:
+            logger.info(
+                "Scene Count Mode: default | Scene Count Strategy: existing default "
+                "logic (LLM-judged from duration, ~20-21 scenes typical)"
             )
 
         # ---- Node 0: Research (optional) ----
@@ -96,6 +109,8 @@ class DirectorStudioController:
             audience=audience,
             research_key_facts=research_key_facts,
             research_considerations=research_considerations,
+            scene_count_mode=scene_count_mode,
+            scene_count=scene_count,
         )
         story_result = story_agent.run(story_input)
 
@@ -104,6 +119,7 @@ class DirectorStudioController:
             raise SystemExit(1)
 
         plan = story_result.data
+        logger.info(f"Generated Scene Count: {len(plan.scenes)}")
         project = self.project_manager.save_story_plan(project, plan)
 
         # ---- Node 2: Scene Planner ----

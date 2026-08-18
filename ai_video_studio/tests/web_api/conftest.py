@@ -32,7 +32,7 @@ class SucceedingDirectorController:
     def __init__(self, llm_client, project_manager):
         self.project_manager = project_manager
 
-    def run(self, *, idea, duration, tone, audience, art_style, skip_research):
+    def run(self, *, idea, duration, tone, audience, art_style, skip_research, scene_count_mode="default", scene_count=None):
         project = self.project_manager.create_project()
         self.project_manager.save_prompt_set(project, PromptSet())
 

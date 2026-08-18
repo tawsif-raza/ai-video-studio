@@ -164,6 +164,12 @@ def _build_metadata(
         "tone": tone,
         "audience": audience,
         "art_style": art_style,
+        # Custom Scene Count Override observability (New Project UI): lets a
+        # human (or a debugging session) see why a project ended up with the
+        # scene count it did, without digging through pipeline logs.
+        "scene_count_mode": plan.scene_count_mode,
+        "requested_scene_count": plan.scene_count,
+        "generated_scene_count": len(plan.scenes),
     }
 
 

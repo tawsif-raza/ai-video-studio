@@ -40,6 +40,12 @@ class Settings:
     LLM_TEMPERATURE: float = float(os.getenv("LLM_TEMPERATURE", "0.8"))
     LLM_MAX_OUTPUT_TOKENS: int = int(os.getenv("LLM_MAX_OUTPUT_TOKENS", "4096"))
 
+    # Bounds for Director Studio's custom scene count override (New Project ->
+    # Custom Scene Count). Env-overridable so a deployment can widen/narrow
+    # the allowed range without a code change.
+    MIN_SCENE_COUNT: int = int(os.getenv("MIN_SCENE_COUNT", "1"))
+    MAX_SCENE_COUNT: int = int(os.getenv("MAX_SCENE_COUNT", "100"))
+
 
 settings = Settings()
 settings.OUTPUT_DIR.mkdir(exist_ok=True)

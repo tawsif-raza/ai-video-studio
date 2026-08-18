@@ -1,9 +1,10 @@
 from datetime import datetime
 from enum import Enum
-from typing import List, Optional
+from typing import List, Literal, Optional
 
-from pydantic import BaseModel
+from pydantic import BaseModel, model_validator
 
+from config import settings
 from shared_core.contracts.render import RenderOptions
 from web_api.run_registry import RunStatus
 
@@ -22,7 +23,13 @@ class CreateProjectRequest(BaseModel):
     generate_images/skip_images are deliberately omitted - image generation
     is an explicit, opt-in manual tool even on the CLI (ARCHITECTURE.md
     SS2/SS15 Phase 6), out of scope for triggering a project from the
-    dashboard in this milestone."""
+    dashboard in this milestone.
+
+    scene_count_mode/scene_count implement the Custom Scene Count Override
+    (New Project UI): "default" (the pre-existing behavior, unchanged)
+    leaves scene count entirely to the Story Planner's own judgment;
+    "custom" makes scene_count a hard requirement the whole pipeline must
+    hit exactly, validated here before a background run is even started."""
 
     idea: str
     duration_seconds: int = 150
@@ -30,6 +37,34 @@ class CreateProjectRequest(BaseModel):
     audience: Optional[str] = None
     art_style: Optional[str] = None
     skip_research: bool = False
+    scene_count_mode: Literal["default", "custom"] = "default"
+    scene_count: Optional[int] = None
+
+    @model_validator(mode="after")
+    def _validate_scene_count(self) -> "CreateProjectRequest":
+        if self.scene_count_mode == "custom":
+            if self.scene_count is None:
+                raise ValueError("scene_count is required when scene_count_mode is 'custom'")
+            if not (settings.MIN_SCENE_COUNT <= self.scene_count <= settings.MAX_SCENE_COUNT):
+                raise ValueError(
+                    f"scene_count must be between {settings.MIN_SCENE_COUNT} and "
+                    f"{settings.MAX_SCENE_COUNT}, got {self.scene_count}"
+                )
+            # SceneBrief.estimated_duration_seconds has a 2s floor
+            # (shared_core/contracts/production_plan.py) - below this, no
+            # scene plan could ever satisfy both the exact scene count and
+            # the duration-tolerance check together, so fail fast here
+            # rather than burning retries against the LLM.
+            min_feasible_duration = self.scene_count * 2
+            if self.duration_seconds < min_feasible_duration:
+                raise ValueError(
+                    f"duration_seconds ({self.duration_seconds}) is too short for "
+                    f"{self.scene_count} scenes - each scene needs at least 2s, so "
+                    f"duration_seconds must be at least {min_feasible_duration}"
+                )
+        elif self.scene_count is not None:
+            raise ValueError("scene_count must be omitted (or null) when scene_count_mode is 'default'")
+        return self
 
 
 class RunAccepted(BaseModel):

@@ -502,6 +502,168 @@ def test_pipeline_stops_on_research_failure(monkeypatch, tmp_path):
     assert not (project_dirs[0] / "production-package").exists()
 
 
+def _n_scene_story_response(scene_count, duration, char_name="Mira"):
+    per_scene = duration // scene_count
+    return json.dumps(
+        {
+            "title": "Test Story",
+            "logline": "A test story for pipeline verification",
+            "theme": "courage",
+            "target_duration_seconds": duration,
+            "tone": "uplifting",
+            "characters": [{"name": char_name, "role": "protagonist", "one_line_description": "A brave explorer"}],
+            "scenes": [
+                {
+                    "scene_id": i,
+                    "title": f"Scene {i}",
+                    "summary": f"Beat {i} of the journey",
+                    "setting": "forest",
+                    "mood": "hopeful",
+                    "characters_present": [char_name],
+                    "estimated_duration_seconds": per_scene,
+                }
+                for i in range(1, scene_count + 1)
+            ],
+        }
+    )
+
+
+def _n_scene_one_shot_each_response(scene_count, shot_duration, char_name="Mira"):
+    """Shared shape for both Scene Planner and Shot Planner responses - one
+    shot per scene, sequentially numbered shot_ids across the whole story."""
+    return json.dumps(
+        {
+            "scene_plans": [
+                {
+                    "scene_id": i,
+                    "shots": [
+                        {
+                            "shot_id": i,
+                            "description": f"{char_name} acts in scene {i}",
+                            "characters_in_shot": [char_name],
+                            "duration_seconds": shot_duration,
+                        }
+                    ],
+                }
+                for i in range(1, scene_count + 1)
+            ]
+        }
+    )
+
+
+def _n_scene_camera_response(scene_count):
+    # Alternates between two distinct camera treatments - CameraPlannerAgent's
+    # validator (agents/camera_planner/validator.py) rejects a plan that
+    # assigns the identical angle+movement to every shot once there are more
+    # than two shots total.
+    treatments = [("wide shot", "static"), ("close-up", "slow zoom in")]
+    return json.dumps(
+        {
+            "scene_plans": [
+                {
+                    "scene_id": i,
+                    "shots": [
+                        {
+                            "shot_id": i,
+                            "camera_angle": treatments[i % 2][0],
+                            "camera_movement": treatments[i % 2][1],
+                        }
+                    ],
+                }
+                for i in range(1, scene_count + 1)
+            ]
+        }
+    )
+
+
+def _n_scene_voice_script_response(scene_count, char_name="Mira"):
+    return json.dumps(
+        {
+            "lines": [
+                {"scene_id": i, "narration_text": f"{char_name} moves through scene {i}."}
+                for i in range(1, scene_count + 1)
+            ]
+        }
+    )
+
+
+def test_custom_scene_count_survives_full_pipeline_and_duration_does_not_override_it(monkeypatch, tmp_path):
+    """Section 13 Test 6 (duration conflict), run end to end through the
+    real CLI/controller pipeline: duration_seconds=150 alone would nudge
+    the Story Planner toward its usual ~20-21 scene default, but an
+    explicit --scene-count-mode=custom --scene-count=10 must produce
+    exactly 10 scenes in the final production plan/storyboard/shot plan -
+    never falling back toward the default count."""
+    scene_count = 10
+    duration = 150
+    per_scene_duration = duration // scene_count  # 15s/scene, within ShotBrief's 1-15s bound
+
+    responses = [
+        _n_scene_story_response(scene_count, duration),
+        _n_scene_one_shot_each_response(scene_count, per_scene_duration),  # Scene Planner
+        _n_scene_one_shot_each_response(scene_count, per_scene_duration),  # Shot Planner
+        _n_scene_camera_response(scene_count),
+        _character_response(),
+        _environment_response(),
+    ]
+    for i in range(1, scene_count + 1):
+        responses.append(
+            _shot_response(
+                f"A cinematic wide shot of Mira in the misty forest, beat number {i} of the journey",
+                f"Camera slowly pushes in as Mira reacts during beat number {i} of the journey",
+            )
+        )
+    responses.append(_n_scene_voice_script_response(scene_count))
+
+    _run_app(
+        monkeypatch,
+        tmp_path,
+        [
+            "app.py", "--idea", "A brave explorer", "--duration", str(duration),
+            "--skip-research", "--scene-count-mode", "custom", "--scene-count", str(scene_count),
+        ],
+        responses,
+    )
+
+    plan_files = list(tmp_path.glob("production_plan_*.json"))
+    assert len(plan_files) == 1
+    plan = json.loads(plan_files[0].read_text())
+    assert len(plan["scenes"]) == scene_count
+    assert plan["scene_count_mode"] == "custom"
+    assert plan["scene_count"] == scene_count
+
+    storyboard_files = list(tmp_path.glob("storyboard_*.json"))
+    storyboard = json.loads(storyboard_files[0].read_text())
+    assert len(storyboard["scene_plans"]) == scene_count
+
+    project_dirs = list((tmp_path / "projects").iterdir())
+    package_dir = project_dirs[0] / "production-package"
+    metadata = json.loads((package_dir / "metadata.json").read_text())
+    assert metadata["scene_count_mode"] == "custom"
+    assert metadata["requested_scene_count"] == scene_count
+    assert metadata["generated_scene_count"] == scene_count
+
+    scene_plan = json.loads((package_dir / "scene_plan.json").read_text())
+    assert len(scene_plan) == scene_count
+
+
+def test_default_scene_count_unaffected_by_custom_scene_count_plumbing(monkeypatch, tmp_path):
+    """Backward compatibility (section 10): a run with no scene-count flags
+    at all must behave exactly as before - scene_count_mode defaults to
+    'default' and scene_count stays null on the persisted plan."""
+    _run_app(
+        monkeypatch,
+        tmp_path,
+        ["app.py", "--idea", "A brave explorer", "--duration", "30"],
+        _happy_path_responses(),
+    )
+
+    plan_files = list(tmp_path.glob("production_plan_*.json"))
+    plan = json.loads(plan_files[0].read_text())
+    assert plan["scene_count_mode"] == "default"
+    assert plan["scene_count"] is None
+
+
 def test_pipeline_stops_on_voice_script_failure(monkeypatch, tmp_path):
     """Voice Script runs last, after Prompt Intelligence - a validator failure
     there must still fail fast (ARCHITECTURE.md §13) rather than exporting a

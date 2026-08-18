@@ -55,6 +55,8 @@ def run_director_pipeline(
     skip_research: bool,
     llm_client_factory,
     controller_factory,
+    scene_count_mode: str = "default",
+    scene_count: Optional[int] = None,
 ) -> None:
     """Background-task entry point for POST /projects. Runs the unmodified
     controller exactly as app.py does - same llm client type, same
@@ -81,6 +83,8 @@ def run_director_pipeline(
             audience=audience,
             art_style=art_style,
             skip_research=skip_research,
+            scene_count_mode=scene_count_mode,
+            scene_count=scene_count,
         )
         # Same convention app.py's stdout output follows: the "result" of a
         # successful run is the PromptSet the pipeline produced. Reloaded

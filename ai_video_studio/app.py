@@ -24,7 +24,22 @@ def main():
         help="[Deprecated, no-op] Image generation is now opt-in by default; use --generate-images instead.",
     )
     parser.add_argument("--skip-research", action="store_true", help="Skip the Research stage and go straight to Story Planner")
+    parser.add_argument(
+        "--scene-count-mode",
+        choices=["default", "custom"],
+        default="default",
+        help="'default' keeps the existing LLM-judged scene count; 'custom' requires --scene-count and makes it a hard requirement.",
+    )
+    parser.add_argument(
+        "--scene-count",
+        type=int,
+        default=None,
+        help="Exact number of scenes to generate. Required when --scene-count-mode=custom; ignored otherwise.",
+    )
     args = parser.parse_args()
+
+    if args.scene_count_mode == "custom" and args.scene_count is None:
+        parser.error("--scene-count is required when --scene-count-mode=custom")
 
     llm = LLMClient()
     project_manager = ProjectManager()
@@ -38,6 +53,8 @@ def main():
         skip_images=args.skip_images,
         generate_images=args.generate_images,
         skip_research=args.skip_research,
+        scene_count_mode=args.scene_count_mode,
+        scene_count=args.scene_count,
         image_client_factory=GeminiImageClient,
     )
 
