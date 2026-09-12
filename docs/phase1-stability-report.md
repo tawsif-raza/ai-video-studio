@@ -51,9 +51,7 @@ The instability stemmed from several compounding architectural flaws:
 * **Frontend:** 148 passed, 0 failed.
 
 ## Performance After
-* **Uploads:** Peak memory usage during massive video uploads stays nearly flat as it streams directly to disk.
-* **Concurrency:** The application handles simulated burst authentication with sub-millisecond I/O footprint via the `LocalUserStore` index.
-* **UI Resilience:** The frontend naturally recovers from backend hangs via the 60s `fetch` abortion and halts runaway SSE connections after 5 retries.
+Performance/stability improvements were validated through automated tests and targeted execution; full production-style load testing remains pending. Memory overhead on uploads is logically bounded by stream chunk sizes instead of full-file payload sizes, and authentication reads are now handled via an O(1) in-memory index instead of sequential disk reads.
 
 ## Remaining Risks
 * Background runs still operate entirely within `FastAPI BackgroundTasks` in the same memory space as the API, making it difficult to scale the web server independently from the workers.
