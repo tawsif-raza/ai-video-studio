@@ -92,7 +92,21 @@ export function useRunEvents(runId: string | null | undefined): RunLiveState {
       setState((prev) => ({ ...prev, status: data.status, error: data.error, isConnected: false }));
       source.close();
     };
+    let retryCount = 0;
+    const MAX_RETRIES = 5;
+
     const onError = () => {
+      retryCount++;
+      if (retryCount >= MAX_RETRIES) {
+        source.close();
+        setState((prev) => ({ 
+          ...prev, 
+          isConnected: false, 
+          error: "Connection lost after multiple retries. Please refresh the page.",
+          status: "failed" as RunStatus // Fallback status
+        }));
+        return;
+      }
       // A transport-level hiccup (e.g. the dev server restarting) -
       // EventSource retries connections on its own; just reflect that
       // we're momentarily not connected rather than treating it as a

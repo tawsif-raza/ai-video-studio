@@ -86,17 +86,28 @@ class ProjectManager:
         # path string, which is unique across every project's media dir.
         self._media_hash_cache: dict[str, tuple[int, int, str]] = {}
 
-    def create_project(self) -> Project:
-        project = Project()
+    def create_project(self, owner_user_id: Optional[str] = None) -> Project:
+        project = Project(owner_user_id=owner_user_id)
         self._write_project_file(project)
-        logger.info(f"Project {project.project_id} created")
+        owner_msg = f" for owner {owner_user_id}" if owner_user_id else ""
+        logger.info(f"Project {project.project_id} created{owner_msg}")
         return project
 
-    def load_project(self, project_id: str) -> Project:
+    def load_project(self, project_id: str, owner_user_id: Optional[str] = None) -> Project:
         path = self._project_dir(project_id) / "project.json"
-        return Project(**json.loads(path.read_text()))
+        if not path.exists():
+            raise FileNotFoundError(f"Project {project_id} not found")
+        project = Project(**json.loads(path.read_text(encoding="utf-8")))
+        if owner_user_id is not None and project.owner_user_id is not None:
+            if project.owner_user_id != owner_user_id:
+                raise PermissionError(f"User {owner_user_id} is not authorized to access project {project_id}")
+        return project
 
-    def list_projects(self) -> List[Project]:
+    def list_projects(
+        self,
+        owner_user_id: Optional[str] = None,
+        include_unassigned: bool = False,
+    ) -> List[Project]:
         """Additive capability for the Web Dashboard (WEB_DASHBOARD_ARCHITECTURE.md
         SS6): the CLI surface never needed this - a human running app.py already
         knows the project_id it printed - but a dashboard's project list has no
@@ -104,7 +115,12 @@ class ProjectManager:
         directory; introduces no new file format or second source of truth.
         Directories without a project.json (e.g. mid-write, or foreign contents)
         are skipped rather than raising, since a listing endpoint should degrade
-        gracefully instead of failing for one bad entry. Newest first."""
+        gracefully instead of failing for one bad entry. Newest first.
+
+        Multi-tenancy isolation (DASH-01):
+        When owner_user_id is provided, only returns projects matching owner_user_id
+        (plus unassigned projects if include_unassigned is True). When owner_user_id
+        is None, returns all projects."""
         projects_root = settings.OUTPUT_DIR / "projects"
         if not projects_root.exists():
             return []
@@ -115,10 +131,21 @@ class ProjectManager:
             project_file = project_dir / "project.json"
             if not project_file.exists():
                 continue
-            projects.append(Project(**json.loads(project_file.read_text())))
+            try:
+                p = Project(**json.loads(project_file.read_text(encoding="utf-8")))
+            except Exception:
+                continue
+
+            if owner_user_id is not None:
+                if p.owner_user_id == owner_user_id:
+                    projects.append(p)
+                elif include_unassigned and p.owner_user_id is None:
+                    projects.append(p)
+            else:
+                projects.append(p)
         return sorted(projects, key=lambda p: p.created_at, reverse=True)
 
-    def delete_project(self, project_id: str) -> None:
+    def delete_project(self, project_id: str, owner_user_id: Optional[str] = None) -> None:
         """Additive capability: v1.0's CLIs never needed to delete a project,
         so there was no precedent to reuse (ARCHITECTURE.md documents no such
         method). Removes the project's entire directory tree under
@@ -129,7 +156,7 @@ class ProjectManager:
         responsible for confirming intent before calling this. Loads the
         project first so a missing project_id fails the same way load_project
         already does, rather than silently no-op'ing on rmtree's behalf."""
-        self.load_project(project_id)
+        self.load_project(project_id, owner_user_id=owner_user_id)
         shutil.rmtree(self._project_dir(project_id))
 
     def load_prompt_set(self, project: Project) -> PromptSet:
@@ -432,7 +459,7 @@ class ProjectManager:
         the caller (a provider adapter) creates the directory on first write."""
         return self.get_media_dir(project) / "video"
 
-    def save_uploaded_media(self, project: Project, filename: str, content: bytes) -> Path:
+    def save_uploaded_media(self, project: Project, filename: str, file_obj) -> Path:
         """Additive capability for the Web Dashboard's media upload endpoint
         (WEB_DASHBOARD_ARCHITECTURE.md SS6): the CLI has no equivalent - a
         human places files into media/{images,video,audio}/ directly on
@@ -469,7 +496,13 @@ class ProjectManager:
         target_dir = self.get_media_dir(project) / subdir
         target_dir.mkdir(parents=True, exist_ok=True)
         target_path = target_dir / safe_filename
-        target_path.write_bytes(content)
+        
+        with open(target_path, "wb") as dest:
+            if isinstance(file_obj, bytes):
+                dest.write(file_obj)
+            else:
+                shutil.copyfileobj(file_obj, dest)
+                
         logger.info(f"Uploaded media {safe_filename} saved to {target_path}")
         return target_path
 

@@ -1,14 +1,16 @@
 import uuid
-from typing import Any, Dict, List
+from typing import Any, Dict, List, Optional
 
 from fastapi import APIRouter, BackgroundTasks, Depends, File, HTTPException, UploadFile, status
 
 from project_manager.manager import ProjectManager
 from project_manager.project import Project
 from shared_core.contracts.asset_manifest import ImportedMediaManifest
+from shared_core.contracts.user import UserResponse
 from web_api.dependencies import (
     get_director_controller_factory,
     get_llm_client_factory,
+    get_optional_current_user,
     get_project_manager,
     get_run_registry,
 )
@@ -27,10 +29,36 @@ from web_api.run_registry import RunConflictError, RunRegistry
 router = APIRouter(prefix="/projects", tags=["projects"])
 
 
+def _get_authorized_project(
+    project_manager: ProjectManager,
+    project_id: str,
+    current_user: Optional[UserResponse],
+) -> Project:
+    """Loads a project and verifies ownership authorization.
+    If the project is owned by a user:
+      - Denies access (404) to unauthenticated requests
+      - Denies access (404) to authenticated requests from other users
+    If the project has no owner (legacy/unassigned):
+      - Permits access
+    Returns 404 rather than 403 to prevent probing/enumeration of project existence (IDOR protection).
+    """
+    owner_id = current_user.id if current_user else None
+    try:
+        project = project_manager.load_project(project_id, owner_user_id=owner_id)
+    except (FileNotFoundError, PermissionError):
+        raise HTTPException(status_code=404, detail=f"Project {project_id} not found")
+
+    if project.owner_user_id is not None and (owner_id is None or project.owner_user_id != owner_id):
+        raise HTTPException(status_code=404, detail=f"Project {project_id} not found")
+
+    return project
+
+
 @router.post("", response_model=RunAccepted, status_code=status.HTTP_202_ACCEPTED)
 def create_project(
     body: CreateProjectRequest,
     background_tasks: BackgroundTasks,
+    current_user: Optional[UserResponse] = Depends(get_optional_current_user),
     project_manager: ProjectManager = Depends(get_project_manager),
     run_registry: RunRegistry = Depends(get_run_registry),
     llm_client_factory=Depends(get_llm_client_factory),
@@ -42,7 +70,8 @@ def create_project(
     cheap local file write, not an LLM call) so the 202 response can return
     the real project_id immediately; the LLM-backed pipeline itself runs in
     a background task (run_director_pipeline), never blocking this request."""
-    project = project_manager.create_project()
+    owner_id = current_user.id if current_user else None
+    project = project_manager.create_project(owner_user_id=owner_id)
     try:
         run = run_registry.start_run(project_id=project.project_id, stage="director")
     except RunConflictError as exc:
@@ -73,13 +102,19 @@ def create_project(
 
 
 @router.get("", response_model=List[Project])
-def list_projects(project_manager: ProjectManager = Depends(get_project_manager)) -> List[Project]:
+def list_projects(
+    current_user: Optional[UserResponse] = Depends(get_optional_current_user),
+    project_manager: ProjectManager = Depends(get_project_manager),
+) -> List[Project]:
+    if current_user is not None:
+        return project_manager.list_projects(owner_user_id=current_user.id)
     return project_manager.list_projects()
 
 
 @router.get("/{project_id}", response_model=Project)
 def get_project(
     project_id: uuid.UUID,
+    current_user: Optional[UserResponse] = Depends(get_optional_current_user),
     project_manager: ProjectManager = Depends(get_project_manager),
 ) -> Project:
     """project_id is typed as uuid.UUID so FastAPI rejects anything that
@@ -88,27 +123,25 @@ def get_project(
     (ARCHITECTURE.md SS21 item 4's unsanitized-project_id note) - closing
     that path-traversal exposure at the API boundary without changing
     ProjectManager itself."""
-    try:
-        return project_manager.load_project(str(project_id))
-    except FileNotFoundError:
-        raise HTTPException(status_code=404, detail=f"Project {project_id} not found")
+    return _get_authorized_project(project_manager, str(project_id), current_user)
 
 
 @router.delete("/{project_id}", status_code=status.HTTP_204_NO_CONTENT)
 def delete_project(
     project_id: uuid.UUID,
+    current_user: Optional[UserResponse] = Depends(get_optional_current_user),
     project_manager: ProjectManager = Depends(get_project_manager),
 ) -> None:
-    try:
-        project_manager.delete_project(str(project_id))
-    except FileNotFoundError:
-        raise HTTPException(status_code=404, detail=f"Project {project_id} not found")
+    _get_authorized_project(project_manager, str(project_id), current_user)
+    owner_id = current_user.id if current_user else None
+    project_manager.delete_project(str(project_id), owner_user_id=owner_id)
 
 
 @router.post("/{project_id}/media", response_model=MediaUploadResponse, status_code=status.HTTP_201_CREATED)
-async def upload_media(
+def upload_media(
     project_id: uuid.UUID,
     file: UploadFile = File(...),
+    current_user: Optional[UserResponse] = Depends(get_optional_current_user),
     project_manager: ProjectManager = Depends(get_project_manager),
 ) -> MediaUploadResponse:
     """One file per call (WEB_DASHBOARD_ARCHITECTURE.md SS7.2) - the
@@ -116,31 +149,32 @@ async def upload_media(
     Delegates entirely to the new ProjectManager.save_uploaded_media(); this
     handler's only job is HTTP plumbing (load the request body, translate
     ValueError into 400) and project-existence checking."""
-    try:
-        project = project_manager.load_project(str(project_id))
-    except FileNotFoundError:
-        raise HTTPException(status_code=404, detail=f"Project {project_id} not found")
+    project = _get_authorized_project(project_manager, str(project_id), current_user)
 
-    content = await file.read()
     try:
-        saved_path = project_manager.save_uploaded_media(project, file.filename, content)
+        saved_path = project_manager.save_uploaded_media(project, file.filename, file.file)
     except ValueError as exc:
         raise HTTPException(status_code=400, detail=str(exc))
+    
+    # We do not read into memory, so size_bytes might require a stat call.
+    # UploadFile provides size (often populated from Content-Length or during spool)
+    size_bytes = file.size or 0
+    if size_bytes == 0:
+        import os
+        size_bytes = os.path.getsize(saved_path)
 
-    return MediaUploadResponse(filename=file.filename, path=str(saved_path), size_bytes=len(content))
+    return MediaUploadResponse(filename=file.filename, path=str(saved_path), size_bytes=size_bytes)
 
 
 @router.get("/{project_id}/media", response_model=ImportedMediaManifest)
 def get_media(
     project_id: uuid.UUID,
+    current_user: Optional[UserResponse] = Depends(get_optional_current_user),
     project_manager: ProjectManager = Depends(get_project_manager),
 ) -> ImportedMediaManifest:
     """What's currently imported (existing scan_media, unchanged) - the
     dashboard's coverage view before running Producer Studio."""
-    try:
-        project = project_manager.load_project(str(project_id))
-    except FileNotFoundError:
-        raise HTTPException(status_code=404, detail=f"Project {project_id} not found")
+    project = _get_authorized_project(project_manager, str(project_id), current_user)
     return project_manager.scan_media(project)
 
 
@@ -149,6 +183,7 @@ def delete_media(
     project_id: uuid.UUID,
     category: MediaCategory,
     filename: str,
+    current_user: Optional[UserResponse] = Depends(get_optional_current_user),
     project_manager: ProjectManager = Depends(get_project_manager),
 ) -> None:
     """Milestone W10: single-file delete, the counterpart to POST .../media.
@@ -158,10 +193,7 @@ def delete_media(
     from the manifest it's rendering. Delegates entirely to
     ProjectManager.delete_uploaded_media(); this handler's only job is HTTP
     plumbing (project-existence check, ValueError/FileNotFoundError -> 404)."""
-    try:
-        project = project_manager.load_project(str(project_id))
-    except FileNotFoundError:
-        raise HTTPException(status_code=404, detail=f"Project {project_id} not found")
+    project = _get_authorized_project(project_manager, str(project_id), current_user)
 
     try:
         project_manager.delete_uploaded_media(project, category.value, filename)
@@ -175,6 +207,7 @@ def delete_media(
 def bulk_delete_media(
     project_id: uuid.UUID,
     body: BulkMediaDeleteRequest,
+    current_user: Optional[UserResponse] = Depends(get_optional_current_user),
     project_manager: ProjectManager = Depends(get_project_manager),
 ) -> BulkMediaDeleteResponse:
     """Milestone W10: deletes many media files in one request, reporting
@@ -185,10 +218,7 @@ def bulk_delete_media(
     batch. The project-existence check happens once, up front, for the
     whole batch (a project that doesn't exist can't have any media to
     delete); each item's own success/failure is then independent."""
-    try:
-        project = project_manager.load_project(str(project_id))
-    except FileNotFoundError:
-        raise HTTPException(status_code=404, detail=f"Project {project_id} not found")
+    project = _get_authorized_project(project_manager, str(project_id), current_user)
 
     results: List[MediaDeleteResult] = []
     for item in body.items:
@@ -205,6 +235,7 @@ def bulk_delete_media(
 @router.get("/{project_id}/production-package")
 def get_production_package(
     project_id: uuid.UUID,
+    current_user: Optional[UserResponse] = Depends(get_optional_current_user),
     project_manager: ProjectManager = Depends(get_project_manager),
 ) -> Dict[str, Any]:
     """Milestone W7.5: exposes the Production Package Director Studio
@@ -217,10 +248,7 @@ def get_production_package(
     re-modeling content this router has no business re-deciding the shape
     of. 404 covers both an unknown project and a real one whose Production
     Package doesn't exist yet."""
-    try:
-        project = project_manager.load_project(str(project_id))
-    except FileNotFoundError:
-        raise HTTPException(status_code=404, detail=f"Project {project_id} not found")
+    project = _get_authorized_project(project_manager, str(project_id), current_user)
 
     try:
         return project_manager.load_production_package(project)
@@ -233,15 +261,13 @@ def get_production_package(
 @router.get("/{project_id}/producer-package")
 def get_producer_package(
     project_id: uuid.UUID,
+    current_user: Optional[UserResponse] = Depends(get_optional_current_user),
     project_manager: ProjectManager = Depends(get_project_manager),
 ) -> Dict[str, Any]:
     """Producer Package analog of get_production_package - same
     read-back-only, no-new-modeling approach, wrapping the new
     ProjectManager.load_producer_package."""
-    try:
-        project = project_manager.load_project(str(project_id))
-    except FileNotFoundError:
-        raise HTTPException(status_code=404, detail=f"Project {project_id} not found")
+    project = _get_authorized_project(project_manager, str(project_id), current_user)
 
     try:
         return project_manager.load_producer_package(project)

@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 
 import { AppShell } from "@/components/layout/AppShell";
+import { AuthProvider } from "@/features/auth/AuthContext";
+import { ProtectedRoute } from "@/features/auth/ProtectedRoute";
 
 import "./globals.css";
 
@@ -28,7 +30,11 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}>
       <body className="h-full">
-        <AppShell>{children}</AppShell>
+        <AuthProvider>
+          <ProtectedRoute>
+            <AppShell>{children}</AppShell>
+          </ProtectedRoute>
+        </AuthProvider>
       </body>
     </html>
   );

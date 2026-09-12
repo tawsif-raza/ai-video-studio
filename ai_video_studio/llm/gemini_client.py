@@ -11,7 +11,10 @@ logger = get_logger(__name__)
 class GeminiClient:
     def __init__(self, model_name: str = None, api_key: str = None):
         self.model_name = model_name or settings.GEMINI_MODEL
-        self._client = genai.Client(api_key=api_key or settings.GEMINI_API_KEY)
+        self._client = genai.Client(
+            api_key=api_key or settings.GEMINI_API_KEY,
+            http_options={'timeout': 60.0}
+        )
 
     def generate(self, prompt: str, system_instruction: str = None,
                  temperature: float = None, json_mode: bool = True) -> str:

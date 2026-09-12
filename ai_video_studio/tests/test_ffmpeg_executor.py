@@ -82,13 +82,17 @@ def test_stderr_captured_and_tailed_on_failure(tmp_path, monkeypatch):
     long_stderr = "x" * 10_000
 
     def _run(argv, **kwargs):
-        return _completed(returncode=1, stderr=long_stderr)
+        f = kwargs.get("stderr")
+        if f and hasattr(f, "write"):
+            f.write(long_stderr.encode("utf-8"))
+        return _completed(returncode=1)
 
     monkeypatch.setattr(ffmpeg_executor.subprocess, "run", _run)
 
     result = execute(_spec(output_path))
 
     assert result.success is False
+    assert result.stderr_tail is not None
     assert len(result.stderr_tail) == ffmpeg_executor.STDERR_TAIL_CHARS
     assert result.stderr_tail == long_stderr[-ffmpeg_executor.STDERR_TAIL_CHARS:]
 
@@ -122,7 +126,10 @@ def test_timeout_reports_failure_and_cleans_up_temp(tmp_path, monkeypatch):
 
     def _run(argv, **kwargs):
         temp_output.write_bytes(b"partial")  # ffmpeg had started writing before the timeout
-        raise subprocess.TimeoutExpired(cmd=argv, timeout=kwargs.get("timeout"), output=None, stderr="stuck")
+        f = kwargs.get("stderr")
+        if f and hasattr(f, "write"):
+            f.write(b"stuck")
+        raise subprocess.TimeoutExpired(cmd=argv, timeout=kwargs.get("timeout"), output=None, stderr=None)
 
     monkeypatch.setattr(ffmpeg_executor.subprocess, "run", _run)
 
@@ -131,6 +138,7 @@ def test_timeout_reports_failure_and_cleans_up_temp(tmp_path, monkeypatch):
     assert result.success is False
     assert result.error_type == "timeout"
     assert "5s" in result.error
+    assert result.stderr_tail == "stuck"
     assert not temp_output.exists()
     assert not output_path.exists()
 

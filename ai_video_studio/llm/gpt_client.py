@@ -22,7 +22,10 @@ class GPTClient:
 
     def __init__(self, model_name: str = None, api_key: str = None):
         self.model_name = model_name or settings.GPT_MODEL
-        self._client = OpenAI(api_key=api_key or settings.OPENAI_API_KEY)
+        self._client = OpenAI(
+            api_key=api_key or settings.OPENAI_API_KEY,
+            timeout=60.0
+        )
 
     def generate(
         self,

@@ -1,4 +1,4 @@
-﻿import os
+import os
 import warnings
 from pathlib import Path
 from dotenv import load_dotenv
@@ -9,17 +9,37 @@ BASE_DIR = Path(__file__).resolve().parent
 
 
 class Settings:
-    GEMINI_API_KEY: str = os.getenv("GEMINI_API_KEY", "")
+    GEMINI_API_KEYS: list = [k.strip() for k in (os.getenv("GEMINI_API_KEYS") or os.getenv("GEMINI_API_KEY", "")).split(",") if k.strip()]
+    GEMINI_API_KEY: str = GEMINI_API_KEYS[0] if GEMINI_API_KEYS else ""
     GEMINI_MODEL: str = os.getenv("GEMINI_MODEL", "gemini-2.5-flash")
 
-    OPENAI_API_KEY: str = os.getenv("OPENAI_API_KEY", "")
+    OPENAI_API_KEYS: list = [k.strip() for k in (os.getenv("OPENAI_API_KEYS") or os.getenv("OPENAI_API_KEY", "")).split(",") if k.strip()]
+    OPENAI_API_KEY: str = OPENAI_API_KEYS[0] if OPENAI_API_KEYS else ""
     GPT_MODEL: str = os.getenv("GPT_MODEL", "gpt-4o-mini")
 
-    GROQ_API_KEYS: list = [k.strip() for k in os.getenv("GROQ_API_KEY", "").split(",") if k.strip()]
+    GROQ_API_KEYS: list = [k.strip() for k in (os.getenv("GROQ_API_KEYS") or os.getenv("GROQ_API_KEY", "")).split(",") if k.strip()]
     GROQ_MODEL: str = os.getenv("GROQ_MODEL", "llama-3.3-70b-versatile")
 
-    CEREBRAS_API_KEY: str = os.getenv("CEREBRAS_API_KEY", "")
+    CEREBRAS_API_KEYS: list = [k.strip() for k in (os.getenv("CEREBRAS_API_KEYS") or os.getenv("CEREBRAS_API_KEY", "")).split(",") if k.strip()]
+    CEREBRAS_API_KEY: str = CEREBRAS_API_KEYS[0] if CEREBRAS_API_KEYS else ""
     CEREBRAS_MODEL: str = os.getenv("CEREBRAS_MODEL", "gpt-oss-120b")
+
+    OPENROUTER_API_KEYS: list = [k.strip() for k in (os.getenv("OPENROUTER_API_KEYS") or os.getenv("OPENROUTER_API_KEY", "")).split(",") if k.strip()]
+    OPENROUTER_API_KEY: str = OPENROUTER_API_KEYS[0] if OPENROUTER_API_KEYS else ""
+    OPENROUTER_MODEL: str = os.getenv("OPENROUTER_MODEL", "google/gemini-2.5-flash")
+    OPENROUTER_BASE_URL: str = os.getenv("OPENROUTER_BASE_URL", "https://openrouter.ai/api/v1")
+
+    # Order of providers to attempt in FailoverLLMClient
+    LLM_PROVIDER_ORDER: list = [
+        p.strip().lower()
+        for p in os.getenv(
+            "LLM_PROVIDER_ORDER",
+            "openrouter,gemini,groq,cerebras,openai"
+            if (os.getenv("OPENROUTER_API_KEY") or os.getenv("OPENROUTER_API_KEYS"))
+            else "groq,cerebras,openrouter,gemini,openai",
+        ).split(",")
+        if p.strip()
+    ]
 
     # Google Veo (video_generation_engine/providers/google_veo.py) uses the
     # same Google AI Studio account as Gemini - GOOGLE_VEO_API_KEY lets a
@@ -50,17 +70,16 @@ class Settings:
 settings = Settings()
 settings.OUTPUT_DIR.mkdir(exist_ok=True)
 
-if not settings.GEMINI_API_KEY:
-    warnings.warn(
-        "GEMINI_API_KEY not set - Gemini-backed agents will fail until you set it in .env"
-    )
+has_any_llm_key = bool(
+    settings.OPENROUTER_API_KEYS
+    or settings.GEMINI_API_KEYS
+    or settings.OPENAI_API_KEYS
+    or settings.GROQ_API_KEYS
+    or settings.CEREBRAS_API_KEYS
+)
 
-if not settings.OPENAI_API_KEY:
+if not has_any_llm_key:
     warnings.warn(
-        "OPENAI_API_KEY not set - GPT-backed agents (e.g. Prompt Generator) will fail until you set it in .env"
-    )
-
-if not settings.GROQ_API_KEYS:
-    warnings.warn(
-        "GROQ_API_KEY not set - Groq-backed agents will fail until you set it in .env"
+        "No LLM API keys configured. Set at least one of OPENROUTER_API_KEY, "
+        "GEMINI_API_KEY, OPENAI_API_KEY, GROQ_API_KEY, or CEREBRAS_API_KEY in .env"
     )

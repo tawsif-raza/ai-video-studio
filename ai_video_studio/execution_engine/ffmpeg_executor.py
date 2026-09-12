@@ -66,21 +66,26 @@ def execute(
     # video.mp4.part) - ffmpeg infers the container/muxer from the output
     # filename's suffix, and a ".part" suffix makes it unable to choose one.
     temp_output = final_output.with_name(f"{final_output.stem}.part{final_output.suffix}")
+    stderr_log = final_output.with_name(f"{final_output.stem}.stderr.log")
     final_output.parent.mkdir(parents=True, exist_ok=True)
     argv = _argv_with_temp_output(command_spec, ffmpeg_path, temp_output)
 
     try:
-        proc = subprocess.run(argv, capture_output=True, text=True, timeout=timeout_seconds)
+        with open(stderr_log, "wb") as f_err:
+            proc = subprocess.run(argv, stdout=subprocess.DEVNULL, stderr=f_err, timeout=timeout_seconds)
     except subprocess.TimeoutExpired as exc:
         _cleanup(temp_output)
+        tail_text = _read_file_tail(stderr_log)
+        _cleanup(stderr_log)
         return _failure(
             started_at, time.monotonic() - start,
             error=f"FFmpeg timed out after {timeout_seconds}s",
             error_type="timeout",
-            stderr_tail=_tail(exc.stderr if isinstance(exc.stderr, str) else None),
+            stderr_tail=tail_text,
         )
     except OSError as exc:
         _cleanup(temp_output)
+        _cleanup(stderr_log)
         return _failure(
             started_at, time.monotonic() - start,
             error=f"Failed to start ffmpeg: {exc}",
@@ -88,6 +93,8 @@ def execute(
         )
 
     duration = time.monotonic() - start
+    tail_text = _read_file_tail(stderr_log)
+    _cleanup(stderr_log)
 
     # Diagnostic only (Release-Prep milestone): the ffmpeg child's peak RSS,
     # whether it exited cleanly or was killed - the only way to confirm
@@ -104,7 +111,7 @@ def execute(
             error=f"ffmpeg exited with code {proc.returncode}",
             error_type="ffmpeg_failed",
             exit_code=proc.returncode,
-            stderr_tail=_tail(proc.stderr),
+            stderr_tail=tail_text,
         )
 
     if not temp_output.is_file() or temp_output.stat().st_size == 0:
@@ -114,7 +121,7 @@ def execute(
             error="ffmpeg exited successfully but produced no output file",
             error_type="ffmpeg_failed",
             exit_code=proc.returncode,
-            stderr_tail=_tail(proc.stderr),
+            stderr_tail=tail_text,
         )
 
     temp_output.replace(final_output)
@@ -144,10 +151,22 @@ def _cleanup(path: Path) -> None:
         pass
 
 
-def _tail(text: Optional[str]) -> Optional[str]:
-    if not text:
+def _read_file_tail(path: Path, max_chars: int = STDERR_TAIL_CHARS) -> Optional[str]:
+    if not path.is_file() or path.stat().st_size == 0:
         return None
-    return text[-STDERR_TAIL_CHARS:]
+    
+    # Estimate bytes to read (assume ~2 bytes per UTF-8 char for safety buffer)
+    read_size = max_chars * 2
+    
+    with open(path, "rb") as f:
+        file_size = path.stat().st_size
+        if file_size > read_size:
+            f.seek(-read_size, 2)
+        else:
+            f.seek(0)
+            
+        tail = f.read().decode("utf-8", errors="replace")
+        return tail[-max_chars:] if tail else None
 
 
 def _failure(

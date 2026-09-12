@@ -47,6 +47,7 @@ from shared_core.contracts.render import (
 )
 from shared_core.contracts.research import ResearchBrief, ResearchSchema
 from shared_core.contracts.shot_plan import ShotItem, ShotPlan, ShotPlannerSchema, ShotScenePlan
+from shared_core.contracts.project import Project, ProjectState
 from shared_core.contracts.storyboard import ScenePlan, ScenePlannerSchema, ShotBrief, Storyboard
 from shared_core.contracts.subtitle import SubtitleCue, SubtitlePlan
 from shared_core.contracts.thumbnail_plan import TextSafeArea, ThumbnailPlan, ThumbnailVariant
@@ -54,6 +55,8 @@ from shared_core.contracts.timeline import ShotDuration, Timeline, TimelineClip,
 from shared_core.contracts.voice_script import NarrationLine, VoiceScript, VoiceScriptSchema
 
 __all__ = [
+    "Project",
+    "ProjectState",
     "ImportedMediaManifest",
     "ScannedMediaFile",
     "ValidatedAsset",

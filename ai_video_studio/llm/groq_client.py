@@ -72,17 +72,19 @@ class GroqClient:
                     raise LLMCallError("Groq returned an empty response")
                 return text
 
-            except LLMCallError:
+            except LLMCallError as e:
+                last_error = e
+                logger.warning(f"Groq attempt {attempt + 1} call error: {e}")
+                if len(self._api_keys) > 1 and attempt < len(self._api_keys) - 1:
+                    self._rotate_key()
+                    continue
                 raise
             except Exception as e:
                 last_error = e
-                error_msg = str(e).lower()
-
-                if "rate_limit" in error_msg or "429" in error_msg or "auth" in error_msg or "401" in error_msg:
-                    logger.warning(f"Groq call failed with key issue: {e}. Rotating key...")
-                    if len(self._api_keys) > 1:
-                        self._rotate_key()
-                        continue
+                if len(self._api_keys) > 1 and attempt < len(self._api_keys) - 1:
+                    logger.warning(f"Groq attempt {attempt + 1} failed ({e}). Rotating key...")
+                    self._rotate_key()
+                    continue
 
                 logger.error(f"Groq call failed: {e}")
                 raise LLMCallError(str(e)) from e

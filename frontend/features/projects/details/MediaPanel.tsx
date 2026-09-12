@@ -223,6 +223,14 @@ export function MediaPanel({
     const files = fileInputRef.current?.files;
     if (!files || files.length === 0) return;
 
+    const MAX_FILE_SIZE_BYTES = 500 * 1024 * 1024; // 500 MB limit
+    const overSizeFiles = Array.from(files).filter(f => f.size > MAX_FILE_SIZE_BYTES);
+    if (overSizeFiles.length > 0) {
+      setError(`Cannot upload: ${overSizeFiles.length} file(s) exceed the 500MB limit.`);
+      if (fileInputRef.current) fileInputRef.current.value = "";
+      return;
+    }
+
     setError(null);
     // Files are compressed/renamed client-side (prepareForUpload) and sent
     // through a bounded-concurrency worker pool (useMediaUploads) rather

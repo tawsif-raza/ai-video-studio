@@ -3,7 +3,7 @@ import os
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-from web_api.routers import events, producer, projects, publish, render, runs, system
+from web_api.routers import auth, events, health, producer, projects, publish, render, runs, system
 from web_api.routers.system import API_VERSION
 from web_api.run_registry import RunRegistry
 
@@ -55,10 +55,13 @@ def create_app() -> FastAPI:
     )
     app.state.run_registry = RunRegistry()
     app.include_router(system.router)
+    app.include_router(health.router)
     app.include_router(projects.router)
     app.include_router(producer.router)
     app.include_router(render.router)
     app.include_router(publish.router)
     app.include_router(runs.router)
     app.include_router(events.router)
+    app.include_router(auth.router, prefix="/api")
+    app.include_router(auth.router)
     return app
