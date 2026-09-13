@@ -5,6 +5,7 @@ from tests.web_api.conftest import (
     FailingProducerController,
     SucceedingProducerController,
     post_producer_run,
+    wait_for_run,
 )
 from web_api.dependencies import get_project_manager
 from web_api.run_registry import RunStatus
@@ -33,7 +34,7 @@ def test_run_producer_returns_202_and_succeeds(client, app_):
     assert uuid.UUID(body["run_id"])
     assert body["status"] == RunStatus.QUEUED.value
 
-    run = client.get(f"/runs/{body['run_id']}").json()
+    run = wait_for_run(client, body["run_id"]).json()
     assert run["status"] == RunStatus.SUCCEEDED.value
     assert run["stage"] == "producer"
     assert run["result"]["asset_validation"]["is_valid"] is True
@@ -47,7 +48,7 @@ def test_run_producer_system_exit_is_caught_and_marks_run_failed(client, app_):
     project = get_project_manager().create_project()
 
     response = post_producer_run(client, app_, FailingProducerController, project.project_id)
-    run = client.get(f"/runs/{response.json()['run_id']}").json()
+    run = wait_for_run(client, response.json()["run_id"]).json()
 
     assert run["status"] == RunStatus.FAILED.value
     assert run["error"] is not None
@@ -59,7 +60,7 @@ def test_run_producer_unexpected_exception_is_caught_and_marks_run_failed(client
     project = get_project_manager().create_project()
 
     response = post_producer_run(client, app_, CrashingProducerController, project.project_id)
-    run = client.get(f"/runs/{response.json()['run_id']}").json()
+    run = wait_for_run(client, response.json()["run_id"]).json()
 
     assert run["status"] == RunStatus.FAILED.value
     assert run["error"] == "boom"

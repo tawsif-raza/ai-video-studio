@@ -12,6 +12,23 @@ class RunStatus(str, Enum):
     RUNNING = "running"
     SUCCEEDED = "succeeded"
     FAILED = "failed"
+    # Added for the Phase 1.1 P0 fix (docs/phase1.1-p0-fixes.md, Fix 3/4):
+    # TIMED_OUT is set when a run exceeds PipelineExecutor's wall-clock
+    # deadline before finishing on its own; CANCELLED is set only when a
+    # run is cancelled before it ever started executing (still sitting in
+    # PipelineExecutor's internal queue) - see PipelineExecutor.cancel's
+    # docstring for why an already-running run cannot be safely cancelled
+    # with this architecture.
+    TIMED_OUT = "timed_out"
+    CANCELLED = "cancelled"
+
+
+# Every state a Run can never leave once reached. Shared by RunRegistry
+# itself (to make _finish idempotent - see below) and by web_api/sse.py
+# (a stream must close on any of these, not just success/failure).
+TERMINAL_STATUSES = frozenset(
+    {RunStatus.SUCCEEDED, RunStatus.FAILED, RunStatus.TIMED_OUT, RunStatus.CANCELLED}
+)
 
 
 class Run(BaseModel):
@@ -89,6 +106,12 @@ class RunRegistry:
     def mark_running(self, run_id: str) -> None:
         with self._lock:
             run = self._runs[run_id]
+            # Defensive, same reasoning as _finish's guard: a run already at
+            # a terminal status (e.g. TIMED_OUT, declared while this run's
+            # background thread was still starting up) must never move
+            # backwards to RUNNING.
+            if run.status in TERMINAL_STATUSES:
+                return
             self._runs[run_id] = run.model_copy(update={"status": RunStatus.RUNNING})
 
     def mark_succeeded(self, run_id: str, *, result: Optional[dict] = None) -> None:
@@ -97,9 +120,37 @@ class RunRegistry:
     def mark_failed(self, run_id: str, *, error: str) -> None:
         self._finish(run_id, status=RunStatus.FAILED, error=error)
 
+    def mark_timed_out(self, run_id: str, *, timeout_seconds: float) -> None:
+        """Phase 1.1 Fix 3/4: called by PipelineExecutor when a run's
+        wall-clock deadline passes before it finished on its own. Recording
+        this promptly is what keeps the frontend from sitting on RUNNING
+        forever (docs/phase1.1-p0-fixes.md) even though, per _finish's
+        idempotency guard below, the underlying work may still be running
+        in the background and its eventual real outcome is discarded."""
+        self._finish(
+            run_id,
+            status=RunStatus.TIMED_OUT,
+            error=f"Pipeline run exceeded its {timeout_seconds:g}s wall-clock timeout",
+        )
+
+    def mark_cancelled(self, run_id: str) -> None:
+        """Only ever called for a run PipelineExecutor confirmed never
+        started executing (see PipelineExecutor.cancel) - so, unlike
+        mark_timed_out, there is no ambiguity here about background work
+        possibly still running."""
+        self._finish(run_id, status=RunStatus.CANCELLED, error="Run was cancelled before it started executing")
+
     def _finish(self, run_id: str, *, status: RunStatus, result: Optional[dict] = None, error: Optional[str] = None) -> None:
         with self._lock:
             run = self._runs[run_id]
+            # Idempotency guard (Phase 1.1 Fix 3): once a run has reached a
+            # terminal status, nothing may overwrite it. This matters most
+            # for TIMED_OUT - the underlying background thread PipelineExecutor
+            # gave up waiting on may still call mark_succeeded/mark_failed
+            # later, and that late, no-longer-relevant result must never
+            # clobber the TIMED_OUT verdict the caller already saw.
+            if run.status in TERMINAL_STATUSES:
+                return
             finished = run.model_copy(update={
                 "status": status,
                 "finished_at": datetime.now(UTC),

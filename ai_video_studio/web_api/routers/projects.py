@@ -11,10 +11,12 @@ from web_api.dependencies import (
     get_director_controller_factory,
     get_llm_client_factory,
     get_optional_current_user,
+    get_pipeline_executor,
     get_project_manager,
     get_run_registry,
 )
 from web_api.director_runner import run_director_pipeline
+from web_api.pipeline_executor import PipelineExecutor
 from web_api.models import (
     BulkMediaDeleteRequest,
     BulkMediaDeleteResponse,
@@ -61,6 +63,7 @@ def create_project(
     current_user: Optional[UserResponse] = Depends(get_optional_current_user),
     project_manager: ProjectManager = Depends(get_project_manager),
     run_registry: RunRegistry = Depends(get_run_registry),
+    pipeline_executor: PipelineExecutor = Depends(get_pipeline_executor),
     llm_client_factory=Depends(get_llm_client_factory),
     controller_factory=Depends(get_director_controller_factory),
 ) -> RunAccepted:
@@ -68,8 +71,13 @@ def create_project(
     (WEB_DASHBOARD_ARCHITECTURE.md SS7.2), superseding W1's bodyless
     bare-creation endpoint. The project is created synchronously here (a
     cheap local file write, not an LLM call) so the 202 response can return
-    the real project_id immediately; the LLM-backed pipeline itself runs in
-    a background task (run_director_pipeline), never blocking this request."""
+    the real project_id immediately; the LLM-backed pipeline itself runs on
+    PipelineExecutor's own bounded, dedicated thread pool - never blocking
+    this request, and never able to consume the shared pool ordinary API
+    traffic (and GET /health) also depends on (Phase 1.1 P0 fix, Fix 1/2:
+    docs/phase1.1-p0-fixes.md). background_tasks.add_task here only ever
+    calls pipeline_executor.submit, which itself never blocks - see
+    web_api/pipeline_executor.py."""
     owner_id = current_user.id if current_user else None
     project = project_manager.create_project(owner_user_id=owner_id)
     try:
@@ -81,11 +89,12 @@ def create_project(
         raise HTTPException(status_code=409, detail=str(exc))
 
     background_tasks.add_task(
-        run_director_pipeline,
+        pipeline_executor.submit,
         run_id=run.run_id,
+        run_registry=run_registry,
+        fn=run_director_pipeline,
         project=project,
         project_manager=project_manager,
-        run_registry=run_registry,
         idea=body.idea,
         duration=body.duration_seconds,
         tone=body.tone,

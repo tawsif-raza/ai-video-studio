@@ -8,6 +8,7 @@ from tests.web_api.conftest import (
     SystemExitExecutionController,
     make_edit_plan_ready_project,
     post_render_run,
+    wait_for_run,
 )
 from project_manager.project import ProjectState
 from web_api.dependencies import get_project_manager
@@ -53,7 +54,7 @@ def test_run_render_returns_202_and_succeeds(client, app_):
     assert uuid.UUID(body["run_id"])
     assert body["status"] == RunStatus.QUEUED.value
 
-    run = client.get(f"/runs/{body['run_id']}").json()
+    run = wait_for_run(client, body["run_id"]).json()
     assert run["status"] == RunStatus.SUCCEEDED.value
     assert run["stage"] == "render"
     assert run["result"]["render"]["success"] is True
@@ -68,7 +69,7 @@ def test_run_render_with_failed_execution_still_succeeds_as_a_reported_outcome(c
     project = make_edit_plan_ready_project(get_project_manager())
 
     response = post_render_run(client, app_, FailedRenderExecutionController, project.project_id)
-    run = client.get(f"/runs/{response.json()['run_id']}").json()
+    run = wait_for_run(client, response.json()["run_id"]).json()
 
     assert run["status"] == RunStatus.SUCCEEDED.value
     assert run["result"]["render"]["success"] is False
@@ -80,7 +81,7 @@ def test_run_render_error_is_caught_and_marks_run_failed(client, app_):
     project = make_edit_plan_ready_project(get_project_manager())
 
     response = post_render_run(client, app_, RenderErrorExecutionController, project.project_id)
-    run = client.get(f"/runs/{response.json()['run_id']}").json()
+    run = wait_for_run(client, response.json()["run_id"]).json()
 
     assert run["status"] == RunStatus.FAILED.value
     assert "RenderInputError" in run["error"]
@@ -92,7 +93,7 @@ def test_run_render_system_exit_is_caught_and_marks_run_failed(client, app_):
     project = make_edit_plan_ready_project(get_project_manager())
 
     response = post_render_run(client, app_, SystemExitExecutionController, project.project_id)
-    run = client.get(f"/runs/{response.json()['run_id']}").json()
+    run = wait_for_run(client, response.json()["run_id"]).json()
 
     assert run["status"] == RunStatus.FAILED.value
     assert run["error"] is not None
@@ -103,7 +104,7 @@ def test_run_render_unexpected_exception_is_caught_and_marks_run_failed(client, 
     project = make_edit_plan_ready_project(get_project_manager())
 
     response = post_render_run(client, app_, CrashingExecutionController, project.project_id)
-    run = client.get(f"/runs/{response.json()['run_id']}").json()
+    run = wait_for_run(client, response.json()["run_id"]).json()
 
     assert run["status"] == RunStatus.FAILED.value
     assert run["error"] == "boom"
@@ -128,8 +129,8 @@ def test_concurrent_renders_for_different_projects_both_succeed(client, app_):
 
     assert response_a.status_code == 202
     assert response_b.status_code == 202
-    run_a = client.get(f"/runs/{response_a.json()['run_id']}").json()
-    run_b = client.get(f"/runs/{response_b.json()['run_id']}").json()
+    run_a = wait_for_run(client, response_a.json()["run_id"]).json()
+    run_b = wait_for_run(client, response_b.json()["run_id"]).json()
     assert run_a["status"] == RunStatus.SUCCEEDED.value
     assert run_b["status"] == RunStatus.SUCCEEDED.value
 
@@ -151,6 +152,7 @@ def test_render_status_no_render_run_yet_returns_404(client, app_):
 def test_render_status_reports_succeeded_run(client, app_):
     project = make_edit_plan_ready_project(get_project_manager())
     run_id = post_render_run(client, app_, SucceedingExecutionController, project.project_id).json()["run_id"]
+    wait_for_run(client, run_id)
 
     status_response = client.get(f"/projects/{project.project_id}/render/status")
 
@@ -168,6 +170,7 @@ def test_render_status_reports_succeeded_run(client, app_):
 def test_render_status_reports_failed_run_with_error(client, app_):
     project = make_edit_plan_ready_project(get_project_manager())
     run_id = post_render_run(client, app_, RenderErrorExecutionController, project.project_id).json()["run_id"]
+    wait_for_run(client, run_id)
 
     status_response = client.get(f"/projects/{project.project_id}/render/status")
 

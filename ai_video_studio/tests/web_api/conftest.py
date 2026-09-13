@@ -1,3 +1,5 @@
+import time
+
 import pytest
 from fastapi.testclient import TestClient
 
@@ -16,6 +18,7 @@ from web_api.dependencies import (
     get_producer_controller_factory,
     get_publish_controller_factory,
 )
+from web_api.run_registry import RunStatus
 
 
 class FakeLLMClient:
@@ -252,14 +255,47 @@ class CrashingPublishController:
 @pytest.fixture
 def app_(tmp_path, monkeypatch):
     monkeypatch.setattr(settings, "OUTPUT_DIR", tmp_path)
+    # Generous relative to how many concurrent fake runs these router-level
+    # tests ever create at once (at most 2 - see e.g.
+    # test_concurrent_renders_for_different_projects_both_succeed):
+    # existing tests here assert only that their own run eventually reaches
+    # a terminal status (see wait_for_run below), not anything about
+    # PipelineExecutor's bound itself. The bound's own behavior (queuing,
+    # release-on-timeout/cancel/failure, /health staying responsive under
+    # saturation) is exercised with small, explicit overrides in
+    # tests/web_api/test_pipeline_executor.py.
+    monkeypatch.setattr(settings, "PIPELINE_MAX_CONCURRENCY", 8)
     app = create_app()
     app.dependency_overrides[get_llm_client_factory] = lambda: FakeLLMClient
-    return app
+    yield app
+    app.state.pipeline_executor.shutdown(wait=False)
 
 
 @pytest.fixture
 def client(app_):
     return TestClient(app_)
+
+
+def wait_for_run(client, run_id, *, timeout=5.0, poll_interval=0.005):
+    """Polls GET /runs/{run_id} until it reaches a terminal status, and
+    returns that final response.
+
+    Needed as of the Phase 1.1 P0 concurrency fix
+    (docs/phase1.1-p0-fixes.md): pipeline execution now runs on
+    PipelineExecutor's own dedicated thread pool, decoupled from the
+    BackgroundTasks/ASGI call stack TestClient drives synchronously - so,
+    unlike before, a POST .../run response returning no longer guarantees
+    the pipeline has already finished. Every controller double in this
+    module is a fast, synchronous, no-I/O callable, so in practice this
+    settles in low single-digit milliseconds; the timeout is a safety net
+    against a genuine regression hanging forever, not a normal code path."""
+    deadline = time.monotonic() + timeout
+    response = client.get(f"/runs/{run_id}")
+    non_terminal = {RunStatus.QUEUED.value, RunStatus.RUNNING.value}
+    while response.json()["status"] in non_terminal and time.monotonic() < deadline:
+        time.sleep(poll_interval)
+        response = client.get(f"/runs/{run_id}")
+    return response
 
 
 def post_with_controller(client, app_, controller, body=None):

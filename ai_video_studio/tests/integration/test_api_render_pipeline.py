@@ -10,6 +10,7 @@ from tests.integration.test_render_pipeline import (
     _passing_prober,
     _unavailable_detector,
 )
+from tests.web_api.conftest import wait_for_run
 from web_api import create_app
 from web_api.dependencies import get_execution_controller_factory
 from web_api.run_registry import RunStatus
@@ -44,7 +45,7 @@ def test_full_render_pipeline_via_api_reaches_video_rendered(tmp_path, monkeypat
     assert response.status_code == 202
     body = response.json()
 
-    run = client.get(f"/runs/{body['run_id']}").json()
+    run = wait_for_run(client, body["run_id"]).json()
     assert run["status"] == RunStatus.SUCCEEDED.value
     assert run["result"]["render"]["success"] is True
     assert run["result"]["validation"]["is_valid"] is True
@@ -72,7 +73,7 @@ def test_full_render_pipeline_via_api_with_failed_ffmpeg_does_not_advance_state(
     response = client.post(f"/projects/{project.project_id}/render/run", json={})
     body = response.json()
 
-    run = client.get(f"/runs/{body['run_id']}").json()
+    run = wait_for_run(client, body["run_id"]).json()
     assert run["status"] == RunStatus.SUCCEEDED.value
     assert run["result"]["render"]["success"] is False
     assert "validation" not in run["result"]
@@ -95,7 +96,7 @@ def test_render_run_via_api_hits_real_render_error_when_ffmpeg_missing(tmp_path,
     response = client.post(f"/projects/{project.project_id}/render/run", json={})
     body = response.json()
 
-    run = client.get(f"/runs/{body['run_id']}").json()
+    run = wait_for_run(client, body["run_id"]).json()
     assert run["status"] == RunStatus.FAILED.value
     assert "ExecutionEnvironmentError" in run["error"]
 

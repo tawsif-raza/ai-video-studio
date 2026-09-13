@@ -6,8 +6,14 @@ from starlette.responses import FileResponse
 
 from project_manager.manager import ProjectManager
 from project_manager.project import ProjectState
-from web_api.dependencies import get_execution_controller_factory, get_project_manager, get_run_registry
+from web_api.dependencies import (
+    get_execution_controller_factory,
+    get_pipeline_executor,
+    get_project_manager,
+    get_run_registry,
+)
 from web_api.models import RenderRunRequest, RenderStatusResponse, RunAccepted
+from web_api.pipeline_executor import PipelineExecutor
 from web_api.render_runner import run_render_pipeline
 from web_api.run_registry import Run, RunConflictError, RunNotFoundError, RunRegistry, RunStatus
 
@@ -21,6 +27,7 @@ def run_render(
     background_tasks: BackgroundTasks,
     project_manager: ProjectManager = Depends(get_project_manager),
     run_registry: RunRegistry = Depends(get_run_registry),
+    pipeline_executor: PipelineExecutor = Depends(get_pipeline_executor),
     controller_factory=Depends(get_execution_controller_factory),
 ) -> RunAccepted:
     """Wraps ExecutionEngineController.run(project_id=..., options=...)
@@ -52,11 +59,12 @@ def run_render(
         raise HTTPException(status_code=409, detail=str(exc))
 
     background_tasks.add_task(
-        run_render_pipeline,
+        pipeline_executor.submit,
         run_id=run.run_id,
+        run_registry=run_registry,
+        fn=run_render_pipeline,
         project_id=project_id_str,
         project_manager=project_manager,
-        run_registry=run_registry,
         controller_factory=controller_factory,
         options=body.to_render_options(),
     )
@@ -134,6 +142,10 @@ def _to_status_response(run: Run) -> RenderStatusResponse:
         current_stage, progress = "rendering", 50
     elif run.status == RunStatus.SUCCEEDED:
         current_stage, progress = "completed", 100
+    elif run.status == RunStatus.TIMED_OUT:
+        current_stage, progress = "timed_out", 100
+    elif run.status == RunStatus.CANCELLED:
+        current_stage, progress = "cancelled", 100
     else:
         current_stage, progress = "failed", 100
 

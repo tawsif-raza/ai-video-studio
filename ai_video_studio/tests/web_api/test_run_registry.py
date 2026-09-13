@@ -2,7 +2,7 @@ import time
 
 import pytest
 
-from web_api.run_registry import RunConflictError, RunNotFoundError, RunRegistry, RunStatus
+from web_api.run_registry import RunConflictError, RunNotFoundError, RunRegistry, RunStatus, TERMINAL_STATUSES
 
 
 def test_start_run_returns_queued_run():
@@ -78,6 +78,83 @@ def test_terminal_run_releases_project_lock_for_a_new_run():
     second = registry.start_run(project_id="p1", stage="director")
 
     assert second.run_id != first.run_id
+
+
+def test_mark_timed_out_sets_terminal_state_and_error():
+    """Phase 1.1 P0 fix (docs/phase1.1-p0-fixes.md, Fix 3/4)."""
+    registry = RunRegistry()
+    run = registry.start_run(project_id="p1", stage="director")
+    registry.mark_running(run.run_id)
+
+    registry.mark_timed_out(run.run_id, timeout_seconds=900)
+
+    finished = registry.get(run.run_id)
+    assert finished.status == RunStatus.TIMED_OUT
+    assert finished.finished_at is not None
+    assert finished.status in TERMINAL_STATUSES
+    assert "900" in finished.error
+
+
+def test_mark_cancelled_sets_terminal_state_and_error():
+    registry = RunRegistry()
+    run = registry.start_run(project_id="p1", stage="director")
+
+    registry.mark_cancelled(run.run_id)
+
+    finished = registry.get(run.run_id)
+    assert finished.status == RunStatus.CANCELLED
+    assert finished.finished_at is not None
+    assert finished.status in TERMINAL_STATUSES
+
+
+def test_timed_out_run_releases_project_lock_for_a_new_run():
+    registry = RunRegistry()
+    first = registry.start_run(project_id="p1", stage="director")
+    registry.mark_timed_out(first.run_id, timeout_seconds=1)
+
+    second = registry.start_run(project_id="p1", stage="director")
+
+    assert second.run_id != first.run_id
+
+
+def test_a_late_success_after_timeout_is_discarded_not_overwriting_timed_out():
+    """The idempotency guard PipelineExecutor's timeout handling depends on
+    (web_api/run_registry.py's _finish): once a run is TIMED_OUT, nothing -
+    including a genuine late success from the abandoned background thread -
+    may move it to a different terminal status."""
+    registry = RunRegistry()
+    run = registry.start_run(project_id="p1", stage="director")
+    registry.mark_running(run.run_id)
+    registry.mark_timed_out(run.run_id, timeout_seconds=1)
+
+    registry.mark_succeeded(run.run_id, result={"late": "result"})
+
+    finished = registry.get(run.run_id)
+    assert finished.status == RunStatus.TIMED_OUT
+    assert finished.result is None
+
+
+def test_a_late_failure_after_timeout_is_discarded_not_overwriting_timed_out():
+    registry = RunRegistry()
+    run = registry.start_run(project_id="p1", stage="director")
+    registry.mark_running(run.run_id)
+    registry.mark_timed_out(run.run_id, timeout_seconds=1)
+
+    registry.mark_failed(run.run_id, error="late failure")
+
+    finished = registry.get(run.run_id)
+    assert finished.status == RunStatus.TIMED_OUT
+    assert finished.error != "late failure"
+
+
+def test_mark_running_cannot_move_a_terminal_run_backwards():
+    registry = RunRegistry()
+    run = registry.start_run(project_id="p1", stage="director")
+    registry.mark_timed_out(run.run_id, timeout_seconds=1)
+
+    registry.mark_running(run.run_id)
+
+    assert registry.get(run.run_id).status == RunStatus.TIMED_OUT
 
 
 def test_get_unknown_run_id_raises_run_not_found_error():

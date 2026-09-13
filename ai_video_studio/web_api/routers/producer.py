@@ -3,8 +3,14 @@ import uuid
 from fastapi import APIRouter, BackgroundTasks, Depends, HTTPException, status
 
 from project_manager.manager import ProjectManager
-from web_api.dependencies import get_producer_controller_factory, get_project_manager, get_run_registry
+from web_api.dependencies import (
+    get_pipeline_executor,
+    get_producer_controller_factory,
+    get_project_manager,
+    get_run_registry,
+)
 from web_api.models import RunAccepted
+from web_api.pipeline_executor import PipelineExecutor
 from web_api.producer_runner import run_producer_pipeline
 from web_api.run_registry import RunConflictError, RunRegistry
 
@@ -17,6 +23,7 @@ def run_producer(
     background_tasks: BackgroundTasks,
     project_manager: ProjectManager = Depends(get_project_manager),
     run_registry: RunRegistry = Depends(get_run_registry),
+    pipeline_executor: PipelineExecutor = Depends(get_pipeline_executor),
     controller_factory=Depends(get_producer_controller_factory),
 ) -> RunAccepted:
     """Wraps ProducerStudioController.run(project_id=...) exactly as
@@ -25,7 +32,10 @@ def run_producer(
     existing project_id supplied by the caller, so both failure modes
     that endpoint could only reach synthetically are real here:
     unknown project_id (404) and a second run started while one is
-    already active for this project (409, via run_registry's lock)."""
+    already active for this project (409, via run_registry's lock).
+
+    Execution itself goes through PipelineExecutor, same as Director/Render/
+    Publish - see web_api/pipeline_executor.py (Phase 1.1 P0 fix)."""
     project_id_str = str(project_id)
     try:
         project_manager.load_project(project_id_str)
@@ -38,11 +48,12 @@ def run_producer(
         raise HTTPException(status_code=409, detail=str(exc))
 
     background_tasks.add_task(
-        run_producer_pipeline,
+        pipeline_executor.submit,
         run_id=run.run_id,
+        run_registry=run_registry,
+        fn=run_producer_pipeline,
         project_id=project_id_str,
         project_manager=project_manager,
-        run_registry=run_registry,
         controller_factory=controller_factory,
     )
 

@@ -1,11 +1,14 @@
 import asyncio
 from typing import AsyncIterator, Tuple
 
-from web_api.run_registry import Run, RunNotFoundError, RunRegistry, RunStatus
+from web_api.run_registry import Run, RunNotFoundError, RunRegistry, RunStatus, TERMINAL_STATUSES
 
 DEFAULT_POLL_INTERVAL_SECONDS = 0.5
 
-_TERMINAL_STATUSES = (RunStatus.SUCCEEDED, RunStatus.FAILED)
+# Phase 1.1 P0 fix: TERMINAL_STATUSES now also includes TIMED_OUT/CANCELLED
+# (web_api/run_registry.py) - imported directly rather than redefined here,
+# so a stream closes on either of those exactly as it already did on
+# SUCCEEDED/FAILED, with one definition of "terminal" for the whole app.
 
 # Coarse status -> current_stage label, the same vocabulary
 # web_api/routers/render.py and publish.py already use for their
@@ -16,6 +19,8 @@ _STAGE_LABELS = {
     RunStatus.RUNNING: "running",
     RunStatus.SUCCEEDED: "completed",
     RunStatus.FAILED: "failed",
+    RunStatus.TIMED_OUT: "timed_out",
+    RunStatus.CANCELLED: "cancelled",
 }
 
 Event = Tuple[str, dict]
@@ -56,7 +61,7 @@ async def run_events(
                 yield event
             last_status = run.status
 
-        if run.status in _TERMINAL_STATUSES:
+        if run.status in TERMINAL_STATUSES:
             return
 
         await asyncio.sleep(poll_interval)
@@ -78,4 +83,10 @@ def _events_for(run: Run):
     elif run.status == RunStatus.FAILED:
         yield "progress", {"progress": 100}
         yield "failed", {"status": run.status.value, "error": run.error}
+    elif run.status == RunStatus.TIMED_OUT:
+        yield "progress", {"progress": 100}
+        yield "timed_out", {"status": run.status.value, "error": run.error}
+    elif run.status == RunStatus.CANCELLED:
+        yield "progress", {"progress": 100}
+        yield "cancelled", {"status": run.status.value, "error": run.error}
     # QUEUED: nothing to report yet beyond the connection itself.

@@ -2,6 +2,7 @@ from fastapi.testclient import TestClient
 
 from project_manager.project import ProjectState
 from tests.integration.test_producer_pipeline import _build_package_ready_project, _write_media
+from tests.web_api.conftest import wait_for_run
 from web_api import create_app
 from web_api.run_registry import RunStatus
 
@@ -26,7 +27,7 @@ def test_full_producer_pipeline_via_api_reaches_edit_plan_ready(tmp_path, monkey
     assert response.status_code == 202
     body = response.json()
 
-    run = client.get(f"/runs/{body['run_id']}").json()
+    run = wait_for_run(client, body["run_id"]).json()
     assert run["status"] == RunStatus.SUCCEEDED.value
     assert run["result"]["asset_validation"]["is_valid"] is True
     assert "timeline" in run["result"]
@@ -55,7 +56,7 @@ def test_full_producer_pipeline_via_api_with_incomplete_media_does_not_advance_s
     response = client.post(f"/projects/{project.project_id}/producer/run")
     body = response.json()
 
-    run = client.get(f"/runs/{body['run_id']}").json()
+    run = wait_for_run(client, body["run_id"]).json()
     assert run["status"] == RunStatus.SUCCEEDED.value
     assert run["result"]["asset_validation"]["is_valid"] is False
     assert "timeline" not in run["result"]
@@ -82,7 +83,7 @@ def test_producer_run_via_api_on_project_not_ready_hits_real_system_exit(tmp_pat
     response = client.post(f"/projects/{project.project_id}/producer/run")
     body = response.json()
 
-    run = client.get(f"/runs/{body['run_id']}").json()
+    run = wait_for_run(client, body["run_id"]).json()
     assert run["status"] == RunStatus.FAILED.value
     assert run["error"] is not None
 

@@ -2,6 +2,7 @@ from fastapi.testclient import TestClient
 
 from config import settings
 from tests.integration.test_pipeline import FakeLLMClient, _happy_path_responses
+from tests.web_api.conftest import wait_for_run
 from web_api import create_app
 from web_api.dependencies import get_llm_client_factory
 from web_api.run_registry import RunStatus
@@ -28,7 +29,7 @@ def test_full_director_pipeline_via_api_succeeds(monkeypatch, tmp_path):
     assert response.status_code == 202
     body = response.json()
 
-    run = client.get(f"/runs/{body['run_id']}").json()
+    run = wait_for_run(client, body["run_id"]).json()
     assert run["status"] == RunStatus.SUCCEEDED.value
     assert run["result"]["shots"]
     assert len(run["result"]["shots"]) == 2
@@ -53,7 +54,7 @@ def test_full_director_pipeline_via_api_marks_run_failed_on_real_stage_failure(m
     response = client.post("/projects", json={"idea": "A brave explorer", "duration_seconds": 30})
     body = response.json()
 
-    run = client.get(f"/runs/{body['run_id']}").json()
+    run = wait_for_run(client, body["run_id"]).json()
     assert run["status"] == RunStatus.FAILED.value
     assert run["error"] is not None
 

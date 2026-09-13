@@ -7,6 +7,7 @@ from tests.web_api.conftest import (
     SystemExitPublishController,
     make_video_rendered_project,
     post_publish_run,
+    wait_for_run,
 )
 from web_api.dependencies import get_project_manager
 from web_api.run_registry import RunStatus
@@ -43,7 +44,7 @@ def test_run_publish_returns_202_and_succeeds(client, app_):
     assert uuid.UUID(body["run_id"])
     assert body["status"] == RunStatus.QUEUED.value
 
-    run = client.get(f"/runs/{body['run_id']}").json()
+    run = wait_for_run(client, body["run_id"]).json()
     assert run["status"] == RunStatus.SUCCEEDED.value
     assert run["stage"] == "publish"
     assert run["result"]["ready_to_publish"] is True
@@ -55,7 +56,7 @@ def test_run_publish_defaults_platform_to_youtube(client, app_):
     project = make_video_rendered_project(get_project_manager())
 
     response = post_publish_run(client, app_, SucceedingPublishController, project.project_id)
-    run = client.get(f"/runs/{response.json()['run_id']}").json()
+    run = wait_for_run(client, response.json()["run_id"]).json()
 
     assert run["result"]["platform"] == "youtube"
 
@@ -70,7 +71,7 @@ def test_run_publish_not_ready_still_succeeds_as_a_reported_outcome(client, app_
     project = make_video_rendered_project(get_project_manager())
 
     response = post_publish_run(client, app_, NotReadyPublishController, project.project_id)
-    run = client.get(f"/runs/{response.json()['run_id']}").json()
+    run = wait_for_run(client, response.json()["run_id"]).json()
 
     assert run["status"] == RunStatus.SUCCEEDED.value
     assert run["result"]["ready_to_publish"] is False
@@ -83,7 +84,7 @@ def test_run_publish_system_exit_is_caught_and_marks_run_failed(client, app_):
     project = make_video_rendered_project(get_project_manager())
 
     response = post_publish_run(client, app_, SystemExitPublishController, project.project_id)
-    run = client.get(f"/runs/{response.json()['run_id']}").json()
+    run = wait_for_run(client, response.json()["run_id"]).json()
 
     assert run["status"] == RunStatus.FAILED.value
     assert run["error"] is not None
@@ -94,7 +95,7 @@ def test_run_publish_unexpected_exception_is_caught_and_marks_run_failed(client,
     project = make_video_rendered_project(get_project_manager())
 
     response = post_publish_run(client, app_, CrashingPublishController, project.project_id)
-    run = client.get(f"/runs/{response.json()['run_id']}").json()
+    run = wait_for_run(client, response.json()["run_id"]).json()
 
     assert run["status"] == RunStatus.FAILED.value
     assert run["error"] == "boom"
@@ -119,8 +120,8 @@ def test_concurrent_publishes_for_different_projects_both_succeed(client, app_):
 
     assert response_a.status_code == 202
     assert response_b.status_code == 202
-    run_a = client.get(f"/runs/{response_a.json()['run_id']}").json()
-    run_b = client.get(f"/runs/{response_b.json()['run_id']}").json()
+    run_a = wait_for_run(client, response_a.json()["run_id"]).json()
+    run_b = wait_for_run(client, response_b.json()["run_id"]).json()
     assert run_a["status"] == RunStatus.SUCCEEDED.value
     assert run_b["status"] == RunStatus.SUCCEEDED.value
 
@@ -142,6 +143,7 @@ def test_publish_status_no_publish_run_yet_returns_404(client, app_):
 def test_publish_status_reports_succeeded_run_with_project_state(client, app_):
     project = make_video_rendered_project(get_project_manager())
     run_id = post_publish_run(client, app_, SucceedingPublishController, project.project_id).json()["run_id"]
+    wait_for_run(client, run_id)
 
     status_response = client.get(f"/projects/{project.project_id}/publish/status")
 
@@ -158,6 +160,7 @@ def test_publish_status_reports_succeeded_run_with_project_state(client, app_):
 def test_publish_status_reports_failed_run_with_error(client, app_):
     project = make_video_rendered_project(get_project_manager())
     run_id = post_publish_run(client, app_, CrashingPublishController, project.project_id).json()["run_id"]
+    wait_for_run(client, run_id)
 
     status_response = client.get(f"/projects/{project.project_id}/publish/status")
 

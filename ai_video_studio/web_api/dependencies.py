@@ -13,6 +13,7 @@ from producer_studio.controller import ProducerStudioController
 from project_manager.manager import ProjectManager
 from publishing_engine.controller import PublishingEngineController
 from shared_core.contracts.user import UserResponse
+from web_api.pipeline_executor import PipelineExecutor
 from web_api.run_registry import RunRegistry
 from web_api.sse import DEFAULT_POLL_INTERVAL_SECONDS
 
@@ -35,6 +36,15 @@ def get_run_registry(request: Request) -> RunRegistry:
     TestClient(create_app()) in tests gets its own isolated registry
     instead of leaking Run objects across unrelated test cases."""
     return request.app.state.run_registry
+
+
+def get_pipeline_executor(request: Request) -> PipelineExecutor:
+    """Phase 1.1 P0 fix: same per-app-instance convention as
+    get_run_registry, for exactly the same reason (test isolation) - see
+    web_api/pipeline_executor.py for what this bounds and why it exists as
+    a separate pool from the one Starlette dispatches sync routes and
+    BackgroundTasks through."""
+    return request.app.state.pipeline_executor
 
 
 def get_llm_client_factory():

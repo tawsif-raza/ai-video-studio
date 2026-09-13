@@ -4,6 +4,7 @@ from project_manager.project import ProjectState
 from publishing_engine.controller import PublishingEngineController
 from tests.integration.test_render_pipeline import _edit_plan_ready_project
 from tests.test_publishing_controller import _FakeCredentialProvider, _FakePlatform
+from tests.web_api.conftest import wait_for_run
 from web_api import create_app
 from web_api.dependencies import get_publish_controller_factory
 from web_api.run_registry import RunStatus
@@ -54,7 +55,7 @@ def test_full_publish_pipeline_via_api_reports_ready_to_publish(tmp_path, monkey
     assert response.status_code == 202
     body = response.json()
 
-    run = client.get(f"/runs/{body['run_id']}").json()
+    run = wait_for_run(client, body["run_id"]).json()
     assert run["status"] == RunStatus.SUCCEEDED.value
     assert run["result"]["ready_to_publish"] is True
     assert run["result"]["readiness"]["is_valid"] is True
@@ -87,7 +88,7 @@ def test_full_publish_pipeline_via_api_reports_auth_failure(tmp_path, monkeypatc
     response = client.post(f"/projects/{project.project_id}/publish/run", json={})
     body = response.json()
 
-    run = client.get(f"/runs/{body['run_id']}").json()
+    run = wait_for_run(client, body["run_id"]).json()
     assert run["status"] == RunStatus.SUCCEEDED.value
     assert run["result"]["ready_to_publish"] is False
     assert run["result"]["authentication"]["success"] is False
@@ -109,7 +110,7 @@ def test_publish_run_via_api_reports_unsupported_platform_without_crashing(tmp_p
     )
     body = response.json()
 
-    run = client.get(f"/runs/{body['run_id']}").json()
+    run = wait_for_run(client, body["run_id"]).json()
     assert run["status"] == RunStatus.SUCCEEDED.value
     assert run["result"]["ready_to_publish"] is False
     assert run["result"]["authentication"]["error_type"] == "unsupported_platform"

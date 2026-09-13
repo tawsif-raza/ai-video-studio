@@ -4,8 +4,14 @@ from fastapi import APIRouter, BackgroundTasks, Depends, HTTPException, status
 
 from project_manager.manager import ProjectManager
 from project_manager.project import ProjectState
-from web_api.dependencies import get_project_manager, get_publish_controller_factory, get_run_registry
+from web_api.dependencies import (
+    get_pipeline_executor,
+    get_project_manager,
+    get_publish_controller_factory,
+    get_run_registry,
+)
 from web_api.models import PublishRunRequest, PublishStatusResponse, RunAccepted
+from web_api.pipeline_executor import PipelineExecutor
 from web_api.publish_runner import run_publish_pipeline
 from web_api.run_registry import Run, RunConflictError, RunNotFoundError, RunRegistry, RunStatus
 
@@ -19,6 +25,7 @@ def run_publish(
     background_tasks: BackgroundTasks,
     project_manager: ProjectManager = Depends(get_project_manager),
     run_registry: RunRegistry = Depends(get_run_registry),
+    pipeline_executor: PipelineExecutor = Depends(get_pipeline_executor),
     controller_factory=Depends(get_publish_controller_factory),
 ) -> RunAccepted:
     """Wraps PublishingEngineController.run() exactly as publish_app.py
@@ -54,11 +61,12 @@ def run_publish(
         raise HTTPException(status_code=409, detail=str(exc))
 
     background_tasks.add_task(
-        run_publish_pipeline,
+        pipeline_executor.submit,
         run_id=run.run_id,
+        run_registry=run_registry,
+        fn=run_publish_pipeline,
         project_id=project_id_str,
         project_manager=project_manager,
-        run_registry=run_registry,
         controller_factory=controller_factory,
         platform=body.platform,
         dry_run=body.dry_run,
@@ -96,6 +104,10 @@ def _to_status_response(run: Run, project_state: str) -> PublishStatusResponse:
         current_stage, progress = "publishing", 50
     elif run.status == RunStatus.SUCCEEDED:
         current_stage, progress = "completed", 100
+    elif run.status == RunStatus.TIMED_OUT:
+        current_stage, progress = "timed_out", 100
+    elif run.status == RunStatus.CANCELLED:
+        current_stage, progress = "cancelled", 100
     else:
         current_stage, progress = "failed", 100
 

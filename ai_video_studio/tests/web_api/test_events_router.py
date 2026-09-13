@@ -1,6 +1,6 @@
 import uuid
 
-from tests.web_api.conftest import SucceedingProducerController, post_producer_run
+from tests.web_api.conftest import SucceedingProducerController, post_producer_run, wait_for_run
 from web_api.dependencies import get_project_manager, get_sse_poll_interval
 
 
@@ -41,16 +41,19 @@ def test_run_events_stream_has_correct_content_type(client, app_):
 
 
 def test_run_events_stream_wire_format_for_a_succeeded_run(client, app_):
-    """By the time TestClient's POST call returns, its background task has
-    already run to completion (Starlette awaits BackgroundTasks before the
-    response is considered finished, and TestClient drives the whole ASGI
-    cycle in-process with no real socket) - so this exercises the
+    """Explicitly waits for the run to actually finish before connecting -
+    since the Phase 1.1 P0 fix, pipeline execution runs on PipelineExecutor's
+    own dedicated thread pool, decoupled from the BackgroundTasks/ASGI call
+    stack TestClient drives synchronously, so a POST's return no longer by
+    itself guarantees the background work has completed (see
+    tests/web_api/conftest.py's wait_for_run). This exercises the
     "already-terminal run" path of run_events(), which is exactly what a
     client reconnecting after a run finished would see. True mid-flight
     streaming while a run is genuinely still in progress needs a real
     socket and is covered by tests/integration/test_sse_live_streaming.py."""
     project_id = get_project_manager().create_project().project_id
     created = post_producer_run(client, app_, SucceedingProducerController, project_id).json()
+    wait_for_run(client, created["run_id"])
 
     response = client.get(f"/runs/{created['run_id']}/events")
 

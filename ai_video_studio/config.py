@@ -66,6 +66,34 @@ class Settings:
     MIN_SCENE_COUNT: int = int(os.getenv("MIN_SCENE_COUNT", "1"))
     MAX_SCENE_COUNT: int = int(os.getenv("MAX_SCENE_COUNT", "100"))
 
+    # --- Phase 1.1 P0 fix: bounded pipeline concurrency (docs/phase1.1-p0-fixes.md) ---
+    # Caps how many Director/Producer/Render/Publish runs may actually be
+    # EXECUTING at once, on a dedicated thread pool separate from the one
+    # Starlette uses for sync HTTP routes and BackgroundTasks dispatch
+    # (see docs/phase1-stability-audit.md finding C1 - that shared 40-slot
+    # anyio pool is what starved /health under load; this cap is
+    # deliberately its own, smaller number, not derived from or tied to
+    # that 40). Conservative default for today's single-uvicorn-worker,
+    # single-container deployment (railway.json: numReplicas 1): each slot
+    # is CPU/LLM/ffmpeg-bound work sharing the one process with the API
+    # itself, so a small cap leaves the process real headroom to keep
+    # answering ordinary requests (and the health check) even while every
+    # pipeline slot is busy.
+    PIPELINE_MAX_CONCURRENCY: int = int(os.getenv("PIPELINE_MAX_CONCURRENCY", "4"))
+
+    # Hard wall-clock ceiling for one pipeline run, independent of (and in
+    # addition to) each stage's own internal timeouts (LLM clients: 60s x 3
+    # retries per call; ffmpeg: RenderOptions.timeout_seconds, enforced as a
+    # real subprocess kill). Sized generously above the audit's own
+    # worst-case estimate for a legitimate MAX_SCENE_COUNT=100 Director run
+    # (~30-35 minutes in the happy path: ~100-200 sequential per-shot LLM
+    # calls) so this is a backstop against a genuinely stuck run, not a
+    # tool for capping normal heavy usage - Fix 1's concurrency cap is what
+    # actually protects the API under load. Raise this (or lower
+    # MAX_SCENE_COUNT) if real measurements show typical heavy runs
+    # exceeding it.
+    PIPELINE_TIMEOUT_SECONDS: float = float(os.getenv("PIPELINE_TIMEOUT_SECONDS", "1800"))
+
 
 settings = Settings()
 settings.OUTPUT_DIR.mkdir(exist_ok=True)

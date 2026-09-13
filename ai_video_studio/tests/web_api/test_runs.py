@@ -5,6 +5,7 @@ from tests.web_api.conftest import (
     FailingDirectorController,
     SucceedingDirectorController,
     post_with_controller,
+    wait_for_run,
 )
 from web_api.run_registry import RunStatus
 
@@ -24,7 +25,7 @@ def test_get_run_malformed_id_returns_422(client):
 def test_successful_run_reaches_succeeded_with_result(client, app_):
     created = post_with_controller(client, app_, SucceedingDirectorController).json()
 
-    run = client.get(f"/runs/{created['run_id']}").json()
+    run = wait_for_run(client, created["run_id"]).json()
 
     assert run["status"] == RunStatus.SUCCEEDED.value
     assert run["project_id"] == created["project_id"]
@@ -41,7 +42,7 @@ def test_system_exit_from_controller_is_caught_and_marks_run_failed(client, app_
     at RUNNING and not crash the test process."""
     created = post_with_controller(client, app_, FailingDirectorController).json()
 
-    run = client.get(f"/runs/{created['run_id']}").json()
+    run = wait_for_run(client, created["run_id"]).json()
 
     assert run["status"] == RunStatus.FAILED.value
     assert run["error"] is not None
@@ -55,7 +56,7 @@ def test_system_exit_from_controller_is_caught_and_marks_run_failed(client, app_
 def test_unexpected_exception_from_controller_is_caught_and_marks_run_failed(client, app_):
     created = post_with_controller(client, app_, CrashingDirectorController).json()
 
-    run = client.get(f"/runs/{created['run_id']}").json()
+    run = wait_for_run(client, created["run_id"]).json()
 
     assert run["status"] == RunStatus.FAILED.value
     assert run["error"] == "boom"

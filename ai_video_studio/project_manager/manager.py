@@ -542,6 +542,59 @@ class ProjectManager:
         logger.info(f"Deleted uploaded media {target_path}")
         return target_path
 
+    def reap_orphaned_render_artifacts(self) -> List[Path]:
+        """Phase 1.1 P0 fix, Fix 9 (docs/phase1.1-p0-fixes.md) - the smallest
+        safe remediation for the in-memory RunRegistry's known limitation: a
+        hard process kill (e.g. an orchestrator restart, previously
+        triggered by the thread-pool-starvation crash mode this phase's
+        other fixes address) loses all Run bookkeeping, and
+        execution_engine/ffmpeg_executor.py's scratch files are only cleaned
+        up on its own graceful failure paths - never on SIGKILL.
+
+        Deliberately does NOT attempt to reconstruct what run was in flight
+        (RunRegistry retains no history to reconstruct from, and this phase
+        does not add any) - it only identifies and removes scratch files
+        that are unambiguously safe to delete, by construction of
+        ffmpeg_executor.execute():
+          - "*.part.<ext>": the temp output path ffmpeg writes to. Renamed
+            to its final name only after a verified non-zero-size,
+            zero-exit-code render (execute()'s last steps) - one still
+            present under this name was never a finished render, full stop.
+          - "*.stderr.log": deleted by execute() on every code path it
+            itself completes, success or a handled failure. One still
+            present was orphaned mid-render by something that killed the
+            process before execute() could reach its own cleanup.
+        Neither pattern is ever referenced by Project.rendered_video_path
+        or read by anything else in this system, so removing them changes
+        no project's state - it only frees disk space. Called once at
+        app startup (web_api/__init__.py's lifespan). Returns the list of
+        files actually removed, for startup logging.
+
+        Known limitation, documented rather than solved here (Phase 2, not
+        this phase): a project whose render was genuinely in flight at
+        crash time is left exactly where ProjectState already leaves it
+        (still EDIT_PLAN_READY, since VIDEO_RENDERED is only ever set by a
+        *completed* save_render_result) - this method cannot and does not
+        attempt to surface "a render was interrupted" to the user; they see
+        an EDIT_PLAN_READY project and can simply re-run it."""
+        projects_root = settings.OUTPUT_DIR / "projects"
+        if not projects_root.exists():
+            return []
+
+        removed: List[Path] = []
+        for project_dir in projects_root.iterdir():
+            renders_dir = project_dir / "renders"
+            if not renders_dir.is_dir():
+                continue
+            for pattern in ("*.part.*", "*.stderr.log"):
+                for stale_file in renders_dir.glob(pattern):
+                    try:
+                        stale_file.unlink()
+                        removed.append(stale_file)
+                    except OSError as exc:
+                        logger.warning(f"Failed to remove orphaned render artifact {stale_file}: {exc}")
+        return removed
+
     def get_render_dir(self, project: Project) -> Path:
         """Where the FFmpeg Execution Engine writes its output, kept entirely
         separate from the read-only Producer Package (projects/<id>/renders/).
