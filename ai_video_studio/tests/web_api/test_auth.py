@@ -304,6 +304,250 @@ def test_get_me_user_deleted_from_store(auth_client, tmp_path):
     assert "user not found" in response.json()["detail"].lower()
 
 
+def test_update_me_updates_full_name(auth_client):
+    reg = auth_client.post("/api/auth/register", json={
+        "email": "update_name@example.com",
+        "full_name": "Original Name",
+        "password": "password123",
+    })
+    token = reg.json()["access_token"]
+
+    response = auth_client.patch(
+        "/api/auth/me",
+        json={"full_name": "New Name"},
+        headers={"Authorization": f"Bearer {token}"},
+    )
+
+    assert response.status_code == 200
+    data = response.json()
+    assert data["full_name"] == "New Name"
+    assert data["email"] == "update_name@example.com"
+
+    # Persisted, not just returned in the response.
+    reloaded = auth_client.get("/api/auth/me", headers={"Authorization": f"Bearer {token}"})
+    assert reloaded.json()["full_name"] == "New Name"
+
+
+def test_update_me_updates_preferences(auth_client):
+    reg = auth_client.post("/api/auth/register", json={
+        "email": "update_prefs@example.com",
+        "full_name": "Prefs User",
+        "password": "password123",
+    })
+    token = reg.json()["access_token"]
+
+    response = auth_client.patch(
+        "/api/auth/me",
+        json={"preferences": {"dark_mode": "true", "aspect_ratio": "16:9"}},
+        headers={"Authorization": f"Bearer {token}"},
+    )
+
+    assert response.status_code == 200
+    assert response.json()["preferences"] == {"dark_mode": "true", "aspect_ratio": "16:9"}
+
+
+def test_update_me_updates_api_keys(auth_client):
+    reg = auth_client.post("/api/auth/register", json={
+        "email": "update_keys@example.com",
+        "full_name": "Keys User",
+        "password": "password123",
+    })
+    token = reg.json()["access_token"]
+
+    response = auth_client.patch(
+        "/api/auth/me",
+        json={"api_keys": {"gemini": "user-provided-key"}},
+        headers={"Authorization": f"Bearer {token}"},
+    )
+
+    assert response.status_code == 200
+    assert response.json()["api_keys"] == {"gemini": "user-provided-key"}
+
+
+def test_update_me_partial_update_leaves_other_fields_untouched(auth_client):
+    reg = auth_client.post("/api/auth/register", json={
+        "email": "partial_update@example.com",
+        "full_name": "Partial User",
+        "password": "password123",
+    })
+    token = reg.json()["access_token"]
+    headers = {"Authorization": f"Bearer {token}"}
+
+    auth_client.patch("/api/auth/me", json={"preferences": {"dark_mode": "true"}}, headers=headers)
+    response = auth_client.patch("/api/auth/me", json={"full_name": "Renamed"}, headers=headers)
+
+    assert response.status_code == 200
+    data = response.json()
+    assert data["full_name"] == "Renamed"
+    # PATCH semantics (exclude_unset): a field omitted from this second
+    # request must not be wiped out by the first request's own update.
+    assert data["preferences"] == {"dark_mode": "true"}
+
+
+def test_update_me_empty_body_returns_current_user_unchanged(auth_client):
+    reg = auth_client.post("/api/auth/register", json={
+        "email": "empty_update@example.com",
+        "full_name": "Empty Body User",
+        "password": "password123",
+    })
+    token = reg.json()["access_token"]
+
+    response = auth_client.patch(
+        "/api/auth/me", json={}, headers={"Authorization": f"Bearer {token}"},
+    )
+
+    assert response.status_code == 200
+    assert response.json()["full_name"] == "Empty Body User"
+
+
+def test_update_me_rejects_blank_full_name(auth_client):
+    reg = auth_client.post("/api/auth/register", json={
+        "email": "blank_name@example.com",
+        "full_name": "Has A Name",
+        "password": "password123",
+    })
+    token = reg.json()["access_token"]
+
+    response = auth_client.patch(
+        "/api/auth/me",
+        json={"full_name": "   "},
+        headers={"Authorization": f"Bearer {token}"},
+    )
+
+    assert response.status_code == 422
+
+
+def test_update_me_unauthenticated(auth_client):
+    response = auth_client.patch("/api/auth/me", json={"full_name": "Nobody"})
+    assert response.status_code == 401
+
+
+def test_update_me_user_deleted_from_store(auth_client, tmp_path):
+    reg = auth_client.post("/api/auth/register", json={
+        "email": "update_deleted@example.com",
+        "full_name": "Soon Deleted",
+        "password": "password123",
+    })
+    token = reg.json()["access_token"]
+    user_id = reg.json()["user"]["id"]
+
+    store = LocalUserStore(tmp_path / "users")
+    store.delete_user(user_id)
+
+    response = auth_client.patch(
+        "/api/auth/me",
+        json={"full_name": "Ghost"},
+        headers={"Authorization": f"Bearer {token}"},
+    )
+    # get_current_user's own lookup already 401s before update_me's route
+    # body ever runs - same as test_get_me_user_deleted_from_store.
+    assert response.status_code == 401
+
+
+def test_update_password_success(auth_client):
+    auth_client.post("/api/auth/register", json={
+        "email": "change_pw@example.com",
+        "full_name": "Password Changer",
+        "password": "originalpassword",
+    })
+    login = auth_client.post("/api/auth/login", json={
+        "email": "change_pw@example.com",
+        "password": "originalpassword",
+    })
+    token = login.json()["access_token"]
+
+    response = auth_client.patch(
+        "/api/auth/me/password",
+        json={"current_password": "originalpassword", "new_password": "newpassword456"},
+        headers={"Authorization": f"Bearer {token}"},
+    )
+
+    assert response.status_code == 200
+    assert response.json()["status"] == "ok"
+
+    old_login = auth_client.post("/api/auth/login", json={
+        "email": "change_pw@example.com",
+        "password": "originalpassword",
+    })
+    assert old_login.status_code == 401
+
+    new_login = auth_client.post("/api/auth/login", json={
+        "email": "change_pw@example.com",
+        "password": "newpassword456",
+    })
+    assert new_login.status_code == 200
+
+
+def test_update_password_wrong_current_password(auth_client):
+    reg = auth_client.post("/api/auth/register", json={
+        "email": "wrong_current@example.com",
+        "full_name": "User",
+        "password": "correctpassword",
+    })
+    token = reg.json()["access_token"]
+
+    response = auth_client.patch(
+        "/api/auth/me/password",
+        json={"current_password": "wrongpassword", "new_password": "newpassword456"},
+        headers={"Authorization": f"Bearer {token}"},
+    )
+
+    assert response.status_code == 403
+    assert "incorrect" in response.json()["detail"].lower()
+
+    # Nothing was changed - the original password still works.
+    still_works = auth_client.post("/api/auth/login", json={
+        "email": "wrong_current@example.com",
+        "password": "correctpassword",
+    })
+    assert still_works.status_code == 200
+
+
+def test_update_password_rejects_short_new_password(auth_client):
+    reg = auth_client.post("/api/auth/register", json={
+        "email": "short_pw@example.com",
+        "full_name": "User",
+        "password": "correctpassword",
+    })
+    token = reg.json()["access_token"]
+
+    response = auth_client.patch(
+        "/api/auth/me/password",
+        json={"current_password": "correctpassword", "new_password": "abc"},
+        headers={"Authorization": f"Bearer {token}"},
+    )
+
+    assert response.status_code == 422
+
+
+def test_update_password_unauthenticated(auth_client):
+    response = auth_client.patch(
+        "/api/auth/me/password",
+        json={"current_password": "x", "new_password": "abcdef"},
+    )
+    assert response.status_code == 401
+
+
+def test_update_password_user_deleted_from_store(auth_client, tmp_path):
+    reg = auth_client.post("/api/auth/register", json={
+        "email": "pw_deleted@example.com",
+        "full_name": "Soon Deleted",
+        "password": "originalpassword",
+    })
+    token = reg.json()["access_token"]
+    user_id = reg.json()["user"]["id"]
+
+    store = LocalUserStore(tmp_path / "users")
+    store.delete_user(user_id)
+
+    response = auth_client.patch(
+        "/api/auth/me/password",
+        json={"current_password": "originalpassword", "new_password": "newpassword456"},
+        headers={"Authorization": f"Bearer {token}"},
+    )
+    assert response.status_code == 401
+
+
 def test_logout(auth_client):
     response = auth_client.post("/api/auth/logout")
     assert response.status_code == 200

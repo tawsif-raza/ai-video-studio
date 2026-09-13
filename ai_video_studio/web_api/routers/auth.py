@@ -10,9 +10,10 @@ from auth.security import (
     create_access_token,
     create_password_reset_token,
     decode_password_reset_token,
+    verify_password,
 )
 from auth.user_store import UserAlreadyExistsError, UserStore
-from shared_core.contracts.user import UserCreate, UserResponse
+from shared_core.contracts.user import UserCreate, UserResponse, UserUpdate, UserPasswordUpdate
 from utils.logger import get_logger
 from web_api.dependencies import get_current_user, get_user_store
 
@@ -170,6 +171,72 @@ def get_me(
     current_user: UserResponse = Depends(get_current_user),
 ) -> UserResponse:
     return current_user
+
+
+@router.patch(
+    "/me",
+    response_model=UserResponse,
+    status_code=status.HTTP_200_OK,
+    summary="Update current user profile, preferences, or API keys",
+)
+def update_me(
+    body: UserUpdate,
+    current_user: UserResponse = Depends(get_current_user),
+    user_store: UserStore = Depends(get_user_store),
+) -> UserResponse:
+    user = user_store.get_by_id(current_user.id)
+    if user is None:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="User not found",
+        )
+
+    updates = body.model_dump(exclude_unset=True)
+    if not updates:
+        return user.to_response()
+
+    updated = user.model_copy(update=updates)
+    user_store.update_user(updated)
+    return updated.to_response()
+
+
+@router.patch(
+    "/me/password",
+    response_model=MessageResponse,
+    status_code=status.HTTP_200_OK,
+    summary="Update current user password",
+)
+def update_password(
+    body: UserPasswordUpdate,
+    current_user: UserResponse = Depends(get_current_user),
+    user_store: UserStore = Depends(get_user_store),
+) -> MessageResponse:
+    user = user_store.get_by_id(current_user.id)
+    if user is None:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="User not found",
+        )
+
+    # Verify current password
+    if not verify_password(body.current_password, user.hashed_password, user.salt):
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail="Current password is incorrect",
+        )
+
+    try:
+        user_store.update_password(user.id, body.new_password)
+    except ValueError as exc:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail=str(exc),
+        )
+
+    return MessageResponse(
+        status="ok",
+        message="Password has been successfully updated.",
+    )
 
 
 @router.post(
