@@ -11,6 +11,7 @@ from web_api.dependencies import (
     get_run_registry,
 )
 from web_api.models import PublishRunRequest, PublishStatusResponse, RunAccepted
+from web_api.pipeline_dispatch import dispatch
 from web_api.pipeline_executor import PipelineExecutor
 from web_api.publish_runner import run_publish_pipeline
 from web_api.run_registry import Run, RunConflictError, RunNotFoundError, RunRegistry, RunStatus
@@ -61,10 +62,13 @@ def run_publish(
         raise HTTPException(status_code=409, detail=str(exc))
 
     background_tasks.add_task(
-        pipeline_executor.submit,
+        dispatch,
+        stage="publish",
         run_id=run.run_id,
         run_registry=run_registry,
+        pipeline_executor=pipeline_executor,
         fn=run_publish_pipeline,
+        sqs_payload={"project_id": project_id_str, "platform": body.platform, "dry_run": body.dry_run},
         project_id=project_id_str,
         project_manager=project_manager,
         controller_factory=controller_factory,

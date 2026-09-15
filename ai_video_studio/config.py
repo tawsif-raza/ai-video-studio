@@ -94,6 +94,33 @@ class Settings:
     # exceeding it.
     PIPELINE_TIMEOUT_SECONDS: float = float(os.getenv("PIPELINE_TIMEOUT_SECONDS", "1800"))
 
+    # --- AWS deployment prerequisites (docs/aws-production-architecture.md) ---
+    # All optional/blank by default so local dev, the CLIs, and the entire
+    # existing test suite are completely unaffected - each subsystem below
+    # only activates when its own env vars are actually set (see
+    # storage/s3_syncing_project_manager.py, db/, web_api/dependencies.py).
+
+    AWS_REGION: str = os.getenv("AWS_REGION", "")
+
+    # Prerequisite 1: S3-backed project storage (storage/s3_project_sync.py).
+    # Blank means "local disk only" - today's exact behavior.
+    S3_BUCKET_NAME: str = os.getenv("S3_BUCKET_NAME", "")
+
+    # Prerequisite 2: RDS-backed user store and run registry (db/). Blank
+    # DB_HOST means "local file store / in-memory registry" - today's exact
+    # behavior (web_api/dependencies.py::get_user_store,
+    # web_api/__init__.py::create_app's RunRegistry construction).
+    DB_HOST: str = os.getenv("DB_HOST", "")
+    DB_PORT: int = int(os.getenv("DB_PORT", "5432"))
+    DB_NAME: str = os.getenv("DB_NAME", "")
+    DB_USER: str = os.getenv("DB_USER", "")
+    DB_PASSWORD: str = os.getenv("DB_PASSWORD", "")
+
+    # Prerequisite 3: SQS-based worker dispatch (worker.py,
+    # web_api/pipeline_dispatch.py). Blank means "dispatch in-process via
+    # PipelineExecutor" - today's exact behavior (Phase 1.1 P0 fix).
+    SQS_QUEUE_URL: str = os.getenv("SQS_QUEUE_URL", "")
+
 
 settings = Settings()
 settings.OUTPUT_DIR.mkdir(exist_ok=True)

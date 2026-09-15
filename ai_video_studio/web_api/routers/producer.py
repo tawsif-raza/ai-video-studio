@@ -10,6 +10,7 @@ from web_api.dependencies import (
     get_run_registry,
 )
 from web_api.models import RunAccepted
+from web_api.pipeline_dispatch import dispatch
 from web_api.pipeline_executor import PipelineExecutor
 from web_api.producer_runner import run_producer_pipeline
 from web_api.run_registry import RunConflictError, RunRegistry
@@ -48,10 +49,13 @@ def run_producer(
         raise HTTPException(status_code=409, detail=str(exc))
 
     background_tasks.add_task(
-        pipeline_executor.submit,
+        dispatch,
+        stage="producer",
         run_id=run.run_id,
         run_registry=run_registry,
+        pipeline_executor=pipeline_executor,
         fn=run_producer_pipeline,
+        sqs_payload={"project_id": project_id_str},
         project_id=project_id_str,
         project_manager=project_manager,
         controller_factory=controller_factory,

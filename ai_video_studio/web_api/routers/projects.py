@@ -16,6 +16,7 @@ from web_api.dependencies import (
     get_run_registry,
 )
 from web_api.director_runner import run_director_pipeline
+from web_api.pipeline_dispatch import dispatch
 from web_api.pipeline_executor import PipelineExecutor
 from web_api.models import (
     BulkMediaDeleteRequest,
@@ -89,10 +90,23 @@ def create_project(
         raise HTTPException(status_code=409, detail=str(exc))
 
     background_tasks.add_task(
-        pipeline_executor.submit,
+        dispatch,
+        stage="director",
         run_id=run.run_id,
         run_registry=run_registry,
+        pipeline_executor=pipeline_executor,
         fn=run_director_pipeline,
+        sqs_payload={
+            "project_id": project.project_id,
+            "idea": body.idea,
+            "duration": body.duration_seconds,
+            "tone": body.tone,
+            "audience": body.audience,
+            "art_style": body.art_style,
+            "skip_research": body.skip_research,
+            "scene_count_mode": body.scene_count_mode,
+            "scene_count": body.scene_count,
+        },
         project=project,
         project_manager=project_manager,
         idea=body.idea,

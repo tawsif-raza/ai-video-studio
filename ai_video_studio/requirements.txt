@@ -1,1 +1,19 @@
-
+pydantic>=2.0
+python-dotenv>=1.0
+google-genai>=1.0
+tenacity>=8.0
+pytest>=8.0
+google-auth>=2.0
+requests>=2.30
+fastapi>=0.115
+uvicorn[standard]>=0.30
+httpx>=0.27
+python-multipart>=0.0.9
+openai>=2.0
+PyJWT>=2.8
+# AWS deployment prerequisites (docs/aws-production-architecture.md) - all
+# three are optional at runtime (config.py: blank env vars => local/
+# in-memory behavior unchanged) but must be installed for the AWS code
+# paths (storage/, db/, worker.py) to import at all.
+boto3>=1.34
+psycopg[binary,pool]>=3.1

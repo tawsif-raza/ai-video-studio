@@ -13,6 +13,7 @@ from web_api.dependencies import (
     get_run_registry,
 )
 from web_api.models import RenderRunRequest, RenderStatusResponse, RunAccepted
+from web_api.pipeline_dispatch import dispatch
 from web_api.pipeline_executor import PipelineExecutor
 from web_api.render_runner import run_render_pipeline
 from web_api.run_registry import Run, RunConflictError, RunNotFoundError, RunRegistry, RunStatus
@@ -58,15 +59,19 @@ def run_render(
     except RunConflictError as exc:
         raise HTTPException(status_code=409, detail=str(exc))
 
+    options = body.to_render_options()
     background_tasks.add_task(
-        pipeline_executor.submit,
+        dispatch,
+        stage="render",
         run_id=run.run_id,
         run_registry=run_registry,
+        pipeline_executor=pipeline_executor,
         fn=run_render_pipeline,
+        sqs_payload={"project_id": project_id_str, "options": options.model_dump(mode="json")},
         project_id=project_id_str,
         project_manager=project_manager,
         controller_factory=controller_factory,
-        options=body.to_render_options(),
+        options=options,
     )
 
     return RunAccepted(project_id=project_id_str, run_id=run.run_id, status=run.status)

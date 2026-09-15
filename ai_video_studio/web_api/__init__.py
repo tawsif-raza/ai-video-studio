@@ -63,6 +63,16 @@ async def _lifespan(app: FastAPI):
             f"Startup reaper removed {len(removed)} orphaned render artifact(s): "
             f"{[str(p) for p in removed]}"
         )
+
+    # AWS deployment prerequisite 2 (docs/aws-production-architecture.md
+    # §5): idempotent, safe under concurrent startup across multiple
+    # tasks - see db/connection.py's SCHEMA_SQL. No-op when DB_HOST isn't
+    # configured (local dev, every existing test).
+    if settings.DB_HOST:
+        from db.connection import init_schema
+
+        init_schema()
+
     yield
     app.state.pipeline_executor.shutdown(wait=False)
 
@@ -104,7 +114,22 @@ def create_app() -> FastAPI:
         # "*", which credentialed responses require anyway.
         allow_credentials=True,
     )
-    app.state.run_registry = RunRegistry()
+    # PostgresRunRegistry when DB_HOST is configured (AWS deployment
+    # prerequisite 2, docs/aws-production-architecture.md §5) - unlocks
+    # running more than one API task (see ecs_api's min_capacity comment
+    # in infra/modules/ecs_api/variables.tf, which this exact change is
+    # the prerequisite for). Exposes the identical start_run/mark_*/get*
+    # method set as RunRegistry (duck-typed, not a formal ABC - see
+    # db/postgres_run_registry.py's module docstring), so every router's
+    # Depends(get_run_registry) call site needs no change at all. Local
+    # dev and the entire existing test suite leave DB_HOST unset, so this
+    # remains the original in-memory RunRegistry for them.
+    if settings.DB_HOST:
+        from db.postgres_run_registry import PostgresRunRegistry
+
+        app.state.run_registry = PostgresRunRegistry()
+    else:
+        app.state.run_registry = RunRegistry()
     app.state.pipeline_executor = PipelineExecutor(
         max_workers=settings.PIPELINE_MAX_CONCURRENCY,
         run_timeout_seconds=settings.PIPELINE_TIMEOUT_SECONDS,

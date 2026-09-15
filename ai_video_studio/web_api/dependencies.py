@@ -25,8 +25,16 @@ def get_project_manager() -> ProjectManager:
     publish_app.py). ProjectManager itself holds no per-request state - it
     reads settings.OUTPUT_DIR fresh on every call - so a single cached
     instance is safe to share across all requests and, in tests, across
-    OUTPUT_DIR monkeypatches too."""
-    return ProjectManager()
+    OUTPUT_DIR monkeypatches too.
+
+    Returns a plain ProjectManager unless S3_BUCKET_NAME is configured
+    (AWS deployment prerequisite 1 - storage/s3_syncing_project_manager.py),
+    in which case it returns one wrapped with S3 durability. Local dev,
+    the CLIs, and the entire test suite never set S3_BUCKET_NAME, so this
+    is a no-op for them - see build_project_manager's own docstring."""
+    from storage.s3_syncing_project_manager import build_project_manager
+
+    return build_project_manager()
 
 
 def get_run_registry(request: Request) -> RunRegistry:
@@ -107,11 +115,19 @@ def get_sse_poll_interval() -> float:
 
 def get_user_store() -> UserStore:
     """Provides the active UserStore instance. Uses the singleton instance
-    if one has been configured (or set via set_user_store), otherwise returns
-    a LocalUserStore configured for the current settings.OUTPUT_DIR."""
+    if one has been configured (or set via set_user_store) - tests rely on
+    this for overriding. Otherwise: PostgresUserStore when DB_HOST is
+    configured (AWS deployment prerequisite 2 -
+    docs/aws-production-architecture.md §5), else the original
+    LocalUserStore for settings.OUTPUT_DIR - local dev and every existing
+    test leave DB_HOST unset, so this is a no-op change for them."""
     from auth.user_store import _user_store_instance
     if _user_store_instance is not None:
         return _user_store_instance
+    if settings.DB_HOST:
+        from db.postgres_user_store import PostgresUserStore
+
+        return PostgresUserStore()
     return LocalUserStore(settings.OUTPUT_DIR / "users")
 
 

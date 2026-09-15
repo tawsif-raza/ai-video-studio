@@ -1,0 +1,24 @@
+# Applies to the root Dockerfile's build context (repo root) - see that
+# file's own comment for why the context is the repo root, not
+# ai_video_studio/. The absolute priority here is .env: it holds real LLM
+# provider API keys and must never be baked into an image that gets pushed
+# to ECR (or anywhere else).
+**/.env
+**/.env.*
+!**/.env.example
+
+.git
+.gitignore
+
+frontend/
+docs/
+infra/
+*.md
+
+**/__pycache__/
+**/*.py[codz]
+**/.pytest_cache/
+.venv/
+venv/
+
+ai_video_studio/outputs/
