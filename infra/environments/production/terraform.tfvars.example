@@ -1,0 +1,27 @@
+# Copy to terraform.tfvars and adjust. terraform.tfvars is gitignored
+# (see infra/.gitignore) - never commit real values, though nothing below
+# is actually a secret (secrets live in SSM/Secrets Manager, not tfvars -
+# see modules/secrets and infra/README.md).
+
+aws_region   = "ap-south-1"
+project_name = "ai-video-studio"
+environment  = "production"
+
+azs = ["ap-south-1a", "ap-south-1b"]
+
+# The deployed frontend's real origin (stays on Vercel - see
+# docs/aws-production-architecture.md §0). Comma-separate multiple origins.
+cors_origins = "https://your-frontend.vercel.app"
+
+# Leave both empty to launch without a custom domain first (HTTP-only ALB
+# listener) - see modules/alb and modules/dns.
+domain_name          = ""
+create_dns_zone      = false
+existing_dns_zone_id = ""
+
+# Set by the deploy pipeline once real images exist in ECR - see
+# docs/aws-production-architecture.md §9. The default value in variables.tf
+# will not resolve, deliberately, so a stray apply can't deploy nothing.
+# image_tag = "sha-abc1234"
+
+alarm_email = ""

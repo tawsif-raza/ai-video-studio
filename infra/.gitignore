@@ -1,0 +1,31 @@
+# Terraform state - may contain sensitive values (e.g. RDS endpoint,
+# resource IDs) and must never be committed regardless of backend.
+*.tfstate
+*.tfstate.*
+.terraform/
+.terraform.lock.hcl.bak
+
+# Real variable values - see terraform.tfvars.example for the template.
+*.tfvars
+*.tfvars.json
+!*.tfvars.example
+
+# Plan output (may embed resource attribute values, including sensitive ones)
+*.tfplan
+*.tfplan.out
+tfplan.out
+plan.out
+crash.log
+crash.*.log
+
+# Raw CLI transcripts from local terraform plan/apply runs - not secrets
+# themselves (Terraform redacts sensitive values in human-readable output),
+# but still local session artifacts that don't belong in version control.
+*_output.txt
+plan_output.txt
+apply_output.txt
+
+override.tf
+override.tf.json
+*_override.tf
+*_override.tf.json
