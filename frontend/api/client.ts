@@ -1,4 +1,5 @@
 import type { ApiErrorBody } from "@/types/api";
+import { getStoredToken } from "@/api/token-storage";
 
 /**
  * Single place that knows the backend's base URL - every other module in
@@ -36,6 +37,7 @@ async function request<T>(path: string, init?: RequestInit): Promise<T> {
   const timeoutId = setTimeout(() => controller.abort(), 60000); // 60 second default timeout
 
   try {
+    const token = getStoredToken();
     const response = await fetch(`${API_BASE_URL}${path}`, {
       // Every W1-W6 endpoint is either a live snapshot (GET) or a
       // state-changing action (POST/DELETE) - nothing here should ever be
@@ -43,10 +45,18 @@ async function request<T>(path: string, init?: RequestInit): Promise<T> {
       // start`, not just dev - see Next 16's "auto no cache" default).
       cache: "no-store",
       signal: controller.signal,
+      // Every project/producer/render/publish/runs endpoint accepts an
+      // optional current user (get_optional_current_user) and, once one is
+      // present, scopes project ownership/authorization to it - so every
+      // request through this shared client must carry credentials the same
+      // way api/auth.ts's own login/register/me/logout calls already do,
+      // or an authenticated user silently falls back to anonymous access.
+      credentials: "include",
       ...init,
       headers: {
         Accept: "application/json",
         ...(init?.body && !(init.body instanceof FormData) ? { "Content-Type": "application/json" } : {}),
+        ...(token ? { Authorization: `Bearer ${token}` } : {}),
         ...init?.headers,
       },
     });
@@ -105,6 +115,11 @@ export function apiPostFormWithProgress<T>(
     const xhr = new XMLHttpRequest();
     xhr.open("POST", `${API_BASE_URL}${path}`);
     xhr.responseType = "text";
+    xhr.withCredentials = true;
+    const token = getStoredToken();
+    if (token) {
+      xhr.setRequestHeader("Authorization", `Bearer ${token}`);
+    }
 
     if (onProgress) {
       xhr.upload.onprogress = (event) => {

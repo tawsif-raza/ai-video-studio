@@ -1,9 +1,12 @@
 import uuid
+from typing import Optional
 
 from fastapi import APIRouter, BackgroundTasks, Depends, HTTPException, status
 
 from project_manager.manager import ProjectManager
+from shared_core.contracts.user import UserResponse
 from web_api.dependencies import (
+    get_optional_current_user,
     get_pipeline_executor,
     get_producer_controller_factory,
     get_project_manager,
@@ -13,6 +16,7 @@ from web_api.models import RunAccepted
 from web_api.pipeline_dispatch import dispatch
 from web_api.pipeline_executor import PipelineExecutor
 from web_api.producer_runner import run_producer_pipeline
+from web_api.project_authz import get_authorized_project
 from web_api.run_registry import RunConflictError, RunRegistry
 
 router = APIRouter(prefix="/projects/{project_id}/producer", tags=["producer"])
@@ -22,6 +26,7 @@ router = APIRouter(prefix="/projects/{project_id}/producer", tags=["producer"])
 def run_producer(
     project_id: uuid.UUID,
     background_tasks: BackgroundTasks,
+    current_user: Optional[UserResponse] = Depends(get_optional_current_user),
     project_manager: ProjectManager = Depends(get_project_manager),
     run_registry: RunRegistry = Depends(get_run_registry),
     pipeline_executor: PipelineExecutor = Depends(get_pipeline_executor),
@@ -38,10 +43,7 @@ def run_producer(
     Execution itself goes through PipelineExecutor, same as Director/Render/
     Publish - see web_api/pipeline_executor.py (Phase 1.1 P0 fix)."""
     project_id_str = str(project_id)
-    try:
-        project_manager.load_project(project_id_str)
-    except FileNotFoundError:
-        raise HTTPException(status_code=404, detail=f"Project {project_id} not found")
+    get_authorized_project(project_manager, project_id_str, current_user)
 
     try:
         run = run_registry.start_run(project_id=project_id_str, stage="producer")

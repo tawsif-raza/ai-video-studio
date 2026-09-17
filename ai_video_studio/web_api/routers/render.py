@@ -1,13 +1,16 @@
 import uuid
 from pathlib import Path
+from typing import Optional
 
 from fastapi import APIRouter, BackgroundTasks, Depends, HTTPException, status
 from starlette.responses import FileResponse
 
 from project_manager.manager import ProjectManager
 from project_manager.project import ProjectState
+from shared_core.contracts.user import UserResponse
 from web_api.dependencies import (
     get_execution_controller_factory,
+    get_optional_current_user,
     get_pipeline_executor,
     get_project_manager,
     get_run_registry,
@@ -15,6 +18,7 @@ from web_api.dependencies import (
 from web_api.models import RenderRunRequest, RenderStatusResponse, RunAccepted
 from web_api.pipeline_dispatch import dispatch
 from web_api.pipeline_executor import PipelineExecutor
+from web_api.project_authz import get_authorized_project
 from web_api.render_runner import run_render_pipeline
 from web_api.run_registry import Run, RunConflictError, RunNotFoundError, RunRegistry, RunStatus
 
@@ -26,6 +30,7 @@ def run_render(
     project_id: uuid.UUID,
     body: RenderRunRequest,
     background_tasks: BackgroundTasks,
+    current_user: Optional[UserResponse] = Depends(get_optional_current_user),
     project_manager: ProjectManager = Depends(get_project_manager),
     run_registry: RunRegistry = Depends(get_run_registry),
     pipeline_executor: PipelineExecutor = Depends(get_pipeline_executor),
@@ -42,10 +47,7 @@ def run_render(
     background task regardless, in case project state changes in the
     window between this check and the task actually running."""
     project_id_str = str(project_id)
-    try:
-        project = project_manager.load_project(project_id_str)
-    except FileNotFoundError:
-        raise HTTPException(status_code=404, detail=f"Project {project_id} not found")
+    project = get_authorized_project(project_manager, project_id_str, current_user)
 
     if project.status != ProjectState.EDIT_PLAN_READY:
         raise HTTPException(
@@ -80,14 +82,12 @@ def run_render(
 @router.get("/status", response_model=RenderStatusResponse)
 def get_render_status(
     project_id: uuid.UUID,
+    current_user: Optional[UserResponse] = Depends(get_optional_current_user),
     project_manager: ProjectManager = Depends(get_project_manager),
     run_registry: RunRegistry = Depends(get_run_registry),
 ) -> RenderStatusResponse:
     project_id_str = str(project_id)
-    try:
-        project_manager.load_project(project_id_str)
-    except FileNotFoundError:
-        raise HTTPException(status_code=404, detail=f"Project {project_id} not found")
+    get_authorized_project(project_manager, project_id_str, current_user)
 
     try:
         run = run_registry.get_latest_for_project(project_id_str, stage="render")
@@ -100,6 +100,7 @@ def get_render_status(
 @router.get("/video")
 def get_render_video(
     project_id: uuid.UUID,
+    current_user: Optional[UserResponse] = Depends(get_optional_current_user),
     project_manager: ProjectManager = Depends(get_project_manager),
 ) -> FileResponse:
     """Milestone W8: streams the rendered video Execution Engine already
@@ -120,10 +121,7 @@ def get_render_video(
     references; the real path only exists server-side, resolved fresh from
     project.rendered_video_path on each request."""
     project_id_str = str(project_id)
-    try:
-        project = project_manager.load_project(project_id_str)
-    except FileNotFoundError:
-        raise HTTPException(status_code=404, detail=f"Project {project_id} not found")
+    project = get_authorized_project(project_manager, project_id_str, current_user)
 
     if not project.rendered_video_path:
         raise HTTPException(status_code=404, detail=f"No rendered video available for project {project_id}")

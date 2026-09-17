@@ -1,6 +1,7 @@
 import { API_BASE_URL, ApiError } from "@/api/client";
+import { AUTH_TOKEN_STORAGE_KEY, getStoredToken, removeStoredToken, setStoredToken } from "@/api/token-storage";
 
-export { ApiError };
+export { ApiError, AUTH_TOKEN_STORAGE_KEY, getStoredToken, removeStoredToken, setStoredToken };
 
 export interface User {
   id: string;
@@ -42,49 +43,6 @@ export interface ForgotPasswordResponse {
 export interface ResetPasswordResponse {
   status: string;
   message: string;
-}
-
-export const AUTH_TOKEN_STORAGE_KEY = "studio_access_token";
-
-function getStorage(): Storage | null {
-  if (typeof window !== "undefined" && window.localStorage) {
-    return window.localStorage;
-  }
-  try {
-    if (typeof localStorage !== "undefined" && localStorage && typeof localStorage.getItem === "function") {
-      return localStorage;
-    }
-  } catch {
-    return null;
-  }
-  return null;
-}
-
-export function getStoredToken(): string | null {
-  try {
-    const storage = getStorage();
-    return storage ? storage.getItem(AUTH_TOKEN_STORAGE_KEY) : null;
-  } catch {
-    return null;
-  }
-}
-
-export function setStoredToken(token: string | null): void {
-  try {
-    const storage = getStorage();
-    if (!storage) return;
-    if (token) {
-      storage.setItem(AUTH_TOKEN_STORAGE_KEY, token);
-    } else {
-      storage.removeItem(AUTH_TOKEN_STORAGE_KEY);
-    }
-  } catch {
-    // Gracefully handle storage errors in restricted contexts
-  }
-}
-
-export function removeStoredToken(): void {
-  setStoredToken(null);
 }
 
 function parseErrorMessage(status: number, body: unknown): string {

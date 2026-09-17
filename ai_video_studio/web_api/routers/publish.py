@@ -1,10 +1,13 @@
 import uuid
+from typing import Optional
 
 from fastapi import APIRouter, BackgroundTasks, Depends, HTTPException, status
 
 from project_manager.manager import ProjectManager
 from project_manager.project import ProjectState
+from shared_core.contracts.user import UserResponse
 from web_api.dependencies import (
+    get_optional_current_user,
     get_pipeline_executor,
     get_project_manager,
     get_publish_controller_factory,
@@ -13,6 +16,7 @@ from web_api.dependencies import (
 from web_api.models import PublishRunRequest, PublishStatusResponse, RunAccepted
 from web_api.pipeline_dispatch import dispatch
 from web_api.pipeline_executor import PipelineExecutor
+from web_api.project_authz import get_authorized_project
 from web_api.publish_runner import run_publish_pipeline
 from web_api.run_registry import Run, RunConflictError, RunNotFoundError, RunRegistry, RunStatus
 
@@ -24,6 +28,7 @@ def run_publish(
     project_id: uuid.UUID,
     body: PublishRunRequest,
     background_tasks: BackgroundTasks,
+    current_user: Optional[UserResponse] = Depends(get_optional_current_user),
     project_manager: ProjectManager = Depends(get_project_manager),
     run_registry: RunRegistry = Depends(get_run_registry),
     pipeline_executor: PipelineExecutor = Depends(get_pipeline_executor),
@@ -44,10 +49,7 @@ def run_publish(
     W4's did: an obviously-premature request gets an immediate 400 instead
     of a 202 whose readiness failure is only visible after polling."""
     project_id_str = str(project_id)
-    try:
-        project = project_manager.load_project(project_id_str)
-    except FileNotFoundError:
-        raise HTTPException(status_code=404, detail=f"Project {project_id} not found")
+    project = get_authorized_project(project_manager, project_id_str, current_user)
 
     if project.status != ProjectState.VIDEO_RENDERED:
         raise HTTPException(
@@ -82,14 +84,12 @@ def run_publish(
 @router.get("/status", response_model=PublishStatusResponse)
 def get_publish_status(
     project_id: uuid.UUID,
+    current_user: Optional[UserResponse] = Depends(get_optional_current_user),
     project_manager: ProjectManager = Depends(get_project_manager),
     run_registry: RunRegistry = Depends(get_run_registry),
 ) -> PublishStatusResponse:
     project_id_str = str(project_id)
-    try:
-        project = project_manager.load_project(project_id_str)
-    except FileNotFoundError:
-        raise HTTPException(status_code=404, detail=f"Project {project_id} not found")
+    project = get_authorized_project(project_manager, project_id_str, current_user)
 
     try:
         run = run_registry.get_latest_for_project(project_id_str, stage="publish")

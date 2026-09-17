@@ -27,34 +27,10 @@ from web_api.models import (
     MediaUploadResponse,
     RunAccepted,
 )
+from web_api.project_authz import get_authorized_project as _get_authorized_project
 from web_api.run_registry import RunConflictError, RunRegistry
 
 router = APIRouter(prefix="/projects", tags=["projects"])
-
-
-def _get_authorized_project(
-    project_manager: ProjectManager,
-    project_id: str,
-    current_user: Optional[UserResponse],
-) -> Project:
-    """Loads a project and verifies ownership authorization.
-    If the project is owned by a user:
-      - Denies access (404) to unauthenticated requests
-      - Denies access (404) to authenticated requests from other users
-    If the project has no owner (legacy/unassigned):
-      - Permits access
-    Returns 404 rather than 403 to prevent probing/enumeration of project existence (IDOR protection).
-    """
-    owner_id = current_user.id if current_user else None
-    try:
-        project = project_manager.load_project(project_id, owner_user_id=owner_id)
-    except (FileNotFoundError, PermissionError):
-        raise HTTPException(status_code=404, detail=f"Project {project_id} not found")
-
-    if project.owner_user_id is not None and (owner_id is None or project.owner_user_id != owner_id):
-        raise HTTPException(status_code=404, detail=f"Project {project_id} not found")
-
-    return project
 
 
 @router.post("", response_model=RunAccepted, status_code=status.HTTP_202_ACCEPTED)

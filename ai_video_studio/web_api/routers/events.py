@@ -1,12 +1,19 @@
 import json
 import uuid
-from typing import AsyncIterator
+from typing import AsyncIterator, Optional
 
 from fastapi import APIRouter, Depends, HTTPException
 from starlette.responses import StreamingResponse
 
 from project_manager.manager import ProjectManager
-from web_api.dependencies import get_project_manager, get_run_registry, get_sse_poll_interval
+from shared_core.contracts.user import UserResponse
+from web_api.dependencies import (
+    get_optional_current_user,
+    get_project_manager,
+    get_run_registry,
+    get_sse_poll_interval,
+)
+from web_api.project_authz import get_authorized_project
 from web_api.run_registry import RunNotFoundError, RunRegistry
 from web_api.sse import run_events
 
@@ -31,6 +38,8 @@ async def _sse_body(run_id: str, run_registry: RunRegistry, poll_interval: float
 @router.get("/runs/{run_id}/events")
 async def stream_run_events(
     run_id: uuid.UUID,
+    current_user: Optional[UserResponse] = Depends(get_optional_current_user),
+    project_manager: ProjectManager = Depends(get_project_manager),
     run_registry: RunRegistry = Depends(get_run_registry),
     poll_interval: float = Depends(get_sse_poll_interval),
 ) -> StreamingResponse:
@@ -48,9 +57,14 @@ async def stream_run_events(
     it cannot affect run execution either way."""
     run_id_str = str(run_id)
     try:
-        run_registry.get(run_id_str)
+        run = run_registry.get(run_id_str)
     except RunNotFoundError:
         raise HTTPException(status_code=404, detail=f"Run {run_id} not found")
+
+    # A run_id is opaque and not itself scoped to a caller, so ownership is
+    # authorized via the project it belongs to - same rule as every other
+    # project_id-bearing endpoint (web_api/project_authz.py).
+    get_authorized_project(project_manager, run.project_id, current_user)
 
     return StreamingResponse(
         _sse_body(run_id_str, run_registry, poll_interval), media_type="text/event-stream", headers=_SSE_HEADERS
@@ -60,6 +74,7 @@ async def stream_run_events(
 @router.get("/projects/{project_id}/events")
 async def stream_project_events(
     project_id: uuid.UUID,
+    current_user: Optional[UserResponse] = Depends(get_optional_current_user),
     project_manager: ProjectManager = Depends(get_project_manager),
     run_registry: RunRegistry = Depends(get_run_registry),
     poll_interval: float = Depends(get_sse_poll_interval),
@@ -71,10 +86,7 @@ async def stream_project_events(
     project has at most one active run at a time (W2's conflict rule) but
     may have had runs of different stages sequentially over its lifetime."""
     project_id_str = str(project_id)
-    try:
-        project_manager.load_project(project_id_str)
-    except FileNotFoundError:
-        raise HTTPException(status_code=404, detail=f"Project {project_id} not found")
+    get_authorized_project(project_manager, project_id_str, current_user)
 
     try:
         run = run_registry.get_latest_for_project_any_stage(project_id_str)

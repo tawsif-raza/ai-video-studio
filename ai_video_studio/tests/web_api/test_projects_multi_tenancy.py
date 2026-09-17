@@ -5,17 +5,24 @@ from fastapi.testclient import TestClient
 from auth.security import create_access_token
 from auth.user_store import LocalUserStore, set_user_store
 from config import settings
+from project_manager.project import ProjectState
 from shared_core.contracts.user import UserCreate
 from tests.web_api.conftest import (
     FakeLLMClient,
     SucceedingDirectorController,
+    SucceedingExecutionController,
+    SucceedingProducerController,
+    SucceedingPublishController,
     post_with_controller,
 )
 from web_api import create_app
 from web_api.dependencies import (
     get_director_controller_factory,
+    get_execution_controller_factory,
     get_llm_client_factory,
+    get_producer_controller_factory,
     get_project_manager,
+    get_publish_controller_factory,
 )
 
 
@@ -178,3 +185,116 @@ def test_legacy_unassigned_project_accessible_without_auth(multi_tenant_env):
     # Also accessible with auth
     auth_get = client.get(f"/projects/{p_id}", headers=headers_alpha)
     assert auth_get.status_code == 200
+
+
+def test_producer_run_enforces_ownership(multi_tenant_env):
+    """PHASE 14/17 regression: producer.py previously loaded a project with
+    no owner check and no current_user dependency at all - any caller could
+    trigger a Producer Studio run for any project_id."""
+    client = multi_tenant_env["client"]
+    app_ = multi_tenant_env["app"]
+    headers_alpha = multi_tenant_env["headers_alpha"]
+    headers_beta = multi_tenant_env["headers_beta"]
+    user_alpha = multi_tenant_env["user_alpha"]
+
+    project = get_project_manager().create_project(owner_user_id=user_alpha.id)
+
+    app_.dependency_overrides[get_producer_controller_factory] = lambda: SucceedingProducerController
+
+    assert client.post(f"/projects/{project.project_id}/producer/run").status_code == 404
+    assert client.post(f"/projects/{project.project_id}/producer/run", headers=headers_beta).status_code == 404
+
+    alpha_resp = client.post(f"/projects/{project.project_id}/producer/run", headers=headers_alpha)
+    assert alpha_resp.status_code == 202
+
+
+def test_render_run_status_and_video_enforce_ownership(multi_tenant_env):
+    """PHASE 14/17 regression: render.py's run/status/video endpoints
+    previously never checked project ownership (or even accepted a
+    current_user) at all."""
+    client = multi_tenant_env["client"]
+    app_ = multi_tenant_env["app"]
+    headers_alpha = multi_tenant_env["headers_alpha"]
+    headers_beta = multi_tenant_env["headers_beta"]
+    user_alpha = multi_tenant_env["user_alpha"]
+
+    project = get_project_manager().create_project(owner_user_id=user_alpha.id)
+    project = get_project_manager()._advance(project, status=ProjectState.EDIT_PLAN_READY)
+
+    app_.dependency_overrides[get_execution_controller_factory] = lambda: SucceedingExecutionController
+
+    assert client.post(f"/projects/{project.project_id}/render/run", json={}, headers=headers_beta).status_code == 404
+    assert client.get(f"/projects/{project.project_id}/render/status", headers=headers_beta).status_code == 404
+    assert client.get(f"/projects/{project.project_id}/render/video", headers=headers_beta).status_code == 404
+    assert client.post(f"/projects/{project.project_id}/render/run", json={}).status_code == 404
+
+    run_resp = client.post(f"/projects/{project.project_id}/render/run", json={}, headers=headers_alpha)
+    assert run_resp.status_code == 202
+    assert client.get(f"/projects/{project.project_id}/render/status", headers=headers_alpha).status_code == 200
+
+
+def test_publish_run_and_status_enforce_ownership(multi_tenant_env):
+    """PHASE 14/17 regression: publish.py's run/status endpoints previously
+    never checked project ownership (or even accepted a current_user)."""
+    client = multi_tenant_env["client"]
+    app_ = multi_tenant_env["app"]
+    headers_alpha = multi_tenant_env["headers_alpha"]
+    headers_beta = multi_tenant_env["headers_beta"]
+    user_alpha = multi_tenant_env["user_alpha"]
+
+    project = get_project_manager().create_project(owner_user_id=user_alpha.id)
+    project = get_project_manager()._advance(project, status=ProjectState.VIDEO_RENDERED)
+
+    app_.dependency_overrides[get_publish_controller_factory] = lambda: SucceedingPublishController
+
+    assert client.post(f"/projects/{project.project_id}/publish/run", json={}, headers=headers_beta).status_code == 404
+    assert client.get(f"/projects/{project.project_id}/publish/status", headers=headers_beta).status_code == 404
+    assert client.post(f"/projects/{project.project_id}/publish/run", json={}).status_code == 404
+
+    run_resp = client.post(f"/projects/{project.project_id}/publish/run", json={}, headers=headers_alpha)
+    assert run_resp.status_code == 202
+    assert client.get(f"/projects/{project.project_id}/publish/status", headers=headers_alpha).status_code == 200
+
+
+def test_get_run_by_id_enforces_project_ownership(multi_tenant_env):
+    """PHASE 14/17 regression: GET /runs/{run_id} previously resolved a run
+    by its opaque run_id with no ownership check of the project it belongs
+    to at all - any caller who learned/guessed a run_id could read another
+    user's job status and result payload."""
+    client = multi_tenant_env["client"]
+    app_ = multi_tenant_env["app"]
+    headers_alpha = multi_tenant_env["headers_alpha"]
+    headers_beta = multi_tenant_env["headers_beta"]
+    user_alpha = multi_tenant_env["user_alpha"]
+
+    project = get_project_manager().create_project(owner_user_id=user_alpha.id)
+    run_resp = client.post(f"/projects/{project.project_id}/producer/run", headers=headers_alpha)
+    assert run_resp.status_code == 202
+    run_id = run_resp.json()["run_id"]
+
+    assert client.get(f"/runs/{run_id}", headers=headers_beta).status_code == 404
+    assert client.get(f"/runs/{run_id}").status_code == 404
+    assert client.get(f"/runs/{run_id}", headers=headers_alpha).status_code == 200
+
+
+def test_events_streams_enforce_project_ownership(multi_tenant_env):
+    """PHASE 14/17 regression: both SSE event streams (by run_id and by
+    project_id) previously never checked project ownership."""
+    client = multi_tenant_env["client"]
+    app_ = multi_tenant_env["app"]
+    headers_alpha = multi_tenant_env["headers_alpha"]
+    headers_beta = multi_tenant_env["headers_beta"]
+    user_alpha = multi_tenant_env["user_alpha"]
+
+    project = get_project_manager().create_project(owner_user_id=user_alpha.id)
+    run_resp = client.post(f"/projects/{project.project_id}/producer/run", headers=headers_alpha)
+    assert run_resp.status_code == 202
+    run_id = run_resp.json()["run_id"]
+
+    assert client.get(f"/runs/{run_id}/events", headers=headers_beta).status_code == 404
+    assert client.get(f"/runs/{run_id}/events").status_code == 404
+    assert client.get(f"/runs/{run_id}/events", headers=headers_alpha).status_code == 200
+
+    assert client.get(f"/projects/{project.project_id}/events", headers=headers_beta).status_code == 404
+    assert client.get(f"/projects/{project.project_id}/events").status_code == 404
+    assert client.get(f"/projects/{project.project_id}/events", headers=headers_alpha).status_code == 200
