@@ -4,6 +4,7 @@ from typing import Optional
 from fastapi import APIRouter, Depends, HTTPException, Response, status
 from pydantic import BaseModel, Field, field_validator
 
+from auth import email as reset_email
 from auth.security import (
     ExpiredTokenError,
     InvalidTokenError,
@@ -13,11 +14,44 @@ from auth.security import (
     verify_password,
 )
 from auth.user_store import UserAlreadyExistsError, UserStore
+from config import settings
 from shared_core.contracts.user import UserCreate, UserResponse, UserUpdate, UserPasswordUpdate
 from utils.logger import get_logger
 from web_api.dependencies import get_current_user, get_user_store
 
 logger = get_logger("web_api.auth")
+
+
+def _set_session_cookie(response: Response, token: str) -> None:
+    """Single place that actually calls Response.set_cookie for the session
+    cookie, so Secure/SameSite always come from config.settings
+    (environment-driven - see config.py's validate_cookie_config) rather
+    than being hardcoded per call site. Does not touch the Authorization-
+    header bearer-token flow at all; that remains entirely separate."""
+    response.set_cookie(
+        key="access_token",
+        value=token,
+        httponly=True,
+        samesite=settings.COOKIE_SAMESITE,
+        secure=settings.COOKIE_SECURE,
+        max_age=86400,
+        path="/",
+    )
+
+
+def _clear_session_cookies(response: Response) -> None:
+    """Counterpart to _set_session_cookie - a delete_cookie's Secure/
+    SameSite/path/domain must match how the cookie was originally set for
+    the browser to actually recognize it as the same cookie and remove it,
+    so this reads the same settings values rather than the Starlette
+    defaults delete_cookie would otherwise use."""
+    for key in ("access_token", "session_token"):
+        response.delete_cookie(
+            key=key,
+            path="/",
+            samesite=settings.COOKIE_SAMESITE,
+            secure=settings.COOKIE_SECURE,
+        )
 
 
 class LoginRequest(BaseModel):
@@ -103,15 +137,7 @@ def register(
             "name": user.full_name,
         }
     )
-    response.set_cookie(
-        key="access_token",
-        value=token,
-        httponly=True,
-        samesite="lax",
-        secure=False,
-        max_age=86400,
-        path="/",
-    )
+    _set_session_cookie(response, token)
     return AuthResponse(
         access_token=token,
         token_type="bearer",
@@ -145,15 +171,7 @@ def login(
             "name": user.full_name,
         }
     )
-    response.set_cookie(
-        key="access_token",
-        value=token,
-        httponly=True,
-        samesite="lax",
-        secure=False,
-        max_age=86400,
-        path="/",
-    )
+    _set_session_cookie(response, token)
     return AuthResponse(
         access_token=token,
         token_type="bearer",
@@ -248,8 +266,7 @@ def update_password(
 def logout(
     response: Response,
 ) -> MessageResponse:
-    response.delete_cookie(key="access_token", path="/")
-    response.delete_cookie(key="session_token", path="/")
+    _clear_session_cookies(response)
     return MessageResponse(
         status="ok",
         message="Successfully logged out",
@@ -278,9 +295,27 @@ def forgot_password(
         )
         logger.info(f"Password reset token generated for user {user.id} ({user.email})")
 
-    # Neutral response to prevent account enumeration
-    env = os.getenv("ENVIRONMENT", "development").lower()
-    include_token = env != "production" or os.getenv("AUTH_DEV_MODE", "false").lower() == "true"
+        if reset_email.is_configured():
+            try:
+                reset_email.send_password_reset_email(
+                    to_email=user.email,
+                    reset_link=reset_email.build_reset_link(reset_token),
+                )
+            except reset_email.EmailDeliveryError:
+                # Already logged inside send_password_reset_email (recipient
+                # only, never the token/link). A delivery failure must not
+                # change this endpoint's response - that would leak "this
+                # email exists but delivery failed" to an unauthenticated
+                # caller, the exact account-enumeration signal the neutral
+                # response below exists to prevent.
+                pass
+
+    # Neutral response to prevent account enumeration. reset_token is only
+    # ever put in the response body outside production (or with
+    # AUTH_DEV_MODE explicitly set) - never in a real production response,
+    # regardless of whether SES is configured or whether the send above
+    # succeeded.
+    include_token = settings.ENVIRONMENT != "production" or os.getenv("AUTH_DEV_MODE", "false").lower() == "true"
 
     return ForgotPasswordResponse(
         status="ok",

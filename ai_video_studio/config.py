@@ -1,11 +1,79 @@
 import os
 import warnings
 from pathlib import Path
+from typing import Optional
 from dotenv import load_dotenv
 
 load_dotenv()
 
 BASE_DIR = Path(__file__).resolve().parent
+
+
+def _parse_bool_env(name: str) -> Optional[bool]:
+    """True/False if `name` is set to a recognizable truthy/falsy string, or
+    None if unset/blank - lets a setting distinguish "explicitly configured"
+    from "fall back to the environment-appropriate default" (see
+    resolve_cookie_secure/resolve_cookie_samesite below)."""
+    raw = os.getenv(name)
+    if raw is None or raw.strip() == "":
+        return None
+    return raw.strip().lower() in ("1", "true", "yes", "on")
+
+
+def resolve_cookie_secure(environment: str, override: Optional[bool]) -> bool:
+    """LOCAL (development) defaults to COOKIE_SECURE=false; STAGING/
+    PRODUCTION default to true - an explicit COOKIE_SECURE env var
+    (`override`, already parsed by _parse_bool_env) always wins. Pure
+    function so tests/test_config_cookies.py can exercise every
+    (environment, override) combination directly, without needing to
+    reload config.py or touch process env vars."""
+    if override is not None:
+        return override
+    return environment in ("staging", "production")
+
+
+def resolve_cookie_samesite(environment: str, override: Optional[str]) -> str:
+    """LOCAL (development) defaults to SameSite=Lax (frontend and API are
+    same-site in dev). STAGING/PRODUCTION default to SameSite=None, because
+    that split puts the Next.js frontend (Vercel) and this API (Railway) on
+    different sites, which needs a credentialed cross-site cookie - only
+    honored by browsers alongside Secure=true (enforced by
+    validate_cookie_config, not here). An explicit COOKIE_SAMESITE env var
+    (`override`) always wins, e.g. for a same-site staging/prod deployment
+    that doesn't need SameSite=None."""
+    if override:
+        return override
+    return "none" if environment in ("staging", "production") else "lax"
+
+
+def validate_cookie_config(environment: str, cookie_secure: bool, cookie_samesite: str) -> None:
+    """Fails fast (raises) on a session-cookie configuration that would ship
+    an insecure or browser-invalid cookie. Called once at import time below
+    against the real process env, and exercised directly by
+    tests/test_config_cookies.py against arbitrary combinations - kept as a
+    standalone function specifically so tests don't need a fresh process/
+    import per case to exercise it."""
+    if cookie_samesite not in ("lax", "strict", "none"):
+        raise RuntimeError(
+            f"COOKIE_SAMESITE must be one of 'lax', 'strict', or 'none' (got {cookie_samesite!r})."
+        )
+
+    if environment in ("staging", "production") and not cookie_secure:
+        raise RuntimeError(
+            "Refusing to start with COOKIE_SECURE=false while ENVIRONMENT="
+            f"{environment!r}. Session cookies must be Secure in a deployed "
+            "environment - set COOKIE_SECURE=true, or leave COOKIE_SECURE "
+            "unset entirely to use the environment-appropriate default."
+        )
+
+    if cookie_samesite == "none" and not cookie_secure:
+        # Browsers reject/drop a SameSite=None cookie unless it also carries
+        # Secure - this holds regardless of ENVIRONMENT, so it's checked
+        # independently of the staging/production rule above.
+        raise RuntimeError(
+            "COOKIE_SAMESITE=none requires COOKIE_SECURE=true - browsers "
+            "reject non-secure SameSite=None cookies."
+        )
 
 
 class Settings:
@@ -121,9 +189,53 @@ class Settings:
     # PipelineExecutor" - today's exact behavior (Phase 1.1 P0 fix).
     SQS_QUEUE_URL: str = os.getenv("SQS_QUEUE_URL", "")
 
+    # Prerequisite 4: SES-backed password-reset email (auth/email.py,
+    # web_api/routers/auth.py's forgot_password). Blank SES_FROM_EMAIL means
+    # "no email delivery configured" - forgot-password falls back to its
+    # existing dev-mode-only reset_token response field (never sent in
+    # production either way - see auth/email.py's docstring). No AWS access
+    # keys are read or accepted here: boto3's default credential chain
+    # resolves to the ECS task role in a deployed environment, or whatever
+    # the operator's own AWS CLI/SSO session provides locally.
+    SES_REGION: str = os.getenv("SES_REGION", "")
+    SES_FROM_EMAIL: str = os.getenv("SES_FROM_EMAIL", "")
+
+    # Absolute origin of the deployed frontend, used only to build the
+    # clickable link inside the password-reset email (an email client has
+    # no origin of its own to resolve a relative /reset-password path
+    # against). Blank locally - see auth/email.py for the fallback when this
+    # is unset but SES_FROM_EMAIL is (email is sent with a relative-path
+    # link rather than silently failing).
+    FRONTEND_BASE_URL: str = os.getenv("FRONTEND_BASE_URL", "").rstrip("/")
+
+    # --- Session cookie security (the access_token cookie web_api/routers/
+    # auth.py's register/login/logout set) ---
+    # "development" (local, the CLIs, and the whole test suite unless a test
+    # overrides it) / "staging" / "production" - the one flag every other
+    # cookie default below is computed from.
+    ENVIRONMENT: str = os.getenv("ENVIRONMENT", "development").strip().lower()
+
+    # Secure/SameSite must differ by deployment shape: local dev is plain
+    # HTTP on one origin (Secure=True would make the browser silently drop
+    # the cookie; SameSite=Lax is enough since frontend/API are same-site in
+    # dev too), while staging/production put the Next.js frontend (Vercel)
+    # and this API (Railway) on different sites, which needs a credentialed
+    # cross-site cookie - SameSite=None, which browsers only honor alongside
+    # Secure=True. Both are explicitly overridable (COOKIE_SECURE/
+    # COOKIE_SAMESITE env vars) for a same-site staging/prod deployment that
+    # doesn't need the cross-site case, but validate_cookie_config below
+    # refuses to let ENVIRONMENT=staging/production ever resolve to an
+    # insecure cookie even if COOKIE_SECURE is explicitly set wrong. See
+    # resolve_cookie_secure/resolve_cookie_samesite above for the (pure,
+    # directly-tested) resolution logic itself.
+    COOKIE_SECURE: bool = resolve_cookie_secure(ENVIRONMENT, _parse_bool_env("COOKIE_SECURE"))
+    COOKIE_SAMESITE: str = resolve_cookie_samesite(ENVIRONMENT, os.getenv("COOKIE_SAMESITE", "").strip().lower() or None)
+
 
 settings = Settings()
 settings.OUTPUT_DIR.mkdir(exist_ok=True)
+
+validate_cookie_config(settings.ENVIRONMENT, settings.COOKIE_SECURE, settings.COOKIE_SAMESITE)
 
 has_any_llm_key = bool(
     settings.OPENROUTER_API_KEYS
