@@ -132,6 +132,24 @@ variable "jwt_signing_key_parameter_arn" {
   type = string
 }
 
+variable "ses_region" {
+  description = "SES_REGION - blank disables password-reset email delivery (web_api/routers/auth.py falls back to its dev-mode-only reset_token response field)."
+  type        = string
+  default     = ""
+}
+
+variable "ses_from_email" {
+  description = "SES_FROM_EMAIL - verified SES sending identity. Blank disables password-reset email delivery."
+  type        = string
+  default     = ""
+}
+
+variable "frontend_base_url" {
+  description = "FRONTEND_BASE_URL - absolute origin used to build the password-reset email's clickable link."
+  type        = string
+  default     = ""
+}
+
 variable "tags" {
   type    = map(string)
   default = {}

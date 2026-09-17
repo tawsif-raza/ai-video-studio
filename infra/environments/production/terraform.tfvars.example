@@ -25,3 +25,14 @@ existing_dns_zone_id = ""
 # image_tag = "sha-abc1234"
 
 alarm_email = ""
+
+# SES password-reset email (docs/authentication.md's Password Reset
+# Status). Not secrets - just which verified identity/region/frontend link
+# the API task is allowed to send from and point at; credentials always
+# come from the ECS task role (modules/iam), never a key pair here. Leave
+# ses_from_email empty to disable email delivery entirely - variables.tf's
+# defaults already match the verified identity, so these three lines are
+# only needed if you want to override them.
+# ses_region         = "ap-south-1"
+# ses_from_email     = "tawsifk35@gmail.com"
+# frontend_base_url  = "https://ai-video-studio-dashboard.vercel.app"

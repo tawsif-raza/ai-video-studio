@@ -159,7 +159,7 @@ resource "aws_vpc_endpoint" "interface" {
   # container env vars at startup needs this endpoint just as much as
   # secretsmanager needs its own - confirmed by a real ECS service event:
   # "unable to retrieve secrets from ssm: ... context deadline exceeded".
-  for_each = toset(["sqs", "secretsmanager", "ssm", "logs", "ecr.api", "ecr.dkr"])
+  for_each            = var.create_interface_endpoints ? toset(["sqs", "secretsmanager", "ssm", "logs", "ecr.api", "ecr.dkr"]) : toset([])
   vpc_id              = aws_vpc.this.id
   service_name        = "com.amazonaws.${data.aws_region.current.name}.${each.value}"
   vpc_endpoint_type   = "Interface"

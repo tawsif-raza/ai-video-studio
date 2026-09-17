@@ -163,3 +163,23 @@ variable "alb_ingress_cidrs" {
   type        = list(string)
   default     = ["0.0.0.0/0"]
 }
+
+# --- SES (password-reset email) ---
+
+variable "ses_region" {
+  description = "AWS region the SES sending identity was verified in. Empty disables password-reset email delivery and grants the API task role no SES permission at all (modules/iam)."
+  type        = string
+  default     = "ap-south-1"
+}
+
+variable "ses_from_email" {
+  description = "Verified SES sender identity for password-reset emails. Empty disables email delivery entirely."
+  type        = string
+  default     = "tawsifk35@gmail.com"
+}
+
+variable "frontend_base_url" {
+  description = "Absolute origin of the frontend this staging API is being exercised against - used only to build the clickable link inside the password-reset email. Staging's cors_origins is currently set to http://localhost:3000 in terraform.tfvars (the frontend is run locally against the staging API, not deployed) - this should match whatever that actually is."
+  type        = string
+  default     = "http://localhost:3000"
+}

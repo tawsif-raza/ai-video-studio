@@ -85,6 +85,8 @@ module "iam" {
   llm_key_parameter_arns        = module.secrets.llm_key_parameter_arns
   jwt_signing_key_parameter_arn = module.secrets.jwt_signing_key_parameter_arn
   log_group_arns                = [module.logging.api_log_group_arn, module.logging.worker_log_group_arn]
+  ses_region                    = var.ses_from_email != "" ? var.ses_region : ""
+  ses_from_email                = var.ses_from_email
   tags                          = local.tags
 }
 
@@ -179,6 +181,9 @@ module "ecs_api" {
   db_master_secret_arn          = module.rds.master_user_secret_arn
   llm_key_parameter_arns        = module.secrets.llm_key_parameter_arns
   jwt_signing_key_parameter_arn = module.secrets.jwt_signing_key_parameter_arn
+  ses_region                    = var.ses_region
+  ses_from_email                = var.ses_from_email
+  frontend_base_url             = var.frontend_base_url
   tags                          = local.tags
 }
 

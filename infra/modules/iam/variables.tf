@@ -39,6 +39,18 @@ variable "log_group_arns" {
   type        = list(string)
 }
 
+variable "ses_region" {
+  description = "Region the SES sending identity lives in - used to build the identity ARN the api_task role's SES permission is scoped to. Blank disables the SES statement entirely (matches ses_from_email being blank - see that variable)."
+  type        = string
+  default     = ""
+}
+
+variable "ses_from_email" {
+  description = "Verified SES sender identity (email address) the API task role is allowed to send as. Blank grants no SES permission at all - the API task role gets no SES access unless a real verified identity is configured, keeping this additive/optional like the S3/SQS/RDS prerequisites above."
+  type        = string
+  default     = ""
+}
+
 variable "tags" {
   type    = map(string)
   default = {}

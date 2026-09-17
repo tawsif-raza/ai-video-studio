@@ -13,17 +13,27 @@ module "networking" {
   vpc_cidr                  = var.vpc_cidr
   azs                       = var.azs
   enable_second_nat_gateway = var.enable_second_nat_gateway
-  tags                      = local.tags
+  # Cost optimization (2026-09-16): the 6 interface endpoints cost ~$87.60/mo
+  # (billed per-AZ, not per-endpoint - 2 AZs x 6 services x $0.01/hr) versus
+  # near-zero incremental NAT Gateway data processing for this app's actual
+  # SSM/Secrets/Logs/SQS/ECR traffic volume. Routes that traffic over the
+  # NAT Gateway instead, same as the worker's LLM/YouTube egress already
+  # does. Requires api_allow_internet_egress=true below (same pattern
+  # staging's terraform.tfvars already runs).
+  create_interface_endpoints = false
+  tags                       = local.tags
 }
 
 module "security_groups" {
   source = "../../modules/security_groups"
 
-  project_name        = var.project_name
-  environment         = var.environment
-  vpc_id              = module.networking.vpc_id
-  vpc_endpoints_sg_id = module.networking.vpc_endpoints_sg_id
-  tags                = local.tags
+  project_name              = var.project_name
+  environment               = var.environment
+  vpc_id                    = module.networking.vpc_id
+  vpc_endpoints_sg_id       = module.networking.vpc_endpoints_sg_id
+  alb_ingress_cidrs         = var.alb_ingress_cidrs
+  api_allow_internet_egress = var.api_allow_internet_egress
+  tags                      = local.tags
 }
 
 module "s3" {
@@ -83,6 +93,8 @@ module "iam" {
   llm_key_parameter_arns        = module.secrets.llm_key_parameter_arns
   jwt_signing_key_parameter_arn = module.secrets.jwt_signing_key_parameter_arn
   log_group_arns                = [module.logging.api_log_group_arn, module.logging.worker_log_group_arn]
+  ses_region                    = var.ses_from_email != "" ? var.ses_region : ""
+  ses_from_email                = var.ses_from_email
   tags                          = local.tags
 }
 
@@ -177,6 +189,9 @@ module "ecs_api" {
   db_master_secret_arn          = module.rds.master_user_secret_arn
   llm_key_parameter_arns        = module.secrets.llm_key_parameter_arns
   jwt_signing_key_parameter_arn = module.secrets.jwt_signing_key_parameter_arn
+  ses_region                    = var.ses_region
+  ses_from_email                = var.ses_from_email
+  frontend_base_url             = var.frontend_base_url
   tags                          = local.tags
 }
 

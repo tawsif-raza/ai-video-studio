@@ -88,6 +88,8 @@ data "aws_iam_policy_document" "execution_secrets" {
 
 data "aws_region" "current" {}
 
+data "aws_caller_identity" "current" {}
+
 resource "aws_iam_role_policy" "execution_secrets" {
   name   = "${local.name}-ecs-execution-secrets"
   role   = aws_iam_role.execution.id
@@ -96,7 +98,12 @@ resource "aws_iam_role_policy" "execution_secrets" {
 
 # --- API task role: what the running FastAPI app calls AWS with -
 # S3 (media/packages), SQS SendMessage only (it enqueues jobs, never
-# consumes them - docs/aws-production-architecture.md §4/§10). ---
+# consumes them - docs/aws-production-architecture.md §4/§10), and SES
+# SendEmail for password-reset delivery (auth/email.py), scoped to exactly
+# one verified sending identity - never a bare Resource "*", and never a
+# static IAM access key: this role is what boto3's default credential
+# chain resolves to inside the running task (config.py's SES_REGION/
+# SES_FROM_EMAIL only select the identity/region to call with). ---
 
 resource "aws_iam_role" "api_task" {
   name               = "${local.name}-api-task"
@@ -139,6 +146,25 @@ data "aws_iam_policy_document" "api_task" {
       "logs:PutLogEvents",
     ]
     resources = var.log_group_arns
+  }
+
+  # Omitted entirely (not just an empty resources list) when ses_from_email
+  # is blank, so the API task role gets literally zero SES permission until
+  # a real verified identity is configured - matching the S3/SQS
+  # statements above, which are always-present because those prerequisites
+  # are always provisioned, unlike SES which is optional. Only ses:SendEmail
+  # is granted (the one action auth/email.py actually calls, not the raw-
+  # MIME or templated variants) and only against this one identity ARN -
+  # SES supports resource-level permissions scoped to a sending identity,
+  # so this cannot be used to send as any other address in the account.
+  dynamic "statement" {
+    for_each = var.ses_from_email != "" ? [1] : []
+    content {
+      sid       = "SendPasswordResetEmail"
+      effect    = "Allow"
+      actions   = ["ses:SendEmail"]
+      resources = ["arn:aws:ses:${var.ses_region}:${data.aws_caller_identity.current.account_id}:identity/${var.ses_from_email}"]
+    }
   }
 }
 

@@ -5,6 +5,16 @@ locals {
   # specific values the S3/RDS/SQS migration (docs/aws-production-
   # architecture.md's "before this is provisioned" section) will consume.
   environment_vars = [
+    # Drives config.py's Settings.ENVIRONMENT - in turn COOKIE_SECURE/
+    # COOKIE_SAMESITE's staging/production defaults (config.py's
+    # resolve_cookie_secure/resolve_cookie_samesite) and forgot_password's
+    # reset_token response gating (web_api/routers/auth.py). Without this,
+    # every deployed task fell back to Settings' "development" default -
+    # this was previously missing here entirely, so no ECS deployment of
+    # this module has ever actually run with ENVIRONMENT=staging/production
+    # set, regardless of what var.environment (used only for AWS resource
+    # naming/tagging) was.
+    { name = "ENVIRONMENT", value = var.environment },
     { name = "AWS_REGION", value = var.aws_region },
     { name = "DASHBOARD_CORS_ORIGINS", value = var.cors_origins },
     { name = "PIPELINE_MAX_CONCURRENCY", value = tostring(var.pipeline_max_concurrency) },
@@ -14,6 +24,9 @@ locals {
     { name = "DB_HOST", value = var.db_host },
     { name = "DB_PORT", value = tostring(var.db_port) },
     { name = "DB_NAME", value = var.db_name },
+    { name = "SES_REGION", value = var.ses_region },
+    { name = "SES_FROM_EMAIL", value = var.ses_from_email },
+    { name = "FRONTEND_BASE_URL", value = var.frontend_base_url },
   ]
 
   secrets = concat(

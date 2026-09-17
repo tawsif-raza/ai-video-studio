@@ -151,3 +151,37 @@ variable "alarm_email" {
   type    = string
   default = ""
 }
+
+# --- ALB ingress (temporary, pre-HTTPS posture) ---
+
+variable "alb_ingress_cidrs" {
+  description = "CIDRs allowed to reach the ALB on 80/443. No production domain/ACM cert exists yet (see modules/dns, modules/alb) - the ALB is HTTP-only until one is provisioned, so this deliberately does NOT default to 0.0.0.0/0 the way it eventually should once HTTPS is live. Restrict to specific operator IPs in terraform.tfvars for controlled validation via the ALB's own DNS name; widen only after a real domain/ACM cert lands and this listener is HTTPS."
+  type        = list(string)
+  default     = ["0.0.0.0/0"]
+}
+
+variable "api_allow_internet_egress" {
+  description = "See modules/security_groups/variables.tf. Leave false (the module default) - the worker split has landed in code, so the API service does not need direct internet egress in production the way staging's temporary escape hatch did."
+  type        = bool
+  default     = false
+}
+
+# --- SES (password-reset email) ---
+
+variable "ses_region" {
+  description = "AWS region the SES sending identity was verified in - may differ from aws_region if SES isn't provisioned there. The API task role's SES permission (modules/iam) is scoped to this region + ses_from_email only."
+  type        = string
+  default     = "ap-south-1"
+}
+
+variable "ses_from_email" {
+  description = "Verified SES sender identity for password-reset emails. Empty disables email delivery entirely - web_api/routers/auth.py's forgot_password falls back to its existing dev-mode-only reset_token response field, never sends an email, and validate_cookie_config-style startup checks do not apply here (unlike COOKIE_SECURE, an unset SES_FROM_EMAIL is a valid, safe production state, not a footgun to guard against)."
+  type        = string
+  default     = "tawsifk35@gmail.com"
+}
+
+variable "frontend_base_url" {
+  description = "Absolute origin of the deployed frontend - used only to build the clickable link inside the password-reset email (an email client has no origin to resolve a relative path against). Matches cors_origins' default (the Vercel production alias) unless overridden."
+  type        = string
+  default     = "https://ai-video-studio-dashboard.vercel.app"
+}

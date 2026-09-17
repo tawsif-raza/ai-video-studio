@@ -34,6 +34,22 @@ variable "enable_second_nat_gateway" {
   default     = false
 }
 
+variable "create_interface_endpoints" {
+  description = <<-EOT
+    Default true (unchanged behavior). AWS bills each interface endpoint
+    per-AZ, not per-endpoint - with 2 AZs this module's 6 endpoints
+    (sqs/secretsmanager/ssm/logs/ecr.api/ecr.dkr) cost ~$87.60/month, not
+    the ~$43.80/month a per-endpoint reading suggests. Set false to delete
+    them and route that traffic over the NAT Gateway instead (requires the
+    caller to also allow the API task internet egress, e.g.
+    api_allow_internet_egress=true) - the same pattern staging's
+    terraform.tfvars already runs in production today. The free S3 gateway
+    endpoint (aws_vpc_endpoint.s3) is unaffected either way.
+  EOT
+  type        = bool
+  default     = true
+}
+
 variable "tags" {
   type    = map(string)
   default = {}
