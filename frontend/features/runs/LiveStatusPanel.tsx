@@ -6,6 +6,8 @@ import { RunStatusBadge } from "@/components/ui/StatusBadge";
 import { Card, CardTitle } from "@/components/ui/Card";
 import { useRunEvents } from "@/hooks/useRunEvents";
 
+import { renderOutputVerdict } from "./renderOutputVerdict";
+
 /**
  * Producer Studio's run result carries asset_validation.missing_shot_count
  * (web_api/producer_runner.py) - a plain number the backend already computed
@@ -46,6 +48,11 @@ export function LiveStatusPanel({
 }) {
   const live = useRunEvents(runId);
   const firedRef = useRef(false);
+  const verdict = live.status === "succeeded" ? renderOutputVerdict(live.result ?? null) : null;
+  const outputFailed = verdict?.ok === false;
+  // The run itself succeeded, but the rendered output did not - show it as
+  // a failure rather than "Succeeded" (issue #2).
+  const displayStatus = outputFailed ? "failed" : live.status;
 
   useEffect(() => {
     firedRef.current = false;
@@ -62,7 +69,7 @@ export function LiveStatusPanel({
     <Card>
       <div className="flex items-center justify-between">
         <CardTitle>Live Status - {stageLabel}</CardTitle>
-        <RunStatusBadge status={live.status} />
+        <RunStatusBadge status={displayStatus} />
       </div>
 
       <dl className="mt-3 grid grid-cols-2 gap-3 text-sm sm:grid-cols-4">
@@ -91,7 +98,7 @@ export function LiveStatusPanel({
       <div className="mt-3 h-1.5 w-full overflow-hidden rounded-full bg-zinc-100 dark:bg-zinc-800">
         <div
           className={`h-full rounded-full transition-all ${
-            live.status === "failed" ? "bg-red-500" : "bg-indigo-600"
+            displayStatus === "failed" ? "bg-red-500" : "bg-indigo-600"
           }`}
           style={{ width: `${live.progress ?? 0}%` }}
         />
@@ -102,7 +109,12 @@ export function LiveStatusPanel({
           {live.error}
         </p>
       )}
-      {live.status === "succeeded" && (
+      {verdict?.ok === false && (
+        <p className="mt-3 rounded-lg border border-red-200 bg-red-50 p-2.5 text-sm text-red-700 dark:border-red-900 dark:bg-red-950 dark:text-red-300">
+          The render finished, but its output did not pass: {verdict.reason}
+        </p>
+      )}
+      {live.status === "succeeded" && !outputFailed && (
         <p className="mt-3 rounded-lg border border-emerald-200 bg-emerald-50 p-2.5 text-sm text-emerald-700 dark:border-emerald-900 dark:bg-emerald-950 dark:text-emerald-300">
           Completed successfully.
         </p>

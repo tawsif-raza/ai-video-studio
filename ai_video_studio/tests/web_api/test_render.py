@@ -3,6 +3,7 @@ import uuid
 from tests.web_api.conftest import (
     CrashingExecutionController,
     FailedRenderExecutionController,
+    InvalidOutputExecutionController,
     RenderErrorExecutionController,
     SucceedingExecutionController,
     SystemExitExecutionController,
@@ -165,6 +166,38 @@ def test_render_status_reports_succeeded_run(client, app_):
     assert body["started_at"] is not None
     assert body["updated_at"] is not None
     assert body["error"] is None
+    assert body["output_ok"] is True
+    assert body["output_error"] is None
+
+
+def test_render_status_flags_ffmpeg_failure_on_a_succeeded_run(client, app_):
+    """Issue #2: a run whose ffmpeg exited non-zero is SUCCEEDED (the request
+    completed) but must not be presented as a completed render."""
+    project = make_edit_plan_ready_project(get_project_manager())
+    run_id = post_render_run(client, app_, FailedRenderExecutionController, project.project_id).json()["run_id"]
+    wait_for_run(client, run_id)
+
+    body = client.get(f"/projects/{project.project_id}/render/status").json()
+
+    assert body["status"] == RunStatus.SUCCEEDED.value
+    assert body["current_stage"] == "output_failed"
+    assert body["output_ok"] is False
+    assert body["output_error"] == "ffmpeg exited with code 1"
+
+
+def test_render_status_flags_postflight_validation_failure(client, app_):
+    """Issue #2: ffmpeg exited 0 but the file failed postflight checks."""
+    project = make_edit_plan_ready_project(get_project_manager())
+    run_id = post_render_run(client, app_, InvalidOutputExecutionController, project.project_id).json()["run_id"]
+    wait_for_run(client, run_id)
+
+    body = client.get(f"/projects/{project.project_id}/render/status").json()
+
+    assert body["status"] == RunStatus.SUCCEEDED.value
+    assert body["current_stage"] == "output_failed"
+    assert body["output_ok"] is False
+    assert "resolution" in body["output_error"]
+    assert "video_stream" not in body["output_error"]
 
 
 def test_render_status_reports_failed_run_with_error(client, app_):
@@ -250,3 +283,12 @@ def test_render_video_supports_range_requests(client, app_, tmp_path):
     assert response.headers["content-range"] == "bytes 0-99/5000"
     assert len(response.content) == 100
     assert response.content == b"0" * 100
+
+
+def test_render_output_verdict_ignores_dry_runs_and_missing_results():
+    from web_api.routers.render import render_output_verdict
+
+    assert render_output_verdict(None) == (None, None)
+    assert render_output_verdict({}) == (None, None)
+    assert render_output_verdict({"render": {"success": True, "dry_run": True}}) == (None, None)
+    assert render_output_verdict({"render": {"success": True}}) == (True, None)

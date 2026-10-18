@@ -33,6 +33,9 @@ export interface StageStatus {
   started_at: string;
   updated_at: string;
   error: string | null;
+  /** Render status only: verdict on the rendered file (issue #2). */
+  output_ok?: boolean | null;
+  output_error?: string | null;
 }
 
 export interface PublishStageStatus extends StageStatus {
