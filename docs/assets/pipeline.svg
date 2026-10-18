@@ -1,0 +1,34 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1043 132" width="1043" height="132" role="img" aria-labelledby="t d">
+<title id="t">ai-video-studio · production path</title><desc id="d">An idea becomes a production package through LLM planning agents, a human supplies media, the producer builds a deterministic edit plan, FFmpeg renders it, ffprobe verifies the output, and the publishing engine uploads it.</desc>
+<defs><marker id="a" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="#2DD4BF"/></marker></defs>
+<rect width="1043" height="132" rx="12" fill="#0A0E13"/>
+<rect x="0.5" y="0.5" width="1042" height="131" rx="12" fill="none" stroke="#1F2A36"/>
+<text x="24" y="28" fill="#2DD4BF" font-family="ui-monospace,SFMono-Regular,'SF Mono',Menlo,Consolas,monospace" font-size="12" letter-spacing="1.5">AI-VIDEO-STUDIO · PRODUCTION PATH</text>
+<rect x="24.0" y="46" width="54.8" height="62" rx="8" fill="#111821" fill-opacity="1" stroke="#1F2A36" stroke-width="1"/>
+<text x="51.4" y="73" fill="#E6EDF3" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Inter,Helvetica,Arial,sans-serif" font-size="13" font-weight="600" text-anchor="middle">Idea</text>
+<text x="51.4" y="92" fill="#8B98A5" font-family="ui-monospace,SFMono-Regular,'SF Mono',Menlo,Consolas,monospace" font-size="11" text-anchor="middle">brief</text>
+<line x1="81.8" y1="77.0" x2="97.8" y2="77.0" stroke="#2DD4BF" stroke-width="1.5" marker-end="url(#a)"/>
+<rect x="100.8" y="46" width="141.0" height="62" rx="8" fill="#0E7490" fill-opacity="0.35" stroke="#2DD4BF" stroke-width="1.5"/>
+<text x="171.3" y="73" fill="#E6EDF3" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Inter,Helvetica,Arial,sans-serif" font-size="13" font-weight="600" text-anchor="middle">Director Studio</text>
+<text x="171.3" y="92" fill="#8B98A5" font-family="ui-monospace,SFMono-Regular,'SF Mono',Menlo,Consolas,monospace" font-size="11" text-anchor="middle">LLM planning agents</text>
+<line x1="244.8" y1="77.0" x2="260.8" y2="77.0" stroke="#2DD4BF" stroke-width="1.5" marker-end="url(#a)"/>
+<rect x="263.8" y="46" width="104.1" height="62" rx="8" fill="#111821" fill-opacity="1" stroke="#1F2A36" stroke-width="1"/>
+<text x="315.9" y="73" fill="#E6EDF3" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Inter,Helvetica,Arial,sans-serif" font-size="13" font-weight="600" text-anchor="middle">Human media</text>
+<text x="315.9" y="92" fill="#8B98A5" font-family="ui-monospace,SFMono-Regular,'SF Mono',Menlo,Consolas,monospace" font-size="11" text-anchor="middle">any generator</text>
+<line x1="370.9" y1="77.0" x2="386.9" y2="77.0" stroke="#2DD4BF" stroke-width="1.5" marker-end="url(#a)"/>
+<rect x="389.9" y="46" width="147.2" height="62" rx="8" fill="#111821" fill-opacity="1" stroke="#1F2A36" stroke-width="1"/>
+<text x="463.5" y="73" fill="#E6EDF3" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Inter,Helvetica,Arial,sans-serif" font-size="13" font-weight="600" text-anchor="middle">Producer Studio</text>
+<text x="463.5" y="92" fill="#8B98A5" font-family="ui-monospace,SFMono-Regular,'SF Mono',Menlo,Consolas,monospace" font-size="11" text-anchor="middle">timeline · edit plan</text>
+<line x1="540.1" y1="77.0" x2="556.1" y2="77.0" stroke="#2DD4BF" stroke-width="1.5" marker-end="url(#a)"/>
+<rect x="559.1" y="46" width="140.5" height="62" rx="8" fill="#0E7490" fill-opacity="0.35" stroke="#2DD4BF" stroke-width="1.5"/>
+<text x="629.4" y="73" fill="#E6EDF3" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Inter,Helvetica,Arial,sans-serif" font-size="13" font-weight="600" text-anchor="middle">Execution Engine</text>
+<text x="629.4" y="92" fill="#8B98A5" font-family="ui-monospace,SFMono-Regular,'SF Mono',Menlo,Consolas,monospace" font-size="11" text-anchor="middle">FFmpeg render</text>
+<line x1="702.6" y1="77.0" x2="718.6" y2="77.0" stroke="#2DD4BF" stroke-width="1.5" marker-end="url(#a)"/>
+<rect x="721.6" y="46" width="147.2" height="62" rx="8" fill="#111821" fill-opacity="1" stroke="#1F2A36" stroke-width="1"/>
+<text x="795.2" y="73" fill="#E6EDF3" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Inter,Helvetica,Arial,sans-serif" font-size="13" font-weight="600" text-anchor="middle">Postflight</text>
+<text x="795.2" y="92" fill="#8B98A5" font-family="ui-monospace,SFMono-Regular,'SF Mono',Menlo,Consolas,monospace" font-size="11" text-anchor="middle">ffprobe verification</text>
+<line x1="871.8" y1="77.0" x2="887.8" y2="77.0" stroke="#2DD4BF" stroke-width="1.5" marker-end="url(#a)"/>
+<rect x="890.8" y="46" width="128.7" height="62" rx="8" fill="#111821" fill-opacity="1" stroke="#1F2A36" stroke-width="1"/>
+<text x="955.2" y="73" fill="#E6EDF3" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Inter,Helvetica,Arial,sans-serif" font-size="13" font-weight="600" text-anchor="middle">Publish</text>
+<text x="955.2" y="92" fill="#8B98A5" font-family="ui-monospace,SFMono-Regular,'SF Mono',Menlo,Consolas,monospace" font-size="11" text-anchor="middle">YouTube readiness</text>
+</svg>
