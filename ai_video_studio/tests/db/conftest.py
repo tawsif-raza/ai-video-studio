@@ -45,7 +45,18 @@ def _test_db_available() -> bool:
 
 _DB_AVAILABLE = _test_db_available()
 
-pytestmark = pytest.mark.skipif(not _DB_AVAILABLE, reason="No test Postgres reachable (see tests/db/conftest.py)")
+_SKIP_NO_DB = pytest.mark.skipif(not _DB_AVAILABLE, reason="No test Postgres reachable (see tests/db/conftest.py)")
+_DB_TESTS_DIR = os.path.dirname(os.path.abspath(__file__))
+
+
+def pytest_collection_modifyitems(config, items):
+    # A module-level `pytestmark` only applies inside test modules; pytest
+    # ignores it in conftest.py, so it previously never skipped anything and
+    # every test here errored (after slow connection retries) without
+    # Postgres. Apply the skip to this directory's items explicitly instead.
+    for item in items:
+        if str(item.fspath).startswith(_DB_TESTS_DIR):
+            item.add_marker(_SKIP_NO_DB)
 
 
 @pytest.fixture
