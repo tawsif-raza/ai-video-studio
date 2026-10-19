@@ -3,6 +3,7 @@ from typing import Any, Dict, List, Optional
 
 from fastapi import APIRouter, BackgroundTasks, Depends, File, HTTPException, UploadFile, status
 
+from config import settings
 from project_manager.manager import ProjectManager
 from project_manager.project import Project
 from shared_core.contracts.asset_manifest import ImportedMediaManifest
@@ -33,6 +34,19 @@ from web_api.run_registry import RunConflictError, RunRegistry
 router = APIRouter(prefix="/projects", tags=["projects"])
 
 
+def _require_user_unless_anonymous_allowed(current_user: Optional[UserResponse], action: str) -> None:
+    """401 for anonymous callers unless ALLOW_ANONYMOUS_PROJECTS is on
+    (config.py, docs/authentication.md). Guards the two routes where
+    anonymity costs something: creating a project starts a paid LLM run,
+    and listing would let anyone enumerate projects."""
+    if current_user is None and not settings.ALLOW_ANONYMOUS_PROJECTS:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail=f"Sign in to {action}.",
+            headers={"WWW-Authenticate": "Bearer"},
+        )
+
+
 @router.post("", response_model=RunAccepted, status_code=status.HTTP_202_ACCEPTED)
 def create_project(
     body: CreateProjectRequest,
@@ -55,6 +69,7 @@ def create_project(
     docs/phase1.1-p0-fixes.md). background_tasks.add_task here only ever
     calls pipeline_executor.submit, which itself never blocks - see
     web_api/pipeline_executor.py."""
+    _require_user_unless_anonymous_allowed(current_user, "create projects")
     owner_id = current_user.id if current_user else None
     project = project_manager.create_project(owner_user_id=owner_id)
     try:
@@ -107,7 +122,13 @@ def list_projects(
 ) -> List[Project]:
     if current_user is not None:
         return project_manager.list_projects(owner_user_id=current_user.id)
-    return project_manager.list_projects()
+    _require_user_unless_anonymous_allowed(current_user, "list projects")
+    # Legacy anonymous mode: only ownerless (legacy/CLI) projects - the same
+    # set get_authorized_project lets an anonymous caller open one at a time.
+    # Listing everything here leaked other users' owned projects (ids,
+    # owner ids, server paths) that GET /projects/{id} deliberately hides
+    # behind a 404.
+    return [p for p in project_manager.list_projects() if p.owner_user_id is None]
 
 
 @router.get("/{project_id}", response_model=Project)

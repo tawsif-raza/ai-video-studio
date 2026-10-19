@@ -201,8 +201,9 @@ def test_corrupt_files_handled_gracefully(temp_user_store: LocalUserStore):
     assert temp_user_store.get_by_id("bad-user") is None
 
 
-def test_singleton_store():
-    custom_store = LocalUserStore()
+def test_singleton_store(tmp_path):
+    # An explicit root keeps the store's directory out of settings.OUTPUT_DIR.
+    custom_store = LocalUserStore(tmp_path / "users")
     set_user_store(custom_store)
     assert get_user_store() is custom_store
     set_user_store(None)  # reset

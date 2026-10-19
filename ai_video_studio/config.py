@@ -149,6 +149,14 @@ class Settings:
     # pipeline slot is busy.
     PIPELINE_MAX_CONCURRENCY: int = int(os.getenv("PIPELINE_MAX_CONCURRENCY", "4"))
 
+    # Anonymous project access (docs/authentication.md). Off by default:
+    # POST /projects (which starts a paid, LLM-backed Director run) and
+    # GET /projects require a signed-in user. Set true to restore the
+    # earlier documented legacy mode, where anonymous callers may create
+    # ownerless projects and list ownerless projects (never owned ones).
+    # Access to an existing ownerless project by id is unaffected either way.
+    ALLOW_ANONYMOUS_PROJECTS: bool = bool(_parse_bool_env("ALLOW_ANONYMOUS_PROJECTS"))
+
     # Hard wall-clock ceiling for one pipeline run, independent of (and in
     # addition to) each stage's own internal timeouts (LLM clients: 60s x 3
     # retries per call; ffmpeg: RenderOptions.timeout_seconds, enforced as a

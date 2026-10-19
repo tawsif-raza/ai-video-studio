@@ -31,6 +31,8 @@ publish/run calls)
 
 Every project-scoped backend endpoint (`/projects*`, `/projects/{id}/producer|render|publish/*`, `/runs/{run_id}`, both SSE event streams) authorizes via a single shared helper, `web_api/project_authz.py:get_authorized_project`, so "who may touch this project" is decided in exactly one place. An unowned project (`owner_user_id=None` — legacy/anonymous) stays open to any caller; an owned project 404s (never 403, to avoid confirming existence) for anyone but its owner.
 
+**Anonymous callers (`ALLOW_ANONYMOUS_PROJECTS`, default off).** `POST /projects` starts a paid, LLM-backed Director run, and `GET /projects` would let anyone enumerate projects, so both return **401** to anonymous callers by default. Setting `ALLOW_ANONYMOUS_PROJECTS=true` restores the earlier legacy mode: anonymous callers can create ownerless projects and list ownerless projects (never owned ones). In both modes an existing unowned project stays reachable by id, which is DASH-01's backward compatibility for unassigned projects; the shipped dashboard always sends a bearer token, so it is unaffected.
+
 ## Endpoints
 
 | Method | Path | Auth | Notes |
@@ -43,7 +45,9 @@ Every project-scoped backend endpoint (`/projects*`, `/projects/{id}/producer|re
 | POST | `/auth/logout` | public | clears `access_token`/`session_token` cookies |
 | POST | `/auth/forgot-password` | public | neutral response; see Forgot Password below |
 | POST | `/auth/reset-password` | public | single-use token, 1h expiry |
-| * | `/projects*` | optional + ownership | anonymous access permitted only for unowned projects |
+| POST | `/projects` | required (401) unless `ALLOW_ANONYMOUS_PROJECTS=true` | starts a paid Director LLM run |
+| GET | `/projects` | required (401) unless `ALLOW_ANONYMOUS_PROJECTS=true` | lists the caller's projects; legacy mode lists only unowned projects to anonymous callers |
+| * | `/projects/{id}*` | optional + ownership | anonymous access permitted only for unowned projects |
 | * | `/projects/{id}/producer\|render\|publish/*` | optional + ownership | same rule |
 | GET | `/runs/{run_id}` | optional + ownership | resolved via the run's `project_id` |
 | GET | `/runs/{run_id}/events`, `/projects/{id}/events` | optional + ownership | SSE streams |
