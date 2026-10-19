@@ -11,7 +11,7 @@ from project_manager.project import ProjectState
 from shared_core.contracts.asset_manifest import ValidatedAssetManifest
 from shared_core.contracts.prompt_set import PromptSet
 from shared_core.contracts.publish import AuthenticationResult, PublishValidationCheck, PublishValidationReport, ReadyToPublishResult
-from shared_core.contracts.render import FFmpegInfo, RenderResult, RenderValidationReport
+from shared_core.contracts.render import FFmpegInfo, RenderResult, RenderValidationCheck, RenderValidationReport
 from shared_core.contracts.user import UserCreate
 from web_api import create_app
 from web_api.dependencies import (
@@ -139,6 +139,30 @@ class FailedRenderExecutionController:
             success=False, dry_run=False, exit_code=1, error="ffmpeg exited with code 1", error_type="ffmpeg_failed"
         )
         return project, ffmpeg_info, None, render_result, None
+
+
+class InvalidOutputExecutionController:
+    """ffmpeg exited 0 but the rendered file failed postflight verification
+    (here: wrong resolution) - the other "returned data" failure shape."""
+
+    def __init__(self, project_manager):
+        self.project_manager = project_manager
+
+    def run(self, *, project_id, options=None):
+        project = self.project_manager.load_project(project_id)
+        ffmpeg_info = FFmpegInfo(available=True, path="/usr/bin/ffmpeg", version="6.1.1")
+        render_result = RenderResult(
+            success=True, dry_run=False, output_path="/tmp/out.mp4", exit_code=0, duration_seconds=1.0
+        )
+        validation_report = RenderValidationReport(
+            is_valid=False,
+            checks=[
+                RenderValidationCheck(name="video_stream", passed=True, expected="present", actual="present"),
+                RenderValidationCheck(name="resolution", passed=False, expected="1920x1080", actual="1280x720"),
+            ],
+            output_path="/tmp/out.mp4",
+        )
+        return project, ffmpeg_info, None, render_result, validation_report
 
 
 class RenderErrorExecutionController:
