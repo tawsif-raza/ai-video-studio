@@ -24,7 +24,7 @@ The `/auth/*` routes are also mounted under `/api/auth/*` with identical behavio
 
 A request is authenticated by **either** an `Authorization: Bearer <jwt>` header **or** the HTTP-only `access_token` / `session_token` cookie. Cookie `Secure` and `SameSite` are derived from `ENVIRONMENT`, and the app refuses to start with insecure cookie settings outside development (`config.py`).
 
-**Project access:** a project created by an authenticated user is owned by them. Any other caller, authenticated or not, gets **404** (not 403), so project ids can't be probed. Projects with no owner (created anonymously, or by the CLI) are accessible to anyone.
+**Project access:** `POST /projects` and `GET /projects` require a signed-in user (**401** otherwise) unless `ALLOW_ANONYMOUS_PROJECTS=true` enables the legacy anonymous mode. A project created by a signed-in user is owned by them; any other caller, signed in or not, gets **404** (not 403), so project ids can't be probed. Projects with no owner (legacy, CLI-created, or created in legacy mode) remain reachable by id for anyone. Full policy: [`docs/authentication.md`](authentication.md).
 
 ## Run lifecycle
 
@@ -61,7 +61,7 @@ stateDiagram-v2
 | Method | Path | Body | Success |
 |---|---|---|---|
 | POST | `/projects` | `CreateProjectRequest` | 202 `RunAccepted`. Creates the project **and** starts a Director Studio run |
-| GET | `/projects` | | 200, the caller's projects, newest first |
+| GET | `/projects` | | 200, the caller's projects, newest first. 401 when anonymous (legacy mode: ownerless projects only) |
 | GET | `/projects/{project_id}` | | 200 `Project` |
 | DELETE | `/projects/{project_id}` | | 204 |
 | POST | `/projects/{project_id}/media` | multipart `file` | 201. Images `png/jpg/jpeg`, video `mp4/mov`, audio `wav/mp3/m4a` |
@@ -136,7 +136,7 @@ es.addEventListener("failed", (e) => console.error(JSON.parse(e.data).error));
 | Code | Meaning |
 |---|---|
 | 400 | Request is valid JSON but not allowed in the project's current state (e.g. render before `EDIT_PLAN_READY`), or an unsupported upload extension |
-| 401 | Missing, invalid or expired token on an endpoint that requires a user |
+| 401 | Missing, invalid or expired token on an endpoint that requires a user, including `POST`/`GET /projects` by default |
 | 404 | Unknown project, or a project the caller doesn't own. Also a package or run that doesn't exist yet |
 | 409 | A run is already active for this project |
 | 422 | Body or path failed validation (FastAPI's standard error shape) |
@@ -149,5 +149,5 @@ Errors use FastAPI's `{"detail": ...}` body.
 Observations from reading the code; recommendations are not yet implemented.
 
 - **Uploads:** the filename is reduced to its basename before use (blocks path traversal) and checked against an extension allowlist. There is **no application-level size limit**, so set one at the reverse proxy. The upload response includes the server-side `path`.
-- **Anonymous use:** `POST /projects` accepts unauthenticated requests and starts an LLM-backed Director run. On a public deployment, consider requiring authentication there so provider credits can't be spent by anyone.
-- **Listing:** an unauthenticated `GET /projects` returned owned projects in earlier versions; see [#7](https://github.com/tawsif-raza/ai-video-studio/pull/7).
+- **Anonymous use:** `POST /projects` (which starts a paid LLM run) and `GET /projects` require sign-in by default. Leave `ALLOW_ANONYMOUS_PROJECTS` off on any public deployment.
+- **Ownerless projects** stay reachable by id for anyone, by design (backward compatibility). Their ids are random UUIDs and anonymous callers can't list them by default, but anyone who has an id can still open, run or delete such a project.
