@@ -21,7 +21,7 @@ from fastapi.testclient import TestClient
 
 from config import settings
 from shared_core.contracts.prompt_set import PromptSet
-from tests.web_api.conftest import FakeLLMClient, wait_for_run
+from tests.web_api.conftest import FakeLLMClient, signed_in_headers, wait_for_run
 from web_api import create_app
 from web_api.dependencies import (
     get_director_controller_factory,
@@ -324,7 +324,7 @@ def test_f_health_stays_responsive_while_pipeline_slots_are_saturated(monkeypatc
     app = create_app()
     app.dependency_overrides[get_llm_client_factory] = lambda: FakeLLMClient
     app.dependency_overrides[get_director_controller_factory] = lambda: _ConcurrencyTrackingDirectorController
-    client = TestClient(app)
+    client = TestClient(app, headers=signed_in_headers(monkeypatch, tmp_path))
 
     def fire_one():
         return client.post("/projects", json={"idea": "load test project"})

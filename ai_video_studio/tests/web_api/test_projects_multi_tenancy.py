@@ -118,13 +118,8 @@ def test_list_projects_multi_tenant_isolation(multi_tenant_env):
     beta_ids = [p["project_id"] for p in beta_list]
     assert beta_ids == [p_b1]
 
-    # Unauthenticated list -> only ownerless projects. Owned projects stay
-    # hidden, consistent with GET /projects/{id} returning 404 for them.
-    p_anon = client.post("/projects", json={"idea": "Anonymous"}).json()["project_id"]
-    unauth_list = client.get("/projects").json()
-    unauth_ids = [p["project_id"] for p in unauth_list]
-    assert unauth_ids == [p_anon]
-    assert all(p["owner_user_id"] is None for p in unauth_list)
+    # Unauthenticated list -> 401 by default (no enumeration at all).
+    assert client.get("/projects").status_code == 401
 
 
 def test_delete_project_isolation(multi_tenant_env):
@@ -172,13 +167,13 @@ def test_media_and_package_endpoints_enforce_isolation(multi_tenant_env):
 
 
 def test_legacy_unassigned_project_accessible_without_auth(multi_tenant_env):
+    """DASH-01 backward compatibility, unchanged by ALLOW_ANONYMOUS_PROJECTS:
+    an existing ownerless project (CLI-created or legacy) stays reachable by
+    id with or without a session (docs/authentication.md)."""
     client = multi_tenant_env["client"]
     headers_alpha = multi_tenant_env["headers_alpha"]
 
-    # Create unassigned project without headers
-    resp = client.post("/projects", json={"idea": "Legacy Unassigned Project"})
-    assert resp.status_code == 202
-    p_id = resp.json()["project_id"]
+    p_id = get_project_manager().create_project().project_id
 
     # Accessible without auth
     unauth_get = client.get(f"/projects/{p_id}")
@@ -301,3 +296,35 @@ def test_events_streams_enforce_project_ownership(multi_tenant_env):
     assert client.get(f"/projects/{project.project_id}/events", headers=headers_beta).status_code == 404
     assert client.get(f"/projects/{project.project_id}/events").status_code == 404
     assert client.get(f"/projects/{project.project_id}/events", headers=headers_alpha).status_code == 200
+
+
+def test_anonymous_create_is_rejected_by_default_and_starts_no_run(multi_tenant_env):
+    """POST /projects starts a paid, LLM-backed Director run, so anonymous
+    callers get 401 and nothing is created or queued."""
+    client = multi_tenant_env["client"]
+
+    response = client.post("/projects", json={"idea": "Anonymous spend"})
+
+    assert response.status_code == 401
+    assert response.headers["WWW-Authenticate"] == "Bearer"
+    assert get_project_manager().list_projects() == []
+    assert client.get("/projects", headers=multi_tenant_env["headers_alpha"]).json() == []
+
+
+def test_legacy_mode_allows_anonymous_ownerless_projects_but_never_lists_owned_ones(multi_tenant_env, monkeypatch):
+    """ALLOW_ANONYMOUS_PROJECTS=true restores the earlier documented mode:
+    anonymous callers may create and list ownerless projects, while owned
+    projects stay hidden from them."""
+    monkeypatch.setattr(settings, "ALLOW_ANONYMOUS_PROJECTS", True)
+    client = multi_tenant_env["client"]
+
+    p_alpha = client.post("/projects", json={"idea": "Alpha"}, headers=multi_tenant_env["headers_alpha"]).json()["project_id"]
+    anon = client.post("/projects", json={"idea": "Anonymous"})
+    assert anon.status_code == 202
+    p_anon = anon.json()["project_id"]
+
+    unauth_list = client.get("/projects").json()
+    assert [p["project_id"] for p in unauth_list] == [p_anon]
+    assert all(p["owner_user_id"] is None for p in unauth_list)
+    assert p_alpha not in {p["project_id"] for p in unauth_list}
+

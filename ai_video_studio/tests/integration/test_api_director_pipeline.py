@@ -2,7 +2,7 @@ from fastapi.testclient import TestClient
 
 from config import settings
 from tests.integration.test_pipeline import FakeLLMClient, _happy_path_responses
-from tests.web_api.conftest import wait_for_run
+from tests.web_api.conftest import signed_in_headers, wait_for_run
 from web_api import create_app
 from web_api.dependencies import get_llm_client_factory
 from web_api.run_registry import RunStatus
@@ -20,7 +20,7 @@ def test_full_director_pipeline_via_api_succeeds(monkeypatch, tmp_path):
     fake_llm = FakeLLMClient(_happy_path_responses())
     app = create_app()
     app.dependency_overrides[get_llm_client_factory] = lambda: (lambda: fake_llm)
-    client = TestClient(app)
+    client = TestClient(app, headers=signed_in_headers(monkeypatch, tmp_path))
 
     response = client.post(
         "/projects",
@@ -49,7 +49,7 @@ def test_full_director_pipeline_via_api_marks_run_failed_on_real_stage_failure(m
     fake_llm = FakeLLMClient([])  # no canned responses - first LLM call fails immediately
     app = create_app()
     app.dependency_overrides[get_llm_client_factory] = lambda: (lambda: fake_llm)
-    client = TestClient(app)
+    client = TestClient(app, headers=signed_in_headers(monkeypatch, tmp_path))
 
     response = client.post("/projects", json={"idea": "A brave explorer", "duration_seconds": 30})
     body = response.json()
