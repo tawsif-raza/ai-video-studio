@@ -118,10 +118,13 @@ def test_list_projects_multi_tenant_isolation(multi_tenant_env):
     beta_ids = [p["project_id"] for p in beta_list]
     assert beta_ids == [p_b1]
 
-    # Unauthenticated list -> returns all projects
+    # Unauthenticated list -> only ownerless projects. Owned projects stay
+    # hidden, consistent with GET /projects/{id} returning 404 for them.
+    p_anon = client.post("/projects", json={"idea": "Anonymous"}).json()["project_id"]
     unauth_list = client.get("/projects").json()
     unauth_ids = [p["project_id"] for p in unauth_list]
-    assert set(unauth_ids) == {p_a1, p_a2, p_b1}
+    assert unauth_ids == [p_anon]
+    assert all(p["owner_user_id"] is None for p in unauth_list)
 
 
 def test_delete_project_isolation(multi_tenant_env):

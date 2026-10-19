@@ -107,7 +107,12 @@ def list_projects(
 ) -> List[Project]:
     if current_user is not None:
         return project_manager.list_projects(owner_user_id=current_user.id)
-    return project_manager.list_projects()
+    # Unauthenticated callers may only see ownerless (legacy/CLI) projects -
+    # the same set get_authorized_project lets them open one at a time.
+    # Listing everything here leaked other users' owned projects (ids,
+    # owner ids, server paths) that GET /projects/{id} deliberately hides
+    # behind a 404.
+    return [p for p in project_manager.list_projects() if p.owner_user_id is None]
 
 
 @router.get("/{project_id}", response_model=Project)
