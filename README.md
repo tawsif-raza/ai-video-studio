@@ -41,7 +41,7 @@ flowchart LR
 | Video Generation Engine | `video_generation_engine/` | Provider registry with a Google Veo provider and a local stub that makes no network calls |
 | Publishing Engine | `publishing_engine/` | OAuth credential handling and publish-readiness checks. A resumable YouTube upload client with persisted sessions exists at the platform layer but isn't wired to the CLI or dashboard yet |
 | LLM layer | `llm/` | Per-provider clients plus a failover client that rotates keys and providers on quota, rate-limit, auth or transient errors |
-| Web API | `web_api/` | Projects, media upload, run dispatch with a concurrency cap and timeouts, run registry (in-memory or Postgres), SSE run events, cookie/JWT auth with per-project authorization |
+| Web API | `web_api/` | Projects, media upload, run dispatch with a concurrency cap and timeouts, run registry (in-memory or Postgres), SSE run events, cookie/JWT auth with per-project authorization. See [`docs/API.md`](docs/API.md) |
 | Dashboard | `frontend/` | Next.js + TypeScript UI for creating projects, uploading media, and watching runs live |
 
 ## Quick start
@@ -83,6 +83,31 @@ python publish_app.py  --project-id <id> --platform youtube                    #
 uvicorn api_app:app --reload                         # http://127.0.0.1:8000  (GET /health, /health/ready)
 cd ../frontend && npm ci && npm run dev               # http://localhost:3000  (NEXT_PUBLIC_API_BASE_URL defaults to :8000)
 ```
+
+Endpoints, the run lifecycle, SSE event names and error codes are documented in [`docs/API.md`](docs/API.md); the live schema is at `/docs` once the API is running.
+
+## Dashboard
+
+Captured from a local production build against the local API, showing two projects produced by real Director Studio runs.
+
+<table>
+  <tr>
+    <td width="50%"><img src="docs/assets/screenshots/dashboard.jpg" alt="Dashboard overview with project count, active runs and recently updated projects"></td>
+    <td width="50%"><img src="docs/assets/screenshots/workspace-overview.jpg" alt="Project workspace overview: status, run controls for Director, Producer, Render and Publish, and the production-progress checklist"></td>
+  </tr>
+  <tr>
+    <td><b>Dashboard</b>: projects and active render/publish runs</td>
+    <td><b>Project workspace</b>: run controls and lifecycle state</td>
+  </tr>
+  <tr>
+    <td width="50%"><img src="docs/assets/screenshots/story.jpg" alt="Story tab showing a generated story: logline, theme, characters and scene breakdown for 'Road Safety Lesson'"></td>
+    <td width="50%"><img src="docs/assets/screenshots/prompt-set.jpg" alt="Prompt Set tab showing per-shot image prompts and video motion prompts generated for each scene"></td>
+  </tr>
+  <tr>
+    <td><b>Story</b>: Director Studio's story plan</td>
+    <td><b>Prompt set</b>: per-shot image and motion prompts for any generator</td>
+  </tr>
+</table>
 
 ## Testing
 
