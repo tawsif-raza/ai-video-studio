@@ -160,6 +160,13 @@ class RenderStatusResponse(BaseModel):
     started_at: datetime
     updated_at: datetime
     error: Optional[str] = None
+    # Verdict on the rendered *file*, read from the run's stored result
+    # (render.success / validation.is_valid). None until a run has
+    # succeeded, and for dry runs, which produce no file to judge. A
+    # SUCCEEDED run means the render request completed; output_ok=False
+    # means the output itself did not pass (issue #2).
+    output_ok: Optional[bool] = None
+    output_error: Optional[str] = None
 
 
 class PublishRunRequest(BaseModel):

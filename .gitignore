@@ -225,3 +225,4 @@ __marimo__/
 
 # Local pipeline run artifacts - not part of the application
 ai_video_studio/outputs/
+!.env.example

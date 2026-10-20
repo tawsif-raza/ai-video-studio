@@ -1,6 +1,6 @@
 import uuid
 from pathlib import Path
-from typing import Optional
+from typing import Optional, Tuple
 
 from fastapi import APIRouter, BackgroundTasks, Depends, HTTPException, status
 from starlette.responses import FileResponse
@@ -139,12 +139,15 @@ def _to_status_response(run: Run) -> RenderStatusResponse:
     intermediate progress, which this milestone deliberately does not add
     (execution_engine/controller.py runs start-to-finish with no
     progress-reporting hook to observe)."""
+    output_ok, output_error = None, None
     if run.status == RunStatus.QUEUED:
         current_stage, progress = "queued", 0
     elif run.status == RunStatus.RUNNING:
         current_stage, progress = "rendering", 50
     elif run.status == RunStatus.SUCCEEDED:
-        current_stage, progress = "completed", 100
+        output_ok, output_error = render_output_verdict(run.result)
+        current_stage = "output_failed" if output_ok is False else "completed"
+        progress = 100
     elif run.status == RunStatus.TIMED_OUT:
         current_stage, progress = "timed_out", 100
     elif run.status == RunStatus.CANCELLED:
@@ -160,4 +163,30 @@ def _to_status_response(run: Run) -> RenderStatusResponse:
         started_at=run.started_at,
         updated_at=run.finished_at or run.started_at,
         error=run.error,
+        output_ok=output_ok,
+        output_error=output_error,
     )
+
+
+def render_output_verdict(result: Optional[dict]) -> Tuple[Optional[bool], Optional[str]]:
+    """(output_ok, output_error) for a SUCCEEDED render run's stored result.
+
+    render_runner.py records ffmpeg failures and postflight-validation
+    failures as returned data on a SUCCEEDED run, not as a FAILED run, so
+    run.status alone cannot say whether a usable video exists. This reads
+    the verdict the Execution Engine already computed:
+    - render.success False -> ffmpeg itself failed
+    - validation.is_valid False -> the file exists but failed postflight
+    - dry runs (no file) and results without a render section -> None
+    """
+    render = (result or {}).get("render")
+    if not isinstance(render, dict) or render.get("dry_run"):
+        return None, None
+    if not render.get("success"):
+        return False, render.get("error") or "Render failed"
+    validation = (result or {}).get("validation")
+    if isinstance(validation, dict) and validation.get("is_valid") is False:
+        failed = [c.get("name", "?") for c in validation.get("checks", []) if not c.get("passed")]
+        detail = ", ".join(failed) if failed else "unspecified check"
+        return False, f"Rendered video failed postflight validation: {detail}"
+    return True, None

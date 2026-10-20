@@ -62,4 +62,54 @@ describe("LiveStatusPanel", () => {
 
     expect(onTerminal).not.toHaveBeenCalled();
   });
+
+  it("shows a render whose ffmpeg step failed as failed, not succeeded (issue #2)", () => {
+    setLiveState({
+      status: "succeeded",
+      progress: 100,
+      result: { render: { success: false, error: "ffmpeg exited with code 1" } },
+    });
+
+    render(<LiveStatusPanel runId="run-1" stageLabel="Render" />);
+
+    expect(screen.getByText("failed")).toBeInTheDocument();
+    expect(screen.queryByText("succeeded")).not.toBeInTheDocument();
+    expect(screen.queryByText("Completed successfully.")).not.toBeInTheDocument();
+    expect(screen.getByText(/ffmpeg exited with code 1/)).toBeInTheDocument();
+  });
+
+  it("shows a render that failed postflight validation as failed, naming the check", () => {
+    setLiveState({
+      status: "succeeded",
+      progress: 100,
+      result: {
+        render: { success: true },
+        validation: {
+          is_valid: false,
+          checks: [
+            { name: "video_stream", passed: true },
+            { name: "resolution", passed: false },
+          ],
+        },
+      },
+    });
+
+    render(<LiveStatusPanel runId="run-1" stageLabel="Render" />);
+
+    expect(screen.getByText("failed")).toBeInTheDocument();
+    expect(screen.getByText(/failed postflight validation: resolution$/)).toBeInTheDocument();
+  });
+
+  it("still reports a passing render as completed successfully", () => {
+    setLiveState({
+      status: "succeeded",
+      progress: 100,
+      result: { render: { success: true }, validation: { is_valid: true, checks: [] } },
+    });
+
+    render(<LiveStatusPanel runId="run-1" stageLabel="Render" />);
+
+    expect(screen.getByText("succeeded")).toBeInTheDocument();
+    expect(screen.getByText("Completed successfully.")).toBeInTheDocument();
+  });
 });

@@ -1,6 +1,8 @@
 import hashlib
 import json
+import os
 import shutil
+import tempfile
 from pathlib import Path
 from typing import List, Optional
 
@@ -991,9 +993,22 @@ class ProjectManager:
         return settings.OUTPUT_DIR / "projects" / project_id
 
     def _write_project_file(self, project: Project) -> None:
+        """Atomic write: project.json is read concurrently (API requests,
+        authz checks, SSE polling) while background pipeline runs advance
+        state. A plain write_text() truncates before writing, so a reader
+        could observe an empty file and fail with JSONDecodeError. Writing
+        to a sibling temp file and os.replace()-ing it means readers only
+        ever see the old or the new complete document."""
         project_dir = self._project_dir(project.project_id)
         project_dir.mkdir(parents=True, exist_ok=True)
-        (project_dir / "project.json").write_text(project.model_dump_json(indent=2))
+        fd, tmp_path = tempfile.mkstemp(dir=project_dir, prefix=".project.", suffix=".json.tmp")
+        try:
+            with os.fdopen(fd, "w", encoding="utf-8") as fh:
+                fh.write(project.model_dump_json(indent=2))
+            os.replace(tmp_path, project_dir / "project.json")
+        except BaseException:
+            Path(tmp_path).unlink(missing_ok=True)
+            raise
 
     def _advance(self, project: Project, **updates) -> Project:
         updated = project.model_copy(update=updates)

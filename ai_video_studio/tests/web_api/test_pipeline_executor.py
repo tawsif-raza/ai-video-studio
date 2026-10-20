@@ -21,7 +21,7 @@ from fastapi.testclient import TestClient
 
 from config import settings
 from shared_core.contracts.prompt_set import PromptSet
-from tests.web_api.conftest import FakeLLMClient
+from tests.web_api.conftest import FakeLLMClient, signed_in_headers, wait_for_run
 from web_api import create_app
 from web_api.dependencies import (
     get_director_controller_factory,
@@ -324,7 +324,7 @@ def test_f_health_stays_responsive_while_pipeline_slots_are_saturated(monkeypatc
     app = create_app()
     app.dependency_overrides[get_llm_client_factory] = lambda: FakeLLMClient
     app.dependency_overrides[get_director_controller_factory] = lambda: _ConcurrencyTrackingDirectorController
-    client = TestClient(app)
+    client = TestClient(app, headers=signed_in_headers(monkeypatch, tmp_path))
 
     def fire_one():
         return client.post("/projects", json={"idea": "load test project"})
@@ -432,4 +432,10 @@ def test_h_the_global_limit_cannot_be_bypassed_through_different_projects(monkey
         responses = [f.result(timeout=10) for f in futures]
 
     assert all(r.status_code == 202 for r in responses)
+    # The 202s only mean the runs were accepted; queued runs are still
+    # executing on PipelineExecutor's threads. Wait for every one to finish
+    # so none writes project state after monkeypatch has restored the real
+    # OUTPUT_DIR at teardown (that leaked project dirs into outputs/).
+    for r in responses:
+        assert wait_for_run(client, r.json()["run_id"], timeout=10.0).json()["status"] == RunStatus.SUCCEEDED.value
     assert _ConcurrencyTrackingProducerController.peak == 2

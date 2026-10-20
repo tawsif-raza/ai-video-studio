@@ -3,13 +3,16 @@ import time
 import pytest
 from fastapi.testclient import TestClient
 
+from auth.security import create_access_token
+from auth.user_store import LocalUserStore, set_user_store
 from config import settings
 from execution_engine.errors import RenderInputError
 from project_manager.project import ProjectState
 from shared_core.contracts.asset_manifest import ValidatedAssetManifest
 from shared_core.contracts.prompt_set import PromptSet
 from shared_core.contracts.publish import AuthenticationResult, PublishValidationCheck, PublishValidationReport, ReadyToPublishResult
-from shared_core.contracts.render import FFmpegInfo, RenderResult, RenderValidationReport
+from shared_core.contracts.render import FFmpegInfo, RenderResult, RenderValidationCheck, RenderValidationReport
+from shared_core.contracts.user import UserCreate
 from web_api import create_app
 from web_api.dependencies import (
     get_director_controller_factory,
@@ -136,6 +139,30 @@ class FailedRenderExecutionController:
             success=False, dry_run=False, exit_code=1, error="ffmpeg exited with code 1", error_type="ffmpeg_failed"
         )
         return project, ffmpeg_info, None, render_result, None
+
+
+class InvalidOutputExecutionController:
+    """ffmpeg exited 0 but the rendered file failed postflight verification
+    (here: wrong resolution) - the other "returned data" failure shape."""
+
+    def __init__(self, project_manager):
+        self.project_manager = project_manager
+
+    def run(self, *, project_id, options=None):
+        project = self.project_manager.load_project(project_id)
+        ffmpeg_info = FFmpegInfo(available=True, path="/usr/bin/ffmpeg", version="6.1.1")
+        render_result = RenderResult(
+            success=True, dry_run=False, output_path="/tmp/out.mp4", exit_code=0, duration_seconds=1.0
+        )
+        validation_report = RenderValidationReport(
+            is_valid=False,
+            checks=[
+                RenderValidationCheck(name="video_stream", passed=True, expected="present", actual="present"),
+                RenderValidationCheck(name="resolution", passed=False, expected="1920x1080", actual="1280x720"),
+            ],
+            output_path="/tmp/out.mp4",
+        )
+        return project, ffmpeg_info, None, render_result, validation_report
 
 
 class RenderErrorExecutionController:
@@ -272,8 +299,34 @@ def app_(tmp_path, monkeypatch):
 
 
 @pytest.fixture
-def client(app_):
+def client(app_, tmp_path):
+    """A signed-in client, like the real dashboard, which sends a bearer
+    token on every request. POST /projects and GET /projects require a user
+    unless ALLOW_ANONYMOUS_PROJECTS is on; use anonymous_client to exercise
+    anonymous behavior explicitly."""
+    store = LocalUserStore(tmp_path / "users")
+    set_user_store(store)
+    user = store.create_user(UserCreate(email="tester@example.com", full_name="Test User", password="password123"))
+    token = create_access_token({"sub": user.id, "email": user.email})
+    yield TestClient(app_, headers={"Authorization": f"Bearer {token}"})
+    set_user_store(None)
+
+
+@pytest.fixture
+def anonymous_client(app_):
     return TestClient(app_)
+
+
+def signed_in_headers(monkeypatch, tmp_path):
+    """Bearer headers for a fresh test user, for tests that build their own
+    app/TestClient instead of using the client fixture. The user store is
+    installed via monkeypatch, so it is restored when the test ends."""
+    import auth.user_store as user_store_module
+
+    store = LocalUserStore(tmp_path / "users")
+    monkeypatch.setattr(user_store_module, "_user_store_instance", store)
+    user = store.create_user(UserCreate(email="tester@example.com", full_name="Test User", password="password123"))
+    return {"Authorization": f"Bearer {create_access_token({'sub': user.id, 'email': user.email})}"}
 
 
 def wait_for_run(client, run_id, *, timeout=5.0, poll_interval=0.005):
